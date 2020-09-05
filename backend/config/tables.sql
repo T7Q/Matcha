@@ -8,19 +8,19 @@ END $$;
 CREATE TABLE IF NOT EXISTS "notifications"
 (
  "notification_id" serial NOT NULL PRIMARY KEY,
- "likes"           int NOT NULL ,
- "messages"        int NOT NULL ,
- "visits"          int NOT NULL
+ "likes"           int NOT NULL DEFAULT 0 ,
+ "messages"        int NOT NULL DEFAULT 0 ,
+ "visits"          int NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS "users"
 (
  "user_id"                  bigserial PRIMARY KEY NOT NULL,
- "first_name"               varchar(32) NOT NULL ,
- "last_name"                varchar(32) NOT NULL ,
+ "first_name"               varchar(32) NULL ,
+ "last_name"                varchar(32) NULL ,
  "username"                 varchar(32) NULL ,
  "email"                    varchar(64) NOT NULL ,
- "password"                 varchar(1000) NULL ,
+ "password"                 varchar(1000) NOT NULL ,
  "token"                    varchar(255) NULL DEFAULT 0 ,
  "activated"                int NOT NULL DEFAULT 0 ,
  "birth_date"               date NULL ,
@@ -34,15 +34,15 @@ CREATE TABLE IF NOT EXISTS "users"
  "google_id"                varchar(255) NULL ,
  "fb_id"                    varchar(255) NULL ,
  "email_notification"       boolean NOT NULL DEFAULT TRUE ,
- "last_seen"                timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ "last_seen"                timestamp NULL ,
  "created_at"               timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "age"                      int NOT NULL ,
- "sex_preference"           sex_preference NOT NULL ,
- "western_horo"             varchar(45) NOT NULL ,
- "chinese_horo"             varchar(45) NOT NULL ,
- "profile_pic_path"         varchar(255) NOT NULL ,
- "real_time_notification"   boolean NOT NULL ,
- "notification_id"          integer UNIQUE NOT NULL REFERENCES "notifications" ON DELETE CASCADE
+ "age"                      int NULL ,
+ "sex_preference"           sex_preference NULL ,
+ "western_horo"             varchar(45) NULL ,
+ "chinese_horo"             varchar(45) NULL ,
+ "profile_pic_path"         varchar(255) NULL ,
+ "real_time_notification"   boolean NOT NULL DEFAULT TRUE,
+ "notification_id"          integer UNIQUE NULL REFERENCES "notifications" ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS "western_horo_compatibility"
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS "tags"
 CREATE TABLE IF NOT EXISTS "user_tags"
 (
  "id"      bigserial NOT NULL PRIMARY KEY,
- "user_id" bigint NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
+ "user_id" bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
  "tag_id"  bigint NOT NULL REFERENCES "tags" ( "tag_id" ) ON DELETE CASCADE
 );
 
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS "chats"
  "chat_id"    bigserial NOT NULL PRIMARY KEY,
  "user_id"    bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
  "started_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "closed_at"  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+ "closed_at"  timestamp NULL
 );
 
 CREATE TABLE IF NOT EXISTS "chinese_horo_compatibility"
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS "participants"
  "participant_id" bigserial NOT NULL PRIMARY KEY ,
  "partner_id"     bigint NULL ,
  "time_joined"    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "time_left"      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ "time_left"      timestamp NULL ,
  "chat_id"        bigint NOT NULL ,
  CONSTRAINT "FK_74" FOREIGN KEY ( "partner_id" ) REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
  CONSTRAINT "FK_75" FOREIGN KEY ( "chat_id" ) REFERENCES "chats" ("chat_id") ON DELETE CASCADE

@@ -1,23 +1,29 @@
 require('dotenv').config();
 const { Pool } = require('pg');
+const fs = require('fs');
 
+// configuration for database connection
 const config = {
-    user: process.env.DB_USER,
+    user: process.env.DB_USER || 'postgres',
     database: process.env.DB_NAME || 'matcha',
     password: process.env.DB_PWD || ''
 }
+// queries to create all tables
+const tables = fs.readFileSync('config/tables.sql', 'utf8');
 
 const pool = new Pool(config);
 
+pool.on('connect', () => {
+    console.log(`Connected to the database  ${config.database}`);
+});
+
+pool.on('remove', () => {
+    console.log('Connection to the database closed');
+});
+
 // create all tables in our database
 const createTables = async () => {
-    const table = `CREATE TABLE IF NOT EXISTS
-        students(
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(45) NOT NULL
-        )`;
-
-    await pool.query(table)
+    await pool.query(tables)
         .then(res => {
             console.log('\x1b[32mTables are created\x1b[0m');
         })

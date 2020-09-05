@@ -1,6 +1,8 @@
 const express = require('express');
-
 const app = express();
+
+// Accept the incoming JSON body in requests
+app.use(express.json());
 
 app.get('/', (req, res) => res.send('API running'));
 

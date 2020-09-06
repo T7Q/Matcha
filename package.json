@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "dating web application",
     "scripts": {
-        "dev": "concurrently \"cd backend && npm run server\" \"cd frontend && npm start\" ",
+        "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" ",
         "create": "cd backend && npm run init_db && npm run create_tables",
         "setup": "cd backend && npm run setup",
         "test": "echo \"Error: no test specified\" && exit 1"

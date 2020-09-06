@@ -2,10 +2,10 @@
   "name": "matcha_backend",
   "version": "1.0.0",
   "description": "dating website api",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "init_db": "node config/init_db.js",
     "setup": "node config/setup_db.js",
     "create_tables": "node config/create_tables.js"

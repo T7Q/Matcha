@@ -6,10 +6,10 @@ const app = express();
 app.use(express.json());
 
 // Handle routes
-app.use('/users', require('./routes/users'));
+app.use('/account', require('./routes/account'));
 app.use('/profile', require('./routes/profile'));
-app.use('/messages', require('./routes/messages'));
-app.use('/images', require('./routes/images'));
+app.use('/chat', require('./routes/chat'));
+app.use('/match', require('./routes/match'));
 
 const PORT = process.env.PORT || 5000;
 

@@ -5,9 +5,8 @@
     "scripts": {
         "init": "npm update && cd backend && npm update",
         "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" ",
-        "create": "cd backend && npm run init_db && npm run create_tables",
-        "setup": "cd backend && npm run setup",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "setup_db": "cd backend && npm run setup_db",
+        "drop_db": "cd backend && npm run drop_db"
     },
     "keywords": [],
     "author": "",

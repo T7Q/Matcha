@@ -16,3 +16,5 @@ You should configure your postgres database on your system in accordance with yo
 Then in the root folder run command `npm run init`. It will install all dependencies in all folders.
 
 And then you can run command `npm run dev`. It will start a server.
+
+HELLO FROM TANYA

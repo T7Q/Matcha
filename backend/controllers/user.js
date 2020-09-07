@@ -1,11 +1,18 @@
-const validate = (req, res, next) => {
+const userModel = require('../models/user');
+
+const register = (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
         res.status(400).send('Invalid parameters');
     }
-    next();
+    return userModel.register(req, res)
+}
+
+const getAll = async (req, res) => {
+    return userModel.getAll(req, res);
 }
 
 module.exports = {
-    validate
+    register,
+    getAll
 }

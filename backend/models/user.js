@@ -7,23 +7,23 @@ const register = (request, response) => {
             if (err) {
                 response.status(400).send({ 'error': 'Invalid query' });
             }
-            response.send({'msg': 'User successfully created'}); // should we send message or just status 200?
+            response.send({ 'msg': 'User successfully created' }); // should we send message or just status 200?
         });
     } catch (e) {
         response.status(500).send({ 'error': 'Something went wrong' });
     }
 }
 
-const getAll = (request, response) => {
+const getAll = (req, res) => {
     try {
         db.query('SELECT * FROM users', '', (err, result) => {
             if (err) {
-                response.status(400).send({ 'error': 'Invalid query' });
+                return res.status(400).send({ 'error': 'Invalid query' });
             }
-            response.send(result.rows);
-        });
+            return res.send(result.rows);
+        })
     } catch (e) {
-        response.status(500).send({ 'error': 'Something went wrong' });
+        return res.status(500).send({ 'error': 'Something went wrong' });
     }
 }
 

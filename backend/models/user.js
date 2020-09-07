@@ -1,33 +1,35 @@
 const db = require('./db');
 
-const register = (request, response) => {
-    const { email, password } = request.body;
+const findUser = async (email) => {
     try {
-        db.query('INSERT INTO users (email, password) VALUES($1, $2)', [email, password], (err, result) => {
-            if (err) {
-                response.status(400).send({ 'error': 'Invalid query' });
-            }
-            response.send({ 'msg': 'User successfully created' }); // should we send message or just status 200?
-        });
+        const res = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+        return res.rows[0] || false;
     } catch (e) {
-        response.status(500).send({ 'error': 'Something went wrong' });
+        return({ 'msg': 'Something went wrong' });
     }
 }
 
-const getAll = (req, res) => {
+const register = async (req, res) => {
+    const { email, password } = req.body;
     try {
-        db.query('SELECT * FROM users', '', (err, result) => {
-            if (err) {
-                return res.status(400).send({ 'error': 'Invalid query' });
-            }
-            return res.send(result.rows);
-        })
+        const result = await db.query('INSERT INTO users (email, password) VALUES($1, $2)', [email, password]);
+        res.send({'msg': 'User successfully created'});
     } catch (e) {
-        return res.status(500).send({ 'error': 'Something went wrong' });
+        res.status(400).send({'msg': e.detail || 'Invalid query'});
+    }
+}
+
+const getAll = async (req, res) => {
+    try {
+        const result = await db.query('SELECT * FROM users', '');
+        res.send(result.rows);
+    } catch (e) {
+        return res.status(500).send({ 'msg': 'Something went wrong' });
     }
 }
 
 module.exports = {
     getAll,
-    register
+    register,
+    findUser
 }

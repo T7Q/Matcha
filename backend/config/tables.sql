@@ -100,9 +100,10 @@ CREATE TABLE IF NOT EXISTS "chats"
 
 CREATE TABLE IF NOT EXISTS "chinese_horo_compatibility"
 (
- "sign_1"               varchar(50) NOT NULL PRIMARY KEY,
+ "sign_1"               varchar(50) NOT NULL,
  "sign_2"               varchar(50) NOT NULL,
- "compatibility_value"  int NOT NULL
+ "compatibility_value"  int NOT NULL,
+ PRIMARY KEY ( "sign_1", "sign_2" )
 );
 
 CREATE TABLE IF NOT EXISTS "images"

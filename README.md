@@ -10,6 +10,7 @@ DB_PWD=123456
 # server configuration
 PORT=5000
 ```
+
 You should configure your postgres database on your system in accordance with your database credentials.
 
 Then in the root folder run command `npm run init`. It will install all dependencies in all folders.

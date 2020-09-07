@@ -6,9 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "init_db": "node config/init_db.js",
-    "setup": "node config/setup_db.js",
-    "create_tables": "node config/create_tables.js"
+    "setup_db": "node config/setup_db.js",
+    "drop_db": "node config/drop_db.js"
   },
   "author": "",
   "license": "MIT",

@@ -8,7 +8,7 @@ const config = {
     password: process.env.DB_PWD || ''
 }
 
-let pool = new Pool(config);
+const pool = new Pool(config);
 
 pool.on('connect', () => {
     console.log(`Connected to the database  ${config.database}`);

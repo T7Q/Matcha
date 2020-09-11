@@ -6,19 +6,14 @@ module.exports = async (req, res) => {
     }
 
     const { username, token } = req.body;
-    const result = await accountModel.findUserInfo('username', username, 'token', 'status');
+    let result = await accountModel.findUserInfo('username', username, 'token', 'status');
 
-    if (!result) {
-        return res.status(400).json({ 'error': 'User not found' });
-    }
-
-    if (result.status != 0) {
-        return res.json({ 'msg': 'Your account has been already been activated' });
-    }
-
-    if (token !== result.token) {
+    if (!result || result.status != 0 || token !== result.token) {
         return res.status(400).json({ 'error': 'Token is not valid' });
     }
 
-    return accountModel.updateStatus(username, 1, res);
+    result = await accountModel.updateStatus(username, 1);
+    await accountModel.updateToken(username, null);
+
+    return res.json(result);
 }

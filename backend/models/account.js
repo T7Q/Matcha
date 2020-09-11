@@ -2,15 +2,6 @@ require('dotenv').config({ path: 'config/.env' });
 const db = require('./db');
 const jwt = require('jsonwebtoken');
 
-const findUser = async (key, value) => {
-    try {
-        const res = await db.query(`SELECT user_id, status, password FROM users WHERE ${key} = $1`, [value]);
-        return res.rows[0] || false;
-    } catch (e) {
-        return ({ 'msg': 'Something went wrong' });
-    }
-}
-
 const findUserInfo = async (key, value, ...args) => {
     try {
         const length = args.length;
@@ -57,19 +48,37 @@ const getAll = async (req, res) => {
     }
 }
 
-const updateStatus = async (username, status, res) => {
+const updateStatus = async (username, status) => {
     try {
         await db.query('UPDATE users SET status = $1 WHERE username = $2', [status, username]);
-        return res.json({ 'msg': 'Your account was successfully activated' });
+        return { 'msg': 'Your account was successfully activated' };
     } catch (e) {
-        return res.status(400).json({ 'error': 'Bad query' });
+        return { 'error': 'Bad query' };
+    }
+}
+
+const updateToken = async (username, token) => {
+    try {
+        await db.query('UPDATE users SET token = $1 WHERE username = $2', [token, username]);
+        return { 'msg': 'Token was updated' };
+    } catch (e) {
+        return { 'error': 'Bad query' };
+    }
+}
+
+const updatePassword = async (username, password) => {
+    try {
+        await db.query('UPDATE users SET password = $1 WHERE username = $2', [updatePassword, username]);
+        return { 'msg': 'Password was updated' };
+    } catch (e) {
+        return { 'error': 'Bad query' };
     }
 }
 
 module.exports = {
     getAll,
     register,
-    findUser,
     updateStatus,
+    updateToken,
     findUserInfo
 }

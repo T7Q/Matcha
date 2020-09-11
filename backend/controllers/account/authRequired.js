@@ -8,6 +8,6 @@ module.exports = (req, res, next) => {
         // set last time
         next();
     } else {
-        return res.status(401).send({ 'msg': 'Unauthorized user!' });
+        return res.status(401).json({ 'msg': 'Unauthorized user!' });
     }
 }

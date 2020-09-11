@@ -11,7 +11,7 @@ const findUser = async (key, value) => {
     }
 }
 
-const findUserInfoByEmail = async (email, ...args) => {
+const findUserInfo = async (key, value, ...args) => {
     try {
         const length = args.length;
         let info = '';
@@ -20,7 +20,7 @@ const findUserInfoByEmail = async (email, ...args) => {
         }
         args.forEach(elem => info += elem + ', ');
         info = info.replace(/\, $/g, '');
-        const res = await db.query(`SELECT ${info} FROM users WHERE email = $1`, [email]);
+        const res = await db.query(`SELECT ${info} FROM users WHERE ${key} = $1`, [value]);
         return res.rows[0] || false;
     } catch (e) {
         return ({ 'msg': 'Something went wrong' });
@@ -51,9 +51,18 @@ const register = async (req) => {
 const getAll = async (req, res) => {
     try {
         const result = await db.query('SELECT * FROM users', '');
-        res.send(result.rows);
+        res.json(result.rows);
     } catch (e) {
-        return res.status(400).send({ 'msg': 'Bad query' });
+        return res.status(400).json({ 'msg': 'Bad query' });
+    }
+}
+
+const updateStatus = async (username, status, res) => {
+    try {
+        await db.query('UPDATE users SET status = $1 WHERE username = $2', [status, username]);
+        return res.json({ 'msg': 'Your account was successfully activated' });
+    } catch (e) {
+        return res.status(400).json({ 'error': 'Bad query' });
     }
 }
 
@@ -61,5 +70,6 @@ module.exports = {
     getAll,
     register,
     findUser,
-    findUserInfoByEmail
+    updateStatus,
+    findUserInfo
 }

@@ -1,11 +1,11 @@
-const { findUser } = require('./account');
+const { findUserInfo } = require('./account');
 
 const validateEmail = async (email) => {
     let errors = {};
 
     if (!email) {
         errors['error'] = 'Email could not be empty';
-    } else if (await findUser('email', email)) {
+    } else if (await findUserInfo('email', email, 'user_id')) {
         errors['error'] = 'User with this email already exists';
     } else {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -22,7 +22,7 @@ const validateUsername = async (username) => {
 
     if (!username) {
         errors['error'] = 'username could not be empty';
-    } else if (await findUser('username', username)) {
+    } else if (await findUserInfo('username', username, 'user_id')) {
         errors['error'] = 'This username has already been taken';
     } else {
         const re = /^[A-Za-z0-9]{0,}$/;

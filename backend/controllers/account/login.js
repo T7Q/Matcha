@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
 
     const { email, password } = req.body;
 
-    const user = await accountModel.findUser('email', email);
+    const user = await accountModel.findUserInfo('email', email, 'user_id', 'username', 'status', 'password');
 
     if (!user) {
         return res.status(404).json({ 'msg': 'User does not exists' });
@@ -31,6 +31,7 @@ module.exports = async (req, res) => {
     return res.json({
         'tkn': jwt.sign({
             email: email,
+            username: user.username,
             userId: user.user_id,
             status: user.status
         }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })

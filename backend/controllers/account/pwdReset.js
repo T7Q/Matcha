@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     }
 
     if (user.status === 0) {
-        res.status(400).json({ 'error': 'You account is not activated yet' });
+        res.status(400).json({ 'error': 'Your account is not activated yet' });
     }
 
     const token = crypto.randomBytes(42).toString('hex');

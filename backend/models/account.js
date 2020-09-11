@@ -66,9 +66,19 @@ const updateToken = async (username, token) => {
     }
 }
 
+const updateTime = async (username, time) => {
+    try {
+        const res = await db.query(`UPDATE users SET last_seen = to_timestamp($1) WHERE username = $2`, [time / 1000, username]);
+        return { 'msg': 'Time was updated' };
+    } catch (e) {
+        console.log(e);
+        return { 'error': 'Bad query' };
+    }
+}
+
 const updatePassword = async (username, password) => {
     try {
-        await db.query('UPDATE users SET password = $1 WHERE username = $2', [updatePassword, username]);
+        await db.query('UPDATE users SET password = $1 WHERE username = $2', [password, username]);
         return { 'msg': 'Password was updated' };
     } catch (e) {
         return { 'error': 'Bad query' };
@@ -80,5 +90,7 @@ module.exports = {
     register,
     updateStatus,
     updateToken,
+    updateTime,
+    updatePassword,
     findUserInfo
 }

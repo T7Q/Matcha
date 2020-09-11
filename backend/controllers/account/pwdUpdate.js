@@ -1,5 +1,6 @@
 const accountModel = require('../../models/account');
 const helper = require('../../models/accountHelper');
+const bcrypt = require('bcrypt');
 
 module.exports = async (req, res) => {
     const { password, confirmPassword, token, username } = req.body;
@@ -14,7 +15,9 @@ module.exports = async (req, res) => {
 
     if (!result || result.token !== token || result.status === 0) {
         // if someone is trying to find valid token
-        await accountModel.updateToken(username, null);
+        if (result.status != 0)
+            await accountModel.updateToken(username, null);
+
         return res.status(400).json({ 'error': 'Token is not valid, please, resent the link' });
     }
 

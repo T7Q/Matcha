@@ -5,7 +5,7 @@ const crypto = require('crypto');
 
 module.exports = async (req, res) => {
     if (req.user) {
-        return res.send({ 'msg': 'User is already logged in.' })
+        return res.json({ 'msg': 'User is already logged in.' })
     }
 
     const { email, username, lastname, firstname, password, confirmPassword } = req.body;
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     errors = errors.filter(error => { return Object.keys(error).length != 0});
 
     if (errors.length != 0) {
-        return res.status(400).send(errors);
+        return res.status(400).json(errors);
     }
 
     req.body.password = await bcrypt.hash(password, 10);
@@ -30,10 +30,12 @@ module.exports = async (req, res) => {
     const result = await accountModel.register(req);
 
     if (result.error) {
-        return res.status(400).send(result);
+        return res.status(400).json(result);
     }
 
     // implement email sending
+    // console.log(req.protocol);
+    // console.log(req.get('host'));
 
-    return res.send(result);
+    return res.json(result);
 }

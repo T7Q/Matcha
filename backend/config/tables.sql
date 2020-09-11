@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS "users"
  "username"                 varchar(32) UNIQUE NULL ,
  "email"                    varchar(64) UNIQUE NOT NULL ,
  "password"                 varchar(1000) NOT NULL ,
- "token"                    varchar(255) NULL DEFAULT 0 ,
+ "token"                    varchar(255) NULL ,
  "status"                   int NOT NULL DEFAULT 0 ,
  "birth_date"               date NULL ,
  "gender"                   gender NULL ,

@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 
 module.exports = async (req, res) => {
     if (req.user) {
-        return res.send({ 'msg': 'User is already logged in.' })
+        return res.json({ 'msg': 'User is already logged in.' })
     }
 
     const { email, password } = req.body;
@@ -13,13 +13,13 @@ module.exports = async (req, res) => {
     const user = await accountModel.findUser('email', email);
 
     if (!user) {
-        return res.status(404).send({ 'msg': 'User does not exists' });
+        return res.status(404).json({ 'msg': 'User does not exists' });
     }
 
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-        return res.status(400).send({ 'msg': 'Password is not correct' });
+        return res.status(400).json({ 'msg': 'Password is not correct' });
     }
 
     // check if account activated
@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
 
     // set online
 
-    return res.send({
+    return res.json({
         'tkn': jwt.sign({
             email: email,
             userId: user.user_id,

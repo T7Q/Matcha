@@ -1,7 +1,8 @@
-const accountModel = require('../../models/account');
-const helper = require('../../models/accountHelper');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const accountModel = require('../../models/account');
+const helper = require('../../models/accountHelper');
+const mail = require('../../utils/mail');
 
 module.exports = async (req, res) => {
     if (req.user) {
@@ -33,9 +34,5 @@ module.exports = async (req, res) => {
         return res.status(400).json(result);
     }
 
-    // implement email sending
-    // console.log(req.protocol);
-    // console.log(req.get('host'));
-
-    return res.json(result);
+    return res.json(mail.activateAccountEmail(email, username, req.body.token));
 }

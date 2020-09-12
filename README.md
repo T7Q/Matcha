@@ -9,6 +9,15 @@ DB_PWD=123456
 
 # server configuration
 PORT=5000
+
+# JWT secret
+JWT_SECRET=somesecret
+
+
+# mail configuration
+EMAIL=your_email
+EMAIL_PWD=password
+
 ```
 You should configure your postgres database on your system in accordance with your database credentials.
 

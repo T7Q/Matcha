@@ -27,13 +27,7 @@ const register = async (req) => {
              VALUES($1, $2, $3, $4, $5, $6) RETURNING *;`,
             [email, password, username, firstname, lastname, token]
         );
-        return {
-            'msg': 'User successfully created', 'tkn': jwt.sign({
-                email: email,
-                userId: result.rows[0].user_id,
-                username: username
-            }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
-        };
+        return {};
     } catch (e) {
         return { 'error': e.detail || 'Invalid query' };
     }

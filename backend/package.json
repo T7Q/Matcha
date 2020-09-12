@@ -17,6 +17,7 @@
     "config": "^3.3.1",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.4.11",
     "pg": "^8.3.3"
   },
   "devDependencies": {

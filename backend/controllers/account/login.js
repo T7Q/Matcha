@@ -10,23 +10,29 @@ module.exports = async (req, res) => {
 
     const { email, password } = req.body;
 
-    const user = await accountModel.findUserInfo('email', email, 'user_id', 'username', 'status', 'password');
-
-    if (!user) {
-        return res.status(404).json({ 'msg': 'User does not exists' });
+    if (!email || !password) {
+        return res.status(400).json({ 'error': 'Fields can not be empty' });
     }
 
-    const match = await bcrypt.compare(password, user.password);
+    const user = await accountModel.findUserInfo('email', email, 'user_id', 'username', 'status', 'password');
 
-    if (!match) {
-        return res.status(400).json({ 'msg': 'Password is not correct' });
+    // check if account exists
+    if (!user) {
+        return res.status(404).json({ 'error': 'Invalid credentials' });
     }
 
     // check if account activated
+    if (user.status === 0) {
+        return res.json({ 'error': 'Your account is not activated yet. Please, check your email.' });
+    }
+
+    // check if password correct
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+        return res.status(400).json({ 'error': 'Invalid credentials' });
+    }
 
     // get location
-
-    // set online
 
     return res.json({
         'tkn': jwt.sign({

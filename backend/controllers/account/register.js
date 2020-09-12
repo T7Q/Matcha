@@ -21,6 +21,7 @@ module.exports = async (req, res) => {
     // remove empty objects from errors
     errors = errors.filter(error => { return Object.keys(error).length != 0});
 
+    // check if we have errors
     if (errors.length != 0) {
         return res.status(400).json(errors);
     }

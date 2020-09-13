@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { create, edit, interaction } = require('../controllers/profile');
+const { create, edit, deleteAccount, interaction } = require('../controllers/profile');
 
 // @route   POST /profile/create
 // @desc    Add profile info
@@ -21,5 +21,10 @@ router.post('/addinteraction', interaction.add)
 // @desc    remove like, view, block, report
 // @access  Public
 router.post('/removeinteraction', interaction.remove)
+
+// @route   POST /profile/interaction
+// @desc    Delete account
+// @access  Public
+router.post('/delete', deleteAccount)
 
 module.exports = router;

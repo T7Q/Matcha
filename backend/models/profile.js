@@ -77,7 +77,19 @@ const deleteRow = async (table, user_id, other_user_id) => {
             [user_id, other_user_id]);
         return {};
     } catch (e) {
-        return({ 'error': 'Something went wrong deleting info to the database' });
+        return({ 'error': 'Something went wrong deleting info from the database' });
+    }
+}
+
+const deleteAccount = async (user_id) => {
+    try {
+        const res = await db.query(`
+            DELETE FROM users\
+            WHERE user_id = $1`,
+            [user_id]);
+        return {};
+    } catch (e) {
+        return({ 'error': 'Something went wrong with deleting your account' });
     }
 }
 
@@ -85,5 +97,6 @@ module.exports = {
     registerProfile,
     editProfile,
     insertRow,
-    deleteRow
+    deleteRow,
+    deleteAccount
 }

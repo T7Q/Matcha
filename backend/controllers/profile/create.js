@@ -15,6 +15,17 @@ module.exports = async (req, res) => {
     if (errors.length != 0) {
         return res.status(400).json(errors);
 	}
-	// return res.json( {'msg': 'Your profile was successfully updated'} );
-	return profileModel.registerProfile(req, res);
+	let result = {};
+	result = await profileModel.registerProfile(req);
+	if (result.msg = 'You profile was succesfully created'){
+		let temp = {};
+		temp = await profileModel.editProfile(user_id, "status", "2");
+		if (temp.msg = 'You profile was succesfully updated'){
+			// let temp1 = {};
+			// temp1 = await profileModel.insertRow("report_users", 1, 2);
+			// return res.json(temp1);
+			return res.json(result);
+		}
+	}
+	return res.status(400).json(result);
 }

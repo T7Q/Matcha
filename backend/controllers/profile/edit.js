@@ -10,32 +10,16 @@ module.exports = async (req, res) => {
 	switch (key) {
 		case "gender":
 			error = profileHelper.validateGender(value);
-			if (Object.keys(error).length  === 0) {
-				let result = await profileModel.editProfile(user_id, key, value);
-				return res.json(result);
-			}
-			return res.status(400).json(error);
+			break;
 		case "sex_preference":
 			error = profileHelper.validateSexPreferences(value);
-			if (Object.keys(error).length  === 0) {
-				let result = await profileModel.editProfile(user_id, key, value);
-				return res.json(result);
-			}
-			return res.status(400).json(error);
+			break;
 		case "bio":
 			error = profileHelper.validateBio(value);
-			if (Object.keys(error).length  === 0) {
-				let result = await profileModel.editProfile(user_id, key, value);
-				return res.json(result);
-			}
-			return res.status(400).json(error);
+			break;
 		case "birth_date":
 			error = profileHelper.validateBio(value);
-			if (Object.keys(error).length  === 0) {
-				let result = await profileModel.editProfile(user_id, key, value);
-				return res.json(result);
-			}
-			return res.status(400).json(error);
+			break;
 		case "tags": // TBC
 			return profileHelper.tags(req, res);
 		case "photo": // TBC
@@ -43,4 +27,9 @@ module.exports = async (req, res) => {
 		default:
 			return res.status(400).json('Invalid parameters');
 	}
+	if (Object.keys(error).length  === 0) {
+		let result = await profileModel.editProfile(user_id, key, value);
+		return res.json(result);
+	}
+	return res.status(400).json(error);
 }

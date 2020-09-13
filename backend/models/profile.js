@@ -50,12 +50,40 @@ const insertRow = async (table, user_id, other_user_id) => {
             [user_id, other_user_id]);
         return {};
     } catch (e) {
-        return({ 'error': 'Something went wrong adding adding info to the database' });
+        return({ 'error': 'Something went wrong adding info to the database' });
+    }
+}
+
+const deleteRow = async (table, user_id, other_user_id) => {
+    let column1;
+    let column2;
+
+    if (table == 'likes' || table == 'views') {
+        column1 = "from_user_id";
+        column2 = "to_user_id";
+    } else if (table == 'block_users') {
+        column1 = "user_id";
+        column2 = "user_id_blocked";
+    } else if (table == 'report_users') {
+        column1 = "user_id";
+        column2 = "user_id_reported";
+    }
+
+    try {
+        const res = await db.query(`
+            DELETE FROM ${table}\
+            WHERE ${column1} = $1
+            AND ${column2} = $2`,
+            [user_id, other_user_id]);
+        return {};
+    } catch (e) {
+        return({ 'error': 'Something went wrong deleting info to the database' });
     }
 }
 
 module.exports = {
     registerProfile,
     editProfile,
-    insertRow
+    insertRow,
+    deleteRow
 }

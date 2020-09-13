@@ -13,8 +13,13 @@ router.post('/create', create)
 router.post('/edit', edit)
 
 // @route   POST /profile/interaction
-// @desc    Add/remove like/view/profile_block
+// @desc    Add like, view, block, report
 // @access  Public
-router.post('/interaction', interaction.add)
+router.post('/addinteraction', interaction.add)
+
+// @route   POST /profile/interaction
+// @desc    remove like, view, block, report
+// @access  Public
+router.post('/removeinteraction', interaction.remove)
 
 module.exports = router;

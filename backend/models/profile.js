@@ -8,9 +8,9 @@ const registerProfile = async (req) => {
             SET gender = $1, sex_preference = $2, bio = $3, birth_date = $4\
             WHERE user_id = $5',
             [gender, sex_preference, bio, birth_date, user_id]);
-        return ({ 'msg': 'You profile was succesfully created' });
+        return {};
     } catch (e) {
-        return ({ 'msg': 'Something went wrong adding Profile info' });
+        return ({ 'error': 'Something went wrong adding Profile info' });
     }
 }
 
@@ -21,13 +21,13 @@ const editProfile = async (user_id, column, value) => {
             SET ${column} = $1\
             WHERE user_id = $2`,
             [value, user_id]);
-        return ({ 'msg': 'Your profile was successfully updated' });
+        return {};
     } catch (e) {
-        return ({ 'msg': 'Something went wrong adding Profile info' });
+        return ({ 'error': e.detail || 'Something went wrong adding Profile info' });
     }
 }
 
-const insertRow = async (table, user_id, value) => {
+const insertRow = async (table, user_id, other_user_id) => {
     let column1;
     let column2;
 
@@ -47,10 +47,10 @@ const insertRow = async (table, user_id, value) => {
             INSERT INTO ${table}\
             (${column1},  ${column2})\
             VALUES($1, $2)`,
-            [user_id, value]);
-        return({ 'msg': 'success' });
+            [user_id, other_user_id]);
+        return {};
     } catch (e) {
-        return({ 'msg': 'Something went wrong adding adding info to the database' });
+        return({ 'error': 'Something went wrong adding adding info to the database' });
     }
 }
 

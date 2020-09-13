@@ -15,6 +15,6 @@ router.post('/edit', edit)
 // @route   POST /profile/interaction
 // @desc    Add/remove like/view/profile_block
 // @access  Public
-router.post('/interaction', interaction)
+router.post('/interaction', interaction.add)
 
 module.exports = router;

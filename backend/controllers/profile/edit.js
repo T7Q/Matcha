@@ -27,9 +27,16 @@ module.exports = async (req, res) => {
 		default:
 			return res.status(400).json('Invalid parameters');
 	}
-	if (Object.keys(error).length  === 0) {
-		let result = await profileModel.editProfile(user_id, key, value);
-		return res.json(result);
+	// check for validation errors
+	if (Object.keys(error).length  !== 0) {
+		return res.status(400).json(error);
 	}
-	return res.status(400).json(error);
+	let editProfile= {};
+	editProfile= await profileModel.editProfile(user_id, key, value);
+
+	// check for entering data to db errors
+	if (editProfile.error){
+		return res.status(400).json(editProfile);
+	}
+	return res.json({ 'msg': 'Your profile was successfully updated' });
 }

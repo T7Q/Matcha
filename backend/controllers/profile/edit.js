@@ -1,5 +1,5 @@
 const profileModel = require('../../models/profile');
-const profileHelper = require('../../models/profile_helper');
+const profileHelper = require('../../models/profileHelper');
 
 module.exports = async (req, res) => {
 	const { user_id, key, value } = req.body;

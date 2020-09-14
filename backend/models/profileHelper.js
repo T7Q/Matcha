@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const validateGender = (gender) => {
 	let errors = {};
 	if (!gender) {
@@ -47,6 +49,38 @@ const validateBirthdate = (dob) => {
 	return errors;
 }
 
+const saveToFile = (baseImage) => {	
+	//path of folder to save the image
+	const uploadPath = `${process.cwd()}/images/`;
+
+	//Find extension of file
+	const ext = baseImage.substring(baseImage.indexOf("/")+1, baseImage.indexOf(";base64"));
+	const fileType = baseImage.substring("data:".length,baseImage.indexOf("/"));
+	const regex = new RegExp(`^data:${fileType}\/${ext};base64,`, 'gi');
+
+	const base64Data = baseImage.replace(regex, "");
+	const rand = Math.ceil(Math.random()*1000);
+	//Random photo name with timeStamp so it will not overide previous images.
+	const filename = `Photo_${Date.now()}_${rand}.${ext}`;
+
+	//Check that if directory is present or not.
+	if(!fs.existsSync(uploadPath)) {
+		fs.mkdirSync(uploadPath);
+	}
+	fs.writeFileSync(uploadPath+filename, base64Data, 'base64');
+	return (filename);
+}
+
+const deleteFromFile = (filename) => {
+	const uploadPath = `${process.cwd()}/images/`;
+	let files = fs.readdirSync(uploadPath);
+	for (let i = 0; i < files.length; i++) {
+		if (files[i] === filename){
+			fs.unlinkSync(uploadPath + filename);
+			break;
+		}
+	}
+}
 
 
 
@@ -55,5 +89,7 @@ module.exports = {
 	validateSexPreferences,
 	validateBio,
 	validateBirthdate,
-	getAge
+	getAge,
+	saveToFile,
+	deleteFromFile
 }

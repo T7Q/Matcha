@@ -1,9 +1,13 @@
 const express = require('express');
+const authToken = require('./utils/token');
 
 const app = express();
 
 // Accept the incoming JSON body in requests
 app.use(express.json());
+
+// JWT setup
+app.use(authToken);
 
 // Handle routes
 app.use('/account', require('./routes/account'));

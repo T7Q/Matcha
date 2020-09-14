@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS "users"
  "email"                    varchar(64) UNIQUE NOT NULL ,
  "password"                 varchar(1000) NOT NULL ,
  "token"                    varchar(255) NULL DEFAULT 0 ,
- "status"                int NOT NULL DEFAULT 0 ,
+ "status"                   int NOT NULL DEFAULT 0 ,
  "birth_date"               date NULL ,
  "gender"                   gender NULL ,
  "latitude"                 float NULL ,

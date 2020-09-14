@@ -21,7 +21,7 @@ const stringifiedParams = queryString.stringify({
 });
 
 // endpoint for retrieving google login link
-const loginGoogle = (req, res) => {
+const getGoogleLink = (req, res) => {
     // login url, should be on the client side
     const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
 
@@ -46,70 +46,74 @@ const getAccessToken = async (code) => {
 
 // get user information about user
 const getUserInfo = async (code) => {
-    const token = await getAccessToken(code);
-    const { data } = await axios({
-        url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-        method: 'get',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    try {
 
-    return data;
+        const token = await getAccessToken(code);
+        const { data } = await axios({
+            url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+            method: 'get',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        return data;
+    } catch (e) {
+        return { 'error': 'Invalid parameters' };
+    }
 }
 
 // Need to change google redirect url to client url,
 // from there we will call this endpoint and send jwt back as if we are making login
 // need to check if it will work with google api in that way
-const google = async (req, res) => {
+const googleLogin = async (req, res) => {
     const code = req.query.code;
-
-    // check if we have code
-    if (!code) {
-        res.status(400).json({ 'error': 'Invalid parameters' });
-    }
 
     // get information about user
     const userInfo = await getUserInfo(code);
+
+    if (userInfo.error) {
+        return res.status(400).json(userInfo);
+    }
 
     // get location
     const location = getLocation();
 
     // check if user already registered
-    let user = await accountModel.findUserInfo('email', userInfo.email, 'user_id', 'username', 'google_id', 'status');
+    let user = await accountModel.findUserInfo('email', userInfo.email, 'user_id', 'username', 'status');
 
-    if (user && user.google_id === userInfo.id) {
+    if (user) {
         // if user has account we sent token to client
         return res.json({
+            'status': user.status,
+            'username': user.username,
             'tkn': jwt.sign({
                 email: userInfo.email,
-                username: username,
-                userId: user.user_id,
-                status: user.status
-            }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
-        });
-    } else if (user) {
-        let result = await profileModel.editProfile(user.user_id, 'google_id', userInfo.id);
-
-        if (result.error) {
-            return res.send(result);
-        }
-
-        return res.json({
-            'tkn': jwt.sign({
-                email: userInfo.email,
-                username: username,
+                username: user.username,
                 userId: user.user_id,
                 status: user.status
             }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
         });
     }
+
+    let username = '';
+
+    // generate some random username for user
+    while (true) {
+        username = Math.random().toString(36).slice(2);
+        console.log(username);
+        let usernameExists = await accountModel.findUserInfo('username', username, 'user_id');
+        if (!usernameExists) {
+            break;
+        }
+    }
+
     const data = {
         email: userInfo.email,
         password: await bcrypt.hash(userInfo.id, 10),
-        username: userInfo.name || userInfo.given_name || userInfo.family_name || explode("@", userInfo.email)[0],
-        firstname: userInfo.given_name || null,
-        lastname: userInfo.family_name || null
+        username: username,
+        firstname: userInfo.given_name || userInfo.email.split("@")[0],
+        lastname: userInfo.family_name || userInfo.email.split("@")[0]
     }
 
     const newUser = await accountModel.register(data);
@@ -120,20 +124,17 @@ const google = async (req, res) => {
 
     const result = await profileModel.editProfile(newUser.user_id, 'status', 1);
 
-    if (result.error) {
-        return res.send(result);
-    }
-
     return res.json({
+        'status': 1,
+        'username': null,
         'tkn': jwt.sign({
-            email: newUser.email,
-            username: newUser.username,
+            email: userInfo.email,
             userId: newUser.user_id,
-            status: newUser.status
+            status: 1
         }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
     });
 }
 
 module.exports = {
-    loginGoogle, google
+    getGoogleLink, googleLogin
 }

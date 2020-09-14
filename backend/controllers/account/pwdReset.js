@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ 'error': 'Field can not be empty' });
     }
 
-    const user = await accountModel.findUserInfo('email', email, 'username', 'status');
+    const user = await accountModel.findUserInfo('email', email, 'user_id', 'username', 'status');
 
     // check if account exists
     if (!user) {
@@ -23,11 +23,11 @@ module.exports = async (req, res) => {
 
     // create new token to reset password
     const token = crypto.randomBytes(42).toString('hex');
-    const result = await accountModel.updateToken(user.username, token);
+    const result = await accountModel.updateToken(user.user_id, token);
 
     if (result.error) {
         return res.json(result);
     }
 
-    return res.json(mail.pwdResetEmail(email, user.username, token));
+    return res.json(mail.pwdResetEmail(email, user.user_id, user.username, token));
 }

@@ -12,8 +12,8 @@ const transporter = nodemailer.createTransport({
 // console.log(req.protocol);
 // console.log(req.get('host'));
 
-const activateAccountEmail = (recipient, username, token) => {
-    const link = 'http://localhost:5000/account/activate?username=' + username + '&token=' + token;
+const activateAccountEmail = (recipient, userId, username, token) => {
+    const link = 'http://localhost:5000/account/activate?user=' + userId + '&token=' + token;
     const subject = 'Matcha: account activation';
     const content = `
         <div style="font-size:16px;">
@@ -34,8 +34,8 @@ const activateAccountEmail = (recipient, username, token) => {
     }
 }
 
-const pwdResetEmail = (recipient, username, token) => {
-    const link = 'http://localhost:5000/account/reset?username=' + username + '&token=' + token;
+const pwdResetEmail = (recipient, userId, username, token) => {
+    const link = 'http://localhost:5000/account/reset?user=' + userId + '&token=' + token;
     const subject = 'Matcha: reset password';
     const content = `
         <div style="font-size:16px;">

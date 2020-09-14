@@ -1,20 +1,22 @@
 require('dotenv').config({ path: 'config/.env' });
-const accountModel = require('../../models/account');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const accountModel = require('../../models/account');
+const getLocation = require('../../utils/location');
 
 module.exports = async (req, res) => {
     if (req.user) {
         return res.json({ 'msg': 'User is already logged in.' })
     }
 
-    const { email, password } = req.body;
+    let { username, password } = req.body;
 
-    if (!email || !password) {
+    if (!username || !password) {
         return res.status(400).json({ 'error': 'Fields can not be empty' });
     }
 
-    const user = await accountModel.findUserInfo('email', email, 'user_id', 'username', 'status', 'password');
+    username = username.toLowerCase();
+    const user = await accountModel.findUserInfo('username', username, 'user_id', 'email', 'status', 'password');
 
     // check if account exists
     if (!user) {
@@ -33,11 +35,12 @@ module.exports = async (req, res) => {
     }
 
     // get location
+    const location = getLocation();
 
     return res.json({
         'tkn': jwt.sign({
-            email: email,
-            username: user.username,
+            email: user.email,
+            username: username,
             userId: user.user_id,
             status: user.status
         }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })

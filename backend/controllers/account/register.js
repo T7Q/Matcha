@@ -10,6 +10,8 @@ module.exports = async (req, res) => {
     }
 
     const { email, username, lastname, firstname, password, confirmPassword } = req.body;
+    req.body.username = username.toLowerCase();
+
     let errors = [];
 
     errors.push(await helper.validateEmail(email));
@@ -29,11 +31,11 @@ module.exports = async (req, res) => {
     req.body.password = await bcrypt.hash(password, 10);
     req.body.token = crypto.randomBytes(42).toString('hex');
 
-    const result = await accountModel.register(req);
+    const result = await accountModel.register(req.body);
 
     if (result.error) {
         return res.status(400).json(result);
     }
 
-    return res.json(mail.activateAccountEmail(email, username, req.body.token));
+    return res.json(mail.activateAccountEmail(email, result.user_id, username, req.body.token));
 }

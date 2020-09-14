@@ -18,8 +18,8 @@ const findUserInfo = async (key, value, ...args) => {
     }
 }
 
-const register = async (req) => {
-    const { email, username, lastname, firstname, password, token } = req.body;
+const register = async (data) => {
+    const { email, username, lastname, firstname, password, token } = data;
 
     try {
         const result = await db.query(
@@ -27,7 +27,8 @@ const register = async (req) => {
              VALUES($1, $2, $3, $4, $5, $6) RETURNING *;`,
             [email, password, username, firstname, lastname, token]
         );
-        return {};
+
+        return result.rows[0];
     } catch (e) {
         return { 'error': e.detail || 'Invalid query' };
     }
@@ -42,18 +43,18 @@ const getAll = async (req, res) => {
     }
 }
 
-const updateStatus = async (username, status) => {
+const updateStatus = async (userId, status) => {
     try {
-        await db.query('UPDATE users SET status = $1 WHERE username = $2', [status, username]);
+        await db.query('UPDATE users SET status = $1 WHERE user_id = $2', [status, userId]);
         return { 'msg': 'Your account was successfully activated' };
     } catch (e) {
         return { 'error': 'Bad query' };
     }
 }
 
-const updateToken = async (username, token) => {
+const updateToken = async (userId, token) => {
     try {
-        await db.query('UPDATE users SET token = $1 WHERE username = $2', [token, username]);
+        await db.query('UPDATE users SET token = $1 WHERE user_id = $2', [token, userId]);
         return { 'msg': 'Token was updated' };
     } catch (e) {
         return { 'error': 'Bad query' };
@@ -70,9 +71,9 @@ const updateTime = async (username, time) => {
     }
 }
 
-const updatePassword = async (username, password) => {
+const updatePassword = async (userId, password) => {
     try {
-        await db.query('UPDATE users SET password = $1 WHERE username = $2', [password, username]);
+        await db.query('UPDATE users SET password = $1 WHERE user_id = $2', [password, userId]);
         return { 'msg': 'Password was updated' };
     } catch (e) {
         return { 'error': 'Bad query' };

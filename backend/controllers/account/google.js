@@ -67,6 +67,7 @@ const getUserInfo = async (code) => {
 // from there we will call this endpoint and send jwt back as if we are making login
 // need to check if it will work with google api in that way
 const googleLogin = async (req, res) => {
+    // after frontend change code to req.body;
     const code = req.query.code;
 
     // get information about user
@@ -82,59 +83,110 @@ const googleLogin = async (req, res) => {
     // check if user already registered
     let user = await accountModel.findUserInfo('email', userInfo.email, 'user_id', 'username', 'status');
 
-    if (user) {
-        // if user has account we sent token to client
-        return res.json({
-            'status': user.status,
-            'username': user.username,
-            'tkn': jwt.sign({
-                email: userInfo.email,
-                username: user.username,
-                userId: user.user_id,
-                status: user.status
-            }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
-        });
+    if (!user) {
+        return res.json({ 'msg': 'register' });
+    }
+    // if user has account we sent token to client
+    return res.json({
+        'status': user.status,
+        'username': user.username,
+        'tkn': jwt.sign({
+            email: userInfo.email,
+            userId: user.user_id,
+            status: user.status
+        }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
+    });
+
+    // let username = '';
+
+    // // generate some random username for user
+    // while (true) {
+    //     username = Math.random().toString(36).slice(2);
+    //     console.log(username);
+    //     let usernameExists = await accountModel.findUserInfo('username', username, 'user_id');
+    //     if (!usernameExists) {
+    //         break;
+    //     }
+    // }
+
+    // const data = {
+    //     email: userInfo.email,
+    //     password: await bcrypt.hash(userInfo.id, 10),
+    //     username: username,
+    //     firstname: userInfo.given_name || userInfo.email.split("@")[0],
+    //     lastname: userInfo.family_name || userInfo.email.split("@")[0]
+    // }
+
+    // const newUser = await accountModel.register(data);
+
+    // if (newUser.error) {
+    //     return res.send(newUser);
+    // }
+
+    // const result = await profileModel.editProfile(newUser.user_id, 'status', 1);
+
+    // return res.json({
+    //     'status': 1,
+    //     'tkn': jwt.sign({
+    //         email: userInfo.email,
+    //         userId: newUser.user_id,
+    //         status: 1
+    //     }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
+    // });
+}
+
+const registerGoogle = async (req, res) => {
+    const { code, username, lastname, firstname } = req.body;
+    // get information about user
+    const userInfo = await getUserInfo(code);
+
+    if (userInfo.error) {
+        return res.status(400).json(userInfo);
     }
 
-    let username = '';
+    // get location
+    const location = getLocation();
 
-    // generate some random username for user
-    while (true) {
-        username = Math.random().toString(36).slice(2);
-        console.log(username);
-        let usernameExists = await accountModel.findUserInfo('username', username, 'user_id');
-        if (!usernameExists) {
-            break;
-        }
+    let errors = [];
+
+    errors.push(await helper.validateEmail(userInfo.email));
+    errors.push(await helper.validateUsername(username));
+    errors.push(helper.validateName(firstname));
+    errors.push(helper.validateName(lastname));
+
+    // remove empty objects from errors
+    errors = errors.filter(error => { return Object.keys(error).length != 0});
+
+    // check if we have errors
+    if (errors.length != 0) {
+        return res.status(400).json(errors);
+    }
+    req.body.password = await bcrypt.hash(userInfo.id, 10);
+    req.body.email = userInfo.email;
+
+    const result = await accountModel.register(req.body);
+
+    if (result.error) {
+        return res.status(400).json(result);
     }
 
-    const data = {
-        email: userInfo.email,
-        password: await bcrypt.hash(userInfo.id, 10),
-        username: username,
-        firstname: userInfo.given_name || userInfo.email.split("@")[0],
-        lastname: userInfo.family_name || userInfo.email.split("@")[0]
-    }
+    // update status to 1 because user does not need to activate account
+    await profileModel.editProfile(result.user_id, 'status', 1);
 
-    const newUser = await accountModel.register(data);
-
-    if (newUser.error) {
-        return res.send(newUser);
-    }
-
-    const result = await profileModel.editProfile(newUser.user_id, 'status', 1);
+    // update online because user automatically logged in
+    await profileModel.editProfile(result.user_id, 'online', 1);
 
     return res.json({
         'status': 1,
-        'username': null,
+        'username': result.username,
         'tkn': jwt.sign({
-            email: userInfo.email,
-            userId: newUser.user_id,
+            email: result.email,
+            userId: result.user_id,
             status: 1
         }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
     });
 }
 
 module.exports = {
-    getGoogleLink, googleLogin
+    getGoogleLink, googleLogin, registerGoogle
 }

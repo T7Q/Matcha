@@ -7,7 +7,7 @@ const authRequired = require('./authRequired');
 const validateData = require('./validateData');
 const activate = require('./activate');
 const logout = require('./logout');
-const { getGoogleLink, googleLogin } = require('./google');
+const { getGoogleLink, googleLogin, registerGoogle } = require('./google');
 
 module.exports = {
     register,
@@ -20,5 +20,6 @@ module.exports = {
     activate,
     googleLogin,
     logout,
-    getGoogleLink
+    getGoogleLink,
+    registerGoogle
 }

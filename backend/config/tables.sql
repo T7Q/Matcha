@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS "users"
  "password"                 varchar(1000) NOT NULL ,
  "token"                    varchar(255) NULL ,
  "status"                   int NOT NULL DEFAULT 0 ,
+ "online"                   int NOT NULL DEFAULT 0 ,
  "birth_date"               date NULL ,
  "gender"                   gender NULL ,
  "latitude"                 float NULL ,

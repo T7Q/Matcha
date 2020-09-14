@@ -48,20 +48,12 @@ const validateBirthdate = (dob) => {
 }
 
 
-const tags = async (req, res) => {
-	const { key, value } = req.body;
-	if (value.length < 5) {
-		return res.send({'msg': 'Pick at least 5 interests'});
-	} else {
-		return res.send({'msg': 'valid'});
-	}
-}
+
 
 module.exports = {
 	validateGender,
 	validateSexPreferences,
 	validateBio,
 	validateBirthdate,
-	getAge,
-	tags
+	getAge
 }

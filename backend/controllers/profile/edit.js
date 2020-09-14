@@ -20,8 +20,20 @@ module.exports = async (req, res) => {
 		case "birth_date":
 			error = profileHelper.validateBio(value);
 			break;
-		case "tags": // TBC
-			return profileHelper.tags(req, res);
+		case "tags": 
+			let result = {};
+
+			// const forLoop = async _ => {
+			// 	console.log('Start')
+			// 	for (let i = 0; i < value.length; i++){
+			// 		// result = await profileModel.tagExists(value[i]);
+			// 		console.log(i)
+			// 	}
+			// 	console.log('End')
+			// }
+
+
+			return res.json({ 'msg': 'Tags were successfully updated' });
 		case "photo": // TBC
 			return res.json('profile created ' + value);
 		default:

@@ -93,10 +93,28 @@ const deleteAccount = async (user_id) => {
     }
 }
 
+
+const tagExists = async (tag) => {
+    try {
+        const res = await db.query(`
+        SELECT count(tag_id)
+            FROM tags
+            WHERE tag_name=$1`,
+            [tag]);
+        // if (res == 0) {
+        //     return({ 'error': 'Tag does not exist' });
+        // }
+        return {};
+    } catch (e) {
+        return({ 'error': 'Something went wrong with checking tags' });
+    }
+}
+
 module.exports = {
     registerProfile,
     editProfile,
     insertRow,
     deleteRow,
-    deleteAccount
+    deleteAccount,
+    tagExists
 }

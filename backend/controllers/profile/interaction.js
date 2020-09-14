@@ -18,7 +18,7 @@ const add = async (req, res) => {
 	}
 }
 
-const remove = async (req, res) => { // TBC
+const remove = async (req, res) => {
 	const { key, from_user_id, to_user_id } = req.body;
 	let insertData = {};
 	if (!key) {

@@ -6,6 +6,7 @@ module.exports = (req, res, next) => {
         jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET, (err, decode) => {
             req.user = err ? undefined : decode;
             // do i need to check if this user exists?
+
         });
     } else {
         req.user = undefined;

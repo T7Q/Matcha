@@ -11,9 +11,9 @@ module.exports = async (req, res) => {
     if (!result || result.status != 0 || token !== result.token) {
         return res.status(400).json({ 'error': 'Token is not valid' });
     }
-
+  
     result = await accountModel.updateStatus(user_id, 1);
     await accountModel.updateToken(user_id, null);
-
+  
     return res.json(result);
 }

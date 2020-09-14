@@ -5,6 +5,7 @@ const db = process.env.DB_NAME;
 // queries to create all tables
 const tables = fs.readFileSync('config/tables.sql', 'utf8');
 const data = fs.readFileSync('config/data.sql', 'utf8');
+const triggers = fs.readFileSync('config/triggers.sql', 'utf8');
 
 const config = {
     user: process.env.DB_USER,
@@ -50,6 +51,13 @@ const setupDatabase = async () => {
     await poolMatcha.query(tables)
         .then(res => {
             console.log('\x1b[32m' + 'Tables are created' + '\x1b[0m');
+        })
+        .catch(err => {
+            console.log('\x1b[31m' + err + '\x1b[0m');
+        })
+    await poolMatcha.query(triggers)
+        .then(res => {
+            console.log('\x1b[32m' + 'Triggers are created' + '\x1b[0m');
         })
         .catch(err => {
             console.log('\x1b[31m' + err + '\x1b[0m');

@@ -1,6 +1,6 @@
 DO $$ BEGIN
     CREATE TYPE gender AS ENUM ('man', 'woman');
-    CREATE TYPE sex_preference AS ENUM ('hetero', 'bi', 'homo');
+    CREATE TYPE sex_preference AS ENUM ('man', 'woman', 'both');
 EXCEPTION
     WHEN duplicate_object THEN null;
 END $$;

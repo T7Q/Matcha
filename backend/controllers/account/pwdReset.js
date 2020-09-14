@@ -28,6 +28,6 @@ module.exports = async (req, res) => {
     if (result.error) {
         return res.json(result);
     }
-
+  
     return res.json(mail.pwdResetEmail(email, user.user_id, user.username, token));
 }

@@ -1,5 +1,5 @@
 const profileModel = require('../../models/profile');
-const profileHelper = require('../../models/profile_helper');
+const profileHelper = require('../../models/profileHelper');
 
 const upload = async (req, res) => {
 

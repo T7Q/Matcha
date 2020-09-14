@@ -1,5 +1,5 @@
 const profileModel = require('../../models/profile');
-const profileHelper = require('../../models/profile_helper');
+const profileHelper = require('../../models/profileHelper');
 
 const add = async (req, res) => {
 	const { key, from_user_id, to_user_id } = req.body;

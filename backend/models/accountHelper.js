@@ -21,7 +21,7 @@ const validateUsername = async (username) => {
     let errors = {};
 
     if (!username) {
-        errors['error'] = 'username could not be empty';
+        errors['error'] = 'Username could not be empty';
     } else if (await findUserInfo('username', username, 'user_id')) {
         errors['error'] = 'This username has already been taken';
     } else {

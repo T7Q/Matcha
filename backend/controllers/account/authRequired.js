@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
         return hello(req, res);
     }
     if (req.user) {
-        // set last time
+        // set last action time to last_seen column
         await accountModel.updateTime(req.user.username, Date.now());
         next();
     } else {

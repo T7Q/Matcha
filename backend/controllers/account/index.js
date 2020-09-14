@@ -6,6 +6,7 @@ const pwdUpdate = require('./pwdUpdate');
 const authRequired = require('./authRequired');
 const validateData = require('./validateData');
 const activate = require('./activate');
+const { loginGoogle, google } = require('./google');
 
 module.exports = {
     register,
@@ -15,5 +16,7 @@ module.exports = {
     pwdUpdate,
     authRequired,
     validateData,
-    activate
+    activate,
+    google,
+    loginGoogle
 }

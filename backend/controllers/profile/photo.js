@@ -11,7 +11,30 @@ const upload = async (req, res) => {
     let result = {};
     let i = 0;
     for (const element of value) {
+        // if there is an old photo, remove from database
+        if (value[i]["old_image_id"]) {
+            let filename = await profileModel.getDataOneCondition(
+                "images",
+                "image_path",
+                "image_id",
+                value[i]["old_image_id"]
+            );
+
+            profileHelper.deleteFromFile(filename.image_path);
+
+            // let deleteOldPhoto = {};
+            let deleteOldPhoto = await profileModel.deleteRowOneCondition(
+                "images",
+                "image_id",
+                value[i]["old_image_id"]
+            );
+            if (deleteOldPhoto.error) {
+                result[i]["error"] = "Error deleting photo to database";
+            }
+        }
+
         let uploadPath = profileHelper.saveToFile(element.data);
+
         result[i] = {};
 
         let getPhotoId = {};
@@ -46,7 +69,6 @@ const upload = async (req, res) => {
     return res.json(result);
 };
 
-
 const deletePhoto = async (req, res) => {
     const { user_id, key, value } = req.body;
     if (!key || !user_id || !value || key !== "photo" || value.length > 5) {
@@ -56,17 +78,23 @@ const deletePhoto = async (req, res) => {
     let i = 0;
     for (const element of value) {
         result[i] = {};
-        deletePhotoFromDb = await profileModel.deleteRowOneCondition(
+        let filename = await profileModel.getDataOneCondition(
+            "images",
+            "image_path",
+            "image_id",
+            value[i]["image_id"]
+        );
+
+        profileHelper.deleteFromFile(filename.image_path);
+
+        let deleteFromDb = await profileModel.deleteRowOneCondition(
             "images",
             "image_id",
             value[i]["image_id"]
         );
-        if (deletePhotoFromDb.error) {
+        if (deleteFromDb.error) {
             result[i]["error"] = "Error saving photo to database";
-		}
-		
-		// get filename from db by image_id
-		// deleteFrom file
+        }
 
         result[i] = {
             msg: "Photo was succesfully deleted",
@@ -88,6 +116,7 @@ const deletePhoto = async (req, res) => {
         }
         i++;
     }
+    console.log(result);
     return res.json(result);
 };
 

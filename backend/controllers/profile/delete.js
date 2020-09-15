@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ 'msg': 'Invalid parameters: add key' });
 	}
 	if (key == "delete") {
-		result = await profileModel.deleteAccount(user_id);
+		result = await profileModel.deleteRowOneCondition ("users", "user_id", user_id);
 		if (result.error){
 			return res.status(400).json(result);
 		}

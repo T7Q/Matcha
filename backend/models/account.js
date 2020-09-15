@@ -4,14 +4,13 @@ const jwt = require('jsonwebtoken');
 
 const findUserInfo = async (key, value, ...args) => {
     try {
-        const length = args.length;
-        let info = '';
-        if (length == 0) {
-            info = '*';
-        }
+        let info = args.length == 0 ? '*' : '';
+
         args.forEach(elem => info += elem + ', ');
         info = info.replace(/\, $/g, '');
+
         const res = await db.query(`SELECT ${info} FROM users WHERE ${key} = $1`, [value]);
+
         return res.rows[0] || false;
     } catch (e) {
         return ({ 'msg': 'Something went wrong' });
@@ -37,55 +36,57 @@ const register = async (data) => {
 const getAll = async (req, res) => {
     try {
         const result = await db.query('SELECT * FROM users', '');
-        res.json(result.rows);
+
+        return res.json(result.rows);
     } catch (e) {
         return res.status(400).json({ 'msg': 'Bad query' });
     }
 }
 
-const updateStatus = async (userId, status) => {
+const updateTime = async (userId, time) => {
     try {
-        await db.query('UPDATE users SET status = $1 WHERE user_id = $2', [status, userId]);
-        return { 'msg': 'Your account was successfully activated' };
-    } catch (e) {
-        return { 'error': 'Bad query' };
-    }
-}
+        const res = await db.query(`UPDATE users SET last_seen = to_timestamp($1) WHERE user_id = $2`, [time / 1000, userId]);
 
-const updateToken = async (userId, token) => {
-    try {
-        await db.query('UPDATE users SET token = $1 WHERE user_id = $2', [token, userId]);
-        return { 'msg': 'Token was updated' };
-    } catch (e) {
-        return { 'error': 'Bad query' };
-    }
-}
-
-const updateTime = async (username, time) => {
-    try {
-        const res = await db.query(`UPDATE users SET last_seen = to_timestamp($1) WHERE username = $2`, [time / 1000, username]);
         return { 'msg': 'Time was updated' };
     } catch (e) {
-        console.log(e);
         return { 'error': 'Bad query' };
     }
 }
 
-const updatePassword = async (userId, password) => {
+// data = {'status': 5, 'online': 7}
+const updateProfile = async (user_id, data) => {
     try {
-        await db.query('UPDATE users SET password = $1 WHERE user_id = $2', [password, userId]);
-        return { 'msg': 'Password was updated' };
+        let keys = [];
+        let info = '';
+
+        Object.keys(data).forEach(key => {
+            keys.push(key);
+        });
+
+        keys.forEach((elem, i) => info += elem + ` = $${i + 1}, `);
+        info = info.replace(/\, $/g, ' ');
+
+        let values = keys.map((key) => {
+            return data[key];
+        });
+
+        const res = await db.query(`
+            UPDATE users
+            SET ${info}
+            WHERE user_id = $${keys.length + 1}`,
+            [...values, user_id]
+        );
+
+        return {};
     } catch (e) {
-        return { 'error': 'Bad query' };
+        return ({ 'error': e.detail || 'Something went wrong adding Profile info' });
     }
 }
 
 module.exports = {
     getAll,
     register,
-    updateStatus,
-    updateToken,
     updateTime,
-    updatePassword,
-    findUserInfo
+    findUserInfo,
+    updateProfile
 }

@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
     }
 
     username = username.toLowerCase();
-    const user = await accountModel.findUserInfo('username', username, 'user_id', 'email', 'status', 'password');
+    const user = await accountModel.findUserInfo('username', username);
 
     // check if account exists and password correct
     if (!user || !(await bcrypt.compare(password, user.password))) {
@@ -25,17 +25,18 @@ module.exports = async (req, res) => {
         return res.json({ 'error': 'Your account is not activated yet. Please, check your email.' });
     }
 
-    // set user online
-    await profileModel.editProfile(user.user_id, 'online', 1);
-
     // get location
-    const location = getLocation();
+    const data = await getLocation(req, user);
+
+    // set user online
+    data.online = 1;
+
+    await accountModel.updateProfile(user.user_id, data);
 
     return res.json({
         'status': user.status,
         'username': username,
         'tkn': jwt.sign({
-            email: user.email,
             userId: user.user_id,
             status: user.status
         }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })

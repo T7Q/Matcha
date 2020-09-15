@@ -56,7 +56,7 @@ router.get('/auth/google', account.googleLogin);
 // @route   GET /account/google/register
 // @desc    Login via google
 // @access  Public
-router.get('/auth/google/register', account.registerGoogle);
+router.post('/auth/google/register', account.registerGoogle);
 
 // @route   GET /account/logout
 // @desc    Logout active user

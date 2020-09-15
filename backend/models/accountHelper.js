@@ -51,12 +51,14 @@ const validateName = (name) => {
 
 const validatePassword = (password, confirmPassword) => {
     let errors = {};
+
     if (!password) {
         errors['error'] = 'Please enter a password';
     } else if (password.length < 6) {
         errors['error'] = 'Password must be at least 6 characters';
     } else {
         const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
+
         if (!re.test(password)) {
             errors['error'] = 'Password must contain at least 1 uppercase, 1 lowercase letter and 1 number';
         }

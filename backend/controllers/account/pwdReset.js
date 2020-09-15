@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const accountModel = require('../../models/account');
+const profileModel = require('../../models/profile');
 const mail = require('../../utils/mail');
 
 module.exports = async (req, res) => {
@@ -23,11 +24,11 @@ module.exports = async (req, res) => {
 
     // create new token to reset password
     const token = crypto.randomBytes(42).toString('hex');
-    const result = await accountModel.updateToken(user.user_id, token);
+    const result = await profileModel.editProfile(user.user_id, 'token', token);
 
     if (result.error) {
         return res.json(result);
     }
-  
+
     return res.json(mail.pwdResetEmail(email, user.user_id, user.username, token));
 }

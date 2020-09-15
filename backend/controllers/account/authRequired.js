@@ -17,9 +17,17 @@ module.exports = async (req, res, next) => {
             if (user.status === 1 && req.baseUrl === '/profile/edit') {
                 return profile.edit(req, res);
             }
+            // const d = new Date(0);
+            // const now = new Date();
+            // console.log(Math.floor(now.getTime()/1000));
+            // console.log(req.user.exp);
+            // now.setUTCSeconds();
+            // console.log(new Date());
+            // d.setUTCSeconds(req.user.exp);
 
+            // console.log(d);
             // set last action time to last_seen column
-            await accountModel.updateTime(req.user.username, Date.now());
+            await accountModel.updateTime(req.user.userId, Date.now());
             return next();
         }
     }

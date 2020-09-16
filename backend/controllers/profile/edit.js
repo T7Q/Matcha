@@ -4,7 +4,7 @@ const profileHelper = require("../../models/profileHelper");
 module.exports = async (req, res) => {
     const { user_id, key, value } = req.body;
 	let error = {};
-	console.log(error);
+	
     if (!key) {
         return res.status(400).json({ msg: "Invalid parameters" });
     }

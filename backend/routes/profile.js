@@ -33,8 +33,13 @@ router.post('/delete', deleteAccount)
 router.post('/editnotification', notification.edit)
 
 // @route   POST /profile/uploadphoto
-// @desc    Uploade/delete user photo, set as profile pic
+// @desc    Upload (profile) photo
 // @access  Public
 router.post('/uploadphoto', photo.upload)
+
+// @route   POST /profile/deletephoto
+// @desc    Delete user photo
+// @access  Public
+router.post('/deletephoto', photo.deletePhoto)
 
 module.exports = router;

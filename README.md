@@ -12,25 +12,13 @@ This is a team project, a part of the web branch at [Hive Helsinki](https://www.
 - [App Preview](#app-preview)
 - [Run locally](#run-locally)
 
-# server configuration
-PORT=5000
-
-# JWT secret
-JWT_SECRET=somesecret
-
-
-# mail configuration
-EMAIL=your_email
-EMAIL_PWD=password
-
-```
 You should configure your postgres database on your system in accordance with your database credentials.
 
 ## Authors
 Tatiana Kuumola and [Diana Mukaliyeva](https://github.com/DianaMukaliyeva)
 
 ## Task
-The aim of this project is to build a Tinder-like web app, where the users can create their profile, browse through a list of recommended profiles or conduct search by age, distance, fame rating, commong tags. Users can like, report and block other users and chat with users that liked them back. 
+The aim of this project is to build a Tinder-like web app, where the users can create their profile, browse through a list of recommended profiles or conduct search by age, distance, fame rating, commong tags. Users can like, report and block other users and chat with users that liked them back.
 
 Project constraints:
 * Clientside: HTML, CSS, Javascript
@@ -55,18 +43,18 @@ This is the first project in Hive Web branch when we were allowed to choose the 
 
 ## Functionality
 * User features:
-	* Advanced user registeration and login (Oauth) and password reset through email link
-	* User data management: modify user data (username, email, etc), change password, set email and push notification preferences)
-	* View own and other user profiles
-	* View user profile visit history, list of connected and liked profiles
+    * Advanced user registeration and login (Oauth) and password reset through email link
+    * User data management: modify user data (username, email, etc), change password, set email and push notification preferences)
+    * View own and other user profiles
+    * View user profile visit history, list of connected and liked profiles
 * Matching features:
-	* Multiple infinite scroll galleries with list of suggestions that match his/her profile (recommended, online, popular, nearby).
-	* Matching Alogrimth using scoring weights based on chinese and western horoscope compatibility, common tags, fame ratng, location, age and gender.
-	* Advanced range sliders to sort and filter users by horoscope believe, common tags, location, fame rating and age.
+    * Multiple infinite scroll galleries with list of suggestions that match his/her profile (recommended, online, popular, nearby).
+    * Matching Alogrimth using scoring weights based on chinese and western horoscope compatibility, common tags, fame ratng, location, age and gender.
+    * Advanced range sliders to sort and filter users by horoscope believe, common tags, location, fame rating and age.
 * Chat features:
-	* FB messange-like real-time chat for matched users.
+    * FB messange-like real-time chat for matched users.
 * Notifications features:
-	* Real-time notifications when user receives a like/unlike, user's profile was checked, user received a message. 
+    * Real-time notifications when user receives a like/unlike, user's profile was checked, user received a message.
 
 ## Planning
 ## Work breakdown
@@ -85,17 +73,37 @@ Snapshops
 ## Run locally
 * Create a file .env in backend/config folder.
 
-	```
-	# database configuration
-	DB_USER=postgres
-	DB_NAME=matcha-1
-	DB_PWD=123456
+    ```
+    # database configuration
+    DB_USER=postgres
+    DB_NAME=matcha-1
+    DB_PWD=123456
 
-	# server configuration
-	PORT=5000
+    # server configuration
+    PORT=5000
+
+    # JWT secret
+    JWT_SECRET=your_secret
+
+    # mail configuration
+    EMAIL=your_system_email
+    EMAIL_PWD=your_password
+
+    # google credentials
+    GOOGLE_CLIENT_ID=your_google_id
+    GOOGLE_CLIENT_SECRET=your_google_secret
+
+    # geoip
+    GEOIP_LITE_KEY=your_geoip_lite_key
+    IPSTACK=your_ipstack_key
+
 	```
 * Remember to configure Postgres database in accordance with your database credentials.
 
 * Run command `npm run init` in the root folder to install all dependencies in all folders.
+
+* Create a file .env in backend/config/ and replace with your credentials. Make sure you can send email from terminal. Google credentials setup you can find [here](https://developers.google.com/adwords/api/docs/guides/authentication). IPSTACK key you can get [here](https://ipstack.com/signup/free) after registration.
+
+* The Geoip-lite configuration key you can get [here](https://www.maxmind.com/en/geolite2/signup) after registration. After that run `cd backend/node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY`
 
 * Run command `npm run dev` to start a server.

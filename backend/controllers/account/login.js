@@ -2,13 +2,10 @@ require('dotenv').config({ path: 'config/.env' });
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const accountModel = require('../../models/account');
+const profileModel = require('../../models/profile');
 const getLocation = require('../../utils/location');
 
 module.exports = async (req, res) => {
-    if (req.user) {
-        return res.json({ 'msg': 'User is already logged in.' })
-    }
-
     let { username, password } = req.body;
 
     if (!username || !password) {
@@ -16,10 +13,10 @@ module.exports = async (req, res) => {
     }
 
     username = username.toLowerCase();
-    const user = await accountModel.findUserInfo('username', username, 'user_id', 'email', 'status', 'password');
+    const user = await accountModel.findUserInfo('username', username);
 
-    // check if account exists
-    if (!user) {
+    // check if account exists and password correct
+    if (!user || !(await bcrypt.compare(password, user.password))) {
         return res.status(404).json({ 'error': 'Invalid credentials' });
     }
 
@@ -28,19 +25,18 @@ module.exports = async (req, res) => {
         return res.json({ 'error': 'Your account is not activated yet. Please, check your email.' });
     }
 
-    // check if password correct
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-        return res.status(400).json({ 'error': 'Invalid credentials' });
-    }
-
     // get location
-    const location = getLocation();
+    const data = await getLocation(req, user);
+
+    // set user online
+    data.online = 1;
+
+    await accountModel.updateProfile(user.user_id, data);
 
     return res.json({
+        'status': user.status,
+        'username': username,
         'tkn': jwt.sign({
-            email: user.email,
-            username: username,
             userId: user.user_id,
             status: user.status
         }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })

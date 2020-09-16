@@ -1,4 +1,5 @@
 const accountModel = require('../../models/account');
+const profileModel = require('../../models/profile');
 const helper = require('../../models/accountHelper');
 const bcrypt = require('bcrypt');
 
@@ -21,15 +22,12 @@ module.exports = async (req, res) => {
     if (!result || result.token !== token || result.status === 0) {
         // if someone is trying to find valid token
         if (result.status != 0)
-            await accountModel.updateToken(user_id, null);
+            await profileModel.editProfile(user_id, 'token', null);
 
         return res.status(400).json({ 'error': 'Token is not valid, please, resent the link' });
     }
 
-    result = await accountModel.updatePassword(user, await bcrypt.hash(password, 10));
-
-    // reset token
-    await accountModel.updateToken(user_id, null);
+    result = await accountModel.updateProfile(user_id, { password: await bcrypt.hash(password, 10), token: null });
 
     return res.json(result);
 }

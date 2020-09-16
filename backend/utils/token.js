@@ -1,15 +1,22 @@
 require('dotenv').config({ path: 'config/.env' });
 const jwt = require('jsonwebtoken');
+const accountModel = require('../models/account');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
-        jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET, (err, decode) => {
-            req.user = err ? undefined : decode;
-            // do i need to check if this user exists?
-
+        await jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET, async (err, decode) => {
+            if (!err) {
+                let user = await accountModel.findUserInfo('user_id', decode.userId, 'online', 'status');
+                if (user && user.online != 0) {
+                    req.user = decode;
+                } else {
+                    req.user = undefined;
+                }
+            }
         });
     } else {
         req.user = undefined;
     }
+
     return next();
 }

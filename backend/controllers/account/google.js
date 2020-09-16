@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const queryString = require('query-string');
 const accountModel = require('../../models/account');
 const profileModel = require('../../models/profile');
+const helper = require('../../models/accountHelper');
 const getLocation = require('../../utils/location');
 
 // url parameters for login url
@@ -21,7 +22,7 @@ const stringifiedParams = queryString.stringify({
 });
 
 // endpoint for retrieving google login link
-const loginGoogle = (req, res) => {
+const getGoogleLink = (req, res) => {
     // login url, should be on the client side
     const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
 
@@ -46,94 +47,136 @@ const getAccessToken = async (code) => {
 
 // get user information about user
 const getUserInfo = async (code) => {
-    const token = await getAccessToken(code);
-    const { data } = await axios({
-        url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-        method: 'get',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    try {
+        const token = await getAccessToken(code);
+        const { data } = await axios({
+            url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+            method: 'get',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
-    return data;
+        return data;
+    } catch (e) {
+        return { 'error': 'Invalid parameters' };
+    }
 }
 
-// Need to change google redirect url to client url,
-// from there we will call this endpoint and send jwt back as if we are making login
-// need to check if it will work with google api in that way
-const google = async (req, res) => {
+// Need to change google redirect url to client url
+// if from here response register, need to render register for google
+const googleLogin = async (req, res) => {
+    // after frontend change code to req.body;
     const code = req.query.code;
-
-    // check if we have code
-    if (!code) {
-        res.status(400).json({ 'error': 'Invalid parameters' });
-    }
 
     // get information about user
     const userInfo = await getUserInfo(code);
 
-    // get location
-    const location = getLocation();
+    if (userInfo.error) {
+        return res.status(400).json(userInfo);
+    }
 
     // check if user already registered
-    let user = await accountModel.findUserInfo('email', userInfo.email, 'user_id', 'username', 'google_id', 'status');
+    let user = await accountModel.findUserInfo('email', userInfo.email, 'user_id', 'username', 'status', 'longitude', 'latitude');
 
-    if (user && user.google_id === userInfo.id) {
-        // if user has account we sent token to client
+    if (!user) {
         return res.json({
-            'tkn': jwt.sign({
+            'msg': 'register',
+            'google': jwt.sign({
                 email: userInfo.email,
-                username: username,
-                userId: user.user_id,
-                status: user.status
+                id: userInfo.id
             }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
         });
-    } else if (user) {
-        let result = await profileModel.editProfile(user.user_id, 'google_id', userInfo.id);
+    }
 
-        if (result.error) {
-            return res.send(result);
+    // get location
+    const location = await getLocation(req, user);
+
+    await accountModel.updateProfile(user.user_id, location);
+
+    // if user has account we sent token to client
+    return res.json({
+        'status': user.status,
+        'username': user.username,
+        'tkn': jwt.sign({
+            userId: user.user_id,
+            status: user.status
+        }, process.env.JWT_SECRET, { expiresIn: 10 * 60 })
+    });
+
+    // // generate some random username for user
+    // while (true) {
+    //     username = Math.random().toString(36).slice(2);
+    //     console.log(username);
+    //     let usernameExists = await accountModel.findUserInfo('username', username, 'user_id');
+    //     if (!usernameExists) {
+    //         break;
+    //     }
+    // }
+
+    // const data = {
+    //     email: userInfo.email,
+    //     password: await bcrypt.hash(userInfo.id, 10),
+    //     username: username,
+    //     firstname: userInfo.given_name || userInfo.email.split("@")[0],
+    //     lastname: userInfo.family_name || userInfo.email.split("@")[0]
+    // }
+}
+
+const registerGoogle = async (req, res) => {
+    const { google, username, lastname, firstname } = req.body;
+
+    const userInfo = jwt.verify(google, process.env.JWT_SECRET, (err, decode) => {
+        if (err) {
+            return res.status(400).json({ 'error': 'Invalid parameters' });
+        } else {
+            return decode;
         }
+    });
 
-        return res.json({
-            'tkn': jwt.sign({
-                email: userInfo.email,
-                username: username,
-                userId: user.user_id,
-                status: user.status
-            }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
-        });
-    }
-    const data = {
-        email: userInfo.email,
-        password: await bcrypt.hash(userInfo.id, 10),
-        username: userInfo.name || userInfo.given_name || userInfo.family_name || explode("@", userInfo.email)[0],
-        firstname: userInfo.given_name || null,
-        lastname: userInfo.family_name || null
-    }
+    let errors = [];
 
-    const newUser = await accountModel.register(data);
+    errors.push(await helper.validateEmail(userInfo.email));
+    errors.push(await helper.validateUsername(username));
+    errors.push(helper.validateName(firstname));
+    errors.push(helper.validateName(lastname));
 
-    if (newUser.error) {
-        return res.send(newUser);
+    // remove empty objects from errors
+    errors = errors.filter(error => { return Object.keys(error).length != 0 });
+
+    // check if we have errors
+    if (errors.length != 0) {
+        return res.status(400).json(errors);
     }
 
-    const result = await profileModel.editProfile(newUser.user_id, 'status', 1);
+    req.body.password = await bcrypt.hash(userInfo.id, 10);
+    req.body.email = userInfo.email;
+
+    const result = await accountModel.register(req.body);
 
     if (result.error) {
-        return res.send(result);
+        return res.status(400).json(result);
     }
 
+    // get location
+    const data = await getLocation(req, result);
+
+    // set status and online
+    data.online = 1;
+    data.status = 1;
+
+    await accountModel.updateProfile(result.user_id, data);
+
     return res.json({
+        'status': 1,
+        'username': result.username,
         'tkn': jwt.sign({
-            email: newUser.email,
-            username: newUser.username,
-            userId: newUser.user_id,
-            status: newUser.status
+            userId: result.user_id,
+            status: 1
         }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
     });
 }
 
 module.exports = {
-    loginGoogle, google
+    getGoogleLink, googleLogin, registerGoogle
 }

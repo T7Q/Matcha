@@ -6,7 +6,7 @@ const authRequired = require('../controllers/account/authRequired');
 // @route   GET /account
 // @desc    Return all users
 // @access  Public
-router.get('/', account.getAll);
+router.get('/', authRequired, account.getAll);
 
 // @route   POST /account/register
 // @desc    Create a new user
@@ -43,14 +43,24 @@ router.post('/validateData', account.validateData);
 // @access  Public
 // router.post('/facebook', account.facebook);
 
-// @route   GET /account/auth/google
+// @route   GET /account/auth/google/login
 // @desc    Login via google
 // @access  Public
-router.get('/auth/google/login', account.loginGoogle);
+router.get('/auth/google/login', account.getGoogleLink);
 
 // @route   GET /account/google/login
 // @desc    Login via google
 // @access  Public
-router.get('/auth/google', account.google);
+router.get('/auth/google', account.googleLogin);
+
+// @route   GET /account/google/register
+// @desc    Login via google
+// @access  Public
+router.post('/auth/google/register', account.registerGoogle);
+
+// @route   GET /account/logout
+// @desc    Logout active user
+// @access  Public
+router.get('/logout', account.logout);
 
 module.exports = router;

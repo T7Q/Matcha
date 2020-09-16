@@ -3,7 +3,8 @@ const profileHelper = require("../../models/profileHelper");
 
 module.exports = async (req, res) => {
     const { user_id, key, value } = req.body;
-    let error = {};
+	let error = {};
+	console.log(error);
     if (!key) {
         return res.status(400).json({ msg: "Invalid parameters" });
     }
@@ -18,11 +19,13 @@ module.exports = async (req, res) => {
             error = profileHelper.validateBio(value);
             break;
         case "birth_date":
-            error = profileHelper.validateBio(value);
+			error = profileHelper.validateBirthdate(value);
+            break;
+        case "country":
             break;
         case "tags":
             let result = {};
-			let error = false;
+			let tag_error = false;
 
 			let userTags = await profileModel.userHasTags(user_id);
 			if (userTags){
@@ -40,7 +43,7 @@ module.exports = async (req, res) => {
             for (const element of value) {
                 let result = await profileModel.tagExists(element);
                 if (!result) {
-                    error = true;
+                    tag_error = true;
                     return res.json({ 'error': "Tag does not exist" });
 				}
 				tagId = await profileModel.getTagId(element);

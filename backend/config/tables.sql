@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS "users"
  "chinese_horo"             varchar(45) NULL ,
  "profile_pic_path"         varchar(255) NULL ,
  "real_time_notification"   boolean NOT NULL DEFAULT TRUE,
+  "country"                 varchar(255) NULL ,
  "notification_id"          integer UNIQUE NULL REFERENCES "notifications" ON DELETE CASCADE
 );
 

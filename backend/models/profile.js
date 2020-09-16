@@ -1,14 +1,14 @@
 const db = require("./db");
 
 const registerProfile = async (req) => {
-    const { user_id, gender, sex_preference, bio, birth_date } = req.body;
+    const { user_id, gender, sex_preference, bio, birth_date, country} = req.body;
     try {
         await db.query(
             "\
             UPDATE users\
-            SET gender = $1, sex_preference = $2, bio = $3, birth_date = $4\
-            WHERE user_id = $5",
-            [gender, sex_preference, bio, birth_date, user_id]
+            SET gender = $1, sex_preference = $2, bio = $3, birth_date = $4, country = $5\
+            WHERE user_id = $6",
+            [gender, sex_preference, bio, birth_date, country, user_id]
         );
         return {};
     } catch (e) {

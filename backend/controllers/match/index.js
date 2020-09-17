@@ -1,4 +1,4 @@
-const recommend = require('./match');
+const recommend = require('./algorithm');
 
 module.exports = {
     recommend

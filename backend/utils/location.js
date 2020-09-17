@@ -16,17 +16,16 @@ module.exports = async (req, user) => {
     if (isValidLatitude(req.latitude) && isValidLongitude(req.longitude)) {
         return { 'latitude': parseFloat(req.body.latitude), 'longitude': parseFloat(req.body.longitude) };
     }
-
     let location = geoip.lookup(req.ip);
 
     if (!location || !location.ll) {
-        if (user.latitude && user.longitude) {
-            return { 'latitude': user.latitude, 'longitude': user.longitude };
-        } else {
-            location = await axios({ url: `http://api.ipstack.com/check?access_key=${ipstack}` });
-
+        // if (user.latitude && user.longitude) {
+        //     return { 'latitude': user.latitude, 'longitude': user.longitude };
+        // } else {
+            location = await axios({ url: `http://api.ipstack.com/check?access_key=${process.env.IPSTACK}` });
+            console.log(location.data);
             return { 'latitude': location.data.latitude, 'longitude': location.data.longitude };
-        }
+        // }
     }
 
     return { 'latitude': location.ll[0], 'longitude': location.ll[1] };

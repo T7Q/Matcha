@@ -112,3 +112,56 @@ CREATE TRIGGER age_horscope_update
     EXECUTE PROCEDURE public.age_horoscope_calc_fnc();
 
 
+-- Triggers: update sexual orientation
+
+CREATE FUNCTION public.sex_orientation_update_fnc()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+	UPDATE users
+	SET sex_orientation=(
+		CASE
+            WHEN gender = 'man' and sex_preference = 'man' THEN 'gay'
+			WHEN gender = 'man' and sex_preference = 'woman' THEN 'straight_man'
+			WHEN gender = 'man' and sex_preference = 'both' THEN 'bi'
+			WHEN gender = 'woman' and sex_preference = 'man' THEN 'straight_woman'
+			WHEN gender = 'woman' and sex_preference = 'woman' THEN 'lesbian'
+			WHEN gender = 'woman' and sex_preference = 'both' THEN 'bi'
+        END
+	)
+	WHERE user_id = NEW.user_id;
+RETURN NEW;
+END;
+$BODY$;
+
+CREATE CONSTRAINT TRIGGER sex_orientation_update
+    AFTER INSERT OR UPDATE OF gender, sex_preference
+    ON public.users
+    DEFERRABLE INITIALLY DEFERRED
+    FOR EACH ROW
+    EXECUTE PROCEDURE public.sex_orientation_update_fnc();
+
+
+-- Triggers: update geolocation cell
+
+CREATE FUNCTION public."geolocation_fnc()"()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+	UPDATE users
+	SET geolocation=ST_point(users.latitude, users.longitude);	
+RETURN NEW;
+END;
+$BODY$;
+
+CREATE TRIGGER geolocation_update
+    AFTER INSERT OR UPDATE OF latitude, longitude
+    ON public.users
+    FOR EACH ROW
+    EXECUTE PROCEDURE public."geolocation_fnc()"();

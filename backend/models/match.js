@@ -1,11 +1,18 @@
 const db = require("./db");
 
-const getMatch = async (user_id) => {
-    let score_tag = 1;
-    let score_cn = 1;
-    let score_west = 1;
-    let user_cn = 'Ox';
-    let user_west = 'Leo';
+const getMatch = async (userData, score, data, geolocation) => {
+    let user_id = userData.user_id;
+    let user_cn = userData.chinese_horo;
+    let user_west = userData.western_horo;
+    let condition = data.condition;
+
+    console.log("MATCH user id  " + user_id);
+
+    // let temp = 'match asc'
+    // let order = 'ORDER BY ' + temp + ', fame asc';
+
+    console.log(user_id, score.tag, score.cn, score.west, user_cn, user_west);
+
 
     const res = await db.query(
         `
@@ -13,9 +20,23 @@ const getMatch = async (user_id) => {
         users.user_id,
         users.first_name,
         (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
-        users.fame_rating,
+        users.fame_rating as fame,
         users.profile_pic_path,
-        ST_Distance(users.geolocation, 'point(61.46 24.04)') as distance,
+        ST_Distance(users.geolocation, $7) as distance,
+        (
+            select count(*)::float from
+            (
+                select tag_id from user_tags
+                where user_tags.user_id = users.user_id
+                intersect 
+                select tag_id from user_tags
+                where user_tags.user_id = $1
+            ) as common_tag
+        ),
+        (
+            select count(id)::float as temp_total from user_tags
+            where user_tags.user_id = $1
+        ) ,
         geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
         (
             (
@@ -32,9 +53,9 @@ const getMatch = async (user_id) => {
             (
                 select count(id)::float as total_tags from user_tags
                 where user_tags.user_id = $1
-            ) * 100 * $2
+            ) 
         
-        ) as common_tags_score,
+        ) * $2 * 100 as common_tags_score,
         (
             select compatibility_value::float * 10 as Cn From public.chinese_horo_compatibility 
              where (sign_1 = users.chinese_horo and sign_2 = $5) or
@@ -48,11 +69,11 @@ const getMatch = async (user_id) => {
         (
             select count(*)::float as common from
             (
-            select tag_id from user_tags
-            where user_tags.user_id = users.user_id
-            intersect 
-            select tag_id from user_tags
-            where user_tags.user_id = $1
+                select tag_id from user_tags
+                where user_tags.user_id = users.user_id
+                intersect 
+                select tag_id from user_tags
+                where user_tags.user_id = $1
             ) as common_tag
         ),  
         (
@@ -60,6 +81,7 @@ const getMatch = async (user_id) => {
             where user_tags.user_id = $1
         ),
         (
+            
             (
                 select count(*)::float from
                 (
@@ -69,12 +91,12 @@ const getMatch = async (user_id) => {
                     select tag_id from user_tags
                     where user_tags.user_id = $1
                 ) as common_tag
-            )
+            ) 
             /   
             (
                 select count(id)::float as total_tags from user_tags
                 where user_tags.user_id = $1
-            )  * $2 * 100 
+            ) * $2 * 100
             +
             (
                 select compatibility_value::float * 10 as Cn From public.chinese_horo_compatibility 
@@ -87,16 +109,17 @@ const getMatch = async (user_id) => {
                  where (sign_1 = users.western_horo and sign_2 = $6) or
                 (sign_1 = $6 and sign_2 = users.western_horo) 
             ) * $4
+          
 
         ) as match
             
         FROM public.users
         
         WHERE
-        users.user_id <> $1
-        ${and}
+            users.user_id <> $1
+            ${condition}
         `,
-        [user_id, score_tag, score_cn, score_west, user_cn, user_west]
+        [user_id, score.tag, score.cn, score.west, user_cn, user_west, geolocation]
     );
     return res.rows;
 };
@@ -104,117 +127,3 @@ const getMatch = async (user_id) => {
 module.exports = {
     getMatch,
 };
-
-
-// SELECT
-// users.user_id,
-// users.first_name,
-// (EXTRACT(YEAR FROM AGE(now(), users.birth_date))),
-// users.fame_rating,
-// users.profile_pic_path,
-// users.sex_preference, users.chinese_horo, users.western_horo, users.country,
-// (
-// 	(
-// 		select count(*)::float from
-// 		(
-// 		select tag_id from user_tags
-// 		where user_tags.user_id = users.user_id
-// 		intersect 
-// 		select tag_id from user_tags
-// 		where user_tags.user_id = 1
-// 		) as common_tag
-// 	)
-// 	/   
-// 	(
-// 		select count(id)::float as total_tags from user_tags
-// 		where user_tags.user_id = 1
-// 	) * 0.5 * 100
-
-// ),
-// (
-// 	select compatibility_value as Cn From public.chinese_horo_compatibility 
-// 	 where (sign_1 = users.chinese_horo and sign_2 = 'Ox') or
-// 	(sign_1 = 'Ox' and sign_2 = users.chinese_horo) 
-// ),
-// (
-// 	select compatibility_value as Wt From public.western_horo_compatibility 
-// 	 where (sign_1 = users.western_horo and sign_2 = 'Leo') or
-// 	(sign_1 = 'Leo' and sign_2 = users.western_horo) 
-// ), 
-// (
-// 	select count(*)::float as common from
-// 	(
-// 	select tag_id from user_tags
-// 	where user_tags.user_id = users.user_id
-// 	intersect 
-// 	select tag_id from user_tags
-// 	where user_tags.user_id = 1
-// 	) as common_tag
-// ),  
-// (
-// 	select count(id) as total_tags from user_tags
-// 	where user_tags.user_id = 1
-// ),
-// (
-// 	(
-// 		select count(*)::float from
-// 		(
-// 		select tag_id from user_tags
-// 		where user_tags.user_id = users.user_id
-// 		intersect 
-// 		select tag_id from user_tags
-// 		where user_tags.user_id = 1
-// 		) as common_tag
-// 	)
-// 	/   
-// 	(
-// 		select count(id)::float as total_tags from user_tags
-// 		where user_tags.user_id = 1
-// 	)  * 0.5 * 100
-// 	+
-// 	(
-// 		select compatibility_value * 0.25 as Cn From public.chinese_horo_compatibility 
-// 		 where (sign_1 = users.chinese_horo and sign_2 = 'Ox') or
-// 		(sign_1 = 'Ox' and sign_2 = users.chinese_horo) 
-// 	) * 10
-// 	+
-// 	(
-// 	select compatibility_value as Wt From public.western_horo_compatibility 
-// 	 where (sign_1 = users.western_horo and sign_2 = 'Leo') or
-// 	(sign_1 = 'Leo' and sign_2 = users.western_horo) 
-// 	) * 0.25 * 10
-// ) as match, 
-// geolocation,
-// ST_Distance(users.geolocation, 'point(61.46 24.04)') as distance
-	
-// FROM public.users
-
-// WHERE
-// users.user_id <> 1 and
-
-// -- LIKES
-// -- (select count(likes.like_id) as from_likes from likes
-// -- where
-// -- likes.from_user_id = users.user_id and
-// -- likes.to_user_id = 1) = 1 and
-
-// -- CONNECTED
-// -- (select count(likes.like_id) as to_likes from likes
-// -- where
-// -- likes.from_user_id = 1 and
-// -- likes.to_user_id = users.user_id) = 1 and
-
-// -- TAGS
-// -- (
-// -- select count(id) from user_tags
-// -- where
-// -- user_tags.user_id = users.user_id and
-// -- user_tags.tag_id = 6
-// -- ) = 1 and
-
-// ((EXTRACT(YEAR FROM AGE(now(), users.birth_date))) > 18 and 
-//  (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) < 100) and 
-//  (users.sex_preference = 'woman' or users.sex_preference = 'both') and 
-//  (users.country IN ('Finland', 'Russia', 'Spain'))
-
-// order by match desc, common desc, users.fame_rating desc, distance asc

@@ -1,12 +1,11 @@
 const db = require("./db");
 
 const getMatch = async (user_id) => {
-    let score_tag = 0.50;
-    let score_cn = 0.25;
-    let score_west = 0.25;
+    let score_tag = 1;
+    let score_cn = 1;
+    let score_west = 1;
     let user_cn = 'Ox';
     let user_west = 'Leo';
-    let division = "\\";
 
     const res = await db.query(
         `
@@ -38,13 +37,13 @@ const getMatch = async (user_id) => {
         ) as common_tags_score,
         (
             select compatibility_value::float * 10 as Cn From public.chinese_horo_compatibility 
-             where (sign_1 = users.chinese_horo and sign_2 = $3) or
-           (sign_1 = $3 and sign_2 = users.chinese_horo) 
+             where (sign_1 = users.chinese_horo and sign_2 = $5) or
+           (sign_1 = $5 and sign_2 = users.chinese_horo) 
         ) ,
         (
             select compatibility_value::float * 10 as Wt From public.western_horo_compatibility 
-             where (sign_1 = users.western_horo and sign_2 = $4) or
-            (sign_1 = $4 and sign_2 = users.western_horo) 
+             where (sign_1 = users.western_horo and sign_2 = $6) or
+            (sign_1 = $6 and sign_2 = users.western_horo) 
         ) , 
         (
             select count(*)::float as common from
@@ -79,15 +78,15 @@ const getMatch = async (user_id) => {
             +
             (
                 select compatibility_value::float * 10 as Cn From public.chinese_horo_compatibility 
-                where (sign_1 = users.chinese_horo and sign_2 = $3) or
-                (sign_1 = $3 and sign_2 = users.chinese_horo) 
-            ) * $5
+                where (sign_1 = users.chinese_horo and sign_2 = $5) or
+                (sign_1 = $5 and sign_2 = users.chinese_horo) 
+            ) * $3
             +
             (
                 select compatibility_value::float * 10 as Wt From public.western_horo_compatibility 
-                 where (sign_1 = users.western_horo and sign_2 = $4) or
-                (sign_1 = $4 and sign_2 = users.western_horo) 
-            ) * $6
+                 where (sign_1 = users.western_horo and sign_2 = $6) or
+                (sign_1 = $6 and sign_2 = users.western_horo) 
+            ) * $4
 
         ) as match
             
@@ -95,8 +94,9 @@ const getMatch = async (user_id) => {
         
         WHERE
         users.user_id <> $1
+        ${and}
         `,
-        [user_id, score_tag, user_cn, user_west, score_cn, score_west]
+        [user_id, score_tag, score_cn, score_west, user_cn, user_west]
     );
     return res.rows;
 };

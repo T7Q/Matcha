@@ -12,32 +12,34 @@ module.exports = async (req, res) => {
     }
 
     username = username.toLowerCase();
-    const user = await accountModel.findUserInfo('username', username);
+    try {
+        const user = await accountModel.findUserInfo('username', username);
 
-    // check if account exists and password correct
-    if (!user || Object.keys(user).length == 0 || !(await bcrypt.compare(password, user.password))) {
-        return res.status(401).json({ 'error': 'Invalid credentials' });
+        // check if account exists and password correct
+        if (!user || Object.keys(user).length == 0 || !(await bcrypt.compare(password, user.password))) {
+            return res.status(401).json({ 'error': 'Invalid credentials' });
+        }
+
+        // check if account activated
+        if (user.status === 0) {
+            return res.json({ 'error': 'Your account is not activated yet. Please, check your email.' });
+        }
+
+        // get location
+        const data = await getLocation(req, user);
+        // set user online
+        data.online = 1;
+        await accountModel.updateProfile(user.user_id, data);
+        return res.json({
+            'status': user.status,
+            'username': username,
+            'tkn': jwt.sign({
+                userId: user.user_id,
+                status: user.status
+            }, jwtSecret, { expiresIn: 60 * 60 })
+        });
+    } catch (error) {
+        console.log(e);
+        return res.status(400).json();
     }
-
-    // check if account activated
-    if (user.status === 0) {
-        return res.json({ 'error': 'Your account is not activated yet. Please, check your email.' });
-    }
-
-    // get location
-    const data = await getLocation(req, user);
-
-    // set user online
-    data.online = 1;
-
-    await accountModel.updateProfile(user.user_id, data);
-
-    return res.json({
-        'status': user.status,
-        'username': username,
-        'tkn': jwt.sign({
-            userId: user.user_id,
-            status: user.status
-        }, jwtSecret, { expiresIn: 60 * 60 })
-    });
 }

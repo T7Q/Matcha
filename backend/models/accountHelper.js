@@ -13,7 +13,6 @@ const validateEmail = async (email) => {
             errors['error'] = 'Invalid email';
         }
     }
-
     return errors;
 }
 
@@ -30,7 +29,6 @@ const validateUsername = async (username) => {
             errors['error'] = 'Username must include letters and numbers only';
         }
     }
-
     return errors;
 }
 
@@ -45,7 +43,6 @@ const validateName = (name) => {
             errors['error'] = 'Name must include letters and numbers only';
         }
     }
-
     return errors;
 }
 
@@ -69,7 +66,6 @@ const validatePassword = (password, confirmPassword) => {
     } else if (password !== confirmPassword) {
         errors['error_confirm_pwd'] = 'Passwords do not match';
     }
-
     return errors;
 }
 

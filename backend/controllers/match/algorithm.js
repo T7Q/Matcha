@@ -23,10 +23,6 @@ const accountModel = require("../../models/account");
 module.exports = async (req, res) => {
     console.log("\u001b[32m ENTERED id" + req.body.user_id);
 
-    let userHasTags = await profileModel.userHasTags(req.body.user_id);
-    // if (!userHasTags) {
-    //     return res.json({ msg: "user does not have tags" });
-    // }
     let userData = await accountModel.findUserInfo(
         "user_id",
         req.body.user_id,
@@ -39,11 +35,15 @@ module.exports = async (req, res) => {
         "western_horo"
     );
     userData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
-
-
-    // console.log(userData['geolocation']);
-    let condition = {};
-    condition = matchHelper.buildCondition(req, userData, userHasTags);
+    let values = [userData.user_id, userData.geolocation];
+    
+    let filter = matchHelper.buildFilter(req, userData, values);
+    let condition = {
+        weight: matchHelper.setWeights(req, userData.userHasTags),
+        filter: filter,
+        order: `match desc`,
+        values: values
+    };
 
     try {
         console.log("before match");

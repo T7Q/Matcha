@@ -43,9 +43,42 @@ const getCompatibilityValue = (signUser1, signUser2, table) => {
 
 // Query to get matching recommendations from database
 const getMatch = async (user, condition) => {        
+    console.log(" \u001b[32m. MATCH user id  " + user.user_id);
+    // console.log(condition);
+
     const tagsCompValue = (user.userHasTags ? `${numberOfCommonTags} / ${totalUserTags} * 100` : 0);
     const cnHoroscopeCompValue = getCompatibilityValue("default", user.chinese_horo, "chinese");
     const westHoroscopeCompValue = getCompatibilityValue("default", user.western_horo, "western");
+
+    let values = [];
+    for (const element of condition.values) {
+        values.push(element);
+    }
+
+    let temp =  `
+    SELECT
+        users.user_id,
+        users.first_name,
+        (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
+        users.fame_rating as fame,
+        users.profile_pic_path,
+        (ST_Distance(users.geolocation, $2)::integer / 1000) as distance,
+        ${numberOfCommonTags},
+        geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
+        (
+            ${tagsCompValue} * ${condition.weight.tag} +
+            ${cnHoroscopeCompValue} * ${condition.weight.cn} +
+            ${westHoroscopeCompValue} * ${condition.weight.west}
+        ) as match
+    FROM public.users
+    WHERE
+        users.user_id <> $1
+        and users.status = 2
+        ${condition.filter}
+    ORDER BY
+        ${condition.order}
+    `;
+    // console.log(temp)
 
     const res = await db.query(
         `
@@ -55,7 +88,7 @@ const getMatch = async (user, condition) => {
             (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
             users.fame_rating as fame,
             users.profile_pic_path,
-            ST_Distance(users.geolocation, $2) as distance,
+            (ST_Distance(users.geolocation, $2)::integer / 1000) as distance,
             ${numberOfCommonTags},
             geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
             (
@@ -66,11 +99,13 @@ const getMatch = async (user, condition) => {
         FROM public.users
         WHERE
             users.user_id <> $1
+            and users.status = 2
             ${condition.filter}
         ORDER BY
             ${condition.order}
         `,
-        [user.user_id, user.geolocation]
+        [...values]
+        // [user.user_id, user.geolocation]
     );
     return res.rows;
 };
@@ -78,3 +113,4 @@ const getMatch = async (user, condition) => {
 module.exports = {
     getMatch
 };
+

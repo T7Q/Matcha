@@ -1,4 +1,12 @@
-const getSexPreference = (userData, req) => {
+const setWeights = (req, userHasTags) => {
+    let weight = { tag: 0.1, cn: 0.45, west: 0.45 };
+    weight.cn = (req.body.believe_cn === 0 ? 0 : weight.cn);
+    weight.west = (req.body.believe_west === 0 ? 0 : weight.west);
+    weight.tag = (!userHasTags ? 0 : weight.tag);
+    return weight;
+};
+
+const setSexPreference = (userData, req) => {
     let orientation;
     if (req.body.sex_orientation) {
         orientation = "'" + req.body.sex_orientation + "'";
@@ -15,67 +23,74 @@ const getSexPreference = (userData, req) => {
     return preference;
 };
 
-const buildSort = (req) => {
-    return { msg: "success" };
-};
+const setAgePreference = (req) => {
+    let min_age = (req.body.min_age ? req.body.min_age : 18 );
+    let max_age = (req.body.max_age ? req.body.max_age : 120 );
+    let age = " and ((EXTRACT(YEAR FROM AGE(now(), users.birth_date))) >= " + min_age + 
+                 " and (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) <= " + max_age + ")"; 
+    return age;
+}
 
-const getWeights = (req, userHasTags) => {
-    let score = { tag: 0.1, cn: 0.45, west: 0.45 };
-    if (req.body.believe_cn === 0) {
-        score.cn = 0;
+const setDistance = (req) => {
+    min_distance = (req.body.min_distance ? req.body.min_distance : 0 );
+    max_distance = (req.body.max_distance ? req.body.max_distance : 100000);
+    distance = 
+                "and ((ST_Distance(users.geolocation, $2)::integer / 1000) >= " + min_distance +
+                " and (ST_Distance(users.geolocation, $2)::integer / 1000) <=  " + max_distance +")";
+    return distance;
+}
+
+const setTags = (req, index, values) => {
+    let i = index.i
+    tags = "";
+    for (const element of req.body.tags) {
+        tags += 
+                " AND (SELECT count(id) FROM user_tags\
+                    LEFT JOIN tags ON user_tags.tag_id = tags.tag_id\
+                    WHERE user_tags.user_id = users.user_id AND\
+                        tags.tag_name = $" + i + " ) = 1";
+        values.push(element);
+        i++;
+    };
+    index.i = i;
+    return tags;
+}
+
+const setCountry = (req, index, values) => {
+    let i = index.i;
+    filter = "";
+    let country = req.body.country;
+    for (j = 0; j < country.length - 1; j++) {
+        filter += 
+                " AND (users.country IN ($" + i + ", ";
+        i++;
+    };
+    filter += "$" + i + "))";
+    index.i = i++;
+
+    for (const element of country) {
+        values.push(element);
     }
-    if (req.body.believe_west === 0) {
-        score.west = 0;
-    }
-    if (!userHasTags) {
-        score.tag = 0;
-    }
-    return score;
+    index.i = i;
+    return filter;
+}
+
+const buildFilter= (req, userData, values) => {
+    let index = {i: values.length + 1};
+
+    let orientation_match = setSexPreference(userData, req);
+    let age =  setAgePreference(req);
+    let distance = setDistance(req);
+    let tags = (req.body.tags? setTags(req, index, values) : "");
+    let country = (req.body.country? setCountry(req, index, values) : "");
+
+    filter = orientation_match + age + distance + tags + country;
+    return filter;
 };
 
 // console.log("\u001b[32m" + 
 
-const getAgePreference = (req) => {
-    let min_age = (req.body.min_age ? req.body.min_age - 1 : 17 );
-    let max_age = (req.body.max_age ? req.body.max_age + 1 : 121 );
-    let age = " and (age > " + min_age + " and age < " + max_age + ") ";
-    return age;
-}
-
-const buildCondition = (req, userData, userHasTags) => {
-    const {
-        user_id,
-        type,
-        min_age,
-        max_age,
-        min_distance,
-        max_distance,
-        tags,
-        country,
-        sort,
-        believe_cn,
-        believe_west,
-    } = req.body;
-
-    let weight = getWeights(req, userHasTags);
-
-    let orientation_match = getSexPreference(userData, req);
-    let age =  getAgePreference(req);
-    // let age = " and (age > " + min_age + " and age < " + max_age + ") ";
-    // let distance = 'and (distance > '+ min_distance + ' and distance < ' + max_distance + ')';
-
-    let filter = orientation_match + age;
-    let order = `match desc`;
-    let data = {
-        weight: weight,
-        filter: filter,
-        order: order
-    };
-
-
-    return data;
-};
-
 module.exports = {
-    buildCondition,
+    buildFilter,
+    setWeights
 };

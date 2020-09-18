@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
             return res.status(400).json({ 'error': 'Token is not valid' });
         }
 
-        await accountModel.updateProfile(user_id, { status: 1, token: null });
+        await accountModel.updateAccount(user_id, { status: 1, token: null });
         return res.json({'msg': 'Your account has successfully activated'});
     } catch (e) {
         return res.status(400).json();

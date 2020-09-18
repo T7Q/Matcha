@@ -30,7 +30,7 @@ const updateTime = async (userId, time) => {
 }
 
 // data = {'status': 5, 'online': 7}
-const updateProfile = async (user_id, data) => {
+const updateAccount = async (user_id, data) => {
     const keys = Object.keys(data);
     const info = keys.map((key, i) => { return `${key} = $${i + 1}` }).join(', ')
     const values = keys.map((key) => { return data[key]; });
@@ -48,5 +48,5 @@ module.exports = {
     register,
     updateTime,
     findUserInfo,
-    updateProfile
+    updateAccount
 }

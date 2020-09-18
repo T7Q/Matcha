@@ -9,6 +9,7 @@ module.exports = async (req, res, next) => {
                 try {
                     let user = await accountModel.findUserInfo('user_id', decode.userId, 'online', 'status');
                     req.user = user && user.online !== 0 ? decode : undefined;
+                    return next();
                 } catch {
                     return res.status(400).json();
                 }
@@ -16,6 +17,6 @@ module.exports = async (req, res, next) => {
         });
     } else {
         req.user = undefined;
+        return next();
     }
-    return next();
 }

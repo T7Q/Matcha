@@ -78,7 +78,7 @@ const googleLogin = async (req, res) => {
 
         const location = await getLocation(req, user);
 
-        await accountModel.updateProfile(user.user_id, location);
+        await accountModel.updateAccount(user.user_id, location);
         return res.json({
             'status': user.status,
             'username': user.username,
@@ -124,7 +124,7 @@ const registerGoogle = async (req, res) => {
         data.online = 1;
         data.status = 1;
 
-        await accountModel.updateProfile(result.user_id, data);
+        await accountModel.updateAccount(result.user_id, data);
         return res.json({
             'status': 1,
             'username': result.username,

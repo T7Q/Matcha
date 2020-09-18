@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
         const data = await getLocation(req, user);
         // set user online
         data.online = 1;
-        await accountModel.updateProfile(user.user_id, data);
+        await accountModel.updateAccount(user.user_id, data);
         return res.json({
             'status': user.status,
             'username': username,

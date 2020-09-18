@@ -21,12 +21,12 @@ module.exports = async (req, res) => {
         if (!result || result.token !== token || result.status === 0) {
             // if someone is trying to find valid token
             if (result.status != 0) {
-                await accountModel.updateProfile(user_id, { token: null });
+                await accountModel.updateAccount(user_id, { token: null });
             }
             return res.status(400).json({ 'error': 'Token is not valid, please, resent the link' });
         }
 
-        await accountModel.updateProfile(user_id, { password: await bcrypt.hash(password, 10), token: null });
+        await accountModel.updateAccount(user_id, { password: await bcrypt.hash(password, 10), token: null });
         return res.json({ 'msg': 'Your password was updated' });
     } catch (error) {
         console.log(e);

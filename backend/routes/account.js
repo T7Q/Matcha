@@ -6,7 +6,7 @@ const authRequired = require('../controllers/account/authRequired');
 // @route   GET /account
 // @desc    Return all users
 // @access  Public
-router.get('/', authRequired, account.getAll);
+router.get('/', account.getAll);
 
 // @route   POST /account/register
 // @desc    Create a new user

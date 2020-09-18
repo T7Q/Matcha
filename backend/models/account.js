@@ -1,6 +1,4 @@
-require('dotenv').config({ path: 'config/.env' });
 const db = require('./db');
-const jwt = require('jsonwebtoken');
 
 const findUserInfo = async (key, value, ...args) => {
     try {

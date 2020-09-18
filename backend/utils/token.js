@@ -1,22 +1,21 @@
-require('dotenv').config({ path: 'config/.env' });
 const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../config');
 const accountModel = require('../models/account');
 
 module.exports = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
-        await jwt.verify(req.headers.authorization.split(' ')[1], process.env.JWT_SECRET, async (err, decode) => {
+        jwt.verify(req.headers.authorization.split(' ')[1], jwtSecret, async (err, decode) => {
             if (!err) {
-                let user = await accountModel.findUserInfo('user_id', decode.userId, 'online', 'status');
-                if (user && user.online != 0) {
-                    req.user = decode;
-                } else {
-                    req.user = undefined;
+                try {
+                    let user = await accountModel.findUserInfo('user_id', decode.userId, 'online', 'status');
+                    req.user = user && user.online !== 0 ? decode : undefined;
+                } catch {
+                    return res.status(400).json();
                 }
             }
         });
     } else {
         req.user = undefined;
     }
-
     return next();
 }

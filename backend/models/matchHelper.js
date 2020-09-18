@@ -1,3 +1,5 @@
+const { readSync } = require("fs");
+
 const setWeights = (req, userHasTags) => {
     let weight = { tag: 0.1, cn: 0.45, west: 0.45 };
     weight.cn = (req.body.believe_cn === 0 ? 0 : weight.cn);
@@ -85,12 +87,24 @@ const buildFilter= (req, userData, values) => {
     let country = (req.body.country? setCountry(req, index, values) : "");
 
     filter = orientation_match + age + distance + tags + country;
+    let temp = buildSort(req);
     return filter;
 };
 
 // console.log("\u001b[32m" + 
 
+const buildSort = (req) => {
+    if(!req.body.order) {
+        return "match desc";
+    }
+    temp = req.body.order
+    let order = temp.join(', ');
+    order = " " + order.replace(/_/g, " ");
+    return order;
+}
+
 module.exports = {
     buildFilter,
-    setWeights
+    setWeights,
+    buildSort
 };

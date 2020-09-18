@@ -20,7 +20,6 @@ const required = async (req, res, next) => {
 }
 
 const forbidden = async (req, res, next) => {
-    console.log(req.user);
     if (req.user) {
         return res.status(401).json({ 'error': 'You should be logged out!' });
     }

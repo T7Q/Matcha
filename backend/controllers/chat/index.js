@@ -1,9 +1,9 @@
 const history = require('./history');
-const all = require('./all');
+const conversations = require('./conversations');
 const addMessage = require('./addMessage');
 
 module.exports = {
     history,
     addMessage,
-    all
+    conversations
 }

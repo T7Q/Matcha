@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
         const result = await accountModel.register(req.body);
         return res.json(mail.activateAccountEmail(email, result.user_id, username, req.body.token));
     } catch (error) {
-        console.log(e);
+        console.log(error);
         return res.status(400).json();
     }
 }

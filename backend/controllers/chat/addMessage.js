@@ -1,9 +1,31 @@
-module.exports = async (req, res) => {
-    const { chatId, userId } = req.body;
+const chat = require('../../models/chat');
+const chatModel = require('../../models/chat');
 
-    let io = req.io;
-    io.emit('chat');
-    console.log('here');
-    // res.send('Image route');
-    res.send();
+module.exports = async (req, res) => {
+    let { chatId, senderId, receiverId, content } = req.body;
+
+    if (!senderId || !receiverId || !content) {
+        return res.status(400).json({ 'error': 'not full information' });
+    }
+
+    if (senderId === receiverId || (req.user && req.user.userId != senderId)) {
+        return res.status(403).json({ 'error': 'not that user' });
+    }
+
+    try {
+        if (!chatId || !(await chatModel.isChatExists(chatId))) {
+            const searchChat = await chatModel.searchChat(senderId, receiverId);
+            if (!searchChat) {
+                chatId = await chatModel.createChat(senderId, receiverId);
+            } else {
+                chatId = searchChat.chat_id;
+            }
+        }
+
+        await chatModel.addMessage(chatId, senderId, content);
+        return res.json({ 'msg': 'message sent' });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).json();
+    }
 }

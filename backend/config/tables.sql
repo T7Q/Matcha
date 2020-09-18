@@ -95,9 +95,10 @@ CREATE TABLE IF NOT EXISTS "block_users"
 CREATE TABLE IF NOT EXISTS "chats"
 (
  "chat_id"    bigserial NOT NULL PRIMARY KEY,
- "user_id"    bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
- "started_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "closed_at"  timestamp NULL
+ "user_1"     bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "user_2"     bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "started_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ "active"     boolean NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE IF NOT EXISTS "chinese_horo_compatibility"
@@ -138,11 +139,11 @@ CREATE INDEX IF NOT EXISTS "fkIdx_71" ON "likes"
 
 CREATE TABLE IF NOT EXISTS "messages"
 (
- "message_id" bigserial NOT NULL PRIMARY KEY,
- "message"    text NULL ,
- "time_sent"  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "chat_id"    bigint NOT NULL ,
- "sender_id"  bigint NOT NULL ,
+ "message_id"   bigserial NOT NULL PRIMARY KEY,
+ "message"      text NULL ,
+ "time_sent"    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ "chat_id"      bigint NOT NULL ,
+ "sender_id"    bigint NOT NULL ,
  CONSTRAINT "FK_72" FOREIGN KEY ( "sender_id" ) REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
  CONSTRAINT "FK_73" FOREIGN KEY ( "chat_id" ) REFERENCES "chats" ("chat_id") ON DELETE CASCADE
 );

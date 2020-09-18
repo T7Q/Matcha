@@ -49,7 +49,6 @@ const getMatch = async (user, condition) => {
     const tagsCompValue = (user.userHasTags ? `${numberOfCommonTags} / ${totalUserTags} * 100` : 0);
     const cnHoroscopeCompValue = getCompatibilityValue("default", user.chinese_horo, "chinese");
     const westHoroscopeCompValue = getCompatibilityValue("default", user.western_horo, "western");
-
     let values = [];
     for (const element of condition.values) {
         values.push(element);
@@ -79,7 +78,8 @@ const getMatch = async (user, condition) => {
         ${condition.order}
     `;
     // console.log(temp)
-
+    let join = "";
+    let limit = "";
     const res = await db.query(
         `
         SELECT
@@ -97,12 +97,14 @@ const getMatch = async (user, condition) => {
                 ${westHoroscopeCompValue} * ${condition.weight.west}
             ) as match
         FROM public.users
+        ${join}
         WHERE
             users.user_id <> $1
             and users.status = 2
             ${condition.filter}
         ORDER BY
             ${condition.order}
+        ${limit}
         `,
         [...values]
         // [user.user_id, user.geolocation]

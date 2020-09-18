@@ -103,8 +103,64 @@ const buildSort = (req) => {
     return order;
 }
 
+const setBase = (req) => {
+    if (!req.body.type) {
+        return res.status(400).json({ msg: "Invalid parameters" });
+    }
+    result = {
+        limit: "LIMIT 100",
+        join: "",
+        filter: "",
+        order: "likes.date_created desc"
+    }
+    switch (req.body.type) {
+        case "liked_me":
+            join = " LEFT JOIN likes ON likes.from_user_id = users.user_id ";
+            filter = " AND likes.from_user_id = users.user_id\
+                        AND likes.to_user_id = $1 ";
+            order = " likes.date_created desc";
+            break;
+        // case "connected":
+            
+        //     break;
+        case "visited_me":
+            join = " LEFT JOIN views ON views.from_user_id = users.user_id ";
+            filter = " AND views.from_user_id = users.user_id\
+                        AND views.to_user_id = $1";
+            order = "views.date_created desc";
+            break;
+        // case "visited_by_me":
+            join = " LEFT JOIN views ON views.to_user_id = users.user_id ";
+            filter = " AND views.from_user_id = $1\
+                        AND views.to_user_id = users.user_id";
+            order = " views.date_created desc";
+        //     break;
+        // case "nearby":
+        //     // req.body.min_distance = 0;
+        //     // req.body.max_distance = 10000;
+        //     break;
+        // case "pupular":
+            
+        //     break;
+        // case "online":
+            
+        //     break;
+        // case "new":
+
+        //     break;
+        // case "random":
+            
+        
+        //     break;
+        // default:
+    }
+    
+    return result;
+}
+
 module.exports = {
     buildFilter,
     setWeights,
-    buildSort
+    buildSort,
+    setBase
 };

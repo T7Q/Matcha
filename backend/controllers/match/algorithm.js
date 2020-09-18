@@ -37,6 +37,8 @@ module.exports = async (req, res) => {
     userData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
     let values = [userData.user_id, userData.geolocation];
     
+    // let base = matchHelper.setBase(req, userData);
+
     let condition = {
         weight: matchHelper.setWeights(req, userData.userHasTags),
         filter: matchHelper.buildFilter(req, userData, values),

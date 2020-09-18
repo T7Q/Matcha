@@ -1,19 +1,18 @@
 const accountModel = require('../../models/account');
-const profileModel = require('../../models/profile');
 
 module.exports = async (req, res) => {
-    if (req.user) {
-        return res.send({ 'msg': 'User is already logged in' });
-    }
-
     const { user_id, token } = req.body;
-    let result = await accountModel.findUserInfo('user_id', user_id, 'token', 'status');
 
-    if (!result || result.status != 0 || token !== result.token) {
-        return res.status(400).json({ 'error': 'Token is not valid' });
+    try {
+        let userInfo = await accountModel.findUserInfo('user_id', user_id, 'token', 'status');
+
+        if (!userInfo || userInfo.status != 0 || token !== userInfo.token) {
+            return res.status(400).json({ 'error': 'Token is not valid' });
+        }
+
+        await accountModel.updateAccount(user_id, { status: 1, token: null });
+        return res.json({'msg': 'Your account has successfully activated'});
+    } catch (e) {
+        return res.status(400).json();
     }
-
-    result = await accountModel.updateProfile(user_id, { status: 1, token: null });
-
-    return res.json(result);
 }

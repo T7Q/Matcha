@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const helmet = require('helmet');
-const socket = require('socket.io');
 const rateLimit = require('express-rate-limit');
 
 const config = require('./config');
@@ -15,9 +14,6 @@ const server = http.createServer(app);
 const io = socket(server);
 
 io.on('connection', socketIo);
-
-const server = require('http').createServer(app);
-const io = socket(server);
 
 // Rate limit setup
 const limiter = new rateLimit({

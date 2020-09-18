@@ -1,15 +1,17 @@
+const chat = require('../../models/chat');
 const chatModel = require('../../models/chat');
 
 module.exports = async (req, res) => {
-    const { chatId, userId } = req.body;
+    const { chatId } = req.params;
+    const userId = req.user.userId;
 
-    if (req.user !== userId) {
-        return res.status(401).json();
+    if (!userId || !chatId) {
+        return res.status(422).json({ 'error': 'not found' });
     }
-
-    let io = req.io;
-    io.emit('chat');
-    console.log('here');
-    // res.send('Image route');
-    return res.send();
+    try {
+        const result = await chatModel.getChatMessages(chatId);
+        return res.json(result);
+    } catch (error) {
+        return res.status(400).json();
+    }
 }

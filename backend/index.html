@@ -54,6 +54,7 @@
 
 <body>
     <ul id="messages"></ul>
+    <button id="chat">Test chat</button>
     <form>
         <input id="name" placeholder="Name" style="width: 200px;">
         <br>
@@ -71,12 +72,27 @@
                     event.preventDefault();
                     var message = { name: $("#name").val(), message: $("#message").val() }
                     postMessage(message)
+                });
+                $("#chat").click(() => {
+                    console.log('index chat');
+                    chatfunc();
+                    socket.emit('hi');
                 })
-                getMessages()
+                getMessages();
             })
 
             socket.on('message', addMessage)
 
+            socket.on('chat', (some) => {
+                console.log('here chat')
+            });
+
+
+            function chatfunc() {
+                $.get('http://localhost:5000/chat', (data) => {
+                    console.log('in caht func');
+                })
+            }
             function addMessage(message) {
                 $("#messages").append(`<li><h4> ${message.name} </h4> <p> ${message.message} </p></li>`)
             }

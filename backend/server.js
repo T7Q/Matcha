@@ -1,3 +1,4 @@
+const socket = require('socket.io');
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
@@ -14,6 +15,9 @@ const server = http.createServer(app);
 const io = socket(server);
 
 io.on('connection', socketIo);
+
+const server = require('http').createServer(app);
+const io = socket(server);
 
 // Rate limit setup
 const limiter = new rateLimit({

@@ -58,7 +58,7 @@ CREATE TRIGGER reduce_fame
 
 -- Triggers: update age, chinese and western horoscope based on birth date
 
-CREATE FUNCTION public.age_horoscope_calc_fnc()
+CREATE FUNCTION public.horoscope_calc_fnc()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -98,18 +98,17 @@ BEGIN
 	WHEN (cast (extract(month from birth_date) as integer) = 1 AND cast (extract(day from birth_date) as integer) >= 21) OR (cast (extract(month from birth_date) as integer) = 2 AND cast (extract(day from birth_date) as integer) <= 20) THEN 'Aquarius'
 	WHEN (cast (extract(month from birth_date) as integer) = 2 AND cast (extract(day from birth_date) as integer) >= 21) OR (cast (extract(month from birth_date) as integer) = 3 AND cast (extract(day from birth_date) as integer) <= 20) THEN 'Pisces'
 	END
-	),
-	age=(EXTRACT(YEAR FROM AGE(now(), birth_date)))
+	)
 	WHERE user_id = NEW.user_id;
 RETURN NEW;
 END;
 $BODY$;
 
-CREATE TRIGGER age_horscope_update
+CREATE TRIGGER horscope_update
     AFTER INSERT OR UPDATE OF birth_date
     ON public.users
     FOR EACH ROW
-    EXECUTE PROCEDURE public.age_horoscope_calc_fnc();
+    EXECUTE PROCEDURE public.horoscope_calc_fnc();
 
 
 -- Triggers: update sexual orientation

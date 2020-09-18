@@ -57,7 +57,7 @@ const buildCondition = (req, userData, userHasTags) => {
         believe_west,
     } = req.body;
 
-    let score = getWeights(req, userHasTags);
+    let weight = getWeights(req, userHasTags);
 
     let orientation_match = getSexPreference(userData, req);
     let age =  getAgePreference(req);
@@ -67,9 +67,9 @@ const buildCondition = (req, userData, userHasTags) => {
     let filter = orientation_match + age;
     let order = `match desc`;
     let data = {
-        score: score,
+        weight: weight,
         filter: filter,
-        sort: order
+        order: order
     };
 
 

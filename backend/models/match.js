@@ -3,7 +3,7 @@ const db = require("./db");
 /* Supporting queries
     Values inserted are calculated on server or by database triggers,
     hence deemed secure and are inserted directly.
-    Values include: score.
+    Values include: weight of match formular parameters, user zodiac sign
 */
 const numberOfCommonTags = `
     (
@@ -24,30 +24,29 @@ const totalUserTags = `
         where user_tags.user_id = $1
     )
 `;
+
+const getCompatibilityValue = (signUser1, signUser2, table) => {
     
+    let defaultUser = (table === "western" ? "users.western_horo" : "users.chinese_horo");
+    signUser1 = (signUser1 === "default" ? defaultUser : "'" + signUser1 + "'");
+    table = (table === "western" ? "public.western_horo_compatibility" : "public.chinese_horo_compatibility");
+
+    let query =
+    "(\
+        SELECT compatibility_value::float * 10 as Cn\
+        FROM " + table +
+        " WHERE (sign_1 = " + signUser1 + " and sign_2 =" + "'" + signUser2 + "'" + ") or\
+                (sign_1 = " + "'" + signUser2 + "'" + " and sign_2 ="  + signUser1 + ")\
+    )";
+    return query;
+}
+
+// Query to get matching recommendations from database
 const getMatch = async (user, condition) => {        
-    console.log(" \u001b[32m. MATCH user id  " + user.user_id);
-    console.log(condition);
-    let western_horo = "'" + user.western_horo + "'";
-    let chinese_horo = "'" + user.chinese_horo + "'";
+    const tagsCompValue = (user.userHasTags ? `${numberOfCommonTags} / ${totalUserTags} * 100` : 0);
+    const cnHoroscopeCompValue = getCompatibilityValue("default", user.chinese_horo, "chinese");
+    const westHoroscopeCompValue = getCompatibilityValue("default", user.western_horo, "western");
 
-    const tags = (user.userHasTags ? `${numberOfCommonTags} / ${totalUserTags} * 100` : 0);
-    const chineseHoroscope = `
-        (
-            select compatibility_value::float * 10 as Cn From public.chinese_horo_compatibility 
-            where (sign_1 = users.chinese_horo and sign_2 = ${chinese_horo}) or
-            (sign_1 = ${chinese_horo} and sign_2 = users.chinese_horo) 
-        )
-    `;
-    const westernHoroscope = `
-        (
-            select compatibility_value::float * 10 as Wt From public.western_horo_compatibility 
-            where (sign_1 = users.western_horo and sign_2 = ${western_horo}) or
-            (sign_1 = ${western_horo} and sign_2 = users.western_horo) 
-        )
-    `;
-
-    // Query to find matches in the database
     const res = await db.query(
         `
         SELECT
@@ -60,26 +59,22 @@ const getMatch = async (user, condition) => {
             ${numberOfCommonTags},
             geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
             (
-                ${tags} * ${condition.score.tag}
-                +
-                ${chineseHoroscope} * ${condition.score.cn}
-                +
-                ${westernHoroscope} * ${condition.score.west}
+                ${tagsCompValue} * ${condition.weight.tag} +
+                ${cnHoroscopeCompValue} * ${condition.weight.cn} +
+                ${westHoroscopeCompValue} * ${condition.weight.west}
             ) as match
         FROM public.users
-        
         WHERE
             users.user_id <> $1
             ${condition.filter}
         ORDER BY
-            ${condition.sort}
+            ${condition.order}
         `,
         [user.user_id, user.geolocation]
-        // [user.user_id, user.geolocation]
     );
     return res.rows;
 };
 
 module.exports = {
-    getMatch,
+    getMatch
 };

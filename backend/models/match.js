@@ -1,85 +1,81 @@
 const db = require("./db");
 
-const getMatch = async (user, condition) => {    
-    let additionalConditions = condition.condition;
-
-    console.log(" \u001b[32m. MATCH user id  " + user.user_id);
-    // console.log(" " + condition.score.tag +" "  + condition.score.cn + " " +  condition.score.west);
-
-    // let temp = 'match asc'
-    // let order = 'ORDER BY ' + temp + ', fame asc';
-
-    // console.log(user.user_id, score.tag, score.cn, score.west, user.chinese_horo, user.western_horo, user.geolocation);
-
-    let tagsWeight = `
+/* Supporting queries
+    Values inserted are calculated on server or by database triggers,
+    hence deemed secure and are inserted directly.
+    Values include: score.
+*/
+const numberOfCommonTags = `
+    (
+        select count(*)::float as common_tag from
         (
-            select count(*)::float from
-            (
-                select tag_id from user_tags
-                where user_tags.user_id = users.user_id
-                intersect 
-                select tag_id from user_tags
-                where user_tags.user_id = $1
-            ) as common_tag
-        ) 
-        /   
-        (
-            select count(id)::float as total_tags from user_tags
+            select tag_id from user_tags
+            where user_tags.user_id = users.user_id
+            intersect 
+            select tag_id from user_tags
             where user_tags.user_id = $1
-        ) * $7 * 100
-        +
+        ) as temp
+    )
+`;
+
+const totalUserTags = `
+    (
+        select count(id)::float as total_tags from user_tags
+        where user_tags.user_id = $1
+    )
+`;
+    
+const getMatch = async (user, condition) => {        
+    console.log(" \u001b[32m. MATCH user id  " + user.user_id);
+    console.log(condition);
+    let western_horo = "'" + user.western_horo + "'";
+    let chinese_horo = "'" + user.chinese_horo + "'";
+
+    const tags = (user.userHasTags ? `${numberOfCommonTags} / ${totalUserTags} * 100` : 0);
+    const chineseHoroscope = `
+        (
+            select compatibility_value::float * 10 as Cn From public.chinese_horo_compatibility 
+            where (sign_1 = users.chinese_horo and sign_2 = ${chinese_horo}) or
+            (sign_1 = ${chinese_horo} and sign_2 = users.chinese_horo) 
+        )
+    `;
+    const westernHoroscope = `
+        (
+            select compatibility_value::float * 10 as Wt From public.western_horo_compatibility 
+            where (sign_1 = users.western_horo and sign_2 = ${western_horo}) or
+            (sign_1 = ${western_horo} and sign_2 = users.western_horo) 
+        )
     `;
 
-    let variables = `[user_id, geolocation, score.cn, score.west, user_cn, user_west, score.tag]`;
-
-
-
+    // Query to find matches in the database
     const res = await db.query(
         `
         SELECT
-        users.user_id,
-        users.first_name,
-        (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
-        users.fame_rating as fame,
-        users.profile_pic_path,
-        ST_Distance(users.geolocation, $2) as distance,
-        (
-            select count(*)::float as common_tag from
+            users.user_id,
+            users.first_name,
+            (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
+            users.fame_rating as fame,
+            users.profile_pic_path,
+            ST_Distance(users.geolocation, $2) as distance,
+            ${numberOfCommonTags},
+            geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
             (
-                select tag_id from user_tags
-                where user_tags.user_id = users.user_id
-                intersect 
-                select tag_id from user_tags
-                where user_tags.user_id = $1
-            ) as common_tag2
-        ),
-        geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
-        (
-            ${tagsWeight}
-            
-            (
-                select compatibility_value::float * 10 as Cn From public.chinese_horo_compatibility 
-                where (sign_1 = users.chinese_horo and sign_2 = $5) or
-                (sign_1 = $5 and sign_2 = users.chinese_horo) 
-            ) * $3
-            +
-            (
-                select compatibility_value::float * 10 as Wt From public.western_horo_compatibility 
-                 where (sign_1 = users.western_horo and sign_2 = $6) or
-                (sign_1 = $6 and sign_2 = users.western_horo) 
-            ) * $4
-          
-
-        ) as match
-            
+                ${tags} * ${condition.score.tag}
+                +
+                ${chineseHoroscope} * ${condition.score.cn}
+                +
+                ${westernHoroscope} * ${condition.score.west}
+            ) as match
         FROM public.users
         
         WHERE
             users.user_id <> $1
-            ${additionalConditions}
+            ${condition.filter}
+        ORDER BY
+            ${condition.sort}
         `,
-        // [user_id, geolocation, score.cn, score.west, user_cn, user_west, score.tag]
-        [user.user_id, user.geolocation, condition.score.cn, condition.score.west, user.chinese_horo, user.western_horo, condition.score.tag]
+        [user.user_id, user.geolocation]
+        // [user.user_id, user.geolocation]
     );
     return res.rows;
 };

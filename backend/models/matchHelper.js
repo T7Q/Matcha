@@ -1,40 +1,46 @@
-const getSexPreference = (user_sex_orientation) => {
-    let preference = "";
-    let temp;
-
-    if (user_sex_orientation == "straight_woman"){
-        temp = "\'straight_man\'";
-    } else if (user_sex_orientation == 'straight_man'){
-        temp = "\'straight_woman\'";
+const getSexPreference = (userData, req) => {
+    let orientation;
+    if (req.body.sex_orientation) {
+        orientation = "'" + req.body.sex_orientation + "'";
     } else {
-        temp = "\'" + user_sex_orientation + "\'";
+        if (userData.sex_orientation == "straight_woman") {
+            orientation = "'straight_man'";
+        } else if (userData.sex_orientation == "straight_man") {
+            orientation = "'straight_woman'";
+        } else {
+            orientation = "'" + userData.sex_orientation + "'";
+        }
     }
-    preference = 'and users.sex_orientation = ' + temp;
+    let preference = "and users.sex_orientation = " + orientation;
     return preference;
-}
+};
 
 const buildSort = (req) => {
-    return ({'msg': 'success'});
-}
+    return { msg: "success" };
+};
 
 const getWeights = (req, userHasTags) => {
     let score = { tag: 0.1, cn: 0.45, west: 0.45 };
-    if(req.body.believe_cn === 0){
+    if (req.body.believe_cn === 0) {
         score.cn = 0;
     }
-    if(req.body.believe_west === 0){
+    if (req.body.believe_west === 0) {
         score.west = 0;
     }
     if (!userHasTags) {
         score.tag = 0;
     }
     return score;
+};
+
+// console.log("\u001b[32m" + 
+
+const getAgePreference = (req) => {
+    let min_age = (req.body.min_age ? req.body.min_age - 1 : 17 );
+    let max_age = (req.body.max_age ? req.body.max_age + 1 : 121 );
+    let age = " and (age > " + min_age + " and age < " + max_age + ") ";
+    return age;
 }
-
-// console.log("\u001b[32m. HERE");
-// const getAgePreference = (min_age, max_age) => {
-
-// }
 
 const buildCondition = (req, userData, userHasTags) => {
     const {
@@ -48,29 +54,28 @@ const buildCondition = (req, userData, userHasTags) => {
         country,
         sort,
         believe_cn,
-        believe_west
+        believe_west,
     } = req.body;
 
     let score = getWeights(req, userHasTags);
-    console.log(score);
 
-    let orientation_match = getSexPreference(userData.sex_orientation, userData.gender);
-    // let age = ' and (age > '+ min_age + ' and age < ' + max_age + ') ';
-    let age = ' and (age > '+ min_age + ' and age < ' + max_age + ') ';
+    let orientation_match = getSexPreference(userData, req);
+    let age =  getAgePreference(req);
+    // let age = " and (age > " + min_age + " and age < " + max_age + ") ";
     // let distance = 'and (distance > '+ min_distance + ' and distance < ' + max_distance + ')';
 
-
-    let where = orientation_match + age;
-
+    let filter = orientation_match + age;
+    let order = `match desc`;
     let data = {
         score: score,
-        filter: "temp",
-        condition: where
-    }
-    return data;
-}
+        filter: filter,
+        sort: order
+    };
 
+
+    return data;
+};
 
 module.exports = {
-    buildCondition
+    buildCondition,
 };

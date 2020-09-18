@@ -21,26 +21,25 @@ const accountModel = require("../../models/account");
 */
 
 module.exports = async (req, res) => {
-    console.log("user id " + req.body.user_id);
-    console.log(req.body);
-    if(!req.body.min_age){
-        console.log("min age is empty");
-    }
+    console.log("\u001b[32m ENTERED id" + req.body.user_id);
 
     let userHasTags = await profileModel.userHasTags(req.body.user_id);
-    if (!userHasTags) {
-        return res.json({ msg: "user does not have tags" });
-    }
+    // if (!userHasTags) {
+    //     return res.json({ msg: "user does not have tags" });
+    // }
     let userData = await accountModel.findUserInfo(
         "user_id",
         req.body.user_id,
         "user_id",
         "sex_orientation",
         "gender",
+        "sex_preference",
         "geolocation",
         "chinese_horo",
         "western_horo"
     );
+    userData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
+
 
     // console.log(userData['geolocation']);
     let condition = {};
@@ -48,24 +47,11 @@ module.exports = async (req, res) => {
 
     try {
         console.log("before match");
-        let matches = await matchModel.getMatch(
-            userData,
-            condition
-            // userData.geolocation,
-        );
-
-
+        let matches = await matchModel.getMatch(userData, condition);
         console.log("after match");
         console.log(matches);
-
         return res.json({ msg: "MATCHED" });
     } catch (e) {
-        return res
-            .status(400)
-            .json({
-                error:
-                    e.detail ||
-                    "Something went wrong getting matches from database",
-            });
+        return res.status(400).json({error: e.detail || "Something went wrong getting matches"});
     }
 };

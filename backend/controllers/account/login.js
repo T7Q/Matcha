@@ -1,8 +1,7 @@
-require('dotenv').config({ path: 'config/.env' });
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { jwtSecret } = require('../../config');
 const accountModel = require('../../models/account');
-const profileModel = require('../../models/profile');
 const getLocation = require('../../utils/location');
 
 module.exports = async (req, res) => {
@@ -16,8 +15,8 @@ module.exports = async (req, res) => {
     const user = await accountModel.findUserInfo('username', username);
 
     // check if account exists and password correct
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-        return res.status(404).json({ 'error': 'Invalid credentials' });
+    if (!user || Object.keys(user).length == 0 || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ 'error': 'Invalid credentials' });
     }
 
     // check if account activated
@@ -39,6 +38,6 @@ module.exports = async (req, res) => {
         'tkn': jwt.sign({
             userId: user.user_id,
             status: user.status
-        }, process.env.JWT_SECRET, { expiresIn: 60 * 60 })
+        }, jwtSecret, { expiresIn: 60 * 60 })
     });
 }

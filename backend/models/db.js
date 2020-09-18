@@ -1,14 +1,7 @@
-require('dotenv').config({ path: 'config/.env' });
+const config = require('../config');
 const { Pool } = require('pg');
 
-// configuration for database connection
-const config = {
-    user: process.env.DB_USER || 'postgres',
-    database: process.env.DB_NAME || 'matcha',
-    password: process.env.DB_PWD || ''
-}
-
-const pool = new Pool(config);
+const pool = new Pool(config.database);
 
 module.exports = {
     query: (text, params) => pool.query(text, params),

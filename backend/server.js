@@ -8,7 +8,7 @@ const app = express();
 
 // Rate limit setup
 const limiter = new rateLimit({
-    windowMs: 15*60*1000,   // 15 minutes
+    windowMs: 60*1000,   // 1 minute
     max: 100,               // limit of number of request per IP
     delayMs: 0              // disable delays
 });

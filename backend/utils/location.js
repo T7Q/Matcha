@@ -1,6 +1,6 @@
-require('dotenv').config({ path: 'config/.env' });
 const axios = require("axios");
 const geoip = require('geoip-lite');
+const { ipstack } = require('../config');
 
 const isValidLatitude = lat => {
     const latitude = parseFloat(lat);
@@ -23,7 +23,7 @@ module.exports = async (req, user) => {
         if (user.latitude && user.longitude) {
             return { 'latitude': user.latitude, 'longitude': user.longitude };
         } else {
-            location = await axios({ url: `http://api.ipstack.com/check?access_key=${process.env.IPSTACK}` });
+            location = await axios({ url: `http://api.ipstack.com/check?access_key=${ipstack}` });
 
             return { 'latitude': location.data.latitude, 'longitude': location.data.longitude };
         }

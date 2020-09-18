@@ -13,7 +13,30 @@ const getSexPreference = (user_sex_orientation) => {
     return preference;
 }
 
-const buildCondition = (req, userData) => {
+const buildSort = (req) => {
+    return ({'msg': 'success'});
+}
+
+const getWeights = (req, userHasTags) => {
+    let score = { tag: 0.1, cn: 0.45, west: 0.45 };
+    if(req.body.believe_cn === 0){
+        score.cn = 0;
+    }
+    if(req.body.believe_west === 0){
+        score.west = 0;
+    }
+    if (!userHasTags) {
+        score.tag = 0;
+    }
+    return score;
+}
+
+// console.log("\u001b[32m. HERE");
+// const getAgePreference = (min_age, max_age) => {
+
+// }
+
+const buildCondition = (req, userData, userHasTags) => {
     const {
         user_id,
         type,
@@ -23,28 +46,31 @@ const buildCondition = (req, userData) => {
         max_distance,
         tags,
         country,
-        sort
+        sort,
+        believe_cn,
+        believe_west
     } = req.body;
 
-    let match_sex_preference = getSexPreference(userData.sex_orientation, userData.gender);
+    let score = getWeights(req, userHasTags);
+    console.log(score);
 
-    let orientation_match = match_sex_preference;
+    let orientation_match = getSexPreference(userData.sex_orientation, userData.gender);
+    // let age = ' and (age > '+ min_age + ' and age < ' + max_age + ') ';
     let age = ' and (age > '+ min_age + ' and age < ' + max_age + ') ';
-    let distance = 'and (age > '+ min_distance + ' and age < ' + max_distance + ')';
-    whereCondition = orientation_match + age + distance;
+    // let distance = 'and (distance > '+ min_distance + ' and distance < ' + max_distance + ')';
+
+
+    let where = orientation_match + age;
 
     let data = {
+        score: score,
         filter: "temp",
-        condition: whereCondition
+        condition: where
     }
     return data;
 }
 
-const buildSort = (req) => {
-    return ({'msg': 'success'});
-}
 
 module.exports = {
-    buildCondition,
-    buildSort
+    buildCondition
 };

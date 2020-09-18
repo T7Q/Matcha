@@ -5,24 +5,27 @@ const profileHelper = require("../../models/profileHelper");
 const accountModel = require("../../models/account");
 
 /* 
-    data = {
-        user_id,
-        type,
-        min_age,
-        max_age,
-        min_distance,
-        max_distance,
-        tags,
-        country,
-        sort
+    req data = {
+        user_id: value (mandatory!)
+        type: "recommended" "mandatory"
+        min_age: values ("", 24), default 18
+        max_age: values ("", 50), default 120
+        min_distance: values ("", 0), default 0
+        max_distance: values ("", 5000), default 10000000
+        tags: values ("", ["Art", "Foodie"....)
+        country: values ("", ["Finland", "Belgium"....)
+        sort: values ("", ["filter_asc", "filter_desc"....)
+        believe_cn: values (options "", 0, 1)
+        believe_west: values (options "", 0, 1)
     }
 */
 
 module.exports = async (req, res) => {
     console.log("user id " + req.body.user_id);
-
-    // score to weight tags, western and chinese horoscope, should match to 1
-    let scoreWeight = { tag: 0.1, cn: 0.45, west: 0.45 };
+    console.log(req.body);
+    if(!req.body.min_age){
+        console.log("min age is empty");
+    }
 
     let userHasTags = await profileModel.userHasTags(req.body.user_id);
     if (!userHasTags) {
@@ -41,15 +44,14 @@ module.exports = async (req, res) => {
 
     // console.log(userData['geolocation']);
     let condition = {};
-    condition = matchHelper.buildCondition(req, userData);
+    condition = matchHelper.buildCondition(req, userData, userHasTags);
 
     try {
         console.log("before match");
         let matches = await matchModel.getMatch(
             userData,
-            scoreWeight,
-            condition,
-            userData.geolocation,
+            condition
+            // userData.geolocation,
         );
 
 

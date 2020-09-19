@@ -8,9 +8,9 @@ module.exports = async (req, res) => {
         return res.status(400).json({ 'error': 'not full information' });
     }
 
-    if (senderId === receiverId || (req.user && req.user.userId != senderId)) {
-        return res.status(403).json({ 'error': 'not that user' });
-    }
+    // if (senderId === receiverId || (req.user && req.user.userId != senderId)) {
+    //     return res.status(403).json({ 'error': 'not that user' });
+    // }
 
     try {
         if (!chatId || !(await chatModel.isChatExists(chatId))) {

@@ -2,14 +2,26 @@ const db = require('./db');
 
 const getUserConversations = async (userId) => {
     const result = await db.query(
-        `SELECT * FROM chats WHERE (user_1 = $1 OR user_2 = $1) AND active = TRUE`,
+        `SELECT chats.chat_id,
+        CASE WHEN user_1 = $1 THEN user_2
+        ELSE user_1 END AS partner_id,
+        users.username AS partner_username,
+        m1.message AS last_message, m1.time_sent, m1.sender_id
+        FROM chats JOIN users ON users.user_id = CASE
+        WHEN user_1 = $1 THEN user_2 ELSE user_1 END
+        JOIN messages m1 ON chats.chat_id = m1.chat_id
+        AND m1.message_id = (
+            SELECT MAX(m2.message_id)
+            FROM messages m2
+            WHERE m2.chat_id = chats.chat_id
+        )
+        WHERE (user_1 = $1 OR user_2 = $1) AND active = TRUE`,
         [userId]
     );
     return result.rows[0];
 }
 
 const isChatExists = async (chatId) => {
-    let result;
     return await db.query(
         `SELECT count(chat_id) FROM chats
             WHERE chat_id = $1`,

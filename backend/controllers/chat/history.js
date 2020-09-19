@@ -2,8 +2,11 @@ const chat = require('../../models/chat');
 const chatModel = require('../../models/chat');
 
 module.exports = async (req, res) => {
-    const { chatId } = req.params;
-    const userId = req.user.userId;
+    const { chatId, userId } = req.params;
+
+    // if (userId != req.user.userId) {
+    //     return res.status(401).json({ 'error': 'not that user' });
+    // }
 
     if (!userId || !chatId) {
         return res.status(422).json({ 'error': 'not found' });

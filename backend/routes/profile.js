@@ -8,9 +8,14 @@ const { create, edit, deleteAccount, interaction, notification, photo } = requir
 router.post('/create', create)
 
 // @route   POST /profile/edit
+// @desc    Edit profile info (gender, sex preferences, birth date, country)
+// @access  Public
+router.post('/edit', edit.general)
+
+// @route   POST /profile/editTags
 // @desc    Edit profile info
 // @access  Public
-router.post('/edit', edit)
+router.post('/editTags', edit.tags)
 
 // @route   POST /profile/addinteraction
 // @desc    Add like, view, block, report

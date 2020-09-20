@@ -158,8 +158,6 @@ const buildFilter= (req, userDbData, values) => {
     return(orientation + age + distance + tags + country);
 };
 
-// console.log("\u001b[32m" + 
-
 const buildOrder = (userSuppliedOrder, order) => {
     let defaultOrder = "match desc, distance desc, fame desc";
     let userOrder  = (!userSuppliedOrder ? "" : (" " + userSuppliedOrder.join(', ').replace(/_/g, " ")));

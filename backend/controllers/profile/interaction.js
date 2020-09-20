@@ -3,35 +3,35 @@ const profileHelper = require('../../models/profileHelper');
 
 const add = async (req, res) => {
 	const { key, from_user_id, to_user_id } = req.body;
-	let insertData = {};
 	if (!key) {
-        return res.status(400).json({ 'msg': 'Invalid parameters: add key' });
+		return res.status(404).json({ error: "Invalid parameters" });
 	}
 	if (key == "likes" || key == "views" || key == "report_users" || key == "block_users") {
-			insertData = await profileModel.insertRow(key, from_user_id, to_user_id);
-			if (insertData.error){
-				return res.status(400).json(insertData);
-			}
-			return res.json({ 'msg': 'succesfully saved' });
+		try {	
+			await profileModel.insertRow(key, from_user_id, to_user_id);
+			return res.json({ 'msg': 'Succesfully saved' });
+		} catch (e) {
+			return res.status(404).json({ error: "Something went wrong adding data to the database" });
+		}
 	} else {
-		return res.status(400).json('Invalid parameters: error in key');
+		return res.status(404).json({ error: "Invalid parameters" });
 	}
 }
 
 const remove = async (req, res) => {
 	const { key, from_user_id, to_user_id } = req.body;
-	let insertData = {};
 	if (!key) {
-        return res.status(400).json({ 'msg': 'Invalid parameters: add key' });
+        return res.status(404).json({ error: "Invalid parameters" });
 	}
 	if (key == "likes" || key == "views" || key == "report_users" || key == "block_users") {
-			insertData = await profileModel.deleteRow(key, from_user_id, to_user_id);
-			if (insertData.error){
-				return res.status(400).json(insertData);
-			}
-			return res.json({ 'msg': 'succesfully removed' });
+		try {	
+			await profileModel.deleteRow(key, from_user_id, to_user_id);
+			return res.json({ 'msg': 'Succesfully removed' });
+		} catch (e) {
+			return res.status(404).json({ error: "Something went wrong removing data from the database" });
+		}
 	} else {
-		return res.status(400).json('Invalid parameters: error in key');
+		return res.status(404).json({ error: "Invalid parameters" });
 	}
 }
 

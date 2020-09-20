@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { recommend } = require('../controllers/match');
 
-// @route   GET api/messages
-// @desc    Test route
+// @route   POST /match/recommend
+// @desc    Match and filter
 // @access  Public
-router.get('/', (req, res) => {
-    res.send('Message route');
-})
+router.post('/recommend', recommend)
 
 module.exports = router;

@@ -202,7 +202,7 @@ const userHasTags = async (user_id) => {
         const res = await db.query(
             `
         SELECT count(tag_id)
-            FROM tags
+            FROM user_tags
             WHERE user_id=$1`,
             [user_id]
         );

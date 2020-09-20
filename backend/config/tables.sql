@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS "users"
  "longitude"                float NULL ,
  "bio"                      text NULL ,
  "fame_rating"              decimal(3,2) NULL ,
+ "fame_14_days"              decimal(3,2) NULL ,
  "ip_address"               varchar(15) NULL ,
  "geo_localisation_allowed" boolean NULL DEFAULT FALSE ,
  "google_id"                varchar(255) NULL ,
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS "users"
  "chinese_horo"             varchar(45) NULL ,
  "profile_pic_path"         varchar(255) NULL ,
  "real_time_notification"   boolean NOT NULL DEFAULT TRUE,
-  "country"                 varchar(255) NULL ,
+ "country"                 varchar(255) NULL ,
  "notification_id"          integer UNIQUE NULL REFERENCES "notifications" ON DELETE CASCADE
 );
 

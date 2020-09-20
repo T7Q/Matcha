@@ -42,4 +42,5 @@ router.post('/uploadphoto', photo.upload)
 // @access  Public
 router.post('/deletephoto', photo.deletePhoto)
 
+
 module.exports = router;

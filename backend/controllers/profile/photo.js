@@ -116,11 +116,13 @@ const deletePhoto = async (req, res) => {
         }
         i++;
     }
-    console.log(result);
+   
     return res.json(result);
 };
 
+
+
 module.exports = {
     upload,
-    deletePhoto,
+    deletePhoto
 };

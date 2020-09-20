@@ -1,6 +1,6 @@
 -- Triggers: update fame_rating
 
-CREATE FUNCTION fame_increase_fnc()
+CREATE FUNCTION public.fame_increase_fnc()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -8,18 +8,23 @@ CREATE FUNCTION fame_increase_fnc()
 AS $BODY$
 BEGIN
 	UPDATE users
-	SET fame_rating=(
-	SELECT CAST (count(to_user_id) as float) / 14 AS rating
+	SET fame_14_days =(
+	SELECT count(to_user_id) AS rating
 	FROM likes
 	WHERE to_user_id = NEW.to_user_id
 	AND DATE_PART('day', NOW() - date_created) < 14
 	)
 	WHERE user_id = NEW.to_user_id;
+	UPDATE users
+	SET fame_rating = (
+	(SELECT users.fame_14_days from users WHERE users.user_id = NEW.to_user_id)
+	/
+	(SELECT (max(users.fame_14_days))::float / 5 from users)
+	)
+	WHERE user_id = NEW.to_user_id;
 RETURN NEW;
 END;
 $BODY$;
-
-
 
 CREATE TRIGGER increase_fame
     AFTER INSERT
@@ -27,9 +32,7 @@ CREATE TRIGGER increase_fame
     FOR EACH ROW
     EXECUTE PROCEDURE fame_increase_fnc();
 
-
-
-CREATE FUNCTION fame_decrease_fnc()
+CREATE FUNCTION public.fame_decrease_fnc()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -37,13 +40,20 @@ CREATE FUNCTION fame_decrease_fnc()
 AS $BODY$
 BEGIN
 	UPDATE users
-	SET fame_rating=(
-	SELECT CAST (count(to_user_id) as float) / 14 AS rating
+	SET fame_14_days =(
+	SELECT count(to_user_id) AS rating
 	FROM likes
 	WHERE to_user_id = OLD.to_user_id
 	AND DATE_PART('day', CURRENT_DATE - date_created) < 14
 	)
 	WHERE user_id = OLD.to_user_id;
+	UPDATE users
+	SET fame_rating = (
+	(SELECT users.fame_14_days from users WHERE users.user_id = NEW.to_user_id)
+	/
+	(SELECT (max(users.fame_14_days))::float / 5 from users)
+	)
+	WHERE user_id = NEW.to_user_id;
 RETURN OLD;
 END;
 $BODY$;

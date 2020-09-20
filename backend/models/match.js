@@ -42,44 +42,11 @@ const getCompatibilityValue = (signUser1, signUser2, table) => {
 }
 
 // Query to get matching recommendations from database
-const getMatch = async (user, condition) => {        
-    console.log(" \u001b[32m. MATCH user id  " + user.user_id);
-    // console.log(condition);
-
+const getMatch = async (user, settings) => {        
     const tagsCompValue = (user.userHasTags ? `${numberOfCommonTags} / ${totalUserTags} * 100` : 0);
     const cnHoroscopeCompValue = getCompatibilityValue("default", user.chinese_horo, "chinese");
     const westHoroscopeCompValue = getCompatibilityValue("default", user.western_horo, "western");
-    let values = [];
-    for (const element of condition.values) {
-        values.push(element);
-    }
 
-    let temp =  `
-    SELECT
-        users.user_id,
-        users.first_name,
-        (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
-        users.fame_rating as fame,
-        users.profile_pic_path,
-        (ST_Distance(users.geolocation, $2)::integer / 1000) as distance,
-        ${numberOfCommonTags},
-        geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
-        (
-            ${tagsCompValue} * ${condition.weight.tag} +
-            ${cnHoroscopeCompValue} * ${condition.weight.cn} +
-            ${westHoroscopeCompValue} * ${condition.weight.west}
-        ) as match
-    FROM public.users
-    WHERE
-        users.user_id <> $1
-        and users.status = 2
-        ${condition.filter}
-    ORDER BY
-        ${condition.order}
-    `;
-    // console.log(temp)
-    let join = "";
-    let limit = "";
     const res = await db.query(
         `
         SELECT
@@ -92,22 +59,22 @@ const getMatch = async (user, condition) => {
             ${numberOfCommonTags},
             geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
             (
-                ${tagsCompValue} * ${condition.weight.tag} +
-                ${cnHoroscopeCompValue} * ${condition.weight.cn} +
-                ${westHoroscopeCompValue} * ${condition.weight.west}
+                ${tagsCompValue} * ${settings.weight.tag} +
+                ${cnHoroscopeCompValue} * ${settings.weight.cn} +
+                ${westHoroscopeCompValue} * ${settings.weight.west}
             ) as match
+            ${settings.dateColumn}
         FROM public.users
-        ${join}
+        ${settings.join}
         WHERE
             users.user_id <> $1
             and users.status = 2
-            ${condition.filter}
+            ${settings.filter}
         ORDER BY
-            ${condition.order}
-        ${limit}
+            ${settings.order}
+        ${settings.limit}
         `,
-        [...values]
-        // [user.user_id, user.geolocation]
+        [...settings.values]
     );
     return res.rows;
 };

@@ -1,8 +1,8 @@
 const matchModel = require("../../models/match");
 const matchHelper = require("../../models/matchHelper");
 const profileModel = require("../../models/profile");
-const profileHelper = require("../../models/profileHelper");
 const accountModel = require("../../models/account");
+const { validateOrder } = require("../../models/matchHelper");
 
 /* 
     req data = {
@@ -22,8 +22,14 @@ const accountModel = require("../../models/account");
 
 module.exports = async (req, res) => {
     console.log("\u001b[32m ENTERED id" + req.body.user_id);
+    // add check if user_id exists
+    let errorOrder = matchHelper.validateOrder(req.body.order);
+    let errorOrientation = matchHelper.validateOrientation(req.body.sex_orientation);
+    // console.log("\u001b[31m ERROR " + error); 
+    if (errorOrder || errorOrientation)
+        return res.status(400).json({ msg: "Invalid parameters or values" });
 
-    let userData = await accountModel.findUserInfo(
+    let userDbData = await accountModel.findUserInfo(
         "user_id",
         req.body.user_id,
         "user_id",
@@ -34,21 +40,29 @@ module.exports = async (req, res) => {
         "chinese_horo",
         "western_horo"
     );
-    userData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
-    let values = [userData.user_id, userData.geolocation];
+    userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
+    let values = [userDbData.user_id, userDbData.geolocation];
     
-    // let base = matchHelper.setBase(req, userData);
-
-    let condition = {
-        weight: matchHelper.setWeights(req, userData.userHasTags),
-        filter: matchHelper.buildFilter(req, userData, values),
-        order:  matchHelper.buildSort(req),
+    let settings = {
+        weight: "",
+        join: "",
+        filter: "",
+        order: "",
+        limit: "",
+        dateColumn: ", users.created_at as date ",
         values: values
     };
+    console.log(req.body);
+    matchHelper.buildBase(req, settings);
+    settings.order = matchHelper.buildOrder(req.body.order, settings.order);
+    settings.weight = matchHelper.setWeights(req.body.believe_cn, req.body.believe_west, userDbData.userHasTags);
+    settings.filter = settings.filter + matchHelper.buildFilter(req, userDbData, values);
+    console.log(settings);
+
 
     try {
         console.log("before match");
-        let matches = await matchModel.getMatch(userData, condition);
+        let matches = await matchModel.getMatch(userDbData, settings);
         console.log("after match");
         console.log(matches);
         return res.json({ msg: "MATCHED" });

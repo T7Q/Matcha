@@ -57,7 +57,7 @@ module.exports = async (req, res) => {
     settings.order = matchHelper.buildOrder(req.body.order, settings.order);
     settings.weight = matchHelper.setWeights(req.body.believe_cn, req.body.believe_west, userDbData.userHasTags);
     settings.filter = settings.filter + matchHelper.buildFilter(req, userDbData, values);
-    console.log(settings);
+    // console.log(settings);
 
 
     try {

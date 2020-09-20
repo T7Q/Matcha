@@ -1,37 +1,46 @@
 const profileModel = require('../../models/profile');
+const accountModel = require('../../models/account');
+const { findUserInfo } = require('../../models/account');
 
 const edit = async (req, res) => {
-	const { user_id, key, value } = req.body;
-	return res.json(req.body);
-	let error = {};
+	const { user_id, key } = req.body;
+	// validate input parameters
 	if (!key) {
         return res.status(400).json({ 'msg': 'Invalid parameters' });
 	}
+	let settings;
+	// Find current notification setting
 	switch (key) {
 		case "email_notification":
-	// 		// check current setting in db
-	// 		// value = 
+			try {
+				settings = await findUserInfo("user_id", user_id, "email_notification");
+				settings = settings.email_notification
+			} catch (e) {
+				return res.status(404).json({ error: "Something went wrong fetching data from the database" });
+			}
 			break;
 		case "real_time_notification":
-	// 		// check current setting in db
-	// 		// value = 
+			try {
+				settings = await findUserInfo("user_id", user_id, "real_time_notification");
+				settings = settings.real_time_notification
+			} catch (e) {
+				return res.status(404).json({ error: "Something went wrong fetching data from the database" });
+			}
 			break;
 		default:
 			return res.status(400).json('Invalid parameters');
 	}
-	// check for validation errors
-	if (Object.keys(error).length  !== 0) {
-		return res.status(400).json(error);
+
+	let value  = (settings === true ? 0 : 1);
+
+	try {
+        await profileModel.editProfile(user_id, key, value);
+		return res.json({	msg: "Notification settings were successfully updated",
+							notification: value
+						});
+	} catch (e) {
+		return res.status(404).json({ error: "Something went wrong adding Profile info" });
 	}
-
-	// let editProfile = {};
-	// editProfile= await profileModel.editProfile(user_id, key, value);
-
-	// // check for entering data to db errors
-	// if (editProfile.error){
-	// 	return res.status(400).json(editProfile);
-	// }
-	return res.json({ 'msg': 'Your profile was successfully updated' });
 }
 
 module.exports = {

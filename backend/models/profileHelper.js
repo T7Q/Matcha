@@ -89,6 +89,30 @@ const deleteFromFile = (filename) => {
     }
 };
 
+const buildQueryForSavingTags = (tags, user_id) => {
+    let query = {
+        values: [],
+        placeholder: ""
+    }
+
+    for (const element of tags) {
+        query.values.push(user_id);
+        query.values.push(element);
+    }
+    query.placeholder = "";
+    let i = 1;
+    let length = tags.length
+    while (length > 0){
+        j = i + 1;
+            query.placeholder += "($" + i + "," + " (SELECT tag_id FROM tags WHERE tag_name = $" + j +"))";
+        if (length != 1)
+            query.placeholder += ",";
+        i = i + 2;
+        length--;
+    }
+    return query;
+}
+
 module.exports = {
     validateGender,
     validateSexPreferences,
@@ -97,4 +121,5 @@ module.exports = {
     getAge,
     saveToFile,
     deleteFromFile,
+    buildQueryForSavingTags
 };

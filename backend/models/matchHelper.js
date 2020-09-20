@@ -42,6 +42,14 @@ const buildBase = (req, settings) => {
             settings.order = "date desc";
             req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
             break;
+        // case "visited_me_new":
+        //     settings.dateColumn = ", views.date_created AS date ";
+        //     settings.join = " LEFT JOIN views ON views.from_user_id = users.user_id ";
+        //     settings.filter = " AND views.to_user_id = $1\
+        //                         AND views.date_created  = DATE_FROM_NOTIFICATIONS";
+        //     settings.order = "date desc";
+        //     req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
+        //     break;
         case "visited_by_me":
             settings.dateColumn = ", views.date_created AS date ";
             settings.join = " LEFT JOIN views ON views.to_user_id = users.user_id ";

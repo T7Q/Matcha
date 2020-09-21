@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS "users"
  "profile_pic_path"         varchar(255) NULL ,
  "real_time_notification"   boolean NOT NULL DEFAULT TRUE,
  "country"                 varchar(255) NULL ,
+ "geolocation"              geography(Point,4326),
  "notification_id"          integer UNIQUE NULL REFERENCES "notifications" ON DELETE CASCADE
 );
 
@@ -178,3 +179,11 @@ CREATE INDEX IF NOT EXISTS "fkIdx_75" ON "participants"
 (
  "chat_id"
 );
+
+CREATE EXTENSION postgis
+    SCHEMA public
+    VERSION "2.5.4";
+
+CREATE EXTENSION postgis_topology
+    SCHEMA topology
+    VERSION "2.5.4";

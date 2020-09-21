@@ -1,17 +1,13 @@
 const chatModel = require('../../models/chat');
 
 module.exports = async (req, res) => {
-    const { userId } = req.params;
-
-    // if (userId != req.user.userId) {
-    //     return res.status(401).json({ 'error': 'not that user' });
-    // }
+    const userId = req.user.userId;
 
     try {
         const result = await chatModel.getUserConversations(userId);
         return res.send(result);
-    } catch (error) {
-        console.log(error);
+    } catch (e) {
+        console.log(e);
         return res.status(400).json();
     }
 }

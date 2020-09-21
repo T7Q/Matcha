@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
             default:
                 return res.status(400).send('Invalid parameters');
         }
-    } catch (error) {
+    } catch (e) {
         console.log(e);
         return res.status(400).json();
     }

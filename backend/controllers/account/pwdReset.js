@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
 
         await accountModel.updateAccount(user.user_id, { token: token });
         return res.json(mail.pwdResetEmail(email, user.user_id, user.username, token));
-    } catch (error) {
+    } catch (e) {
         console.log(e);
         return res.status(400).json();
     }

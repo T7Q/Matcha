@@ -13,6 +13,7 @@ module.exports = async (req, res) => {
         await accountModel.updateAccount(user_id, { status: 1, token: null });
         return res.json({'msg': 'Your account has successfully activated'});
     } catch (e) {
+        console.log(e);
         return res.status(400).json();
     }
 }

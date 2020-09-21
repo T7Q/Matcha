@@ -69,7 +69,7 @@ const placeholderValues = (array) => {
     return placeholder;
 }
 
-const validateTags = async (tags) => {
+const validateTagsInDb = async (tags) => {
     let placeholder = placeholderValues(tags);
     let res = await db.query(
         `
@@ -121,5 +121,5 @@ module.exports = {
     registerProfile,
     saveTags,
     userHasTags,
-    validateTags
+    validateTagsInDb
 };

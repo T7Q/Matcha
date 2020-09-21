@@ -27,6 +27,7 @@ const validateBio = (bio) => {
     return errors;
 };
 
+
 const getAge = (dob) => {
     var today = new Date();
     var birthDate = new Date(dob);

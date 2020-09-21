@@ -21,13 +21,13 @@ const validateOrientation = (userSelectedOrientation) => {
 
 const buildBase = (req, settings) => {
     switch (req.body.type) {
-        case "liked_me":
-            settings.dateColumn = " , likes.date_created as date";
-            settings.join = " LEFT JOIN likes ON likes.from_user_id = users.user_id ";
-            settings.filter = " AND likes.to_user_id = $1 ";
-            settings.order = "date desc";
-            req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
-            break;
+        // case "liked_me":
+        //     settings.dateColumn = " , likes.date_created as date";
+        //     settings.join = " LEFT JOIN likes ON likes.from_user_id = users.user_id ";
+        //     settings.filter = " AND likes.to_user_id = $1 ";
+        //     settings.order = "date desc";
+        //     req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
+        //     break;
         case "connected":
             settings.filter = " AND (SELECT count(likes.like_id) AS from_likes FROM likes\
                         WHERE likes.from_user_id = users.user_id AND likes.to_user_id = $1) = 1\

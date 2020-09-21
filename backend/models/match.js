@@ -75,7 +75,6 @@ const getMatch = async (user, settings) => {
             (ST_Distance(users.geolocation, $2)::integer / 1000) as distance,
             ${numberOfCommonTags},
             ${connected},
-            geolocation, users.sex_preference, users.chinese_horo, users.western_horo, users.country,
             (
                 ${tagsCompValue} * ${settings.weight.tag} +
                 ${cnHoroscopeCompValue} * ${settings.weight.cn} +

@@ -3,8 +3,8 @@ const profileHelper = require("../../models/profileHelper");
 
 const general = async (req, res) => {
     const { user_id, key, value } = req.body;
-	let error = {};
-	
+    let error = {};
+
     if (!key) {
         return res.status(400).json({ msg: "Invalid parameters" });
     }
@@ -20,10 +20,10 @@ const general = async (req, res) => {
             error = profileHelper.validateBio(value);
             break;
         case "birth_date":
-			error = profileHelper.validateBirthdate(value);
+            error = profileHelper.validateBirthdate(value);
             break;
         case "country":
-            break;           
+            break;
         default:
             return res.status(400).json("Invalid parameters");
     }
@@ -35,47 +35,39 @@ const general = async (req, res) => {
     try {
         await profileModel.editProfile(user_id, key, value);
         return res.json({ msg: "Your profile was successfully updated" });
-	} catch (e) {
-		return res.status(404).json({ error: "Something went wrong adding Profile info" });
-	}
+    } catch (e) {
+        return res
+            .status(404)
+            .json({ error: "Something went wrong adding Profile info" });
+    }
 };
-
 
 const tags = async (req, res) => {
     const { user_id, key, value } = req.body;
-    // Crosscheck the list of new tags with default tags in database
     try {
+        // Crosscheck the list of new tags with default tags in the database
         let tagsAreValid = await profileModel.validateTags(value);
-        if(!tagsAreValid) {
-            return res.status(404).json({ error: "Invalid tags, some of the dont exist" });
+        if (!tagsAreValid) {
+            return res.status(404).json({ error: "Invalid tags, some of them dont exist" });
         }
-    } catch (e) {
-        return res.status(404).json({ error: "Something went wrong removing data from database" });
-    }
-
-    // Remove old tags if user has any
-    userTags = await profileModel.userHasTags(user_id);
-    if (userTags){
-        try {
+        // Remove old tags if user has any
+        userTags = await profileModel.userHasTags(user_id);
+        if (userTags) {
             await profileModel.deleteRowOneCondition("user_tags", "user_id", user_id);
-        } catch (e) {
-            return res.status(404).json({ error: "Something went wrong removing data from database" });
         }
-    }
-    
-    // Build query to insert tags into database
-    const query = profileHelper.buildQueryForSavingTags(value, user_id);
+        // Build query to insert tags into database
+        const query = profileHelper.buildQueryForSavingTags(value, user_id);
 
-    // Insert tags to the database
-    try {
+        // Insert tags to the database
         await profileModel.saveTags(query);
+
         return res.json({ msg: "Tags were successfully updated" });
     } catch (e) {
-        return res.status(404).json({ error: "Something went wrong adding tags to the database" });
-    }   
-}
+        return res.status(404).json({error: "Something went wrong adding tags to the database",});
+    }
+};
 
 module.exports = {
-	general,
-	tags
-}
+    general,
+    tags,
+};

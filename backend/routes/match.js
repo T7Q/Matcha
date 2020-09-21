@@ -6,5 +6,8 @@ const { recommend } = require('../controllers/match');
 // @desc    Match and filter
 // @access  Public
 router.post('/recommend', recommend)
+router.post('/likedme', recommend)
+router.post('/visitedme', recommend)
+router.post('/connected', recommend)
 
 module.exports = router;

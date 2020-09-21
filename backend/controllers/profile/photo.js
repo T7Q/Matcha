@@ -11,55 +11,43 @@ const upload = async (req, res) => {
 
     let result = {};
     let i = 0;
-    // for each image request
+    // for each image in the request
     for (const element of value) {
-        // if old_photo id is present, remove it from database
-        if (value[i]["old_image_id"]) {
-            // get old imag path form db and remove it 
-            try {
-                let filename = await profileModel.getDataOneCondition("images", "image_path", "image_id", value[i]["old_image_id"]);
-                profileHelper.deleteFromFile(filename.image_path);
-            } catch (e) {
-                return res.status(400).json({ error: "Something went wrong getting data from database" });
-            }
-
-            // delete old photo from db
-            try {
-                await profileModel.deleteRowOneCondition("images", "image_id", value[i]["old_image_id"]);
-            } catch (e) {
-                return res.status(400).json({ error: "Something went wrong deleting data from database" });
-            }
-        }
-
-        result[i] = {};
-        // save new photo to the images folder on the server
-        let uploadPath = profileHelper.saveToFile(element.data);
-        let getPhotoId;
         try {
-            getPhotoId = await profileModel.addPhotoToDb(user_id, uploadPath);
-        } catch (e) {
-            return res.status(400).json({ error: "Error saving photo" });
-        }
+            // if old_photo id is present, remove it from database
+            if (value[i]["old_image_id"]) {
+                // get old image path form db and remove it 
+                let filename = await profileModel.getDataOneCondition("images", "image_path", "image_id", value[i]["old_image_id"]);
+                profileHelper.deleteFromFile(filename[0].image_path);
 
-        // for each image return upload path, image id, type and message
-        result[i] = {
-            path: uploadPath,
-            image_id: getPhotoId,
-            msg: "Your photo was succesfully saved",
-            type: "photo",
-        };
-
-        // for profile image, save image path to users table 
-        if (element.type === "profile") {
-            try{
-                await profileModel.editProfile(user_id, "profile_pic_path", uploadPath);
-            } catch (e) {
-                return res.status(400).json({ error: "Error saving profile photo" });
+                // delete old photo from db
+                await profileModel.deleteRowOneCondition("images", "image_id", value[i]["old_image_id"]);
             }
-            result[i]["msg"] = "Your profile photo was succesfully saved";
-            result[i]["type"] = "profile";
-        }
-        i++;
+
+            result[i] = {};
+            // save new photo to the images folder on the server
+            let uploadPath = profileHelper.saveToFile(element.data);
+            let getPhotoId;
+            getPhotoId = await profileModel.addPhotoToDb(user_id, uploadPath);
+
+            // for each image return upload path, image id, type and message
+            result[i] = {
+                path: uploadPath,
+                image_id: getPhotoId,
+                msg: "Your photo was succesfully saved",
+                type: "photo",
+            };
+
+            // for profile image, save image path to users table 
+            if (element.type === "profile") {
+                await profileModel.editProfile(user_id, "profile_pic_path", uploadPath);
+                result[i]["msg"] = "Your profile photo was succesfully saved";
+                result[i]["type"] = "profile";
+            }
+            i++;
+        } catch (e) {
+        return res.status(400).json({ error: "Error saving photo" });
+    }
     }
     return res.json(result);
 };
@@ -74,39 +62,32 @@ const deletePhoto = async (req, res) => {
     let i = 0;
     for (const element of value) {
         result[i] = {};
-        // find filename by image id and remove it from images folder
         try {
+            // find filename by image id and remove it from images folder
             let filename = await profileModel.getDataOneCondition("images", "image_path", "image_id", value[i]["image_id"]);
-            profileHelper.deleteFromFile(filename.image_path);
-        } catch (e) {
-            return res.status(400).json({ error: "Something went wrong getting data from database" });
-        }
+            profileHelper.deleteFromFile(filename[0].image_path);
 
-        // delete image from the database
-        try {
+            // delete image from the database
             await profileModel.deleteRowOneCondition("images", "image_id", value[i]["image_id"]);
-        } catch (e) {
-            return res.status(400).json({ error: "Something went wrong deleting data from database" });
-        }
 
-        // prepare return message
-        result[i] = {
-            msg: "Photo was succesfully deleted",
-            type: "photo",
-        };
+            // prepare return message
+            result[i] = {
+                msg: "Photo was succesfully deleted",
+                type: "photo",
+            };
 
-        // for profile photo set profile path in users table to null
-        if (element.type === "profile") {
-            let editProfilePhoto = {};
-            try {
-                editProfilePhoto = await profileModel.editProfile(user_id, "profile_pic_path", "");
-                result[i]["msg"] = "Profile photo was succesfully deleted";
-                result[i]["type"] = "profile";
-            } catch (e) {
-                return res.status(400).json({ error: "Error remoing profile photo" });
+            // for profile photo set profile path in users table to null
+            if (element.type === "profile") {
+                let editProfilePhoto = {};
+                    editProfilePhoto = await profileModel.editProfile(user_id, "profile_pic_path", "");
+                    result[i]["msg"] = "Profile photo was succesfully deleted";
+                    result[i]["type"] = "profile";
             }
+            i++;
+
+        } catch (e) {
+            return res.status(400).json({ error: "Error deleting photo" });
         }
-        i++;
     }
     return res.json(result);
 };

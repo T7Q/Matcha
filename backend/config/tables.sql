@@ -80,16 +80,16 @@ CREATE TABLE IF NOT EXISTS "user_tags"
 CREATE TABLE IF NOT EXISTS "report_users"
 (
  "report_id"        bigserial NOT NULL PRIMARY KEY,
- "user_id"          bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
- "user_id_reported" bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "from_user_id"          bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "to_user_id" bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
  "created_at"       timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS "block_users"
 (
  "block_id"        bigserial NOT NULL PRIMARY KEY,
- "user_id"         bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
- "user_id_blocked" bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "from_user_id"         bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "to_user_id" bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
  "created_at"      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 

@@ -1,8 +1,7 @@
 const matchModel = require("../../models/match");
 const matchHelper = require("../../models/matchHelper");
 const profileModel = require("../../models/profile");
-const accountModel = require("../../models/account");
-const { validateOrder } = require("../../models/matchHelper");
+const accountModel = require("../../models/account");2
 
 /* 
     req data = {
@@ -24,6 +23,7 @@ module.exports = async (req, res) => {
     // add check if user_id exists
     let errorOrder = matchHelper.validateOrder(req.body.order);
     let errorOrientation = matchHelper.validateOrientation(req.body.sex_orientation);
+    // add validate tags from profileModel
     if (errorOrder || errorOrientation)
         return res.status(400).json({ msg: "Invalid parameters or values" });
 

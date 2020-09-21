@@ -21,24 +21,10 @@ const editProfile = async (user_id, column, value) => {
 };
 
 const insertRow = async (table, user_id, other_user_id) => {
-    let column1;
-    let column2;
-
-    if (table == "likes" || table == "views") {
-        column1 = "from_user_id";
-        column2 = "to_user_id";
-    } else if (table == "block_users") {
-        column1 = "user_id";
-        column2 = "user_id_blocked";
-    } else if (table == "report_users") {
-        column1 = "user_id";
-        column2 = "user_id_reported";
-    }
-
     await db.query(
         `
         INSERT INTO ${table}\
-        (${column1},  ${column2})\
+        (from_user_id,  to_user_id)\
         VALUES($1, $2)`,
         [user_id, other_user_id]
     );

@@ -21,61 +21,24 @@ const validateOrientation = (userSelectedOrientation) => {
 
 const buildBase = (req, settings) => {
     switch (req.body.type) {
-        // case "liked_me":
-        //     settings.dateColumn = " , likes.date_created as date";
-        //     settings.join = " LEFT JOIN likes ON likes.from_user_id = users.user_id ";
-        //     settings.filter = " AND likes.to_user_id = $1 ";
-        //     settings.order = "date desc";
-        //     req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
-        //     break;
-        case "connected":
-            settings.filter = " AND (SELECT count(likes.like_id) AS from_likes FROM likes\
-                        WHERE likes.from_user_id = users.user_id AND likes.to_user_id = $1) = 1\
-                        AND (SELECT count(likes.like_id) AS to_likes FROM likes\
-                        WHERE likes.from_user_id = $1 AND likes.to_user_id = users.user_id) = 1";
-            req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
-            break;
-        case "visited_me":
-            settings.dateColumn = ", views.date_created AS date ";
-            settings.join = " LEFT JOIN views ON views.from_user_id = users.user_id ";
-            settings.filter = " AND views.to_user_id = $1";
-            settings.order = "date desc";
-            req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
-            break;
-        // case "visited_me_new":
-        //     settings.dateColumn = ", views.date_created AS date ";
-        //     settings.join = " LEFT JOIN views ON views.from_user_id = users.user_id ";
-        //     settings.filter = " AND views.to_user_id = $1\
-        //                         AND views.date_created  = DATE_FROM_NOTIFICATIONS";
-        //     settings.order = "date desc";
-        //     req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
-        //     break;
-        case "visited_by_me":
-            settings.dateColumn = ", views.date_created AS date ";
-            settings.join = " LEFT JOIN views ON views.to_user_id = users.user_id ";
-            settings.filter = " AND views.from_user_id = $1 ";
-            settings.order = "date desc";
-            req.body.sex_orientation = (req.body.sex_orientation ? req.body.sex_orientation : "");
-            break;
         case "nearby":
-            req.body.min_distance = 0;
-            req.body.max_distance = 10000;
+            settings.filter += setDistance(0, 10000);
             settings.limit = " LIMIT 100";
             break;
         case "popular":
-            settings.filter = " AND users.fame_rating > 0  ";
+            settings.filter += " AND users.fame_rating > 0  ";
             settings.order = "fame desc";
             settings.limit = " LIMIT 100";
             break;
         case "online":
-            settings.filter = " AND users.online = 1  ";
+            settings.filter += " AND users.online = 1  ";
             break;
         case "new":
-            settings.filter = " AND DATE_PART('day', NOW() - users.created_at) < 14  ";
+            settings.filter += " AND DATE_PART('day', NOW() - users.created_at) < 14  ";
             settings.order = "date desc";
             break;
         case "random":
-            settings.order = "random()";
+            settings.order += "random()";
             settings.limit = " LIMIT 100";
             break;
     }
@@ -92,9 +55,7 @@ const setWeights = (believeCn, believeWest, userHasTags) => {
 const setSexPreference = (userSexOrientation, filterSexOrientation) => {
     let orientation = "";
 
-    if (filterSexOrientation === "") {
-        return orientation;
-    } else if (filterSexOrientation) {
+    if (filterSexOrientation) {
         orientation = "'" + filterSexOrientation + "'";
     } else {
         orientation = 
@@ -169,6 +130,7 @@ module.exports = {
     buildBase,
     buildFilter,
     buildOrder,
+    setSexPreference,
     setWeights,
     validateOrder,
     validateOrientation

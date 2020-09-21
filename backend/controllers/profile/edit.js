@@ -46,8 +46,8 @@ const tags = async (req, res) => {
     const { user_id, key, value } = req.body;
     try {
         // Crosscheck the list of new tags with default tags in the database
-        let tagsAreValid = await profileModel.validateTags(value);
-        if (!tagsAreValid) {
+        let validateTagsInDb = await profileModel.validateTagsInDb(value);
+        if (!validateTagsInDb) {
             return res.status(404).json({ error: "Invalid tags, some of them dont exist" });
         }
         // Remove old tags if user has any

@@ -205,3 +205,34 @@ CREATE TRIGGER geolocation_update
 -- ON likes FOR EACH ROW
 -- EXECUTE PROCEDURE create_chat();
 
+
+-- Triggers: create_chat
+
+-- CREATE FUNCTION create_chat()
+--     RETURNS trigger
+--     LANGUAGE 'plpgsql'
+--     COST 100
+--     VOLATILE NOT LEAKPROOF
+-- AS $BODY$
+-- BEGIN
+--     BEGIN
+--     IF EXISTS (
+--         SELECT from_user_id FROM likes
+--         WHERE to_user_id = NEW.from_user_id
+--         AND from_user_id = NEW.to_user_id
+--     )
+--     THEN
+--         INSERT INTO chats (user_1, user_2)
+--         VALUES (NEW.from_user_id, NEW.to_user_id);
+--     END IF;
+-- RETURN NEW;
+-- END;
+-- $BODY$;
+
+
+
+-- CREATE TRIGGER create_chat
+-- AFTER INSERT
+-- ON likes FOR EACH ROW
+-- EXECUTE PROCEDURE create_chat();
+

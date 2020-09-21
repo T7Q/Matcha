@@ -1,5 +1,7 @@
-const recommend = require('./algorithm');
+const recommend = require('./recommend');
+const display = require('./display');
 
 module.exports = {
-    recommend
+    recommend,
+    display
 }

@@ -23,7 +23,7 @@ module.exports = async (req, user) => {
         //     return { 'latitude': user.latitude, 'longitude': user.longitude };
         // } else {
             location = await axios({ url: `http://api.ipstack.com/check?access_key=${process.env.IPSTACK}` });
-            console.log(location.data);
+            // console.log(location.data);
             return { 'latitude': location.data.latitude, 'longitude': location.data.longitude };
         // }
     }

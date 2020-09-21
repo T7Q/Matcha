@@ -3,17 +3,17 @@ const chat = require('../controllers/chat');
 const router = express.Router();
 const authorization = require('../middleware/authorization');
 
-// @route   GET chat/user/:userId
-// @desc    Return all user's chats
+// @route   GET chat/
+// @desc    Return logged user's chats
 // @access  Private
 // router.get('/user/:userId', authorization.required, chat.conversations);
-router.get('/user/:userId', chat.conversations);
+router.get('/', chat.conversations);
 
-// @route   GET chat/:chatId/user/:userId/messages
+// @route   GET chat/:chatId
 // @desc    Return chat's messages
 // @access  Private
 // router.get('/:chatId/user/:userId/messages', authorization.required, chat.history);
-router.get('/:chatId/user/:userId/messages',chat.history);
+router.get('/:chatId',chat.history);
 
 // @route   POST chat/message
 // @desc    Add message to chat

@@ -24,8 +24,8 @@ module.exports = async (req, res) => {
 
         await chatModel.addMessage(chatId, senderId, content);
         return res.json({ 'msg': 'message sent' });
-    } catch (error) {
-        console.log(error);
+    } catch (e) {
+        console.log(e);
         return res.status(400).json();
     }
 }

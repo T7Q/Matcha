@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
                 status: user.status
             }, jwtSecret, { expiresIn: 60 * 60 })
         });
-    } catch (error) {
+    } catch (e) {
         console.log(e);
         return res.status(400).json();
     }

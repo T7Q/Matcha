@@ -5,6 +5,10 @@ EXCEPTION
     WHEN duplicate_object THEN null;
 END $$;
 
+CREATE EXTENSION postgis;
+
+CREATE EXTENSION postgis_topology;
+
 CREATE TABLE IF NOT EXISTS "notifications"
 (
  "notification_id" serial NOT NULL PRIMARY KEY,
@@ -40,11 +44,12 @@ CREATE TABLE IF NOT EXISTS "users"
  "created_at"               timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
  "age"                      int NULL ,
  "sex_preference"           sex_preference NULL ,
+ "sex_orientation"          character varying COLLATE pg_catalog."default",
  "western_horo"             varchar(45) NULL ,
  "chinese_horo"             varchar(45) NULL ,
  "profile_pic_path"         varchar(255) NULL ,
  "real_time_notification"   boolean NOT NULL DEFAULT TRUE,
- "country"                 varchar(255) NULL ,
+ "country"                  varchar(255) NULL ,
  "geolocation"              geography(Point,4326),
  "notification_id"          integer UNIQUE NULL REFERENCES "notifications" ON DELETE CASCADE
 );
@@ -97,9 +102,10 @@ CREATE TABLE IF NOT EXISTS "block_users"
 CREATE TABLE IF NOT EXISTS "chats"
 (
  "chat_id"    bigserial NOT NULL PRIMARY KEY,
- "user_id"    bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
- "started_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "closed_at"  timestamp NULL
+ "user_1"     bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "user_2"     bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "started_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ "active"     boolean NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE IF NOT EXISTS "chinese_horo_compatibility"
@@ -140,11 +146,11 @@ CREATE INDEX IF NOT EXISTS "fkIdx_71" ON "likes"
 
 CREATE TABLE IF NOT EXISTS "messages"
 (
- "message_id" bigserial NOT NULL PRIMARY KEY,
- "message"    text NULL ,
- "time_sent"  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "chat_id"    bigint NOT NULL ,
- "sender_id"  bigint NOT NULL ,
+ "message_id"   bigserial NOT NULL PRIMARY KEY,
+ "message"      text NULL ,
+ "time_sent"    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ "chat_id"      bigint NOT NULL ,
+ "sender_id"    bigint NOT NULL ,
  CONSTRAINT "FK_72" FOREIGN KEY ( "sender_id" ) REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
  CONSTRAINT "FK_73" FOREIGN KEY ( "chat_id" ) REFERENCES "chats" ("chat_id") ON DELETE CASCADE
 );
@@ -179,11 +185,3 @@ CREATE INDEX IF NOT EXISTS "fkIdx_75" ON "participants"
 (
  "chat_id"
 );
-
-CREATE EXTENSION postgis
-    SCHEMA public
-    VERSION "2.5.4";
-
-CREATE EXTENSION postgis_topology
-    SCHEMA topology
-    VERSION "2.5.4";

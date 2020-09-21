@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "description": "dating web application",
     "scripts": {
-        "init": "npm update && cd backend && npm update",
-        "dev": "concurrently \"cd backend && npm run dev\" \"npm run frontend\" ",
+        "init": "npm install && cd backend && npm install && cd ../frontend && npm install",
+        "dev": "concurrently \"cd backend && npm run dev\" \" cd frontend && npm start\" ",
         "setup_db": "cd backend && npm run setup_db",
         "drop_db": "cd backend && npm run drop_db",
         "client": "npm start --prefix frontend"

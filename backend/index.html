@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+        form {
+            border-top: 1px solid black;
+            padding: 3px;
+            position: fixed;
+            text-align: center;
+            width: 100%;
+        }
+
+        form input {
+            border: 0;
+            padding: 10px;
+            width: 90%;
+            margin-right: 0.5%;
+        }
+
+        form button {
+            width: 9%;
+            background: rgb(130, 224, 255);
+            border: none;
+            padding: 10px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+        }
+
+        #messages li:nth-child(odd) {
+            background: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="messages"></ul>
+    <button id="chat">Test chat</button>
+    <form>
+        <input id="name" placeholder="Name" style="width: 200px;">
+        <br>
+        <textarea id="message" placeholder="Message"></textarea>
+        <br>
+        <button id="send">Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+            var socket = io();
+            $(() => {
+                $("#send").click(() => {
+                    event.preventDefault();
+                    var message = { name: $("#name").val(), message: $("#message").val() }
+                    postMessage(message)
+                });
+                $("#chat").click(() => {
+                    console.log('index chat');
+                    chatfunc();
+                    socket.emit('hi');
+                })
+                getMessages();
+            })
+
+            socket.on('message', addMessage)
+
+            socket.on('chat', (some) => {
+                console.log('here chat')
+            });
+
+
+            function chatfunc() {
+                $.get('http://localhost:5000/chat', (data) => {
+                    console.log('in caht func');
+                })
+            }
+            function addMessage(message) {
+                $("#messages").append(`<li><h4> ${message.name} </h4> <p> ${message.message} </p></li>`)
+            }
+
+            function getMessages() {
+                $.get('http://localhost:5000/messages', (data) => {
+                    data.forEach(addMessage);
+                })
+            }
+
+            function postMessage(message) {
+                $.post('http://localhost:5000/messages', message)
+            }
+        });
+    </script>
+</body>
+
+</html>

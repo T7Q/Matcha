@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
         errors.push(helper.validateName(lastname));
 
         // remove empty objects from errors
-        errors = errors.filter(error => { return Object.keys(error).length != 0 });
+        errors = errors.filter(error => Object.keys(error).length != 0);
 
         if (errors.length != 0) {
             return res.status(400).json(errors);
@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
 
         const result = await accountModel.register(req.body);
         return res.json(mail.activateAccountEmail(email, result.user_id, username, req.body.token));
-    } catch (error) {
+    } catch (e) {
         console.log(e);
         return res.status(400).json();
     }

@@ -185,11 +185,3 @@ CREATE INDEX IF NOT EXISTS "fkIdx_75" ON "participants"
 (
  "chat_id"
 );
-
-CREATE EXTENSION postgis
-    SCHEMA public
-    VERSION "2.5.4";
-
-CREATE EXTENSION postgis_topology
-    SCHEMA topology
-    VERSION "2.5.4";

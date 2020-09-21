@@ -108,7 +108,7 @@ const registerGoogle = async (req, res) => {
         errors.push(helper.validateName(lastname));
 
         // remove empty objects from errors
-        errors = errors.filter(error => { return Object.keys(error).length != 0 });
+        errors = errors.filter(error => Object.keys(error).length != 0);
 
         // check if we have errors
         if (errors.length != 0) {
@@ -133,7 +133,7 @@ const registerGoogle = async (req, res) => {
                 status: 1
             }, jwtSecret, { expiresIn: 60 * 60 })
         });
-    } catch (error) {
+    } catch (e) {
         console.log(e);
         return res.status(400).json();
     }

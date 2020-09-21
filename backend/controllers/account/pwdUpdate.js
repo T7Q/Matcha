@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
 
         await accountModel.updateAccount(user_id, { password: await bcrypt.hash(password, 10), token: null });
         return res.json({ 'msg': 'Your password was updated' });
-    } catch (error) {
+    } catch (e) {
         console.log(e);
         return res.status(400).json();
     }

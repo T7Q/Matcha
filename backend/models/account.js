@@ -32,8 +32,8 @@ const updateTime = async (userId, time) => {
 // data = {'status': 5, 'online': 7}
 const updateAccount = async (user_id, data) => {
     const keys = Object.keys(data);
-    const info = keys.map((key, i) => { return `${key} = $${i + 1}` }).join(', ')
-    const values = keys.map((key) => { return data[key]; });
+    const info = keys.map((key, i) => `${key} = $${i + 1}`).join(', ')
+    const values = keys.map(key => data[key]);
     const res = await db.query(
         `UPDATE users
         SET ${info}

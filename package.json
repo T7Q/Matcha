@@ -4,9 +4,10 @@
     "description": "dating web application",
     "scripts": {
         "init": "npm update && cd backend && npm update",
-        "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" ",
+        "dev": "concurrently \"cd backend && npm run dev\" \"npm run frontend\" ",
         "setup_db": "cd backend && npm run setup_db",
-        "drop_db": "cd backend && npm run drop_db"
+        "drop_db": "cd backend && npm run drop_db",
+        "client": "npm start --prefix frontend"
     },
     "keywords": [],
     "author": "",

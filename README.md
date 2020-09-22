@@ -59,11 +59,6 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
     * Real-time push notifications when the user receives a like/unlike, message from another user or user's profile is checked.
 
 ## Planning
-### Astro theme
-Whether you believe in astrology or not, it’s having a renaissance today. More than half of the millennial and Gen Z generations are at least aware of their zodiac, and there’s a third of us that are considering astrology when it comes to making decisions about relationships.
-
-Following the trend, we decided to give our app an Astrology twist and based our matching algorithm on Chinese and Western astrology compatibility and set front-end visuals around the astrology theme.
-
 ### Work milestones and breakdown
 TBC
 ### Database structure

@@ -3,8 +3,8 @@ This is a team project, a part of the web branch at [Hive Helsinki](https://www.
 
 - [Task](#task)
 - [Authors](#authors)
-- [Functionality](#functionality)
 - [Tech stack](#tech-stack)
+- [Functionality](#functionality)
 - [Planning](#planning)
   * [Work breakdown](#work-breakdown)
   * [Database structure](#database-structure)
@@ -12,52 +12,59 @@ This is a team project, a part of the web branch at [Hive Helsinki](https://www.
 - [App Preview](#app-preview)
 - [Run locally](#run-locally)
 
-You should configure your postgres database on your system in accordance with your database credentials.
-
 ## Authors
-Tatiana Kuumola and [Diana Mukaliyeva](https://github.com/DianaMukaliyeva)
+**Tatiana**	- *Back/Front* - [check her profile](https://github.com/T7Q)
+
+**Diana**	- *Back/Front* - [check her profile](https://github.com/DianaMukaliyeva)
 
 ## Task
-The aim of this project is to build a Tinder-like web app, where the users can create their profile, browse through a list of recommended profiles or conduct search by age, distance, fame rating, commong tags. Users can like, report and block other users and chat with users that liked them back.
+The aim of this project is to build a **Tinder-like web app**, where the users can create their profile, browse through a list of recommended profiles or conduct a search by age, distance, fame rating, commong tags. Users can like, report and block other users and chat with users that liked them back.
 
-Project constraints:
+**Project constraints:**
 * Clientside: HTML, CSS, Javascript
 * Relational or graph-oriented database
 * Micro-frameworks and UI libraries are allowed
-* No ORM, validatores or User Account Manager
+* No ORM, validators, or User Account Manager
 * No errors, warnings or notice on both server- and client- sides
-* No security breaches (e.g. no SQL, HTML injections, plain passwords in the dataases)
+* No security breaches (e.g. no SQL, HTML injections, plain passwords in the database)
 * Compatible at least with Firefox (>=41) and Chrome (>= 46)
 * Responsive design
 
 ## Stack
-This is the first project in Hive Web branch when we were allowed to choose the language. Our team decided to use this opporutnity to learn PERN stack. This was the first time for both of us to use PostgreSQL, React, Redux and also JWT, Material UI and Socket.io. We also used this project to learn more about Node.js projects structures (including folder structure, configuring env variables and MVC pattern).
+This is the first project in Hive Helsinki web branch when we were allowed to choose the language.
 
-* PostgreSQL
-* Express
-* React, Redux
-* Node
+Our team decided to use this opportunity to learn **PERN stack**. This was the first time for both of us to use PostgreSQL, React, Redux, and also JWT, Material UI and Socket.io. We also used this project to learn more about Node.js projects structures (including folder structure, configuring env variables and MVC pattern).
+
+* **PostgreSQL**
+* **Express**
+* **React, Redux**
+* **Node**
 * JWT
 * Material UI
 * Socket.io
 
 ## Functionality
-* User features:
-    * Advanced user registeration and login (Oauth) and password reset through email link
-    * User data management: modify user data (username, email, etc), change password, set email and push notification preferences)
-    * View own and other user profiles
-    * View user profile visit history, list of connected and liked profiles
-* Matching features:
-    * Multiple infinite scroll galleries with list of suggestions that match his/her profile (recommended, online, popular, nearby).
-    * Matching Alogrimth using scoring weights based on chinese and western horoscope compatibility, common tags, fame ratng, location, age and gender.
+* **User features:**
+    * Registration and login (Oauth), and password reset through email link.
+    * User data management, incl. edit profile data, change password and notification preferences.
+    * View own and other user profiles.
+    * View profile visit history, list of connected and blocked profiles.
+* **Matching features:**
+    * Multiple infinite scroll galleries with a list of suggestions that match his/her profile (recommended, online, popular, nearby).
+    * Matching Alogrimth using scoring weights based on Chinese and Western horoscope compatibility, common tags, fame rating, location, age and gender.
     * Advanced range sliders to sort and filter users by horoscope believe, common tags, location, fame rating and age.
-* Chat features:
-    * FB messange-like real-time chat for matched users.
-* Notifications features:
-    * Real-time notifications when user receives a like/unlike, user's profile was checked, user received a message.
+* **Chat features:**
+    * FB messenger-like real-time chat for connected users.
+* **Notifications features:**
+    * Real-time push notifications when the user receives a like/unlike, message from another user or user's profile is checked.
 
 ## Planning
-## Work breakdown
+### Astro theme
+Whether you believe in astrology or not, it’s having a renaissance today. More than half of the millennial and Gen Z generations are at least aware of their zodiac, and there’s a third of us that are considering astrology when it comes to making decisions about relationships.
+
+Following the trend, we decided to give our app an Astrology twist and based our matching algorithm on Chinese and Western astrology compatibility and set front-end visuals around the astrology theme.
+
+### Work milestones and breakdown
 TBC
 ### Database structure
 ![Database planning](../assets/db.png?raw=true)
@@ -66,12 +73,23 @@ TBC
 See full mobile and desktop versions.
 ![Gallery draft](../assets/wireframe.png?raw=true)
 
-## App Preview
-Live preview here
-Snapshops
+## App live preview
+Live preview on HEROKU
+
+You can create your own profile or use a ready made: **username** `Love` **password** `Astro1ove`
+
+## App snapshots
+TBC
 
 ## Run locally
-* Create a file .env in backend/config folder.
+* **Git clone** repo 
+* Install [PostgreSQL](https://www.postgresql.org/) and its [PostGIS](https://postgis.net/) extension
+* Make sure you can send email from terminal
+* Sign up and get credentials from:
+	* [Google](https://developers.google.com/adwords/api/docs/guides/authentication)
+	* [IPSTACK key](https://ipstack.com/signup/free)
+	* [Geoip-lite configuration key](https://www.maxmind.com/en/geolite2/signup) and run `cd backend/node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY`
+* Create a file **.env** in `backend/config` folder and update with your credentials
 
     ```
     # database configuration
@@ -98,12 +116,5 @@ Snapshops
     IPSTACK=your_ipstack_key
 
 	```
-* Remember to configure Postgres database in accordance with your database credentials.
-
 * Run command `npm run init` in the root folder to install all dependencies in all folders.
-
-* Create a file .env in backend/config/ and replace with your credentials. Make sure you can send email from terminal. Google credentials setup you can find [here](https://developers.google.com/adwords/api/docs/guides/authentication). IPSTACK key you can get [here](https://ipstack.com/signup/free) after registration.
-
-* The Geoip-lite configuration key you can get [here](https://www.maxmind.com/en/geolite2/signup) after registration. After that run `cd backend/node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY`
-
-* Run command `npm run dev` to start a server.
+* Run command `npm run dev` to start a server and open `localhost:3000` in your preferred browser

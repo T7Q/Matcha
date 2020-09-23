@@ -6,11 +6,30 @@ const required = async (req, res, next) => {
             const user = await accountModel.findUserInfo('user_id', req.user.userId, 'online', 'status');
 
             if (user && user.online === 1) {
-                if (user.status === 1 && req.baseUrl != '/profile/create') {
+                if (user.status === 1) {
                     return res.json({ error: 'Fill your account' });
                 }
                 await accountModel.updateTime(req.user.userId, Date.now());
                 return next();
+            }
+        } catch (e) {
+            console.log(e);
+            return res.json({ error: 'something went wrong' });
+        }
+    }
+    return res.json({ error: 'Unauthorized user!' });
+};
+
+const withStatus1 = async (req, res, next) => {
+    if (req.user) {
+        try {
+            const user = await accountModel.findUserInfo('user_id', req.user.userId, 'online', 'status');
+
+            if (user && user.online === 1 && user.status === 1) {
+                await accountModel.updateTime(req.user.userId, Date.now());
+                return next();
+            } else {
+                return res.json({ error: "You don't have priviliges" });
             }
         } catch (e) {
             console.log(e);
@@ -30,4 +49,5 @@ const forbidden = async (req, res, next) => {
 module.exports = {
     required,
     forbidden,
+    withStatus1,
 };

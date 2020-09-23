@@ -8,6 +8,11 @@ const authorization = require('../middleware/authorization');
 // @access  Public
 router.get('/', authorization.required, account.getAll);
 
+// @route   GET /account
+// @desc    Return all users
+// @access  Public
+router.get('/auth', authorization.withStatus1, account.auth);
+
 // @route   POST /account/register
 // @desc    Create a new user
 // @access  Public

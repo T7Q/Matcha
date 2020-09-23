@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const setAuthToken = (token) => {
+const setAuthToken = token => {
     if (token) {
-        axios.defaults.headers.Authorization = 'JWT ' + token;
+        axios.defaults.headers.authorization = 'JWT ' + token;
     } else {
-        delete axios.defaults.headers.Authorization;
+        delete axios.defaults.headers.authorization;
     }
 };
 

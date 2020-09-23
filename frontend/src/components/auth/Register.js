@@ -5,7 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 
-const Register = ({ setAlert, register, isAuthenticated }) => {
+const Register = ({ setAlert, register, isAuthenticated, user }) => {
     const [formData, setFormData] = useState({
         username: '',
         firstname: '',
@@ -17,9 +17,9 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
     const { username, firstname, lastname, email, password, confirmPassword } = formData;
 
-    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmit = async (e) => {
+    const onSubmit = async e => {
         e.preventDefault();
         if (password !== confirmPassword) {
             setAlert('Passwords do not match', 'danger');
@@ -29,9 +29,11 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         }
     };
 
-    // if (isAuthenticated) {
-    //     return <Redirect to='/matches' />;
-    // }
+    if (isAuthenticated && user.status === 2) {
+        return <Redirect to='/matches' />;
+    } else if (isAuthenticated && user.status === 1) {
+        return <Redirect to='/complete' />;
+    }
 
     return (
         <Fragment>
@@ -109,7 +111,13 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 Register.propTypes = {
     setAlert: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
-    // isAuthenticated: PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
+    user: PropTypes.object,
 };
 
-export default connect(null, { setAlert, register })(Register);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);

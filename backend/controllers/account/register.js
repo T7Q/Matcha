@@ -19,10 +19,10 @@ module.exports = async (req, res) => {
         errors.push(helper.validateName(lastname));
 
         // remove empty objects from errors
-        errors = errors.filter((error) => Object.keys(error).length != 0);
+        errors = errors.filter(error => Object.keys(error).length != 0);
 
         if (errors.length != 0) {
-            return res.status(400).json(errors);
+            return res.json({ error: errors });
         }
 
         req.body.password = await bcrypt.hash(password, 10);
@@ -32,6 +32,6 @@ module.exports = async (req, res) => {
         return res.json(mail.activateAccountEmail(email, result.user_id, username, req.body.token));
     } catch (e) {
         console.log(e);
-        return res.status(400).json();
+        return res.json({ error: 'something went wrong' });
     }
 };

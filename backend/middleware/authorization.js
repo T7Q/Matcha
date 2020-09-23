@@ -7,26 +7,27 @@ const required = async (req, res, next) => {
 
             if (user && user.online === 1) {
                 if (user.status === 1 && req.baseUrl != '/profile/create') {
-                    return res.status(403).json({ 'error': 'Fill your account' });
+                    return res.json({ error: 'Fill your account' });
                 }
                 await accountModel.updateTime(req.user.userId, Date.now());
                 return next();
             }
         } catch (e) {
-            return res.status(400).json();
+            console.log(e);
+            return res.json({ error: 'something went wrong' });
         }
     }
-    return res.status(401).json({ 'error': 'Unauthorized user!' });
-}
+    return res.json({ error: 'Unauthorized user!' });
+};
 
 const forbidden = async (req, res, next) => {
     if (req.user) {
-        return res.status(401).json({ 'error': 'You should be logged out!' });
+        return res.json({ error: 'You should be logged out!' });
     }
     return next();
-}
+};
 
 module.exports = {
     required,
-    forbidden
-}
+    forbidden,
+};

@@ -1,6 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { create, edit, deleteAccount, interaction, notification, photo } = require('../controllers/profile');
+const { show, create, edit, deleteAccount, interaction, notification, photo } = require('../controllers/profile');
+
+// // @route   GET /profile/create
+// // @desc    Show profile info
+// // @access  Public
+router.get('/', show.getProfile)
+
+// // @route   POST /profile/create
+// // @desc    Show profile info
+// // @access  Public
+router.post('/', show.userProfile)
 
 // @route   POST /profile/create
 // @desc    Add profile info

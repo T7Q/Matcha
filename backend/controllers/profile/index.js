@@ -4,6 +4,7 @@ const edit = require('./edit');
 const interaction =require('./interaction');
 const notification = require('./notification');
 const photo = require('./photo');
+const show = require('./show');
 
 module.exports = {
     create,
@@ -11,5 +12,6 @@ module.exports = {
     edit,
     interaction,
     notification,
-    photo
+    photo,
+    show
 }

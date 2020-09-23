@@ -5,8 +5,10 @@ const helper = require('../../models/accountHelper');
 const mail = require('../../utils/mail');
 
 module.exports = async (req, res) => {
+    console.log('on server side');
     const { email, username, lastname, firstname, password, confirmPassword } = req.body;
     req.body.username = username.toLowerCase();
+    req.body.email = email.toLowerCase();
 
     let errors = [];
     try {
@@ -17,7 +19,7 @@ module.exports = async (req, res) => {
         errors.push(helper.validateName(lastname));
 
         // remove empty objects from errors
-        errors = errors.filter(error => Object.keys(error).length != 0);
+        errors = errors.filter((error) => Object.keys(error).length != 0);
 
         if (errors.length != 0) {
             return res.status(400).json(errors);
@@ -32,4 +34,4 @@ module.exports = async (req, res) => {
         console.log(e);
         return res.status(400).json();
     }
-}
+};

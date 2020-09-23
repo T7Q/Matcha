@@ -5,8 +5,8 @@ const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: email.address,
-        pass: email.password
-    }
+        pass: email.password,
+    },
 });
 
 // console.log(req.protocol);
@@ -27,12 +27,12 @@ const activateAccountEmail = (recipient, userId, username, token) => {
         </div>`;
 
     try {
-        sendMail(recipient, subject, content);
-        return { 'msg': 'Activation link has been send to your email' };
+        // sendMail(recipient, subject, content);
+        return { msg: 'Activation link has been send to your email' };
     } catch {
-        return { 'error': 'Could not sent an email' };
+        return { error: 'Could not sent an email' };
     }
-}
+};
 
 const pwdResetEmail = (recipient, userId, username, token) => {
     const link = 'http://localhost:5000/account/reset?user=' + userId + '&token=' + token;
@@ -53,25 +53,25 @@ const pwdResetEmail = (recipient, userId, username, token) => {
         </div>`;
 
     try {
-        sendMail(recipient, subject, content);
-        return { 'msg': 'Password reset link has been sent to your email' };
+        // sendMail(recipient, subject, content);
+        return { msg: 'Password reset link has been sent to your email' };
     } catch {
-        return { 'error': 'Could not sent an email' };
+        return { error: 'Could not sent an email' };
     }
-}
+};
 
 const sendMail = (recipient, subject, content) => {
     const mailOptions = {
         from: 'matcha@no-reply.com',
         to: recipient,
         subject: subject,
-        html: content
+        html: content,
     };
 
     transporter.sendMail(mailOptions);
-}
+};
 
 module.exports = {
     pwdResetEmail,
-    activateAccountEmail
-}
+    activateAccountEmail,
+};

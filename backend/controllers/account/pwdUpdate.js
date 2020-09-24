@@ -6,13 +6,13 @@ module.exports = async (req, res) => {
     const { password, confirmPassword, token, user_id } = req.body;
 
     if (!token || !user_id || !password || !confirmPassword) {
-        return res.status(400).json({ 'error': 'Fields can not be empty' });
+        return res.json({ error: ['Fields can not be empty'] });
     }
 
     let errors = helper.validatePassword(password, confirmPassword);
 
     if (Object.keys(errors).length != 0) {
-        return res.status(400).json(errors);
+        return res.json({ error: errors });
     }
 
     try {
@@ -23,13 +23,13 @@ module.exports = async (req, res) => {
             if (result.status != 0) {
                 await accountModel.updateAccount(user_id, { token: null });
             }
-            return res.status(400).json({ 'error': 'Token is not valid, please, resent the link' });
+            return res.json({ error: ['Token is not valid, please, resent the link'] });
         }
 
         await accountModel.updateAccount(user_id, { password: await bcrypt.hash(password, 10), token: null });
-        return res.json({ 'msg': 'Your password was updated' });
+        return res.json({ msg: 'Your password was updated' });
     } catch (e) {
         console.log(e);
-        return res.status(400).json();
+        return res.json({ error: 'something went wrong' });
     }
-}
+};

@@ -56,7 +56,7 @@ const deletePhoto = async (req, res) => {
     const { user_id, key, value } = req.body;
     // validate request parameters
     if (!key || !user_id || !value || key !== "photo" || value.length > 5) {
-        return res.status(400).json({ error: "Invalid parameters" });
+        return res.json({ error: "Invalid parameters" });
     }
     let result = {};
     let i = 0;
@@ -86,7 +86,7 @@ const deletePhoto = async (req, res) => {
             i++;
 
         } catch (e) {
-            return res.status(400).json({ error: "Error deleting photo" });
+            return res.json({ error: "Error deleting photo" });
         }
     }
     return res.json(result);

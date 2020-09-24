@@ -27,6 +27,28 @@ const validateBio = (bio) => {
     return errors;
 };
 
+const validateName = (name) => {
+    let errors = {};
+    if (!name) {
+        errors["error"] = "Required field";
+    }
+    if (name.length > 25) {
+        errors["error"] = "Should be between 1 to 25 characthers";
+    }
+    return errors;
+};
+
+const validateTags = (tags) => {
+    let errors = {};
+    if (!tags) {
+        errors["error"] = "Required field";
+    }
+    if (tags.length < 2) {
+        errors["error"] = "You should pick at least 5 interest";
+    }
+    return errors;
+};
+
 
 const getAge = (dob) => {
     var today = new Date();
@@ -119,6 +141,8 @@ module.exports = {
     validateSexPreferences,
     validateBio,
     validateBirthdate,
+    validateName,
+    validateTags,
     getAge,
     saveToFile,
     deleteFromFile,

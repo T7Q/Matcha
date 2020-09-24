@@ -6,7 +6,7 @@ const edit = async (req, res) => {
 	const { user_id, key } = req.body;
 	// validate input parameters
 	if (!key) {
-        return res.status(400).json({ 'msg': 'Invalid parameters' });
+        return res.json({ error: 'Invalid parameters' });
 	}
 	let settings;
 	// Find current notification setting
@@ -16,7 +16,7 @@ const edit = async (req, res) => {
 				settings = await findUserInfo("user_id", user_id, "email_notification");
 				settings = settings.email_notification
 			} catch (e) {
-				return res.status(404).json({ error: "Something went wrong fetching data from the database" });
+				return res.json({ error: "Something went wrong fetching data from the database" });
 			}
 			break;
 		case "real_time_notification":
@@ -24,11 +24,11 @@ const edit = async (req, res) => {
 				settings = await findUserInfo("user_id", user_id, "real_time_notification");
 				settings = settings.real_time_notification
 			} catch (e) {
-				return res.status(404).json({ error: "Something went wrong fetching data from the database" });
+				return res.json({ error: "Something went wrong fetching data from the database" });
 			}
 			break;
 		default:
-			return res.status(400).json('Invalid parameters');
+			return res.json({ error: 'Invalid parameters'});
 	}
 
 	let value  = (settings === true ? 0 : 1);
@@ -39,7 +39,7 @@ const edit = async (req, res) => {
 							notification: value
 						});
 	} catch (e) {
-		return res.status(404).json({ error: "Something went wrong adding Profile info" });
+		return res.json({ error: "Something went wrong adding Profile info" });
 	}
 }
 

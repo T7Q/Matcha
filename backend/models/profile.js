@@ -1,8 +1,8 @@
 const db = require("./db");
 
 // console.log("\u001b[32m" + 
-const registerProfile = async (req) => {
-    const { user_id, gender, sex_preference, bio, birth_date, country} = req.body;
+const registerProfile = async (user_id, req) => {
+    const { gender, sex_preference, bio, birth_date, country} = req.body;
     await db.query(`\
         UPDATE users\
         SET gender = $1, sex_preference = $2, bio = $3, birth_date = $4, country = $5\

@@ -30,7 +30,7 @@ recommend = async (req, res) => {
         let matches = await matchModel.getMatch(userDbData, settings);
         return res.json(matches);
     } catch (e) {
-        return res.status(400).json({error: e.detail || "Something went wrong getting matches"});
+        return res.json({error: e.detail || "Something went wrong getting matches"});
     }
 };
 
@@ -58,7 +58,7 @@ const likedMe = async (req, res) => {
         let matches = await matchModel.getMatch(userDbData, settings);
         return res.json(matches);
     } catch (e) {
-        return res.status(400).json({error: e.detail || "Something went wrong getting liked you matches"});
+        return res.json({error: e.detail || "Something went wrong getting liked you matches"});
     }
 };
 
@@ -89,7 +89,7 @@ const connected = async (req, res) => {
         let matches = await matchModel.getMatch(userDbData, settings);
         return res.json(matches);
     } catch (e) {
-        return res.status(400).json({error: e.detail || "Something went wrong getting liked you matches"});
+        return res.json({error: e.detail || "Something went wrong getting liked you matches"});
     }
 };
 
@@ -117,7 +117,7 @@ const visitedMe = async (req, res) => {
         let matches = await matchModel.getMatch(userDbData, settings);
         return res.json(matches);
     } catch (e) {
-        return res.status(400).json({error: e.detail || "Something went wrong getting liked you matches"});
+        return res.json({error: e.detail || "Something went wrong getting liked you matches"});
     }
 };
 
@@ -148,7 +148,7 @@ const visitedMeNew = async (req, res) => {
         let matches = await matchModel.getMatch(userDbData, settings);
         return res.json(matches);
     } catch (e) {
-        return res.status(400).json({error: e.detail || "Something went wrong getting liked you matches"});
+        return res.json({error: e.detail || "Something went wrong getting liked you matches"});
     }
 };
 
@@ -176,7 +176,7 @@ const visitedByMe = async (req, res) => {
         let matches = await matchModel.getMatch(userDbData, settings);
         return res.json(matches);
     } catch (e) {
-        return res.status(400).json({error: e.detail || "Something went wrong getting liked you matches"});
+        return res.json({error: e.detail || "Something went wrong getting liked you matches"});
     }
 };
 

@@ -66,6 +66,6 @@ router.post('/auth/google/register', authorization.forbidden, account.registerGo
 // @route   GET /account/logout
 // @desc    Logout active user
 // @access  Public
-router.get('/logout', account.logout);
+router.post('/logout', account.logout);
 
 module.exports = router;

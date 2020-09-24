@@ -20,11 +20,12 @@ import store from './store';
 
 import './App.css';
 
+// setAuthToken(localStorage.getItem('token'));
+
 const App = () => {
     useEffect(() => {
-        setAuthToken(localStorage.getItem('token'));
         store.dispatch(loadUser());
-    });
+    }, []);
 
     return (
         <Provider store={store}>

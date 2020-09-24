@@ -111,6 +111,17 @@ const userHasTags = async (user_id) => {
     return res.rows[0].count == 0 ? false : true;
 };
 
+const getUserTags = async (user_id) => {
+    const res = await db.query(`
+        SELECT tags.tag_name
+            FROM public.user_tags
+            LEFT JOIN tags ON tags.tag_id = user_tags.tag_id
+            WHERE user_tags.user_id = $1`,
+            [user_id]
+    );
+    return res;
+};
+
 module.exports = {
     addPhotoToDb,
     deleteRow,
@@ -121,5 +132,6 @@ module.exports = {
     registerProfile,
     saveTags,
     userHasTags,
-    validateTagsInDb
+    validateTagsInDb,
+    getUserTags
 };

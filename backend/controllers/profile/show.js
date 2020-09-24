@@ -27,7 +27,7 @@ const getProfile = async (req, res) => {
  
     try {
         let userInfo = await accountModel.findUserInfo("user_id", user_id, "user_id", "fame_rating",
-        "bio", "first_name", "last_name", 
+        "bio", "first_name", "last_name", "username",
         "chinese_horo", "western_horo", "gender", "sex_preference", "birth_date");
         let tags = await profileModel.getUserTags(user_id);
         if(tags.rowCount > 0){

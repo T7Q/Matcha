@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     let errorOrder = matchHelper.validateOrder(req.body.order);
     let errorOrientation = matchHelper.validateOrientation(req.body.sex_orientation);
     if (errorOrder || errorOrientation)
-        return res.status(400).json({ msg: "Invalid parameters or values" });
+        return res.json({ error: "Invalid parameters or values" });
     
     // let tagsAreValid = await profileModel.validateTagsInDb(req.body.tags);
     // if (!tagsAreValid)
@@ -66,6 +66,6 @@ module.exports = async (req, res) => {
         let matches = await matchModel.getMatch(userDbData, settings);
         return res.json(matches);
     } catch (e) {
-        return res.status(400).json({error: e.detail || "Something went wrong getting matches"});
+        return res.json({error: e.detail || "Something went wrong getting matches"});
     }
 };

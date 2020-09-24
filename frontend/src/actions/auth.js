@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
-import { LOGIN_SUCCESS, LOGIN_FAIL, LOAD_USER } from './types';
-import { REGISTER_FAIL, REGISTER_SUCCESS } from './types';
+import { LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT } from './types';
 
 export const loadUser = () => async dispatch => {
     setAuthToken(localStorage.getItem('token'));
@@ -12,11 +11,11 @@ export const loadUser = () => async dispatch => {
         console.log(res.data);
         if (res.data.error) {
             dispatch({
-                type: LOGIN_FAIL,
+                type: AUTH_FAIL,
             });
         } else {
             dispatch({
-                type: LOAD_USER,
+                type: AUTH_SUCCESS,
                 payload: res.data,
             });
         }
@@ -67,7 +66,7 @@ export const login = ({ username, password }) => async dispatch => {
         if (res.data.error) {
             const error = res.data.error;
             dispatch(setAlert(error, 'danger'));
-            dispatch({ type: LOGIN_FAIL });
+            dispatch({ type: AUTH_FAIL });
         } else {
             dispatch({
                 type: LOGIN_SUCCESS,
@@ -78,4 +77,14 @@ export const login = ({ username, password }) => async dispatch => {
     } catch (error) {
         console.log(error);
     }
+};
+
+// LOGOUT / Clear profile
+export const logout = () => async dispatch => {
+    try {
+        await axios.post('/account/logout');
+    } catch (error) {
+        console.log(error);
+    }
+    dispatch({ type: LOGOUT });
 };

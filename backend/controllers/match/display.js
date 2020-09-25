@@ -4,11 +4,13 @@ const profileModel = require("../../models/profile");
 const accountModel = require("../../models/account");
 
 recommend = async (req, res) => {
+    const userId = req.user.userId;
+
     try {
-        let userDbData = await accountModel.findUserInfo("user_id", req.body.user_id, "user_id", "sex_orientation",
+        let userDbData = await accountModel.findUserInfo("user_id", userId, "user_id", "sex_orientation",
             "geolocation", "chinese_horo", "western_horo");
-        userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
-        
+        userDbData['userHasTags'] = await profileModel.userHasTags(userId);
+
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
             join: "",
@@ -45,7 +47,7 @@ const likedMe = async (req, res) => {
             "western_horo"
         );
         userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
-        
+
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
             dateColumn: " , likes.date_created as date",
@@ -73,7 +75,7 @@ const connected = async (req, res) => {
             "western_horo"
         );
         userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
-        
+
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
             dateColumn: ", users.created_at as date ",
@@ -104,7 +106,7 @@ const visitedMe = async (req, res) => {
             "western_horo"
         );
         userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
-        
+
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
             dateColumn: ", views.date_created AS date ",
@@ -134,7 +136,7 @@ const visitedMeNew = async (req, res) => {
             "western_horo"
         );
         userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
-        
+
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
             dateColumn: ", views.date_created AS date ",
@@ -163,7 +165,7 @@ const visitedByMe = async (req, res) => {
             "western_horo"
         );
         userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
-        
+
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
             dateColumn: ", views.date_created AS date ",

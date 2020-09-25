@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
             'tkn': jwt.sign({
                 userId: user.user_id,
                 status: user.status
-            }, jwtSecret, { expiresIn: 60 * 60 })
+            }, jwtSecret, { expiresIn: 1000 * 60 * 60 })
         });
     } catch (e) {
         console.log(e);

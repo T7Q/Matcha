@@ -2,7 +2,7 @@ const profileModel = require("../../models/profile");
 const profileHelper = require("../../models/profileHelper");
 
 const general = async (req, res) => {
-    const { user_id, key, value } = req.body;
+    const { key, value } = req.body;
     let error = {};
 
     if (!key) {
@@ -39,7 +39,7 @@ const general = async (req, res) => {
     }
     // Update profile parameter
     try {
-        await profileModel.editProfile(user_id, key, value);
+        await profileModel.editProfile(req.user.userId, key, value);
         return res.json({ msg: "Your profile was successfully updated" });
     } catch (e) {
         return res.json({ error: "Something went wrong adding Profile info" });
@@ -47,7 +47,7 @@ const general = async (req, res) => {
 };
 
 const tags = async (req, res) => {
-    const { user_id, key, value } = req.body;
+    const { value } = req.body;
     let tagsError = profileHelper.validateTags(value);
     if(tagsError.error)
         return res.json(tagsError);
@@ -58,12 +58,12 @@ const tags = async (req, res) => {
             return res.json({ error: "Invalid tags, some of them dont exist" });
         }
         // Remove old tags if user has any
-        userTags = await profileModel.userHasTags(user_id);
+        userTags = await profileModel.userHasTags(req.user.userId);
         if (userTags) {
-            await profileModel.deleteRowOneCondition("user_tags", "user_id", user_id);
+            await profileModel.deleteRowOneCondition("user_tags", "user_id", req.user.userId);
         }
         // Build query to insert tags into database
-        const query = profileHelper.buildQueryForSavingTags(value, user_id);
+        const query = profileHelper.buildQueryForSavingTags(value, req.user.userId);
 
         // Insert tags to the database
         await profileModel.saveTags(query);

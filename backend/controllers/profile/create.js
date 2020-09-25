@@ -2,8 +2,9 @@ const profileModel = require('../../models/profile');
 const profileHelper = require('../../models/profileHelper');
 
 module.exports = async (req, res) => {
-	const { user_id,  gender, sex_preference, bio, birth_date, tags} = req.body;
-	console.log(req.body);
+	const { gender, sex_preference, bio, birth_date, tags} = req.body;
+	const userId = req.user.userId;
+	
 	// Validate user profile data
 	let errors = [];
 	errors.push(profileHelper.validateGender(gender));
@@ -19,7 +20,7 @@ module.exports = async (req, res) => {
 				tagsError['error'] = "Invalid tags, some of them dont exist";
 			} else {
 				// Build query to insert tags into database
-				const query = profileHelper.buildQueryForSavingTags(tags, user_id);
+				const query = profileHelper.buildQueryForSavingTags(tags, userId);
 				// Insert tags to the database
 				await profileModel.saveTags(query);
 			}
@@ -35,10 +36,10 @@ module.exports = async (req, res) => {
 	
 	try {
 		// Add profile data to the database
-		await profileModel.registerProfile(user_id, req);
+		await profileModel.registerProfile(userId, req);
 
 		// Change user status to "2" to be discoverable by other users
-		await profileModel.editProfile(user_id, "status", "2");
+		await profileModel.editProfile(userId, "status", "2");
 
 		return res.json({ msg: 'Your profile was successfully created' });
 	} catch (e) {

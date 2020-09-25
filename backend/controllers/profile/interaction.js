@@ -1,8 +1,8 @@
 const profileModel = require('../../models/profile');
-const profileHelper = require('../../models/profileHelper');
 
 const add = async (req, res) => {
-	const { key, from_user_id, to_user_id } = req.body;
+	const { key, to_user_id } = req.body;
+	const from_user_id = req.user.userId;
 	if (!key) {
 		return res.json({ error: "Invalid parameters" });
 	}
@@ -19,7 +19,8 @@ const add = async (req, res) => {
 }
 
 const remove = async (req, res) => {
-	const { key, from_user_id, to_user_id } = req.body;
+	const { key, to_user_id } = req.body;
+	const from_user_id = req.user.userId;
 	if (!key) {
         return res.json({ error: "Invalid parameters" });
 	}

@@ -40,13 +40,13 @@ const likedMe = async (req, res) => {
     try {
         let userDbData = await accountModel.findUserInfo(
             "user_id",
-            req.body.user_id,
+            req.user.userId,
             "user_id",
             "geolocation",
             "chinese_horo",
             "western_horo"
         );
-        userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
+        userDbData['userHasTags'] = await profileModel.userHasTags(req.user.userId);
 
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
@@ -68,13 +68,13 @@ const connected = async (req, res) => {
     try {
         let userDbData = await accountModel.findUserInfo(
             "user_id",
-            req.body.user_id,
+            req.user.userId,
             "user_id",
             "geolocation",
             "chinese_horo",
             "western_horo"
         );
-        userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
+        userDbData['userHasTags'] = await profileModel.userHasTags(req.user.userId);
 
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
@@ -99,13 +99,13 @@ const visitedMe = async (req, res) => {
     try {
         let userDbData = await accountModel.findUserInfo(
             "user_id",
-            req.body.user_id,
+            req.user.userId,
             "user_id",
             "geolocation",
             "chinese_horo",
             "western_horo"
         );
-        userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
+        userDbData['userHasTags'] = await profileModel.userHasTags(req.user.userId);
 
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
@@ -129,13 +129,13 @@ const visitedMeNew = async (req, res) => {
     try {
         let userDbData = await accountModel.findUserInfo(
             "user_id",
-            req.body.user_id,
+            req.user.userId,
             "user_id",
             "geolocation",
             "chinese_horo",
             "western_horo"
         );
-        userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
+        userDbData['userHasTags'] = await profileModel.userHasTags(req.user.userId);
 
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },
@@ -158,13 +158,13 @@ const visitedByMe = async (req, res) => {
     try {
         let userDbData = await accountModel.findUserInfo(
             "user_id",
-            req.body.user_id,
+            req.user.userId,
             "user_id",
             "geolocation",
             "chinese_horo",
             "western_horo"
         );
-        userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
+        userDbData['userHasTags'] = await profileModel.userHasTags(req.user.userId);
 
         let settings = {
             weight: { tag: 0.1, cn: 0.45, west: 0.45 },

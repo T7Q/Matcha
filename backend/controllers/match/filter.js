@@ -20,6 +20,7 @@ const accountModel = require("../../models/account");
 */
 
 module.exports = async (req, res) => {
+    const userId = req.user.userId;
     let errorOrder = matchHelper.validateOrder(req.body.order);
     let errorOrientation = matchHelper.validateOrientation(req.body.sex_orientation);
     if (errorOrder || errorOrientation)
@@ -33,7 +34,7 @@ module.exports = async (req, res) => {
         // get loggedIn user data from Db
         let userDbData = await accountModel.findUserInfo(
             "user_id",
-            req.body.user_id,
+            userId,
             "user_id",
             "sex_orientation",
             "gender",
@@ -42,7 +43,7 @@ module.exports = async (req, res) => {
             "chinese_horo",
             "western_horo"
         );
-        userDbData['userHasTags'] = await profileModel.userHasTags(req.body.user_id);
+        userDbData['userHasTags'] = await profileModel.userHasTags(userId);
         let values = [userDbData.user_id, userDbData.geolocation];
         
         // prepare the values to find a match in db

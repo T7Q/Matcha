@@ -3,7 +3,8 @@ const accountModel = require('../../models/account');
 const { findUserInfo } = require('../../models/account');
 
 const edit = async (req, res) => {
-	const { user_id, key } = req.body;
+	const { key } = req.body;
+	const userId = req.user.userId;
 	// validate input parameters
 	if (!key) {
         return res.json({ error: 'Invalid parameters' });
@@ -13,7 +14,7 @@ const edit = async (req, res) => {
 	switch (key) {
 		case "email_notification":
 			try {
-				settings = await findUserInfo("user_id", user_id, "email_notification");
+				settings = await findUserInfo("user_id", userId, "email_notification");
 				settings = settings.email_notification
 			} catch (e) {
 				return res.json({ error: "Something went wrong fetching data from the database" });
@@ -21,7 +22,7 @@ const edit = async (req, res) => {
 			break;
 		case "real_time_notification":
 			try {
-				settings = await findUserInfo("user_id", user_id, "real_time_notification");
+				settings = await findUserInfo("user_id", userId, "real_time_notification");
 				settings = settings.real_time_notification
 			} catch (e) {
 				return res.json({ error: "Something went wrong fetching data from the database" });
@@ -34,7 +35,7 @@ const edit = async (req, res) => {
 	let value  = (settings === true ? 0 : 1);
 
 	try {
-        await profileModel.editProfile(user_id, key, value);
+        await profileModel.editProfile(userId, key, value);
 		return res.json({	msg: "Notification settings were successfully updated",
 							notification: value
 						});

@@ -41,8 +41,8 @@ const App = () => {
                             <PrivateRoute exact path='/messages' component={Chat} />
                             <PrivateRoute exact path='/likes' component={Likes} />
                             <PrivateRoute exact path='/profile' component={Profile} />
-                            <PrivateRoute exact path='/create-profile' component={CreateProfile} />
-                            <PrivateRoute exact path='/complete' component={Complete} />
+                            <Route exact path='/create-profile' component={CreateProfile} />
+                            <Route exact path='/complete' component={CreateProfile} />
                             <PrivateRoute exact path='/matches' component={Matches} />
                         </Switch>
                     </section>

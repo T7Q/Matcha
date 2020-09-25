@@ -3,26 +3,27 @@ import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { forgetPwd } from '../../actions/auth';
+import { updatePwd } from '../../actions/auth';
 import { IconButton, Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
+const UpdatePwd = ({ updatePwd, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({
-        email: '',
+        password: '',
+        confirmPassword: '',
     });
 
-    const { email } = formData;
+    const { password, confirmPassword } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
-        forgetPwd({ email, history });
+        updatePwd({ password, confirmPassword, history });
     };
 
     // if (message) {
-    //     return <Redirect to='/matches' />;
+    //     return <Redirect to='/' />;
     // }
     // Redirect is logged in
     if (isAuthenticated && user.status === 2) {
@@ -33,40 +34,41 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
 
     return (
         <Fragment>
-            <Link to='/login'>
-                <IconButton>
-                    <ArrowBackIosIcon />
-                </IconButton>
-            </Link>
-            <p className='lead'>Enter your email to reset your password</p>
+            <p className='lead'>Enter your new password</p>
             <form className='form' onSubmit={onSubmit}>
                 <div className='form-group'>
                     <input
-                        type='email'
-                        placeholder='Email'
-                        name='email'
-                        value={email}
+                        type='password'
+                        placeholder='new password'
+                        name='password'
+                        value={password}
+                        onChange={onChange}
+                        required
+                    />
+                    <input
+                        type='password'
+                        placeholder='confirm password'
+                        name='confirmPassword'
+                        value={confirmPassword}
                         onChange={onChange}
                         required
                     />
                 </div>
-                <input type='submit' className='btn btn-primary' value='Next' />
+                <input type='submit' className='btn btn-primary' value='Upload & log in' />
             </form>
         </Fragment>
     );
 };
 
-ForgetPwd.propTypes = {
-    forgetPwd: PropTypes.func.isRequired,
+UpdatePwd.propTypes = {
+    updatePwd: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
     user: PropTypes.object,
-    message: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user,
-    message: state.message,
 });
 
-export default connect(mapStateToProps, { forgetPwd })(withRouter(ForgetPwd));
+export default connect(mapStateToProps, { updatePwd })(withRouter(UpdatePwd));

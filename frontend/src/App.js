@@ -11,6 +11,7 @@ import Profile from './components/profile/Profile';
 import CreateProfile from './components/profile-form/CreateProfile';
 import Chat from './components/chat/Chat';
 import Alert from './components/layout/Alert';
+import PrivateRoute from './components/routing/PrivateRoute';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
 
@@ -37,12 +38,12 @@ const App = () => {
                         <Switch>
                             <Route exact path='/login' component={Login} />
                             <Route exact path='/register' component={Register} />
-                            <Route exact path='/matches' component={Matches} />
-                            <Route exact path='/complete' component={Complete} />
-                            <Route exact path='/messages' component={Chat} />
-                            <Route exact path='/likes' component={Likes} />
-                            <Route exact path='/profile' component={Profile} />
-                            <Route exact path='/create-profile' component={CreateProfile} />
+                            <PrivateRoute exact path='/messages' component={Chat} />
+                            <PrivateRoute exact path='/likes' component={Likes} />
+                            <PrivateRoute exact path='/profile' component={Profile} />
+                            <PrivateRoute exact path='/create-profile' component={CreateProfile} />
+                            <PrivateRoute exact path='/complete' component={Complete} />
+                            <PrivateRoute exact path='/matches' component={Matches} />
                         </Switch>
                     </section>
                 </Fragment>

@@ -102,6 +102,7 @@ export const forgetPwd = ({ email, history }) => async dispatch => {
                 payload: "We've send you an email to reset your password",
             });
             history.push('/message');
+            setTimeout(() => history.push('/'), 5000);
         }
     } catch (error) {
         console.log(error);

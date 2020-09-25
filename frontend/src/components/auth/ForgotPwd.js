@@ -1,26 +1,29 @@
 import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../../actions/auth';
+import { forgetPwd } from '../../actions/auth';
 import { IconButton, Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
-const Login = ({ login, isAuthenticated, user }) => {
+const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
     const [formData, setFormData] = useState({
-        username: '',
-        password: '',
+        email: '',
     });
 
-    const { username, password } = formData;
+    const { email } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async e => {
         e.preventDefault();
-        login({ username, password });
+        forgetPwd({ email, history });
     };
 
+    if (message) {
+        return <Redirect to='/matches' />;
+    }
     // Redirect is logged in
     if (isAuthenticated && user.status === 2) {
         return <Redirect to='/matches' />;
@@ -30,53 +33,40 @@ const Login = ({ login, isAuthenticated, user }) => {
 
     return (
         <Fragment>
-            <Link to='/'>
+            <Link to='/login'>
                 <IconButton>
                     <ArrowBackIosIcon />
                 </IconButton>
             </Link>
-            <p className='lead'>Enter username and password</p>
+            <p className='lead'>Enter your email to reset your password</p>
             <form className='form' onSubmit={onSubmit}>
                 <div className='form-group'>
                     <input
-                        type='text'
-                        placeholder='Username'
-                        name='username'
-                        value={username}
+                        type='email'
+                        placeholder='Email'
+                        name='email'
+                        value={email}
                         onChange={onChange}
                         required
                     />
                 </div>
-                <div className='form-group'>
-                    <input
-                        type='password'
-                        placeholder='Password'
-                        name='password'
-                        value={password}
-                        onChange={onChange}
-                        minLength='6'
-                    />
-                </div>
                 <input type='submit' className='btn btn-primary' value='Next' />
             </form>
-            <Link to='/forgetPwd'>
-                <Button variant='contained' color='primary'>
-                    Forgot password?
-                </Button>
-            </Link>
         </Fragment>
     );
 };
 
-Login.propTypes = {
-    login: PropTypes.func.isRequired,
+ForgetPwd.propTypes = {
+    forgetPwd: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
     user: PropTypes.object,
+    message: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user,
+    message: state.message,
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { forgetPwd })(withRouter(ForgetPwd));

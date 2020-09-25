@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
-import { LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT } from './types';
+import { LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT, MESSAGE } from './types';
 
 export const loadUser = () => async dispatch => {
     setAuthToken(localStorage.getItem('token'));
@@ -87,4 +87,22 @@ export const logout = () => async dispatch => {
         console.log(error);
     }
     dispatch({ type: LOGOUT });
+};
+
+// Forgot password
+export const forgetPwd = ({ email, history }) => async dispatch => {
+    try {
+        const res = await axios.post('/account/pwdReset', { email });
+        if (res.data.error) {
+            console.log(res.data.error);
+        } else {
+            dispatch({
+                type: MESSAGE,
+                payload: "We've send you an email to reset your password",
+            });
+            history.push('/message');
+        }
+    } catch (error) {
+        console.log(error);
+    }
 };

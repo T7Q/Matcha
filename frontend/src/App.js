@@ -4,6 +4,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import ForgotPwd from './components/auth/ForgotPwd';
 import Complete from './components/auth/Complete';
 import Likes from './components/likes/Likes';
 import Matches from './components/matches/Matches';
@@ -11,6 +12,7 @@ import Profile from './components/profile/Profile';
 import CreateProfile from './components/profile-form/CreateProfile';
 import Chat from './components/chat/Chat';
 import Alert from './components/layout/Alert';
+import Message from './components/layout/Message';
 import PrivateRoute from './components/routing/PrivateRoute';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
@@ -38,6 +40,8 @@ const App = () => {
                         <Switch>
                             <Route exact path='/login' component={Login} />
                             <Route exact path='/register' component={Register} />
+                            <Route exact path='/forgetPwd' component={ForgotPwd} />
+                            <Route exact path='/message' component={Message} />
                             <PrivateRoute exact path='/messages' component={Chat} />
                             <PrivateRoute exact path='/likes' component={Likes} />
                             <PrivateRoute exact path='/profile' component={Profile} />

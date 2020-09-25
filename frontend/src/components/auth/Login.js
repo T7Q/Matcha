@@ -21,10 +21,8 @@ const Login = ({ login, isAuthenticated, user }) => {
 
     // Redirect is logged in
     if (isAuthenticated && user.status === 2) {
-        console.log('here1');
         return <Redirect to='/matches' />;
     } else if (isAuthenticated && user.status === 1) {
-        console.log('there1');
         return <Redirect to='/complete' />;
     }
 

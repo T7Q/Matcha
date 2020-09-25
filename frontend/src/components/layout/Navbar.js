@@ -21,7 +21,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
             <li>
                 <Link to='/matches'>Matches</Link>
             </li>
-            {/* <li>
+            <li>
                 <Link to='/messages'>Messages</Link>
             </li>
             <li>
@@ -29,16 +29,13 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
             </li>
             <li>
                 <Link to='/profile'>Profile</Link>
-            </li> */}
+            </li>
             <li>
                 <a onClick={logout} href='#!'>
                     <i className='fas fa-sign-out-alt'></i>
                     Logout
                 </a>
             </li>
-            {/* <li>
-                <Link to='/singout'>Sign out</Link>
-            </li> */}
         </ul>
     );
 

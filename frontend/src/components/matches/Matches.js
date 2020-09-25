@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { Fragment } from "react";
+
 
 const Matches = () => {
-    return (
-        <div>
-            Match
-        </div>
-    )
-}
+    // const {formData, setFormData } = userState(
+    //     name: '',
+    //     email: '',
+    //     password: '',
+    //     password2: ''
+    // );
 
-export default Matches
+    return (
+        <Fragment>
+           Matches
+        </Fragment>
+    );
+};
+
+export default Matches;

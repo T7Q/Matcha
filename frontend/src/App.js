@@ -7,6 +7,7 @@ import Login from "./components/auth/Login";
 import Likes from "./components/likes/Likes";
 import Matches from "./components/matches/Matches";
 import Profile from "./components/profile/Profile";
+import CreateProfile from "./components/profile-form/CreateProfile";
 import Chat from "./components/chat/Chat";
 
 // Redux 
@@ -29,6 +30,7 @@ const App = () => (
                     <Route exact path="/messages" component={Chat}/>
                     <Route exact path="/likes" component={Likes}/>
                     <Route exact path="/profile" component={Profile}/>
+                    <Route exact path="/create-profile" component={CreateProfile}/>
                 </Switch>
             </section>
         </Fragment>

@@ -25,7 +25,7 @@ const withStatus1 = async (req, res, next) => {
         try {
             const user = await accountModel.findUserInfo('user_id', req.user.userId, 'online', 'status');
 
-            if (user && user.online === 1 && user.status === 1) {
+            if (user && user.online === 1) {
                 await accountModel.updateTime(req.user.userId, Date.now());
                 return next();
             } else {

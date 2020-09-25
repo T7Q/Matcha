@@ -1,5 +1,4 @@
-import React, { Fragment } from "react";
-
+import React, { Fragment } from 'react';
 
 const Matches = () => {
     // const {formData, setFormData } = userState(
@@ -9,11 +8,7 @@ const Matches = () => {
     //     password2: ''
     // );
 
-    return (
-        <Fragment>
-           Matches
-        </Fragment>
-    );
+    return <Fragment>Matches</Fragment>;
 };
 
 export default Matches;

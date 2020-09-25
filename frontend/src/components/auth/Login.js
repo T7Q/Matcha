@@ -3,6 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
+import { IconButton, Button } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const Login = ({ login, isAuthenticated, user }) => {
     const [formData, setFormData] = useState({
@@ -28,10 +30,12 @@ const Login = ({ login, isAuthenticated, user }) => {
 
     return (
         <Fragment>
-            <h1 className='large text-primary'>Sign In</h1>
-            <p className='lead'>
-                <i className='fas fa-user' /> Sign Into Your Account
-            </p>
+            <Link to='/'>
+                <IconButton>
+                    <ArrowBackIosIcon />
+                </IconButton>
+            </Link>
+            <p className='lead'>Enter username and password</p>
             <form className='form' onSubmit={onSubmit}>
                 <div className='form-group'>
                     <input
@@ -53,11 +57,13 @@ const Login = ({ login, isAuthenticated, user }) => {
                         minLength='6'
                     />
                 </div>
-                <input type='submit' className='btn btn-primary' value='Login' />
+                <input type='submit' className='btn btn-primary' value='Next' />
             </form>
-            <p className='my-1'>
-                Don't have an account? <Link to='/register'>Sign Up</Link>
-            </p>
+            <Link to='/register'>
+                <Button variant='contained' color='primary'>
+                    Forgot password?
+                </Button>
+            </Link>
         </Fragment>
     );
 };

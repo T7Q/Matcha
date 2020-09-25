@@ -5,16 +5,16 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 
 const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
-    const guestLinks = (
-        <ul>
-            <li>
-                <Link to='/register'>Register</Link>
-            </li>
-            <li>
-                <Link to='/login'>Login</Link>
-            </li>
-        </ul>
-    );
+    // const guestLinks = (
+    //     <ul>
+    //         <li>
+    //             <Link to='/register'>Register</Link>
+    //         </li>
+    //         <li>
+    //             <Link to='/login'>Login</Link>
+    //         </li>
+    //     </ul>
+    // );
 
     const authLinks = (
         <ul>
@@ -46,7 +46,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
                     <i className='fas fa-moon' /> Astro Matcha
                 </Link>
             </h1>
-            {!loading && <>{isAuthenticated ? authLinks : guestLinks}</>}
+            {!loading && <>{isAuthenticated ? authLinks : null}</>}
         </nav>
     );
 };

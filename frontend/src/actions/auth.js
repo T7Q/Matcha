@@ -109,9 +109,9 @@ export const forgetPwd = ({ email, history }) => async dispatch => {
     }
 };
 
-export const updatePwd = body => async dispatch => {
+export const updatePwd = ({ password, confirmPassword, history }) => async dispatch => {
     try {
-        const res = await axios.post('/account/pwdUpdate', body);
+        const res = await axios.post('/account/pwdUpdate', { password, confirmPassword });
         if (res.data.error) {
             const error = res.data.error;
             dispatch(setAlert(error, 'danger'));

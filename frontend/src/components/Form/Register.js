@@ -1,13 +1,13 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import Input from './Input';
 import WizardForm from './WizardForm';
 import { withRouter } from 'react-router-dom';
-import { IconButton, Grid, Box, LinearProgress, Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
                     handleChange={onChange}
                 />
                 <Input type='lastname' header="What\'s your last name" value={lastname} handleChange={onChange} />
-                <Grid container spacing={3}>
+                <Grid container direction='column' spacing={1}>
                     <Grid item>
                         <Input
                             type='password'

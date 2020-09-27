@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Grid, Box, LinearProgress, Button } from '@material-ui/core';
 
@@ -31,7 +31,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit }) => {
     const normalise = value => ((value - 1) * 100) / (steps - 1);
 
     return (
-        <Fragment>
+        <form onSubmit={onSubmit}>
             {step === 1 ? (
                 <Link to='/'>
                     <IconButton>
@@ -69,7 +69,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit }) => {
                 )}
                 <Grid item xs={6}></Grid>
             </Grid>
-        </Fragment>
+        </form>
     );
 };
 

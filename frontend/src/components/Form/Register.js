@@ -7,6 +7,7 @@ import { register } from '../../actions/auth';
 import Input from './Input';
 import WizardForm from './WizardForm';
 import { withRouter } from 'react-router-dom';
+import { IconButton, Grid, Box, LinearProgress, Button } from '@material-ui/core';
 
 const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({
@@ -41,19 +42,33 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     return (
         <Fragment>
             <WizardForm header='Registration' setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
-                <Input type='email' value={email} label='enter email!' handleChange={onChange} />
-                <Input type='username' value={username} label='enter username!' handleChange={onChange} />
-                <Input type='firstname' value={firstname} label='enter firstname!' handleChange={onChange} />
-                <Input type='lastname' value={lastname} label='enter lastname!' handleChange={onChange} />
-                <Fragment>
-                    <Input type='password' value={password} label='enter password!' handleChange={onChange} />
-                    <Input
-                        type='password'
-                        value={confirmPassword}
-                        label='again password!'
-                        handleChange={onChange}
-                    />
-                </Fragment>
+                <Input type='email' header="Welcome! What's your email?" value={email} handleChange={onChange} />
+                <Input type='username' header='Create a username' value={username} handleChange={onChange} />
+                <Input
+                    type='firstname'
+                    header="What\'s your first name"
+                    value={firstname}
+                    handleChange={onChange}
+                />
+                <Input type='lastname' header="What\'s your last name" value={lastname} handleChange={onChange} />
+                <Grid container spacing={3}>
+                    <Grid item>
+                        <Input
+                            type='password'
+                            header='Create a password'
+                            value={password}
+                            handleChange={onChange}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Input
+                            type='confirmPassword'
+                            value={confirmPassword}
+                            label='confirm password!'
+                            handleChange={onChange}
+                        />
+                    </Grid>
+                </Grid>
             </WizardForm>
         </Fragment>
     );

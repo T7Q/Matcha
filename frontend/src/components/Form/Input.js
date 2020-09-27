@@ -1,17 +1,11 @@
 import React from 'react';
 
-const Input = ({ currentStep, requiredStep, value, type, label, handleChange }) => {
-    if (currentStep !== requiredStep) {
-        // Prop: The current step
-        return null;
-    }
-
+const Input = ({ value, type, label, handleChange }) => {
     return (
         <div className='form-group'>
             <label htmlFor={[type]}>{label}</label>
             <input
                 className='form-control'
-                id={[type]}
                 name={[type]}
                 type={type === 'email' || type === 'password' ? [type] : 'text'}
                 placeholder={[type]}

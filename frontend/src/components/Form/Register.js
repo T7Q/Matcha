@@ -4,15 +4,11 @@ import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
-import Email from './Email';
 import Input from './Input';
-import Username from './Username';
-import Password from './Password';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { IconButton } from '@material-ui/core';
 import WizardForm from './WizardForm';
+import { withRouter } from 'react-router-dom';
 
-const Register = ({ setAlert, register, isAuthenticated, user }) => {
+const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({
         currentStep: 1,
         username: '',
@@ -38,7 +34,7 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
             setAlert('Passwords do not match', 'danger');
         } else {
             console.log(username, email, password, firstname, lastname, confirmPassword);
-            register({ username, email, password, confirmPassword, lastname, firstname });
+            register({ username, email, password, confirmPassword, lastname, firstname, history });
         }
     };
 
@@ -75,4 +71,4 @@ const mapStateToProps = state => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { setAlert, register })(Register);
+export default connect(mapStateToProps, { setAlert, register })(withRouter(Register));

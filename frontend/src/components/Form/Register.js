@@ -10,6 +10,7 @@ import Username from './Username';
 import Password from './Password';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton } from '@material-ui/core';
+import WizardForm from './WizardForm';
 
 const Register = ({ setAlert, register, isAuthenticated, user }) => {
     const [formData, setFormData] = useState({
@@ -41,58 +42,23 @@ const Register = ({ setAlert, register, isAuthenticated, user }) => {
         }
     };
 
-    const next = () => {
-        let currentStep = formData.currentStep;
-        // If the current step is 1 or 2, then add one on "next" button click
-        currentStep = currentStep >= 2 ? 3 : currentStep + 1;
-        setFormData({ ...formData, currentStep: currentStep });
-    };
-
-    const prev = () => {
-        let currentStep = formData.currentStep;
-        // If the current step is 2 or 3, then subtract one on "previous" button click
-        currentStep = currentStep <= 1 ? 1 : currentStep - 1;
-        setFormData({ ...formData, currentStep: currentStep });
-    };
-
     return (
         <Fragment>
-            {formData.currentStep === 1 ? (
-                <Link to='/'>
-                    <IconButton>
-                        <ArrowBackIosIcon />
-                    </IconButton>
-                </Link>
-            ) : (
-                <IconButton onClick={prev}>
-                    <ArrowBackIosIcon />
-                </IconButton>
-            )}
-
-            <h1>Registration</h1>
-            <p>Step {formData.currentStep} of 5</p>
-
-            <form onSubmit={onSubmit}>
-                <Input
-                    currentStep={formData.currentStep}
-                    requiredStep={1}
-                    type='email'
-                    value={email}
-                    label='enter email!'
-                    handleChange={onChange}
-                />
-                <Email currentStep={formData.currentStep} handleChange={onChange} email={email} />
-                <Username currentStep={formData.currentStep} handleChange={onChange} username={username} />
-                <Username currentStep={formData.currentStep} handleChange={onChange} username={username} />
-                <Username currentStep={formData.currentStep} handleChange={onChange} username={username} />
-                <Password currentStep={formData.currentStep} handleChange={onChange} password={password} />
-                {formData.currentStep < 3 && (
-                    <button className='btn btn-primary float-right' type='button' onClick={next}>
-                        Next
-                    </button>
-                )}
-                {formData.currentStep === 3 && <button type='submit'>Submit</button>}
-            </form>
+            <WizardForm header='Registration' setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
+                <Input type='email' value={email} label='enter email!' handleChange={onChange} />
+                <Input type='username' value={username} label='enter username!' handleChange={onChange} />
+                <Input type='firstname' value={firstname} label='enter firstname!' handleChange={onChange} />
+                <Input type='lastname' value={lastname} label='enter lastname!' handleChange={onChange} />
+                <Fragment>
+                    <Input type='password' value={password} label='enter password!' handleChange={onChange} />
+                    <Input
+                        type='password'
+                        value={confirmPassword}
+                        label='again password!'
+                        handleChange={onChange}
+                    />
+                </Fragment>
+            </WizardForm>
         </Fragment>
     );
 };

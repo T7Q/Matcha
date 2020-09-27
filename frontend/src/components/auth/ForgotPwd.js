@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { forgetPwd } from '../../actions/auth';
 import { IconButton, Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import Input from '../Form/Input';
+import Form from '../Form/Form';
 
 const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
     const [formData, setFormData] = useState({
@@ -21,10 +23,6 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
         forgetPwd({ email, history });
     };
 
-    // if (message) {
-    //     return <Redirect to='/matches' />;
-    // }
-    // Redirect is logged in
     if (isAuthenticated && user.status === 2) {
         return <Redirect to='/matches' />;
     } else if (isAuthenticated && user.status === 1) {
@@ -38,20 +36,17 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
                     <ArrowBackIosIcon />
                 </IconButton>
             </Link>
-            <p className='lead'>Enter your email to reset your password</p>
-            <form className='form' onSubmit={onSubmit}>
-                <div className='form-group'>
-                    <input
-                        type='email'
-                        placeholder='Email'
-                        name='email'
-                        value={email}
-                        onChange={onChange}
-                        required
-                    />
-                </div>
-                <input type='submit' className='btn btn-primary' value='Next' />
-            </form>
+            <Form onSubmit={onSubmit}>
+                <Input
+                    header='Enter your email to reset your password'
+                    type='email'
+                    value={email}
+                    handleChange={onChange}
+                />
+                <Button size='large' type='submit' variant='contained' color='primary'>
+                    Next
+                </Button>
+            </Form>
         </Fragment>
     );
 };

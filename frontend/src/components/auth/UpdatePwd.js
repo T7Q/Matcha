@@ -1,18 +1,22 @@
 import React, { Fragment, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updatePwd } from '../../actions/auth';
 import { IconButton, Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import Input from '../Form/Input';
+import Form from '../Form/Form';
 
-const UpdatePwd = ({ updatePwd, isAuthenticated, user, history }) => {
+const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
     const [formData, setFormData] = useState({
         password: '',
         confirmPassword: '',
     });
-
+    // console.log(props);
+    const token = props.location.search.split('=');
+    // console.log(token);
     const { password, confirmPassword } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,10 +26,6 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history }) => {
         updatePwd({ password, confirmPassword, history });
     };
 
-    // if (message) {
-    //     return <Redirect to='/' />;
-    // }
-    // Redirect is logged in
     if (isAuthenticated && user.status === 2) {
         return <Redirect to='/matches' />;
     } else if (isAuthenticated && user.status === 1) {
@@ -34,28 +34,13 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history }) => {
 
     return (
         <Fragment>
-            <p className='lead'>Enter your new password</p>
-            <form className='form' onSubmit={onSubmit}>
-                <div className='form-group'>
-                    <input
-                        type='password'
-                        placeholder='new password'
-                        name='password'
-                        value={password}
-                        onChange={onChange}
-                        required
-                    />
-                    <input
-                        type='password'
-                        placeholder='confirm password'
-                        name='confirmPassword'
-                        value={confirmPassword}
-                        onChange={onChange}
-                        required
-                    />
-                </div>
-                <input type='submit' className='btn btn-primary' value='Upload & log in' />
-            </form>
+            <Form onSubmit={onSubmit}>
+                <Input header='Enter your new password' type='password' value={password} handleChange={onChange} />
+                <Input type='confirmPassword' value={confirmPassword} handleChange={onChange} />
+                <Button size='large' type='submit' variant='contained' color='primary'>
+                    Upload & log in
+                </Button>
+            </Form>
         </Fragment>
     );
 };

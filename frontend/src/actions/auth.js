@@ -47,6 +47,12 @@ export const register = props => async dispatch => {
                 type: REGISTER_SUCCESS,
                 payload: 'here',
             });
+            dispatch({
+                type: MESSAGE,
+                payload: 'Verify your email to secure your account',
+            });
+            props.history.push('/message');
+            setTimeout(() => props.history.push('/login'), 5000);
         }
     } catch (error) {
         console.log(error);

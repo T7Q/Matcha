@@ -45,11 +45,15 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     const [realTags, setRealTags] = useState([]);
 
     useEffect(() => {
+        let isMounted = true;
         async function getTags() {
             const res = await axios.get('profile/tags');
-            setRealTags(res.data);
+            isMounted && setRealTags(res.data);
         }
         getTags();
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const classes = useStyles();

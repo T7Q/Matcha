@@ -10,13 +10,13 @@ const Input = ({ value, header, type, label, handleChange }) => (
             type={
                 type === 'confirmPassword'
                     ? 'password'
-                    : type === 'email' || type === 'password'
+                    : type === 'email' || type === 'password' || type === 'date'
                     ? [type][0]
                     : 'text'
             }
             label={label ? label : type}
             variant='outlined'
-            placeholder={[type][0]}
+            placeholder='{[type][0]}'
             value={value}
             onChange={handleChange}
         />

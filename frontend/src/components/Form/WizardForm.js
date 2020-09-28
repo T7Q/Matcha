@@ -62,7 +62,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit }) => {
                     step === steps && (
                         <Grid item xs={6}>
                             <Button size='large' variant='contained' color='primary' onClick={onSubmit}>
-                                Submit
+                                Done
                             </Button>
                         </Grid>
                     )

@@ -5,12 +5,38 @@ import { Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import Input from './Input';
+import { makeStyles } from '@material-ui/core/styles';
 import WizardForm from './WizardForm';
 import { withRouter } from 'react-router-dom';
-import { Grid, Select, MenuItem, InputLabel } from '@material-ui/core';
+import {
+    Grid,
+    Select,
+    Radio,
+    FormControlLabel,
+    FormControl,
+    FormLabel,
+    RadioGroup,
+    MenuItem,
+    Button,
+} from '@material-ui/core';
 import { createProfile } from '../../actions/profile';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
+import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
+import ToggleButton from '@material-ui/lab/ToggleButton';
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+
+const useStyles = makeStyles({
+    root: {
+        padding: '5px',
+    },
+    radio: {
+        margin: '5px',
+        border: 'none',
+        backgroundColor: 'white',
+        color: 'black',
+    },
+});
 
 const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     const [formData, setFormData] = useState({
@@ -23,7 +49,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         currentStep: 1,
         region: '',
     });
-    const [countries, setCountries] = useState([]);
+    const classes = useStyles();
 
     if (isAuthenticated && user.status === 2) {
         return <Redirect to='/matches' />;
@@ -33,15 +59,18 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
 
     const { gender, sex_preference, bio, birth_date, tags, country, region } = formData;
     const onChange = e => {
-        console.log(e);
+        // console.log(e.target.name);
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleDate = e => setFormData({ ...formData, birth_date: e });
+    const handleDate = e => {
+        setFormData({ ...formData, birth_date: e });
+    };
 
     const onSubmit = e => {
         e.preventDefault();
-        createProfile(formData, history);
+        // createProfile(formData, history);
+        console.log(formData);
     };
 
     return (
@@ -52,6 +81,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                 </p>
             </Grid>
             <MuiPickersUtilsProvider utils={LuxonUtils}>
+                <h2>When were you born?</h2>
                 <DatePicker
                     disableFuture
                     inputVariant='outlined'
@@ -64,9 +94,32 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     onChange={handleDate}
                 />
             </MuiPickersUtilsProvider>
-            {/* <Input type='username' header='Create a username' value={username} handleChange={onChange} />
-            <Input type='firstname' header="What\'s your first name" value={firstname} handleChange={onChange} />
-            <Input type='lastname' header="What\'s your last name" value={lastname} handleChange={onChange} /> */}
+            <Fragment>
+                <h2>Where do you primary live?</h2>
+                <CountryDropdown
+                    style={{
+                        backgroundColor: 'white',
+                        color: 'black',
+                        margin: '10px',
+                        fontSize: 20,
+                    }}
+                    value={country}
+                    onChange={val => setFormData({ ...formData, country: val })}
+                />
+                <RegionDropdown
+                    style={{
+                        backgroundColor: 'white',
+                        color: 'black',
+                        margin: '10px',
+                        fontSize: 20,
+                    }}
+                    blankOptionLabel='Please, select country'
+                    defaultOptionLabel='Now select a region'
+                    country={country}
+                    value={region}
+                    onChange={val => setFormData({ ...formData, region: val })}
+                />
+            </Fragment>
         </WizardForm>
     );
 };

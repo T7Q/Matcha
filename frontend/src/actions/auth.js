@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
-import { LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT } from './types';
+import { LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT, MESSAGE } from './types';
 
 export const loadUser = () => async dispatch => {
     setAuthToken(localStorage.getItem('token'));
@@ -47,6 +47,12 @@ export const register = props => async dispatch => {
                 type: REGISTER_SUCCESS,
                 payload: 'here',
             });
+            dispatch({
+                type: MESSAGE,
+                payload: 'Verify your email to secure your account',
+            });
+            props.history.push('/message');
+            setTimeout(() => props.history.push('/login'), 5000);
         }
     } catch (error) {
         console.log(error);
@@ -87,4 +93,38 @@ export const logout = () => async dispatch => {
         console.log(error);
     }
     dispatch({ type: LOGOUT });
+};
+
+// Forgot password
+export const forgetPwd = ({ email, history }) => async dispatch => {
+    try {
+        const res = await axios.post('/account/pwdReset', { email });
+        if (res.data.error) {
+            const error = res.data.error;
+            dispatch(setAlert(error, 'danger'));
+        } else {
+            dispatch({
+                type: MESSAGE,
+                payload: "We've send you an email to reset your password",
+            });
+            history.push('/message');
+            setTimeout(() => history.push('/'), 5000);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const updatePwd = ({ password, confirmPassword, history }) => async dispatch => {
+    try {
+        const res = await axios.post('/account/pwdUpdate', { password, confirmPassword });
+        if (res.data.error) {
+            const error = res.data.error;
+            dispatch(setAlert(error, 'danger'));
+        } else {
+            history.push('/login');
+        }
+    } catch (error) {
+        console.log(error);
+    }
 };

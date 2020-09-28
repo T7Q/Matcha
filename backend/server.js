@@ -17,12 +17,11 @@ io.on('connection', socketIo);
 
 // Rate limit setup
 const limiter = new rateLimit({
-    windowMs: 60 * 1000,   // 1 minute
-    max: 100,               // limit of number of request per IP
+    windowMs: 60 * 1000, // 1 minute
+    max: 1000, // limit of number of request per IP
     message: 'You have exceeded the 100 requests in 1 minute limit!',
-    delayMs: 0              // disable delays
+    delayMs: 0, // disable delays
 });
-
 
 /* ------------------------------------------------------------------------
  * Setup
@@ -38,7 +37,6 @@ app.use(helmet({ contentSecurityPolicy: false }));
 app.use(limiter);
 // JWT setup
 app.use(authentication);
-
 
 /* ------------------------------------------------------------------------
  * Routes
@@ -56,7 +54,7 @@ app.get('/', (req, res) => {
 const messages = [
     { name: 'Tim', message: 'Hi' },
     { name: 'Jane', message: 'How are you' },
-    { name: 'Tim', message: 'Fine' }
+    { name: 'Tim', message: 'Fine' },
 ];
 
 app.get('/messages', (req, res) => {
@@ -71,6 +69,6 @@ app.post('/messages', async (req, res) => {
 /* UNTIL NOW */
 app.get('*', (req, res) => res.status(404).json());
 
-server.listen(config.express.port, config.express.ip, (error) => {
+server.listen(config.express.port, config.express.ip, error => {
     console.log(`Server is listening on http://${config.express.ip}:${config.express.port}`);
 });

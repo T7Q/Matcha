@@ -11,14 +11,19 @@ const Landing = ({ isAuthenticated }) => {
         <section className='landing'>
             <div className='dark-overlay'>
                 <div className='landing-inner'>
-                    <h1 className='x-large'>HOROSCOPE WHEEL HERE</h1>
+                    <h1 className='x-large'>Your love Is In The Stars</h1>
                     <div className='lead'>
                         <div className='buttons'>
                             <Link to='/register' className='btn btn-primary'>
-                                Register
+                                Create Account
                             </Link>
+                            <p>or</p>
                             <Link to='/login' className='btn btn-light'>
-                                Login
+                                Log in with Google
+                            </Link>
+                            <br />
+                            <Link to='/login' className='btn btn-light'>
+                                Log in with username
                             </Link>
                         </div>
                     </div>

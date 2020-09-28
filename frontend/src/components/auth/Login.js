@@ -3,6 +3,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
+import { IconButton, Button, Grid } from '@material-ui/core';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import Input from '../Form/Input';
+import Form from '../Form/Form';
 
 const Login = ({ login, isAuthenticated, user }) => {
     const [formData, setFormData] = useState({
@@ -28,36 +32,50 @@ const Login = ({ login, isAuthenticated, user }) => {
 
     return (
         <Fragment>
-            <h1 className='large text-primary'>Sign In</h1>
-            <p className='lead'>
-                <i className='fas fa-user' /> Sign Into Your Account
-            </p>
-            <form className='form' onSubmit={onSubmit}>
-                <div className='form-group'>
-                    <input
-                        type='text'
-                        placeholder='Username'
-                        name='username'
-                        value={username}
-                        onChange={onChange}
-                        required
-                    />
-                </div>
-                <div className='form-group'>
-                    <input
-                        type='password'
-                        placeholder='Password'
-                        name='password'
-                        value={password}
-                        onChange={onChange}
-                        minLength='6'
-                    />
-                </div>
-                <input type='submit' className='btn btn-primary' value='Login' />
-            </form>
-            <p className='my-1'>
-                Don't have an account? <Link to='/register'>Sign Up</Link>
-            </p>
+            <Link to='/'>
+                <IconButton>
+                    <ArrowBackIosIcon />
+                </IconButton>
+            </Link>
+            <Form onSubmit={onSubmit}>
+                <Input
+                    header='Enter username and password'
+                    type='username'
+                    handleChange={onChange}
+                    value={username}
+                />
+                <Input type='password' handleChange={onChange} value={password} />
+
+                <Button type='submit' variant='contained' color='primary'>
+                    Next
+                </Button>
+                <Link to='/forgetPwd'>
+                    <Button color='primary'>Forgot password?</Button>
+                </Link>
+            </Form>
+            {/* <form onSubmit={onSubmit}>
+                <Grid container direction='column' spacing={1}>
+                    <Grid item>
+                        <Input
+                            header='Enter username and password'
+                            type='username'
+                            handleChange={onChange}
+                            value={username}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Input type='password' handleChange={onChange} value={password} />
+                    </Grid>
+                    <Grid item>
+                        <Button type='submit' variant='contained' color='primary'>
+                            Next
+                        </Button>
+                    </Grid>
+                    <Link to='/forgetPwd'>
+                        <Button color='primary'>Forgot password?</Button>
+                    </Link>
+                </Grid>
+            </form> */}
         </Fragment>
     );
 };

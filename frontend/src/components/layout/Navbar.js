@@ -4,17 +4,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 
-const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
-    // const guestLinks = (
-    //     <ul>
-    //         <li>
-    //             <Link to='/register'>Register</Link>
-    //         </li>
-    //         <li>
-    //             <Link to='/login'>Login</Link>
-    //         </li>
-    //     </ul>
-    // );
+const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
+    const guestLinks = (
+        <ul>
+            <li>
+                <Link to='/register'>Register</Link>
+            </li>
+            <li>
+                <Link to='/login'>Login</Link>
+            </li>
+        </ul>
+    );
 
     const authLinks = (
         <ul>
@@ -46,7 +46,19 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading } }) => {
                     <i className='fas fa-moon' /> Astro Matcha
                 </Link>
             </h1>
-            {!loading && <>{isAuthenticated ? authLinks : null}</>}
+            {!loading && (
+                <>
+                    {isAuthenticated &&
+                        (user.status === 1 ? (
+                            <a onClick={logout} href='#!'>
+                                <i className='fas fa-sign-out-alt'></i>
+                                Logout
+                            </a>
+                        ) : (
+                            authLinks
+                        ))}
+                </>
+            )}
         </nav>
     );
 };

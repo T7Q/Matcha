@@ -1,5 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
@@ -8,18 +9,7 @@ import Input from './Input';
 import { makeStyles } from '@material-ui/core/styles';
 import WizardForm from './WizardForm';
 import { withRouter } from 'react-router-dom';
-import {
-    Grid,
-    Select,
-    Radio,
-    FormControlLabel,
-    FormControl,
-    FormLabel,
-    RadioGroup,
-    TextareaAutosize,
-    MenuItem,
-    Button,
-} from '@material-ui/core';
+import { Grid, Box, TextareaAutosize } from '@material-ui/core';
 import { createProfile } from '../../actions/profile';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
@@ -52,6 +42,16 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         region: '',
         images: [],
     });
+    const [realTags, setRealTags] = useState([]);
+
+    useEffect(() => {
+        async function getTags() {
+            const res = await axios.get('profile/tags');
+            setRealTags(res.data);
+        }
+        getTags();
+    }, []);
+
     const classes = useStyles();
 
     if (isAuthenticated && user.status === 2) {
@@ -166,15 +166,13 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     setFormData({ ...formData, tags: v });
                 }}>
                 <h2>You are passionate about ... &emsp;</h2>
-                <ToggleButton className={classes.radio} name='Cooking' value='Cooking'>
-                    Cooking
-                </ToggleButton>
-                <ToggleButton className={classes.radio} name='Foodie' value='Foodie'>
-                    Foodie
-                </ToggleButton>
-                <ToggleButton className={classes.radio} name='Volunteering' value='Volunteering'>
-                    Volunteering
-                </ToggleButton>
+                <Box flexWrap='wrap' display='flex'>
+                    {realTags.map(tag => (
+                        <ToggleButton key={tag.tag} className={classes.radio} name={tag.tag} value={tag.tag}>
+                            {tag.tag}
+                        </ToggleButton>
+                    ))}
+                </Box>
             </ToggleButtonGroup>
             <Fragment>
                 <h2>Add photos of you</h2>

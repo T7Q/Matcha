@@ -2,11 +2,17 @@ const express = require('express');
 const router = express.Router();
 const { show, create, edit, deleteAccount, interaction, notification, photo } = require('../controllers/profile');
 const authorization = require('../middleware/authorization');
+const profileModel = require('../models/profile');
 
 // @route   GET /
 // @desc    Get my profile
 // @access  Private
 router.get('/', authorization.required, show.myProfile);
+
+// @route   GET /tags
+// @desc    Get all tags
+// @access  Public
+router.get('/tags', profileModel.getTags);
 
 // @route   POST /
 // @desc    Show other user profile

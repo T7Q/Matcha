@@ -6,7 +6,6 @@ import Register from './components/Form/Register';
 import Login from './components/auth/Login';
 import ForgotPwd from './components/auth/ForgotPwd';
 import UpdatePwd from './components/auth/UpdatePwd';
-import Complete from './components/auth/Complete';
 import Likes from './components/likes/Likes';
 import Matches from './components/matches/Matches';
 import Profile from './components/profile/Profile';
@@ -15,7 +14,7 @@ import Chat from './components/chat/Chat';
 import Alert from './components/layout/Alert';
 import Message from './components/layout/Message';
 import PrivateRoute from './components/routing/PrivateRoute';
-import setAuthToken from './utils/setAuthToken';
+// import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
 import ProfileCreation from './components//Form/Profile';
 // Redux

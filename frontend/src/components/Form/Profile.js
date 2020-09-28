@@ -72,8 +72,8 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
 
     const onSubmit = e => {
         e.preventDefault();
-        // createProfile(formData, history);
-        console.log(formData);
+        createProfile(formData, history);
+        // console.log(formData);
     };
 
     return (
@@ -159,21 +159,22 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     Both
                 </ToggleButton>
             </ToggleButtonGroup>
-            <ToggleButtonGroup
-                orientation='vertical'
-                value={tags}
-                onChange={(e, v) => {
-                    setFormData({ ...formData, tags: v });
-                }}>
+            <Fragment>
                 <h2>You are passionate about ... &emsp;</h2>
-                <Box flexWrap='wrap' display='flex'>
+                <ToggleButtonGroup
+                    style={{ flexDirection: 'row', flexWrap: 'wrap' }}
+                    orientation='vertical'
+                    value={tags}
+                    onChange={(e, v) => {
+                        setFormData({ ...formData, tags: v });
+                    }}>
                     {realTags.map(tag => (
                         <ToggleButton key={tag.tag} className={classes.radio} name={tag.tag} value={tag.tag}>
                             {tag.tag}
                         </ToggleButton>
                     ))}
-                </Box>
-            </ToggleButtonGroup>
+                </ToggleButtonGroup>
+            </Fragment>
             <Fragment>
                 <h2>Add photos of you</h2>
                 <DropzoneArea

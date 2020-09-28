@@ -3,20 +3,18 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { setAlert } from '../../actions/alert';
-import { register } from '../../actions/auth';
-import Input from './Input';
+// import { setAlert } from '../../actions/alert';
 import { makeStyles } from '@material-ui/core/styles';
 import WizardForm from './WizardForm';
 import { withRouter } from 'react-router-dom';
-import { Grid, Box, TextareaAutosize } from '@material-ui/core';
+import { Grid, TextareaAutosize } from '@material-ui/core';
 import { createProfile } from '../../actions/profile';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
-import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import { DropzoneArea, DropzoneDialog, DropzoneAreaBase } from 'material-ui-dropzone';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 const useStyles = makeStyles({
     root: {
@@ -185,6 +183,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     acceptedFiles={['image/*']}
                     onChange={image => setFormData({ ...formData, images: image })}
                     showFileNames
+                    initialFiles={images}
                     dropzoneText='Maximum 5 photos'
                     showAlerts={false}
                     filesLimit={5}
@@ -196,7 +195,8 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     name='bio'
                     style={{ minWidth: '400px', minHeight: '50%' }}
                     onChange={onChange}
-                    defaultValue='For example, how would your best friend discribe you'
+                    value={bio}
+                    placeholder='For example, how would your best friend discribe you'
                 />
             </Fragment>
         </WizardForm>

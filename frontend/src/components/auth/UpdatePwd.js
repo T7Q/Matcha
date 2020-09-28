@@ -4,8 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updatePwd } from '../../actions/auth';
-import { IconButton, Button } from '@material-ui/core';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { Button } from '@material-ui/core';
 import Input from '../Form/Input';
 import Form from '../Form/Form';
 
@@ -14,8 +13,7 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
         password: '',
         confirmPassword: '',
     });
-    // console.log(props);
-    const token = props.location.search.split('=');
+    // const token = props.location.search.split('=');
     // console.log(token);
     const { password, confirmPassword } = formData;
 

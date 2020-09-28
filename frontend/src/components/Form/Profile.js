@@ -26,7 +26,7 @@ import LuxonUtils from '@date-io/luxon';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
-import { DropzoneDialog, DropzoneAreaBase } from 'material-ui-dropzone';
+import { DropzoneArea, DropzoneDialog, DropzoneAreaBase } from 'material-ui-dropzone';
 
 const useStyles = makeStyles({
     root: {
@@ -50,6 +50,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         country: '',
         currentStep: 1,
         region: '',
+        images: [],
     });
     const classes = useStyles();
 
@@ -59,7 +60,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         return <Redirect to='/login' />;
     }
 
-    const { gender, sex_preference, bio, birth_date, tags, country, region } = formData;
+    const { images, gender, sex_preference, bio, birth_date, tags, country, region } = formData;
     const onChange = e => {
         // console.log(e.target.name);
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -175,6 +176,26 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     Volunteering
                 </ToggleButton>
             </ToggleButtonGroup>
+            <Fragment>
+                <h2>Add photos of you</h2>
+                <DropzoneArea
+                    acceptedFiles={['image/*']}
+                    onChange={image => setFormData({ ...formData, images: image })}
+                    showFileNames
+                    dropzoneText='Maximum 5 photos'
+                    showAlerts={false}
+                    filesLimit={5}
+                />
+            </Fragment>
+            <Fragment>
+                <h2>Introduce yourself</h2>
+                <TextareaAutosize
+                    name='bio'
+                    style={{ minWidth: '400px', minHeight: '50%' }}
+                    onChange={onChange}
+                    defaultValue='For example, how would your best friend discribe you'
+                />
+            </Fragment>
         </WizardForm>
     );
 };

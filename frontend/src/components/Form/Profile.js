@@ -16,6 +16,7 @@ import {
     FormControl,
     FormLabel,
     RadioGroup,
+    TextareaAutosize,
     MenuItem,
     Button,
 } from '@material-ui/core';
@@ -25,6 +26,7 @@ import LuxonUtils from '@date-io/luxon';
 import { CountryDropdown, RegionDropdown, CountryRegionData } from 'react-country-region-selector';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import { DropzoneDialog, DropzoneAreaBase } from 'material-ui-dropzone';
 
 const useStyles = makeStyles({
     root: {
@@ -120,6 +122,59 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     onChange={val => setFormData({ ...formData, region: val })}
                 />
             </Fragment>
+            <ToggleButtonGroup
+                orientation='vertical'
+                value={gender}
+                exclusive
+                onChange={(e, v) => {
+                    setFormData({ ...formData, gender: v });
+                }}>
+                <h2> &emsp;&emsp;&emsp;You are ... &emsp;&emsp;&emsp;</h2>
+                <ToggleButton className={classes.radio} name='man' value='man'>
+                    Man
+                </ToggleButton>
+                <ToggleButton className={classes.radio} name='woman' value='woman'>
+                    Woman
+                </ToggleButton>
+                <ToggleButton className={classes.radio} name='other' value='other'>
+                    Other
+                </ToggleButton>
+            </ToggleButtonGroup>
+            <ToggleButtonGroup
+                orientation='vertical'
+                value={sex_preference}
+                exclusive
+                onChange={(e, v) => {
+                    setFormData({ ...formData, sex_preference: v });
+                }}>
+                <h2>You are looking for ... &emsp;</h2>
+                <ToggleButton className={classes.radio} name='man' value='man'>
+                    Man
+                </ToggleButton>
+                <ToggleButton className={classes.radio} name='woman' value='woman'>
+                    Woman
+                </ToggleButton>
+                <ToggleButton className={classes.radio} name='both' value='both'>
+                    Both
+                </ToggleButton>
+            </ToggleButtonGroup>
+            <ToggleButtonGroup
+                orientation='vertical'
+                value={tags}
+                onChange={(e, v) => {
+                    setFormData({ ...formData, tags: v });
+                }}>
+                <h2>You are passionate about ... &emsp;</h2>
+                <ToggleButton className={classes.radio} name='Cooking' value='Cooking'>
+                    Cooking
+                </ToggleButton>
+                <ToggleButton className={classes.radio} name='Foodie' value='Foodie'>
+                    Foodie
+                </ToggleButton>
+                <ToggleButton className={classes.radio} name='Volunteering' value='Volunteering'>
+                    Volunteering
+                </ToggleButton>
+            </ToggleButtonGroup>
         </WizardForm>
     );
 };

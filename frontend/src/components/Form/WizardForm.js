@@ -52,21 +52,15 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit }) => {
                     {children[step - 1]}
                 </Grid>
                 <Grid item xs={6}></Grid>
-                {step < steps ? (
-                    <Grid item xs={6}>
-                        <Button size='large' variant='contained' color='primary' onClick={next}>
-                            Next
-                        </Button>
-                    </Grid>
-                ) : (
-                    step === steps && (
-                        <Grid item xs={6}>
-                            <Button size='large' variant='contained' color='primary' onClick={onSubmit}>
-                                Done
-                            </Button>
-                        </Grid>
-                    )
-                )}
+                <Grid item xs={6}>
+                    <Button
+                        size='large'
+                        variant='contained'
+                        color='primary'
+                        onClick={step < steps ? next : onSubmit}>
+                        {step < steps ? 'Next' : 'Done'}
+                    </Button>
+                </Grid>
                 <Grid item xs={6}></Grid>
             </Grid>
         </form>

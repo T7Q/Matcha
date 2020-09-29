@@ -1,7 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
 import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 import Landing from './components/layout/Landing';
 import Register from './components/Form/Register';
 import Login from './components/auth/Login';
@@ -22,7 +24,7 @@ import ProfileCreation from './components//Form/Profile';
 import { Provider } from 'react-redux';
 import store from './store';
 import theme from './styles/custom';
-
+import CssBaseline from '@material-ui/core/CssBaseline';
 // import './App.css';
 
 // setAuthToken(localStorage.getItem('token'));
@@ -36,7 +38,8 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <Provider store={store}>
                 <Router>
-                    <Fragment>
+                    <CssBaseline />
+                    <Container maxWidth='sm'>
                         <Navbar />
                         <Route exact path='/' component={Landing} />
                         <section className='container'>
@@ -55,7 +58,8 @@ const App = () => {
                                 <PrivateRoute exact path='/matches' component={Matches} />
                             </Switch>
                         </section>
-                    </Fragment>
+                        <Footer />
+                    </Container>
                 </Router>
             </Provider>
         </ThemeProvider>

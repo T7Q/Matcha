@@ -16,7 +16,7 @@ const Input = ({ value, header, type, label, handleChange }) => (
             }
             label={label ? label : type}
             variant='outlined'
-            placeholder='{[type][0]}'
+            placeholder={[type][0]}
             value={value}
             onChange={handleChange}
         />

@@ -59,7 +59,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     if (isAuthenticated && user.status === 2) {
         return <Redirect to='/matches' />;
     } else if (!isAuthenticated) {
-        return <Redirect to='/login' />;
+        return <Redirect to='/' />;
     }
 
     const { images, gender, sex_preference, bio, birth_date, tags, country, region } = formData;

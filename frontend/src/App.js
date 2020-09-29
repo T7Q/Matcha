@@ -46,7 +46,7 @@ const App = () => {
                             </Box>
                             <Box flexGrow={1}>
                                 <Grid container spacing={1}>
-                                    <Grid container item xs={12} sm={6}>
+                                    <Grid container item md={6} sm={12}>
                                         <Route exact path='/' component={Landing} />
                                         <section className='container'>
                                             <Alert />
@@ -65,8 +65,10 @@ const App = () => {
                                             </Switch>
                                         </section>
                                     </Grid>
-                                    <Grid container item xs={12} sm={6}>
-                                        <img className='circle' src={require('./circle.png')} alt='circle' />
+                                    <Grid container item md={6} sm={12}>
+                                        <Box overflow='hidden'>
+                                            <img className='circle' src={require('./circle.png')} alt='circle' />
+                                        </Box>
                                     </Grid>
                                 </Grid>
                             </Box>

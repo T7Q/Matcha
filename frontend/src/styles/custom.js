@@ -2,21 +2,22 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
     palette: {
-        common: {
-            black: 'red',
-            white: 'blue',
-        },
-        default: {
-            main: '#ca416e',
-        },
         primary: {
             main: '#ca416e',
             // light: '#7986cb',
             // dark: '#303f9f',
-            // contrastText: '#fff',
+            contrastText: '#0f0f0f',
+        },
+        text: {
+            primary: '#b5bad3',
+            secondary: '#0f',
         },
         background: {
-            default: '#ca416e',
+            default: 'rgb(12, 16, 35, 0.95)',
+        },
+        action: {
+            hover: 'rgba(0, 0, 0)',
+            hoverOpacity: 1,
         },
     },
 });

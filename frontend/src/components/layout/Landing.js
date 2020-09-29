@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { IconButton, Grid, Box, LinearProgress, Button } from '@material-ui/core';
 
 const Landing = ({ isAuthenticated }) => {
     if (isAuthenticated) {
@@ -15,7 +16,9 @@ const Landing = ({ isAuthenticated }) => {
                     <div className='lead'>
                         <div className='buttons'>
                             <Link to='/register' className='btn btn-primary'>
-                                Create Account
+                                <Button variant='contained' size='large'>
+                                    Create Account
+                                </Button>
                             </Link>
                             <p>or</p>
                             <Link to='/login' className='btn btn-light'>

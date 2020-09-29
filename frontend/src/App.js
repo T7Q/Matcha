@@ -65,7 +65,9 @@ const App = () => {
                                             </Switch>
                                         </section>
                                     </Grid>
-                                    <Grid container item xs={12} sm={6}></Grid>
+                                    <Grid container item xs={12} sm={6}>
+                                        <img className='circle' src={require('./circle.png')} alt='circle' />
+                                    </Grid>
                                 </Grid>
                             </Box>
                             <Box>

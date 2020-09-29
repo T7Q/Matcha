@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core/styles';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/Form/Register';
@@ -20,8 +21,9 @@ import ProfileCreation from './components//Form/Profile';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
+import theme from './styles/custom';
 
-import './App.css';
+// import './App.css';
 
 // setAuthToken(localStorage.getItem('token'));
 
@@ -31,30 +33,32 @@ const App = () => {
     }, []);
 
     return (
-        <Provider store={store}>
-            <Router>
-                <Fragment>
-                    <Navbar />
-                    <Route exact path='/' component={Landing} />
-                    <section className='container'>
-                        <Alert />
-                        <Switch>
-                            <Route exact path='/login' component={Login} />
-                            <Route exact path='/register' component={Register} />
-                            <Route exact path='/forgetPwd' component={ForgotPwd} />
-                            <Route exact path='/updatePwd' component={UpdatePwd} />
-                            <Route exact path='/message' component={Message} />
-                            <PrivateRoute exact path='/messages' component={Chat} />
-                            <PrivateRoute exact path='/likes' component={Likes} />
-                            <PrivateRoute exact path='/profile' component={Profile} />
-                            <Route exact path='/create-profile' component={CreateProfile} />
-                            <Route exact path='/complete' component={ProfileCreation} />
-                            <PrivateRoute exact path='/matches' component={Matches} />
-                        </Switch>
-                    </section>
-                </Fragment>
-            </Router>
-        </Provider>
+        <ThemeProvider theme={theme}>
+            <Provider store={store}>
+                <Router>
+                    <Fragment>
+                        <Navbar />
+                        <Route exact path='/' component={Landing} />
+                        <section className='container'>
+                            <Alert />
+                            <Switch>
+                                <Route exact path='/login' component={Login} />
+                                <Route exact path='/register' component={Register} />
+                                <Route exact path='/forgetPwd' component={ForgotPwd} />
+                                <Route exact path='/updatePwd' component={UpdatePwd} />
+                                <Route exact path='/message' component={Message} />
+                                <PrivateRoute exact path='/messages' component={Chat} />
+                                <PrivateRoute exact path='/likes' component={Likes} />
+                                <PrivateRoute exact path='/profile' component={Profile} />
+                                <Route exact path='/create-profile' component={CreateProfile} />
+                                <Route exact path='/complete' component={ProfileCreation} />
+                                <PrivateRoute exact path='/matches' component={Matches} />
+                            </Switch>
+                        </section>
+                    </Fragment>
+                </Router>
+            </Provider>
+        </ThemeProvider>
     );
 };
 

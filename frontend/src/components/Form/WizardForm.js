@@ -56,7 +56,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit }) => {
                     <Button
                         size='large'
                         variant='contained'
-                        color='primary'
+                        color='secondary'
                         onClick={step < steps ? next : onSubmit}>
                         {step < steps ? 'Next' : 'Done'}
                     </Button>

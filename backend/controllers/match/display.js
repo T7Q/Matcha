@@ -5,7 +5,7 @@ const accountModel = require("../../models/account");
 
 recommend = async (req, res) => {
     const userId = req.user.userId;
-
+    console.log(req.body);
     try {
         let userDbData = await accountModel.findUserInfo("user_id", userId, "user_id", "sex_orientation",
             "geolocation", "chinese_horo", "western_horo");
@@ -18,7 +18,7 @@ recommend = async (req, res) => {
                         WHERE likes.from_user_id = $1\
                         AND likes.to_user_id = users.user_id) = 0 ",
             order: "match desc, distance desc, fame desc",
-            limit: "",
+            limit: "LIMIT " + req.body.limit,
             dateColumn: ", users.created_at as date ",
             values: [userDbData.user_id, userDbData.geolocation]
         };

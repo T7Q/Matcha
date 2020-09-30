@@ -1,24 +1,18 @@
-import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getRecommend } from '../../actions/match';
-import Typography from '@material-ui/core/Typography';
-import UserCard from './UserCard';
+import React, { Fragment, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getRecommend } from "../../actions/match";
+import Typography from "@material-ui/core/Typography";
+import Gallery from "./Gallery";
 
-
-
-const Match = ({ getRecommend, match: { match, loading }  }) => {
+const Match = ({ getRecommend, match: { match, loading } }) => {
     useEffect(() => {
         getRecommend();
     }, [getRecommend]);
     return (
         <Fragment>
-            <Typography variant='h6'>Matches</Typography>
-            <Typography variant='body1'></Typography>
-            {match.map( mat =>{
-                console.log(mat.user_id);
-                return (<UserCard key={mat.user_id} card={mat} />)
-            })}
+            <Typography variant="h6">Matches: {match.length}</Typography>
+            <Gallery match={match} />
         </Fragment>
     );
 };
@@ -28,7 +22,7 @@ Match.propTypes = {
     match: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     match: state.match,
 });
 

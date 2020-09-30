@@ -63,7 +63,11 @@ const getMatch = async (user, settings) => {
     const cnHoroscopeCompValue = getCompatibilityValue("default", user.chinese_horo, "chinese");
     const westHoroscopeCompValue = getCompatibilityValue("default", user.western_horo, "western");
     const connected = getConnectionValue("", user.user_id);
-
+    // const pagination = `AND (${tagsCompValue} * ${settings.weight.tag} +
+    //     ${cnHoroscopeCompValue} * ${settings.weight.cn} +
+    //     ${westHoroscopeCompValue} * ${settings.weight.west}
+    // ) < 63.5`;
+   
     const res = await db.query(
         `
         SELECT

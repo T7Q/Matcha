@@ -52,8 +52,7 @@ const UserCard = ({ card }) => {
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
-        <Grid container spacing={4}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
                 <Card className={classes.root}>
                     <CardMedia
                         className={classes.media}
@@ -75,18 +74,17 @@ const UserCard = ({ card }) => {
                             className={classes.pos}
                             color="textSecondary"
                         >
-                            {card.distance} km
+                            {card.distance === null ? 0 : card.distance} km
                         </Typography>
                     </CardContent>
                     <CardActions>
                         <StarBorderIcon label="10">10</StarBorderIcon>
                         <Button size="small">{card.match.toFixed(0)}%</Button>
-                        <Button size="small">{card.fame.toFixed(1)}</Button>
+                        <Button size="small">{card.fame === null ? 0 : card.fame.toFixed(1)}</Button>
                         <Connection connected={card.connected} />
                     </CardActions>
                 </Card>
-            </Grid>
-        </Grid>
+       </Grid>
     );
 };
 

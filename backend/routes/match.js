@@ -31,6 +31,6 @@ router.get('/visitedbyme', authorization.required, display.visitedByMe);
 // @route   POST /match/recommend
 // @desc    Display all who liked me
 // @access  Private
-router.get('/recommend', authorization.required, display.recommend);
+router.post('/recommend', authorization.required, display.recommend);
 
 module.exports = router;

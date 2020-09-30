@@ -4,7 +4,11 @@ import { GET_MATCH, MATCH_ERROR } from './types';
 // Get current user profile
 export const getRecommend = () => async dispatch => {
     try {
-        const res = await axios.get('/match/recommend');
+        const data = {
+            limit: 10,
+            offset: 2
+        }
+        const res = await axios.post('/match/recommend', data);
         dispatch({
             type: GET_MATCH,
             payload: res.data,
@@ -12,7 +16,7 @@ export const getRecommend = () => async dispatch => {
     } catch (err) {
         dispatch({
             type: MATCH_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status },
+            payload: { msg: err },
         });
     }
 };

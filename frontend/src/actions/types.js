@@ -12,4 +12,5 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const MESSAGE = 'MESSAGE';
 export const GET_MATCH = 'GET_MATCH';
+export const FETCH_MORE_MATCH = 'GET_MATCH';
 export const MATCH_ERROR = 'MATCH_ERROR';

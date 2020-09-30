@@ -11,6 +11,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { Grid } from "@material-ui/core";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Connection = ({ connected }) => {
     if ({ connected } === 1)
@@ -52,7 +53,7 @@ const UserCard = ({ card }) => {
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
-            <Grid item xs={12} sm={4}>
+            // <Grid item xs={12} sm={4}>
                 <Card className={classes.root}>
                     <CardMedia
                         className={classes.media}
@@ -84,7 +85,7 @@ const UserCard = ({ card }) => {
                         <Connection connected={card.connected} />
                     </CardActions>
                 </Card>
-       </Grid>
+    //    </Grid>
     );
 };
 

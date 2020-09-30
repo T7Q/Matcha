@@ -10,7 +10,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
     const { type, payload } = action;
-    console.log("type_profile", type);
     switch (type) {
         case GET_PROFILE:
             return {

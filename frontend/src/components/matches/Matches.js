@@ -11,13 +11,6 @@ const Match = ({ getRecommend, match: { match, loading }  }) => {
     useEffect(() => {
         getRecommend();
     }, [getRecommend]);
-    console.log("here");
-    console.log("match", match);
-    console.log("match", match[0]);
-    // console.log("match", match[0]);
-    // match.map( mat =>{
-    //     console.log(mat.user_id);
-    // })
     return (
         <Fragment>
             <Typography variant='h6'>Matches</Typography>

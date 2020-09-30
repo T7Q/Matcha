@@ -1,24 +1,22 @@
-import { GET_PROFILE, PROFILE_ERROR } from '../actions/types';
+import { GET_MATCH, MATCH_ERROR } from '../actions/types';
 
 const initialState = {
-    profile: null,
-    profiles: [],
-    repos: [],
+    match: [],
+    matches: [],
     loading: true,
     error: {},
 };
 
 export default function (state = initialState, action) {
     const { type, payload } = action;
-    console.log("type_profile", type);
     switch (type) {
-        case GET_PROFILE:
+        case GET_MATCH:
             return {
                 ...state,
-                profile: payload,
+                match: payload,
                 loading: false,
             };
-        case PROFILE_ERROR:
+        case MATCH_ERROR:
             return {
                 ...state,
                 error: payload,

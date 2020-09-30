@@ -28,7 +28,7 @@ router.get('/visitedme', authorization.required, display.visitedMe);
 // @access  Private
 router.get('/visitedbyme', authorization.required, display.visitedByMe);
 
-// @route   POST /match/recommended
+// @route   POST /match/recommend
 // @desc    Display all who liked me
 // @access  Private
 router.get('/recommend', authorization.required, display.recommend);

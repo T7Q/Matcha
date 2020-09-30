@@ -53,7 +53,7 @@ const UserCard = ({ card }) => {
     const bull = <span className={classes.bullet}>•</span>;
 
     return (
-            // <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={4}>
                 <Card className={classes.root}>
                     <CardMedia
                         className={classes.media}
@@ -85,7 +85,7 @@ const UserCard = ({ card }) => {
                         <Connection connected={card.connected} />
                     </CardActions>
                 </Card>
-    //    </Grid>
+     </Grid>
     );
 };
 

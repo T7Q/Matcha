@@ -2,8 +2,9 @@ import { GET_MATCH, FETCH_MORE_MATCH, MATCH_ERROR } from '../actions/types';
 
 const initialState = {
     match: [],
-    limit: 2,
+    limit: 3,
     offset: 0,
+    count: 3,
     matches: [],
     loading: true,
     error: {},
@@ -19,16 +20,6 @@ export default function (state = initialState, action) {
             console.log("data", payload);
             return {
                 ...state,
-                match: payload,
-                loading: false,
-            };
-        case FETCH_MORE_MATCH:
-            console.log("REDUCER case FETCH_MORE");
-            console.log("state", state);
-            console.log("data", payload);
-            return {
-                ...state,
-                // offset: state.offset + 3,
                 match: payload,
                 loading: false,
             };

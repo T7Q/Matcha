@@ -21,21 +21,19 @@ export const getRecommend = ({limit, offset}) => async dispatch => {
 
 
 export const fetchMoreRecommend = (props) => async dispatch => {
-    props.offset = props.offset + 3;
+    props.offset = props.offset + props.count;
     console.log("actions FetchMore");
     console.log("got here limit=", props.limit, " offset= ", props.offset);
-    console.log("props", props);
-    try {
+    // try {
         const res = await axios.get(`/match/recommend?limit=${props.limit}&offset=${props.offset}`);
-        console.log(props.match.concat(res.data));
-        dispatch ({
-            type: GET_MATCH,
+        console.log("all", props.match.concat(res.data));
+        return ({
             payload: props.match.concat(res.data),
         });
-    } catch (err) {
-        this.props.dispatchdispatch({
-            // type: MATCH_ERROR,
-            payload: { msg: err },
-        });
-    }
+    // } catch (err) {
+    //     this.props.dispatchdispatch({
+    //         // type: MATCH_ERROR,
+    //         payload: { msg: err },
+    //     });
+    // }
 };

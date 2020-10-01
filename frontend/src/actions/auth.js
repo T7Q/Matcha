@@ -4,6 +4,7 @@ import setAuthToken from '../utils/setAuthToken';
 import { LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT, MESSAGE } from './types';
 
 export const loadUser = () => async dispatch => {
+    // console.log('in load user');
     setAuthToken(localStorage.getItem('token'));
 
     try {
@@ -74,10 +75,12 @@ export const login = ({ username, password }) => async dispatch => {
             dispatch(setAlert(error, 'danger'));
             dispatch({ type: AUTH_FAIL });
         } else {
+            // console.log('in login before success');
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: res.data,
             });
+            // console.log('in login before loaduser');
             dispatch(loadUser());
         }
     } catch (error) {

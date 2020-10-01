@@ -4,6 +4,7 @@ import { GET_PROFILE, PROFILE_ERROR } from './types';
 // Get current user profile
 export const getCurrentProfile = () => async dispatch => {
     try {
+        // console.log('current profile');
         const res = await axios.get('/profile');
         dispatch({
             type: GET_PROFILE,
@@ -20,6 +21,7 @@ export const getCurrentProfile = () => async dispatch => {
 // Create or update profile
 export const createProfile = (formData, history, edit = false) => async dispatch => {
     try {
+        // console.log('create profile');
         const config = {
             headers: {
                 'Content-Type': 'application/json',

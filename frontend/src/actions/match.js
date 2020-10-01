@@ -1,32 +1,31 @@
 import axios from 'axios';
 import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH } from './types';
-
 // const route = `/match/recommend`;
 
 // Get current user profile
-export const getRecommend = (path) => async dispatch => {
+export const getRecommend = path => async dispatch => {
+    // dispatch(loadUser());
     let route = '';
     // console.log("PATH", path);
-    switch(path){
-        case("/matches"):
-            route = `/match/recommend`;
-            break;
-        case("/likes"):
+    switch (path) {
+        case '/likes':
             route = `/match/likedme`;
             break;
+        case '/matches':
+        default:
+            route = `/match/recommend`;
     }
     // console.log("temp", temp);
-    // console.log("getRecommended");
+    // console.log('getRecommended');
     try {
-        // console.log("getRecommended TRY");
         // const res = await axios.get(`/match/recommend`);
         const res = await axios.get(route);
-        // console.log("res.data", res.data);
         dispatch({
             type: GET_MATCH,
             payload: res.data,
         });
     } catch (err) {
+        // console.log('error in recomm', err);
         dispatch({
             type: MATCH_ERROR,
             payload: { msg: err },
@@ -37,6 +36,6 @@ export const getRecommend = (path) => async dispatch => {
 // Get more matches
 export const fetchMore = () => dispatch => {
     dispatch({
-        type: FETCH_MORE_MATCH
+        type: FETCH_MORE_MATCH,
     });
-}
+};

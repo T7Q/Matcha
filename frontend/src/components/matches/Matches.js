@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Gallery from './Gallery';
 
 const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path }) => {
-    // console.log("MATCH component");
+    // console.log('MATCH component');
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -23,7 +23,7 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path 
 
     return (
         <Fragment>
-            <Typography variant='h6'>
+            <Typography variant="h6">
                 {path === '/matches' ? 'Matches:' : 'Likes:'}
                 {match.length}
             </Typography>

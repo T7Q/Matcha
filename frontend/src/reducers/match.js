@@ -4,9 +4,9 @@ const initialState = {
     match: [],
     limit: 100,
     offset: 0,
-    count: 1,
+    count: 3,
     iStart: 0,
-    iEnd: 1,
+    iEnd: 0,
     matches: [],
     loading: true,
     error: {},
@@ -22,6 +22,7 @@ export default function (state = initialState, action) {
             console.log("data", payload);
             return {
                 ...state,
+                iEnd: state.iStart + state.count,
                 match: payload,
                 loading: false,
             };

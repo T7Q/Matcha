@@ -50,16 +50,21 @@ const useStyles = makeStyles({
 
 const UserCard = ({ card }) => {
     const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
-
+    // const bull = <span className={classes.bullet}>•</span>;
+    // console.log("profile pic", card.profile_pic_path);
+    // console.log(window.location.pathname);
+    // console.log("here", `/images/${card.profile_pic_path}`);
+    // const str = '"http://localhost:5000/images/' + card.profile_pic_path + '"';
+    // console.log("stre", str);
     return (
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={12}>
+                {/* <img src={str}></img> */}
                 <Card className={classes.root}>
-                    <CardMedia
+                    {/* <CardMedia
                         className={classes.media}
-                        src="https://bit.ly/3iajqhO"
+                        src={require(`"/images/${card.profile_pic_path}"`)}
                         title="Profile_pic"
-                    />
+                    /> */}
                     <CardContent>
                         <Typography
                             className={classes.title}

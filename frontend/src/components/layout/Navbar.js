@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import {
-    PeopleIcon,
     MessageOutlined,
     PeopleOutline,
     FavoriteBorder,
     AccountCircle,
     MailIcon,
+    ExitToApp,
+    Brightness2,
 } from '@material-ui/icons';
-import { Badge, AppBar, Toolbar, Typography, Box, Button, Tab, Tabs } from '@material-ui/core';
+import { Badge, AppBar, Toolbar, Typography, Box, Button, Tab, Tabs, IconButton } from '@material-ui/core';
 
 const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
     const [value, setValue] = useState(0);
@@ -53,36 +54,50 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
     // </>
 
     return (
-        <Box color='secondary.main' minWidth='100%'>
+        <Box maxWidth='100%'>
             <AppBar color='secondary' position='static'>
                 <Toolbar className='flex'>
-                    <Link className='decor-none' to='/'>
-                        <Typography className='pr-5' color='textSecondary' variant='h6'>
-                            <i className='fas fa-moon' /> Astro Matcha
-                        </Typography>
-                    </Link>
-                    <Link className='decor-none' to='/matches'>
-                        <Typography className='p-3' variant='h6' color='textPrimary'>
-                            Matches
-                        </Typography>
-                    </Link>
-                    <Link className='decor-none' to='/messages'>
-                        <Typography className='p-3' variant='h6' color='textSecondary'>
-                            Messages
-                        </Typography>
-                    </Link>
-                    <Link className='decor-none' to='/likes'>
-                        <Typography className='p-3' variant='h6' color='textSecondary'>
-                            Likes
-                        </Typography>
-                    </Link>
-                    <Link className='decor-none' to='/profile'>
-                        <Typography variant='h6' className='p-3' color='textSecondary'>
+                    <Box display='flex' flexGrow={1}>
+                        <Link className='link-decor' to='/'>
+                            <Typography className='pr-5' color='textSecondary' variant='h6'>
+                                <i className='fas fa-moon' /> Astro Matcha
+                            </Typography>
+                        </Link>
+                        <Link className='link-decor' to='/matches'>
+                            <Typography className='pr-5' variant='h6' color='textPrimary'>
+                                <Badge className='pr-2'>
+                                    <PeopleOutline />
+                                </Badge>
+                                Matches
+                            </Typography>
+                        </Link>
+                        <Link className='link-decor' to='/messages'>
+                            <Typography className='pr-5' variant='h6' color='textPrimary'>
+                                <Badge className='pr-2'>
+                                    <MessageOutlined />
+                                </Badge>
+                                Messages
+                            </Typography>
+                        </Link>
+                        <Link className='link-decor' to='/likes'>
+                            <Typography className='pr-5' variant='h6' color='textPrimary'>
+                                <Badge className='pr-2'>
+                                    <FavoriteBorder />
+                                </Badge>
+                                Likes
+                            </Typography>
+                        </Link>
+                    </Box>
+                    <Link className='link-decor' to='/profile'>
+                        <Typography variant='h6' className='pr-5' color='textSecondary'>
+                            <Badge className='pr-2'>
+                                <AccountCircle />
+                            </Badge>
                             Profile
                         </Typography>
                     </Link>
-                    <Link className='decor-none' to='/' onClick={logout}>
-                        <Typography variant='h6' color='textSecondary'>
+                    <Link className='link-decor' to='/' onClick={logout}>
+                        <Typography variant='h6' color='textPrimary'>
                             <i className='fas fa-sign-out-alt'></i> Logout
                         </Typography>
                     </Link>

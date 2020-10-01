@@ -7,16 +7,20 @@ body {
 .circle {
     border-radius: 50%;
     position: relative;
-    margin: 0 -10px;
+    padding: 0 50px;
     width: calc(100% + 20px);
     animation: rotating 20s linear infinite;
 }
 
-.p-3 {
-    padding: 10px;
+.pr-3 {
+    padding-right: 10px;
 }
 
-.decor-none {
+.pr-2 {
+    padding-right: 5px;
+}
+
+.link-decor {
     text-decoration: none;
 }
 
@@ -26,6 +30,10 @@ body {
 
 .flex {
     display: flex;
+}
+
+.relative {
+    position: relative;
 }
 
 @keyframes rotating {

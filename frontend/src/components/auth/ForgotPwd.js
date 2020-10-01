@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { forgetPwd } from '../../actions/auth';
-import { IconButton, Button } from '@material-ui/core';
+import { IconButton, Button, Box } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Input from '../common/Input';
 import Form from '../common/IndividualForm';
@@ -30,7 +30,7 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
     }
 
     return (
-        <Fragment>
+        <Box position='absolute' top='25%'>
             <Link to='/login'>
                 <IconButton>
                     <ArrowBackIosIcon />
@@ -47,7 +47,7 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
                     Next
                 </Button>
             </Form>
-        </Fragment>
+        </Box>
     );
 };
 

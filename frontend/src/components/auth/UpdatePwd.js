@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updatePwd } from '../../actions/auth';
-import { Button } from '@material-ui/core';
+import { Button, Box } from '@material-ui/core';
 import Input from '../common/Input';
 import Form from '../common/IndividualForm';
 
@@ -31,7 +31,7 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
     }
 
     return (
-        <Fragment>
+        <Box position='absolute' top='25%'>
             <Form onSubmit={onSubmit}>
                 <Input header='Enter your new password' type='password' value={password} handleChange={onChange} />
                 <Input type='confirmPassword' value={confirmPassword} handleChange={onChange} />
@@ -39,7 +39,7 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
                     Upload & log in
                 </Button>
             </Form>
-        </Fragment>
+        </Box>
     );
 };
 

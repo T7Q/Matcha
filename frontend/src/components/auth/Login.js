@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
-import { IconButton, Button } from '@material-ui/core';
+import { IconButton, Button, Box } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Input from '../common/Input';
 import Form from '../common/IndividualForm';
@@ -31,7 +31,7 @@ const Login = ({ login, isAuthenticated, user }) => {
     }
 
     return (
-        <Fragment>
+        <Box position='absolute' top='25%'>
             <Link to='/'>
                 <IconButton>
                     <ArrowBackIosIcon />
@@ -75,7 +75,7 @@ const Login = ({ login, isAuthenticated, user }) => {
                     </Link>
                 </Grid>
             </form> */}
-        </Fragment>
+        </Box>
     );
 };
 

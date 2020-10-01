@@ -7,7 +7,7 @@ import { register } from '../../actions/auth';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 import { withRouter } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 
 const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({
@@ -40,7 +40,7 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     };
 
     return (
-        <Fragment>
+        <Box position='absolute' top='25%'>
             <WizardForm header='Registration' setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
                 <Input type='email' header="Welcome! What's your email?" value={email} handleChange={onChange} />
                 <Input type='username' header='Create a username' value={username} handleChange={onChange} />
@@ -70,7 +70,7 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
                     </Grid>
                 </Grid>
             </WizardForm>
-        </Fragment>
+        </Box>
     );
 };
 

@@ -23,7 +23,10 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path 
 
     return (
         <Fragment>
-            <Typography variant='h6'>Matches: {match.length}</Typography>
+            <Typography variant='h6'>
+                {path === '/matches' ? 'Matches:' : 'Likes:'}
+                {match.length}
+            </Typography>
             <Gallery match={match} iEnd={iEnd} />
         </Fragment>
     );

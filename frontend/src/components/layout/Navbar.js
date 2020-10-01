@@ -28,12 +28,12 @@ import {
     ListItemIcon,
 } from '@material-ui/core';
 
-const StyledMenu = withStyles({
+const StyledMenu = withStyles(theme => ({
     paper: {
         border: '1px solid #000',
-        background: '#000',
+        background: theme.palette.secondary.main,
     },
-})(props => (
+}))(props => (
     <Menu
         elevation={0}
         getContentAnchorEl={null}
@@ -133,14 +133,19 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
                         open={Boolean(profileSettings)}
                         onClose={handleClose}>
                         <StyledMenuItem onClick={handleClose}>
-                            <Link to="/profile">My profile</Link>
-                            {/* <ListItemIcon></ListItemIcon> */}
+                            <Link className="link-decor" to="/profile">
+                                <ListItemIcon>My profile</ListItemIcon>
+                            </Link>
                         </StyledMenuItem>
                         <StyledMenuItem onClick={handleClose}>
-                            <Link to="/profile">Account Settings</Link>
+                            <Link className="link-decor" to="/profile">
+                                <ListItemIcon>Account Settings</ListItemIcon>
+                            </Link>
                         </StyledMenuItem>
                         <StyledMenuItem onClick={handleClose}>
-                            <Link to="/profile">Visit history</Link>
+                            <Link className="link-decor" to="/profile">
+                                <ListItemIcon>Visit history</ListItemIcon>
+                            </Link>
                         </StyledMenuItem>
                     </StyledMenu>
                 </Typography>

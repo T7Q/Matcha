@@ -5,7 +5,6 @@ import { Grid } from '@material-ui/core';
 
 const Gallery = ({ match, iEnd }) => {
     // console.log("GALLERY iEnd");
-
     if (match.length < 1) {
         return <Typography variant="h6">No matches found.</Typography>;
     }
@@ -17,15 +16,7 @@ const Gallery = ({ match, iEnd }) => {
                     .map(mat => {
                         return <UserCard key={mat.user_id} card={mat} />;
                     })}
-        </Grid>
-    );
-    // return(
-    //     <Grid container spacing={3}>
-    //         {match.map((mat) => {
-    //             return <UserCard key={mat.user_id} card={mat} />;
-    //         })}
-    //     </Grid>
-    // )
+        </Grid>)
 };
 
 export default Gallery;

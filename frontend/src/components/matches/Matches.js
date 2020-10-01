@@ -1,12 +1,17 @@
-import React, { Fragment, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getRecommend, fetchMore } from '../../actions/match';
-import Typography from '@material-ui/core/Typography';
-import Gallery from './Gallery';
+
+import React, { Fragment, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { getRecommend, fetchMore } from "../../actions/match";
+import Typography from "@material-ui/core/Typography";
+import Gallery from "./Gallery";
+import HeaderScrollableTabs from "./HeaderScrollableTabs";
+
+// console.log("TYPE", type);
 
 const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path }) => {
-    // console.log('MATCH component');
+    // console.log("MATCH component");
+    console.log("PATH", path);
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -23,11 +28,9 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path 
 
     return (
         <Fragment>
-            <Typography variant="h6">
-                {path === '/matches' ? 'Matches:' : 'Likes:'}
-                {match.length}
-            </Typography>
-            <Gallery match={match} iEnd={iEnd} />
+            <HeaderScrollableTabs variant="h6" match={match} iEnd={iEnd}>Horizontal scroll</HeaderScrollableTabs>
+            <Typography variant="h6">Matches: {match.length}</Typography>
+            {/* <Gallery match={match} iEnd={iEnd} /> */}
         </Fragment>
     );
 };

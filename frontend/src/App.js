@@ -43,6 +43,7 @@ const App = () => {
                 </Router>
             </Provider>
         </ThemeProvider>
+
     );
 };
 

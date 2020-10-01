@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
+import { AppBar, Toolbar, Typography, Box, Button } from '@material-ui/core';
 
 const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
     // const guestLinks = (
@@ -17,49 +18,40 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user } }) => {
     // );
 
     const authLinks = (
-        <ul>
-            <li>
-                <Link to='/matches'>Matches</Link>
-            </li>
-            <li>
-                <Link to='/messages'>Messages</Link>
-            </li>
-            <li>
-                <Link to='/likes'>Likes</Link>
-            </li>
-            <li>
-                <Link to='/profile'>Profile</Link>
-            </li>
-            <li>
-                <a onClick={logout} href='#!'>
-                    <i className='fas fa-sign-out-alt'></i>
-                    Logout
-                </a>
-            </li>
-        </ul>
+        <>
+            <Link to='/matches'>Matches</Link>
+            <Link to='/messages'>Messages</Link>
+            <Link to='/likes'>Likes</Link>
+            <Link to='/profile'>Profile</Link>
+            <a onClick={logout} href='#!'>
+                <i className='fas fa-sign-out-alt'></i>
+                Logout
+            </a>
+        </>
     );
 
     return (
-        <nav className='navbar bg-dark'>
-            <h1>
-                <Link to='/'>
-                    <i className='fas fa-moon' /> Astro Matcha
-                </Link>
-            </h1>
-            {!loading && (
-                <>
-                    {isAuthenticated &&
-                        (user.status === 1 ? (
+        <Box color='secondary.main' minWidth='100%'>
+            <AppBar color='secondary' position='static'>
+                <Toolbar>
+                    <Link to='/'>
+                        <Typography variant='h6'>
+                            <i className='fas fa-moon' /> Astro Matcha
+                        </Typography>
+                    </Link>
+                    {!loading && isAuthenticated ? (
+                        user.status === 1 ? (
                             <a onClick={logout} href='#!'>
                                 <i className='fas fa-sign-out-alt'></i>
                                 Logout
                             </a>
                         ) : (
                             authLinks
-                        ))}
-                </>
-            )}
-        </nav>
+                        )
+                    ) : null}
+                </Toolbar>
+            </AppBar>
+        </Box>
     );
 };
 

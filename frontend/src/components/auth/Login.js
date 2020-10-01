@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 import { IconButton, Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import Input from '../Form/Input';
-import Form from '../Form/Form';
+import Input from '../common/Input';
+import Form from '../common/IndividualForm';
 
 const Login = ({ login, isAuthenticated, user }) => {
     const [formData, setFormData] = useState({
@@ -45,7 +45,6 @@ const Login = ({ login, isAuthenticated, user }) => {
                     value={username}
                 />
                 <Input type='password' handleChange={onChange} value={password} />
-
                 <Button type='submit' variant='contained' color='primary'>
                     Next
                 </Button>

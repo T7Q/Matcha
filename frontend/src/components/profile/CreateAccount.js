@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
-import Input from './Input';
-import WizardForm from './WizardForm';
+import Input from '../common/Input';
+import WizardForm from '../common/WizardForm';
 import { withRouter } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 

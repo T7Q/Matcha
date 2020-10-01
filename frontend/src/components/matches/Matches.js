@@ -1,32 +1,29 @@
-import React, { Fragment, useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { getRecommend, fetchMore } from "../../actions/match";
-import Typography from "@material-ui/core/Typography";
-import Gallery from "./Gallery";
-
-// console.log("TYPE", type);
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getRecommend, fetchMore } from '../../actions/match';
+import Typography from '@material-ui/core/Typography';
+import Gallery from './Gallery';
 
 const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path }) => {
     // console.log("MATCH component");
 
     useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener('scroll', handleScroll);
         getRecommend(path);
-    }, [getRecommend, path ]);
-
+    }, [getRecommend, path]);
 
     // console.log("TYPE", path);
     const handleScroll = () => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
             // console.log("you're at the bottom of the page");
             fetchMore();
         }
-    }
+    };
 
     return (
         <Fragment>
-            <Typography variant="h6">Matches: {match.length}</Typography>
+            <Typography variant='h6'>Matches: {match.length}</Typography>
             <Gallery match={match} iEnd={iEnd} />
         </Fragment>
     );
@@ -38,7 +35,7 @@ Match.propTypes = {
     match: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     match: state.match,
 });
 

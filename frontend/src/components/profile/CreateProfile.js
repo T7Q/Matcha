@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 // import { setAlert } from '../../actions/alert';
 import { makeStyles } from '@material-ui/core/styles';
-import WizardForm from './WizardForm';
+import WizardForm from '../common/WizardForm';
 import { withRouter } from 'react-router-dom';
 import { Grid, TextareaAutosize } from '@material-ui/core';
 import { createProfile } from '../../actions/profile';
@@ -184,9 +184,18 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     onChange={image => setFormData({ ...formData, images: image })}
                     showFileNames
                     initialFiles={images}
-                    dropzoneText='Maximum 5 photos'
+                    dropzoneText='Maximum 1 photos'
                     showAlerts={false}
-                    filesLimit={5}
+                    filesLimit={1}
+                />
+                <DropzoneArea
+                    acceptedFiles={['image/*']}
+                    onChange={image => setFormData({ ...formData, images: image })}
+                    showFileNames
+                    initialFiles={images}
+                    dropzoneText='Maximum 4 photos'
+                    showAlerts={false}
+                    filesLimit={1}
                 />
             </Fragment>
             <Fragment>

@@ -5,21 +5,20 @@ import { Container, Grid, Box } from '@material-ui/core';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Landing from './components/layout/Landing';
-import Register from './components/Form/Register';
+import Register from './components/profile/CreateAccount';
 import Login from './components/auth/Login';
 import ForgotPwd from './components/auth/ForgotPwd';
 import UpdatePwd from './components/auth/UpdatePwd';
 import Likes from './components/likes/Likes';
 import Matches from './components/matches/Matches';
 import Profile from './components/profile/Profile';
-import CreateProfile from './components/profile-form/CreateProfile';
 import Chat from './components/chat/Chat';
 import Alert from './components/layout/Alert';
 import Message from './components/layout/Message';
 import PrivateRoute from './components/routing/PrivateRoute';
 // import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
-import ProfileCreation from './components//Form/Profile';
+import ProfileCreation from './components/profile/CreateProfile';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -39,11 +38,9 @@ const App = () => {
             <Provider store={store}>
                 <Router>
                     <CssBaseline />
+                    <Navbar />
                     <Container maxWidth='md'>
                         <Box display='flex' flexDirection='column' minHeight='100vh'>
-                            <Box>
-                                <Navbar />
-                            </Box>
                             <Box flexGrow={1}>
                                 <Grid container spacing={1}>
                                     <Grid container item md={6} sm={12}>
@@ -59,7 +56,6 @@ const App = () => {
                                                 <PrivateRoute exact path='/messages' component={Chat} />
                                                 <PrivateRoute exact path='/likes' component={Matches} />
                                                 <PrivateRoute exact path='/profile' component={Profile} />
-                                                <Route exact path='/create-profile' component={CreateProfile} />
                                                 <Route exact path='/complete' component={ProfileCreation} />
                                                 <PrivateRoute exact path='/matches' component={Matches} />
                                             </Switch>

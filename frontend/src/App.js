@@ -38,26 +38,26 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <Provider store={store}>
                 <Router>
-                    <Box display='flex' flexDirection='column' minHeight='100vh' position='relative'>
+                    <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
                         <CssBaseline />
                         <Navbar />
                         <Box p={5} m={5} flexGrow={1}>
                             <Grid container spacing={1}>
                                 <Grid container item md={6} sm={12}>
-                                    <Route exact path='/' component={Landing} />
-                                    <section className='container'>
+                                    <Route exact path="/" component={Landing} />
+                                    <section className="container">
                                         <Alert />
                                         <Switch>
-                                            <Route exact path='/login' component={Login} />
-                                            <Route exact path='/register' component={Register} />
-                                            <Route exact path='/forgetPwd' component={ForgotPwd} />
-                                            <Route exact path='/updatePwd' component={UpdatePwd} />
-                                            <Route exact path='/message' component={Message} />
-                                            <PrivateRoute exact path='/messages' component={Chat} />
-                                            <PrivateRoute exact path='/likes' component={Matches} />
-                                            <PrivateRoute exact path='/profile' component={Profile} />
-                                            <Route exact path='/complete' component={ProfileCreation} />
-                                            <PrivateRoute exact path='/matches' component={Matches} />
+                                            <Route exact path="/login" component={Login} />
+                                            <Route exact path="/register" component={Register} />
+                                            <Route exact path="/forgetPwd" component={ForgotPwd} />
+                                            <Route exact path="/updatePwd" component={UpdatePwd} />
+                                            <Route exact path="/message" component={Message} />
+                                            <PrivateRoute exact path="/messages" component={Chat} />
+                                            <PrivateRoute exact path="/likes" component={Matches} />
+                                            <PrivateRoute exact path="/profile" component={Profile} />
+                                            <Route exact path="/complete" component={ProfileCreation} />
+                                            <PrivateRoute exact path="/matches" component={Matches} />
                                         </Switch>
                                     </section>
                                 </Grid>

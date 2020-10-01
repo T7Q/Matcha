@@ -9,8 +9,8 @@ const Circle = ({ isAuthenticated }) => {
         <>
             {!isAuthenticated ? (
                 <Grid container item md={6} sm={12}>
-                    <Box overflow='hidden' position='absolute' top='25%'>
-                        <img className='circle' src={require('../../circle.png')} alt='circle' />
+                    <Box zIndex="-1" overflow="hidden" position="absolute" top="25%">
+                        <img className="circle" src={require('../../circle.png')} alt="circle" />
                     </Box>
                 </Grid>
             ) : (

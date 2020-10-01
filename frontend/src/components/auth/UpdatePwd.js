@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updatePwd } from '../../actions/auth';
 import { Button } from '@material-ui/core';
-import Input from '../Form/Input';
-import Form from '../Form/Form';
+import Input from '../common/Input';
+import Form from '../common/IndividualForm';
 
 const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
     const [formData, setFormData] = useState({

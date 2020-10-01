@@ -8,7 +8,17 @@ const Matches = () => {
     //     password2: ''
     // );
 
-    return <Fragment>Matches</Fragment>;
+    return (
+        <Fragment>
+            {/* <Birth_DATE variant='h6'>Matches: {match.length}</Birth_DATE>
+            <Country match={match} iEnd={iEnd} />
+            <Gender match={match} iEnd={iEnd} />
+            <Gender match={match} iEnd={iEnd} />
+            <Gender match={match} iEnd={iEnd} />
+            <Gender match={match} iEnd={iEnd} />
+            <Gender match={match} iEnd={iEnd} /> */}
+        </Fragment>
+    );
 };
 
 export default Matches;

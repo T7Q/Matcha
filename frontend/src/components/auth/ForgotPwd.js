@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import { forgetPwd } from '../../actions/auth';
 import { IconButton, Button } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import Input from '../Form/Input';
-import Form from '../Form/Form';
+import Input from '../common/Input';
+import Form from '../common/IndividualForm';
 
 const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
     const [formData, setFormData] = useState({

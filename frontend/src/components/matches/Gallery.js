@@ -3,7 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import UserCard from "./UserCard";
 import { Grid } from "@material-ui/core";
 
-const Gallery = ({ match }) => {
+const Gallery = ({ match, iStart, iEnd }) => {
     if (match.length < 1) {
         return (
             <Typography variant="h6">
@@ -13,7 +13,7 @@ const Gallery = ({ match }) => {
     };
     return(
         <Grid container spacing={3}>
-            {match.filter((elem, i) => i >= 0 && i < 6).map((mat) => {
+            {match.filter((elem, i) => i >= 0 && i < iEnd).map((mat) => {
                 return <UserCard key={mat.user_id} card={mat} />;
             })}
         </Grid>

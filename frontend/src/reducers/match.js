@@ -4,9 +4,9 @@ const initialState = {
     match: [],
     limit: 100,
     offset: 0,
-    count: 3,
+    count: 1,
     iStart: 0,
-    iEnd: 5,
+    iEnd: 1,
     matches: [],
     loading: true,
     error: {},
@@ -33,8 +33,13 @@ export default function (state = initialState, action) {
             };
         case FETCH_MORE_MATCH:
             console.log("from Fetch", state);
+            const temp = state.iStart + state.count;   
+            const temp2 = state.iEnd + state.count;   
             return {
                 ...state,
+                iStart: temp,
+                iEnd: temp2,
+                // iStart: temp.iStart + temp.count,
                 loading: false,
             };
         default:

@@ -12,6 +12,22 @@ body {
     animation: rotating 20s linear infinite;
 }
 
+.p-3 {
+    padding: 10px;
+}
+
+.decor-none {
+    text-decoration: none;
+}
+
+.pr-5 {
+    padding-right: 25px;
+}
+
+.flex {
+    display: flex;
+}
+
 @keyframes rotating {
     0% {
         transform: rotate(0deg);

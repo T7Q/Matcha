@@ -1,14 +1,27 @@
 import axios from 'axios';
 import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH } from './types';
-import store from '../store'
+
+// const route = `/match/recommend`;
 
 // Get current user profile
-export const getRecommend = ({limit, offset}) => async dispatch => {
-    console.log("getRecommended");
+export const getRecommend = (path) => async dispatch => {
+    let route = '';
+    // console.log("PATH", path);
+    switch(path){
+        case("/matches"):
+            route = `/match/recommend`;
+            break;
+        case("/likes"):
+            route = `/match/likedme`;
+            break;
+    }
+    // console.log("temp", temp);
+    // console.log("getRecommended");
     try {
-        console.log("getRecommended TRY");
-        const res = await axios.get(`/match/recommend?limit=${limit}&offset=${offset}`);
-        console.log("res.data", res.data);
+        // console.log("getRecommended TRY");
+        // const res = await axios.get(`/match/recommend`);
+        const res = await axios.get(route);
+        // console.log("res.data", res.data);
         dispatch({
             type: GET_MATCH,
             payload: res.data,
@@ -21,13 +34,9 @@ export const getRecommend = ({limit, offset}) => async dispatch => {
     }
 };
 
-
-export const fetchMoreRecommend = (props) => async dispatch => {
-    props.offset = props.offset + props.count;
-    console.log("actions FetchMore");
-    console.log("offset", props.offset);
-
-    dispatch ({
+// Get more matches
+export const fetchMore = () => dispatch => {
+    dispatch({
         type: FETCH_MORE_MATCH
     });
-};
+}

@@ -1,58 +1,33 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getRecommend, fetchMoreRecommend } from "../../actions/match";
+import { getRecommend, fetchMore } from "../../actions/match";
 import Typography from "@material-ui/core/Typography";
 import Gallery from "./Gallery";
-import UserCard from "./UserCard";
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { Grid, Button } from "@material-ui/core";
 
-import { FETCH_MORE_MATCH } from '../../actions/types';
+// console.log("TYPE", type);
 
+const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path }) => {
+    // console.log("MATCH component");
 
-const fetchMore = () => dispatch => {
-    console.log("Fetch more yay!");
-    dispatch({
-        type: FETCH_MORE_MATCH
-    });
-}
-
-const Match = ({ getRecommend, fetchMore, match: { match, iStart, iEnd, limit, count, offset, loading } }) => {
-    console.log("MATCH component");
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
-        getRecommend({ limit, offset });
-        // document.getElementById("test").addEventListener("scroll", handleScroll);
-    }, [getRecommend]);
+        getRecommend(path);
+    }, [getRecommend, path ]);
 
-    const handleClick = () => {
-        console.log("click");
-        fetchMore();
-    }
-    const handleScroll = (event) => {
+
+    // console.log("TYPE", path);
+    const handleScroll = () => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            console.log("you're at the bottom of the page");
+            // console.log("you're at the bottom of the page");
             fetchMore();
         }
     }
-    
+
     return (
         <Fragment>
             <Typography variant="h6">Matches: {match.length}</Typography>
-                {/* <div id="test" onScroll={handleScroll}> */}
-                    <Grid  container spacing={3} >
-                    {match.filter((elem, i) => i >= 0 && i < iEnd).map((mat) => {
-                        return <UserCard key={mat.user_id} card={mat} />;
-                    })}
-                    </Grid>
-
-                {/* </div> */}
-
-            {/* <Gallery match={match} iStart ={iStart} iEnd={iEnd} onClick={handleScroll}/> */}
-            {/* <Button variant="outlined" color="primary" onClick={handleClick}>
-            More profiles
-            </Button> */}
+            <Gallery match={match} iEnd={iEnd} />
         </Fragment>
     );
 };

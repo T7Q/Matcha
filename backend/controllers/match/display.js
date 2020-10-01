@@ -5,7 +5,7 @@ const accountModel = require("../../models/account");
 
 recommend = async (req, res) => {
     const userId = req.user.userId;
-    console.log("\033[0;31m SERVER DISPLAY", req.query);
+
     try {
         let userDbData = await accountModel.findUserInfo("user_id", userId, "user_id", "sex_orientation",
             "geolocation", "chinese_horo", "western_horo");
@@ -17,9 +17,8 @@ recommend = async (req, res) => {
             filter: " AND (SELECT count(likes.like_id) AS to_likes FROM likes\
                         WHERE likes.from_user_id = $1\
                         AND likes.to_user_id = users.user_id) = 0 ",
-            order: "match desc, distance desc, fame desc, date desc",
-            limit: "LIMIT " + req.query.limit + " OFFSET " + req.query.offset,
-            // limit: "",
+            order: "match desc, distance desc, fame desc",
+            limit: "",
             dateColumn: ", users.created_at as date ",
             values: [userDbData.user_id, userDbData.geolocation]
         };
@@ -31,7 +30,6 @@ recommend = async (req, res) => {
         // console.log(settings.filter);
         // get match from db
         let matches = await matchModel.getMatch(userDbData, settings);
-        // console.log(matches);
         return res.json(matches);
     } catch (e) {
         return res.json({error: e.detail || "Something went wrong getting matches"});

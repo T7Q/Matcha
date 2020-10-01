@@ -2,9 +2,7 @@ import { GET_MATCH, FETCH_MORE_MATCH, SET_OFFSET, MATCH_ERROR } from '../actions
 
 const initialState = {
     match: [],
-    limit: 100,
-    offset: 0,
-    count: 3,
+    count: 6,
     iStart: 0,
     iEnd: 0,
     matches: [],
@@ -14,12 +12,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
     const { type, payload } = action;
-    console.log("REDUCER");
+    // console.log("REDUCER");
+    // console.log("state", state);
+    // console.log("data", payload);
     switch (type) {
         case GET_MATCH:
-            console.log("REDUCER case GET_MATCH");
-            console.log("state", state);
-            console.log("data", payload);
             return {
                 ...state,
                 iEnd: state.iStart + state.count,
@@ -32,15 +29,11 @@ export default function (state = initialState, action) {
                 error: payload,
                 loading: false,
             };
-        case FETCH_MORE_MATCH:
-            console.log("from Fetch", state);
-            const temp = state.iStart + state.count;   
-            const temp2 = state.iEnd + state.count;   
+        case FETCH_MORE_MATCH:  
             return {
                 ...state,
-                iStart: temp,
-                iEnd: temp2,
-                // iStart: temp.iStart + temp.count,
+                iStart: state.iStart + state.count,
+                iEnd: state.iEnd + state.count,
                 loading: false,
             };
         default:

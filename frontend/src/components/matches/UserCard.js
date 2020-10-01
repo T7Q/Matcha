@@ -13,23 +13,6 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { Grid } from "@material-ui/core";
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-const Connection = ({ connected }) => {
-    if ({ connected } === 1)
-        return (
-            <div>
-                <IconButton aria-label="chat">
-                    <ChatIcon />
-                </IconButton>
-            </div>
-        );
-    return (
-        <div>
-            <IconButton aria-label="like">
-                <FavoriteIcon />
-            </IconButton>
-        </div>
-    );
-};
 
 const useStyles = makeStyles({
     root: {
@@ -50,14 +33,8 @@ const useStyles = makeStyles({
 
 const UserCard = ({ card }) => {
     const classes = useStyles();
-    // const bull = <span className={classes.bullet}>•</span>;
-    // console.log("profile pic", card.profile_pic_path);
-    // console.log(window.location.pathname);
-    // console.log("here", `/images/${card.profile_pic_path}`);
-    // const str = '"http://localhost:5000/images/' + card.profile_pic_path + '"';
-    // console.log("stre", str);
     return (
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={4}>
                 {/* <img src={str}></img> */}
                 <Card className={classes.root}>
                     {/* <CardMedia
@@ -87,7 +64,12 @@ const UserCard = ({ card }) => {
                         <StarBorderIcon label="10">10</StarBorderIcon>
                         <Button size="small">{card.match.toFixed(0)}%</Button>
                         <Button size="small">{card.fame === null ? 0 : card.fame.toFixed(1)}</Button>
-                        <Connection connected={card.connected} />
+                        {/* <Connection connected={card.connected} /> */}
+                        <IconButton aria-label="chat">
+                            {card.connected ?
+                            <ChatIcon />:
+                                <FavoriteIcon />}
+                            </IconButton>
                     </CardActions>
                 </Card>
      </Grid>

@@ -63,7 +63,7 @@ const getMatch = async (user, settings) => {
     const cnHoroscopeCompValue = getCompatibilityValue("default", user.chinese_horo, "chinese");
     const westHoroscopeCompValue = getCompatibilityValue("default", user.western_horo, "western");
     const connected = getConnectionValue("", user.user_id);
-
+       
     const res = await db.query(
         `
         SELECT

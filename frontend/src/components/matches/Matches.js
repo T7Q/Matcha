@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Gallery from "./Gallery";
 import UserCard from "./UserCard";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Button } from "@material-ui/core";
 
 const Match = ({ getRecommend, match: { match, limit, count, offset, loading } }) => {
     console.log("MATCH component");
@@ -14,23 +15,29 @@ const Match = ({ getRecommend, match: { match, limit, count, offset, loading } }
         getRecommend({ limit, offset });
     }, [getRecommend]);
 
-    
+    const handleClick = () => {
+        console.log("click");
+        dispatchEvent()
+    }
     return (
         <Fragment>
             <Typography variant="h6">Matches: {match.length}</Typography>
             {/* <Gallery match={match} /> */}
             {console.log("SCROLL")}
-            <InfiniteScroll
+            <Gallery match={match}></Gallery>
+            <Button variant="outlined" color="primary" onClick={handleClick}>
+            More profiles
+            </Button>
+            {/* <InfiniteScroll
                 dataLength={match.length}
                 next={fetchMoreRecommend({ limit, offset, count, match} )}
                 hasMore={match.length < 20}
                 loader={<h4>Loading...</h4>}>
-                {/* <Gallery match={match}></Gallery> */}
                 {match.map((mat) => {
                     console.log("user id", mat.user_id);
                 return <UserCard key={mat.user_id} card={mat} />;
                 })}
-            </InfiniteScroll>
+            </InfiniteScroll> */}
         </Fragment>
     );
 };

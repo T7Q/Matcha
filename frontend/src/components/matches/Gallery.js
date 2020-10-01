@@ -13,11 +13,18 @@ const Gallery = ({ match }) => {
     };
     return(
         <Grid container spacing={3}>
-            {match.map((mat) => {
+            {match.filter((elem, i) => i >= 0 && i < 6).map((mat) => {
                 return <UserCard key={mat.user_id} card={mat} />;
             })}
         </Grid>
     )
+    // return(
+    //     <Grid container spacing={3}>
+    //         {match.map((mat) => {
+    //             return <UserCard key={mat.user_id} card={mat} />;
+    //         })}
+    //     </Grid>
+    // )
 };
 
 export default Gallery;

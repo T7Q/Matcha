@@ -1,10 +1,12 @@
-import { GET_MATCH, FETCH_MORE_MATCH, MATCH_ERROR } from '../actions/types';
+import { GET_MATCH, FETCH_MORE_MATCH, SET_OFFSET, MATCH_ERROR } from '../actions/types';
 
 const initialState = {
     match: [],
-    limit: 3,
+    limit: 100,
     offset: 0,
     count: 3,
+    iStart: 0,
+    iEnd: 5,
     matches: [],
     loading: true,
     error: {},
@@ -27,6 +29,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 error: payload,
+                loading: false,
+            };
+        case FETCH_MORE_MATCH:
+            console.log("from Fetch", state);
+            return {
+                ...state,
                 loading: false,
             };
         default:

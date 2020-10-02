@@ -1,5 +1,5 @@
 body {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(./background2.jpg);
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(./background2.jpg);
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -14,7 +14,7 @@ body {
     /* margin: 0 -10px; */
     width: calc(100% + 20px);
     animation: rotating 20s linear infinite;
-    max-width: 100%;
+    max-width: 70%;
 }
 
 .circle:hover {

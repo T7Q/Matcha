@@ -40,12 +40,12 @@ const App = () => {
                     <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
                         <CssBaseline />
                         <Navbar />
-                        <Box p={5} m={{ xs: 'auto', sm: '50px' }} flexGrow={1}>
+                        <Box p={5} m={{ xs: 'auto', lg: '50px' }} flexGrow={1}>
                             <Grid container spacing={1}>
                                 <Grid container item sm={12}>
                                     <Box my={5}></Box>
                                 </Grid>
-                                <Grid alignItems="center" justify="center" container item sm={6} xs={12}>
+                                <Grid alignItems="center" justify="center" container item md={6} xs={12}>
                                     <Route exact path="/" component={Landing} />
                                     <Box>
                                         <Alert />

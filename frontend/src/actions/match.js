@@ -7,13 +7,13 @@ export const getRecommend = path => async dispatch => {
     // dispatch(loadUser());
     let route = '';
     // console.log("PATH", path);
-    switch (path) {
-        case '/likes':
-            route = `/match/likedme`;
-            break;
-        case '/matches':
-        default:
+    switch(path){
+        case("/matches"):
             route = `/match/recommend`;
+            break;
+        // case("/likes"):
+        //     route = `/match/likedme`;
+        //     break;
     }
     // console.log("temp", temp);
     // console.log('getRecommended');

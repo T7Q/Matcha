@@ -11,7 +11,9 @@ import HeaderScrollableTabs from "./HeaderScrollableTabs";
 
 const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path }) => {
     // console.log("MATCH component");
-    console.log("PATH", path);
+    // console.log("PATH", path);
+
+
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -28,9 +30,9 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path 
 
     return (
         <Fragment>
-            <HeaderScrollableTabs variant="h6" match={match} iEnd={iEnd}>Horizontal scroll</HeaderScrollableTabs>
+            {/* <HeaderScrollableTabs variant="h6" match={match} iEnd={iEnd}>Horizontal scroll</HeaderScrollableTabs> */}
             <Typography variant="h6">Matches: {match.length}</Typography>
-            {/* <Gallery match={match} iEnd={iEnd} /> */}
+            <Gallery match={match} iEnd={iEnd} />
         </Fragment>
     );
 };

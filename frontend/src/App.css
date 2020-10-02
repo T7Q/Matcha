@@ -4,6 +4,10 @@ body {
     background-repeat: no-repeat;
 }
 
+.capital {
+    text-transform: capitalize;
+}
+
 .circle {
     border-radius: 50%;
     position: relative;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
 import { logout } from '../../actions/auth';
 import {
     MessageOutlined,
@@ -26,6 +26,7 @@ import {
     MenuItem,
     Menu,
     ListItemIcon,
+    useMediaQuery,
 } from '@material-ui/core';
 
 const StyledMenu = withStyles(theme => ({
@@ -100,102 +101,110 @@ const StyledMenuItem = withStyles(theme => ({
 const Navbar = ({ logout, auth: { isAuthenticated, loading, user }, history }) => {
     const [profileSettings, setProfileSettings] = useState(null);
     const classes = useStyles();
-
-    const handleClick = (event, newRoute) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+    const isMedium = useMediaQuery(theme.breakpoints.down('sm'));
+    // console.log(isMobile ? 'mobile' : 'not mobile');
+    // console.log(isMedium ? 'medium' : 'not medium');
+    const handleClick = event => {
         setProfileSettings(event.currentTarget);
     };
 
-    const handleProfile = newRoute => {
+    const handleNavigation = newRoute => {
         history.push(newRoute);
+        setProfileSettings(null);
     };
 
     const handleClose = () => {
         setProfileSettings(null);
     };
 
+    const profileMenu = [
+        {
+            title: 'My profile',
+            pageUrl: '/profile',
+        },
+        {
+            title: 'Account Settings',
+            pageUrl: '/likes',
+        },
+        {
+            title: 'Visit history',
+            pageUrl: '/profile',
+        },
+    ];
+
     return (
-        <div className={classes.root}>
-            <AppBar color="secondary">
-                <Toolbar>
-                    <Box display="flex" flexGrow={1}>
-                        <Link className="link-decor" to="/">
-                            <Typography className="pr-5" color="textSecondary" variant="h6">
-                                <i className="fas fa-moon" /> Astro Matcha
-                            </Typography>
-                        </Link>
-                        <Link className="link-decor" to="/matches">
-                            <Typography className="pr-5" variant="h6" color="textPrimary">
-                                <Badge className="pr-2">
-                                    <PeopleOutline />
-                                </Badge>
-                                Matches
-                            </Typography>
-                        </Link>
-                        <Link className="link-decor" to="/messages">
-                            <Typography className="pr-5" variant="h6" color="textPrimary">
-                                <Badge className="pr-2">
-                                    <MessageOutlined />
-                                </Badge>
-                                Messages
-                            </Typography>
-                        </Link>
-                        <Link className="link-decor" to="/likes">
-                            <Typography className="pr-5" variant="h6" color="textPrimary">
-                                <Badge className="pr-2">
-                                    <FavoriteBorder />
-                                </Badge>
-                                Likes
-                            </Typography>
-                        </Link>
-                    </Box>
-                    <Box display="flex">
-                        <Typography variant="h6" className="pr-5" color="textSecondary">
-                            <Button onClick={handleClick}>
-                                <Badge className="pr-2">
-                                    <AccountCircle />
-                                </Badge>
-                                Profile
-                            </Button>
-                            <StyledMenu
-                                getContentAnchorEl={null}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'center',
-                                }}
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'center',
-                                }}
-                                anchorEl={profileSettings}
-                                keepMounted
-                                open={Boolean(profileSettings)}
-                                onClose={handleClose}>
-                                <StyledMenuItem onClick={() => handleProfile('/profile')}>
-                                    <Link className="link-decor" to="/profile">
-                                        <ListItemIcon>My profile</ListItemIcon>
-                                    </Link>
-                                </StyledMenuItem>
-                                <StyledMenuItem onClick={() => handleProfile('/profile')}>
-                                    <Link className="link-decor" to="/profile">
-                                        <ListItemIcon>Account Settings</ListItemIcon>
-                                    </Link>
-                                </StyledMenuItem>
-                                <StyledMenuItem onClick={() => handleProfile('/profile')}>
-                                    <Link className="link-decor" to="/profile">
-                                        <ListItemIcon>Visit history</ListItemIcon>
-                                    </Link>
-                                </StyledMenuItem>
-                            </StyledMenu>
+        <AppBar color="secondary">
+            <Toolbar>
+                <Box display="flex" flexGrow={isMobile ? 0 : 1}>
+                    <IconButton onClick={() => handleNavigation('/')}>
+                        <Typography className="pr-5" color="textSecondary" variant="h6">
+                            <i className="fas fa-moon" /> Astro Matcha
                         </Typography>
-                        <Link className="link-decor" to="/" onClick={logout}>
-                            <Typography variant="h6" color="textPrimary">
-                                <i className="fas fa-sign-out-alt"></i> Logout
-                            </Typography>
-                        </Link>
-                    </Box>
-                </Toolbar>
-            </AppBar>
-        </div>
+                    </IconButton>
+                    <IconButton onClick={() => handleNavigation('/matches')}>
+                        <Typography className="pr-5" variant="h6" color="textPrimary">
+                            <Badge className="pr-2">
+                                <PeopleOutline />
+                            </Badge>
+                            Matches
+                        </Typography>
+                    </IconButton>
+                    <IconButton onClick={() => handleNavigation('/messages')}>
+                        <Typography className="pr-5" variant="h6" color="textPrimary">
+                            <Badge className="pr-2">
+                                <MessageOutlined />
+                            </Badge>
+                            Messages
+                        </Typography>
+                    </IconButton>
+                    <IconButton onClick={() => handleNavigation('/likes')}>
+                        <Typography className="pr-5" variant="h6" color="textPrimary">
+                            <Badge className="pr-2">
+                                <FavoriteBorder />
+                            </Badge>
+                            Likes
+                        </Typography>
+                    </IconButton>
+                </Box>
+                <Box display="flex">
+                    <IconButton onClick={handleClick}>
+                        <Typography variant="h6" className="pr-5 capital" color="textSecondary">
+                            <Badge className="pr-2">
+                                <AccountCircle />
+                            </Badge>
+                            {user.username}
+                        </Typography>
+                    </IconButton>
+                    <StyledMenu
+                        getContentAnchorEl={null}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                        anchorEl={profileSettings}
+                        keepMounted
+                        open={Boolean(profileSettings)}
+                        onClose={handleClose}>
+                        {profileMenu.map(menuItem => (
+                            <StyledMenuItem onClick={() => handleNavigation(menuItem.pageUrl)}>
+                                {menuItem.title}
+                            </StyledMenuItem>
+                        ))}
+                    </StyledMenu>
+                    <IconButton onClick={logout}>
+                        <Typography variant="h6" color="textPrimary">
+                            <i className="fas fa-sign-out-alt"></i> Logout
+                        </Typography>
+                    </IconButton>
+                </Box>
+            </Toolbar>
+        </AppBar>
     );
 };
 

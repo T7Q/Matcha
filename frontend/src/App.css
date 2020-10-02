@@ -16,20 +16,8 @@ body {
     animation: rotating 20s linear infinite;
 }
 
-.pr-3 {
-    padding-right: 10px;
-}
-
-.pr-2 {
-    padding-right: 5px;
-}
-
 .link-decor {
     text-decoration: none;
-}
-
-.pr-5 {
-    padding-right: 25px;
 }
 
 .flex {

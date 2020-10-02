@@ -46,7 +46,7 @@ const StyledMenu = withStyles(theme => ({
 ));
 
 const useStyles = makeStyles(theme => ({
-    customButton: {
+    customIconButton: {
         flex: '0 1 auto',
         [theme.breakpoints.down('xs')]: {
             padding: '15px 5px',
@@ -155,11 +155,11 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
     ];
 
     return (
-        <AppBar color="secondary" className={isMobile ? classes.appBar : ''}>
+        <AppBar color="secondary" className={isMobile && isAuthenticated ? classes.appBar : ''}>
             <Toolbar>
                 <Box justifyContent="flex-start" display="flex" flexGrow={2}>
-                    {!isMobile && !isMedium && (
-                        <IconButton className={classes.customButton} onClick={() => handleNavigation('/')}>
+                    {((!isMobile && !isMedium) || !isAuthenticated) && (
+                        <IconButton className={classes.customIconButton} onClick={() => handleNavigation('/')}>
                             <Typography color="textSecondary" variant="h6">
                                 <i className="fas fa-moon" /> Astro Matcha
                             </Typography>
@@ -170,7 +170,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
                         menuItems.map(menu => (
                             <IconButton
                                 key={menu.title}
-                                className={classes.customButton}
+                                className={classes.customIconButton}
                                 onClick={() => handleNavigation(menu.pageUrl)}>
                                 <Typography
                                     color="textPrimary"
@@ -185,7 +185,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
                     <Box display="flex">
                         {user.status === 2 && (
                             <>
-                                <IconButton className={classes.customButton} onClick={handleClick}>
+                                <IconButton className={classes.customIconButton} onClick={handleClick}>
                                     <Typography
                                         variant="button"
                                         className={isMobile ? classes.text : ''}
@@ -210,7 +210,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
                                 </StyledMenu>
                             </>
                         )}
-                        <IconButton className={classes.customButton} onClick={logout}>
+                        <IconButton className={classes.customIconButton} onClick={logout}>
                             <Typography
                                 variant="button"
                                 className={isMobile ? classes.text : ''}

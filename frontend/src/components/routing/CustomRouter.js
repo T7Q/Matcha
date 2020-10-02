@@ -1,0 +1,50 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Grid, Box } from '@material-ui/core';
+import PrivateRoute from './PrivateRoute';
+import Login from '../auth/Login';
+import ForgotPwd from '../auth/ForgotPwd';
+import UpdatePwd from '../auth/UpdatePwd';
+import Landing from '../layout/Landing';
+import Alert from '../layout/Alert';
+import Message from '../layout/Message';
+import Register from '../profile/CreateAccount';
+import Profile from '../profile/Profile';
+import ProfileCreation from '../profile/CreateProfile';
+import Matches from '../matches/Matches';
+import Chat from '../chat/Chat';
+
+const CustomRouter = ({ isAuthenticated }) => {
+    return (
+        <Grid alignItems="center" justify="center" container item md={isAuthenticated ? 12 : 6} xs={12}>
+            <Route exact path="/" component={Landing} />
+            <Box>
+                <Alert />
+                <Switch>
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/forgetPwd" component={ForgotPwd} />
+                    <Route exact path="/updatePwd" component={UpdatePwd} />
+                    <Route exact path="/message" component={Message} />
+                    <PrivateRoute exact path="/messages" component={Chat} />
+                    <PrivateRoute exact path="/likes" component={Matches} />
+                    <PrivateRoute exact path="/profile" component={Profile} />
+                    <Route exact path="/complete" component={ProfileCreation} />
+                    <PrivateRoute exact path="/matches" component={Matches} />
+                </Switch>
+            </Box>
+        </Grid>
+    );
+};
+
+CustomRouter.propTypes = {
+    isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(CustomRouter);

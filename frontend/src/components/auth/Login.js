@@ -52,29 +52,6 @@ const Login = ({ login, isAuthenticated, user }) => {
                     <Button color="primary">Forgot password?</Button>
                 </Link>
             </Form>
-            {/* <form onSubmit={onSubmit}>
-                <Grid container direction='column' spacing={1}>
-                    <Grid item>
-                        <Input
-                            header='Enter username and password'
-                            type='username'
-                            handleChange={onChange}
-                            value={username}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <Input type='password' handleChange={onChange} value={password} />
-                    </Grid>
-                    <Grid item>
-                        <Button type='submit' variant='contained' color='primary'>
-                            Next
-                        </Button>
-                    </Grid>
-                    <Link to='/forgetPwd'>
-                        <Button color='primary'>Forgot password?</Button>
-                    </Link>
-                </Grid>
-            </form> */}
         </Box>
     );
 };

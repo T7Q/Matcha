@@ -9,8 +9,10 @@ export const theme = createMuiTheme({
             contrastText: '#fff',
         },
         secondary: {
-            main: '#000000',
-            light: '#2c2c2c',
+            main: '#0e1125',
+            light: '#34374d',
+            // main: '#000000',
+            // light: '#2c2c2c',
             dark: '#000000',
             contrastText: '#fff',
         },
@@ -21,19 +23,57 @@ export const theme = createMuiTheme({
         background: {
             default: 'rgb(12, 16, 35, 0.95)',
         },
-        // action: {
-        //     hover: 'rgba(0, 0, 0)',
-        //     hoverOpacity: 1,
-        // },
+    },
+    typography: {
+        fontFamily: 'El Messiri, sans-serif',
+        h2: {
+            color: '#219bf1',
+            fontWeight: 400,
+            paddingBottom: '.5rem',
+        },
     },
 });
 
 export const useStyles = makeStyles(theme => ({
     customButton: {
-        flex: '0 1 auto',
-        [theme.breakpoints.down('xs')]: {
-            padding: '15px 5px',
+        margin: '10px',
+        fontSize: '16px',
+        textTransform: 'capitalize',
+        padding: '21px 30px 17px',
+        borderRadius: '30px',
+        marginBottom: '4px',
+        lineHeight: '1.3',
+        letterSpacing: 'normal',
+        minWidth: '170px',
+        fontWeight: '500',
+        border: `1px solid ${theme.palette.primary.main}`,
+        '&:hover': {
+            backgroundColor: 'transparent',
         },
+    },
+    hoverTransparent: {
+        '&:hover': {
+            backgroundColor: 'transparent',
+        },
+    },
+    customTransparentButton: {
+        margin: '10px',
+        fontSize: '16px',
+        textTransform: 'capitalize',
+        padding: '21px 30px 17px',
+        borderRadius: '30px',
+        marginBottom: '4px',
+        lineHeight: '1.3',
+        letterSpacing: 'normal',
+        minWidth: '170px',
+        fontWeight: '500',
+        color: '#fff',
+        '&:hover': {
+            backgroundColor: theme.palette.secondary.main,
+        },
+    },
+    customHeader: {
+        color: '#fff',
     },
     text: {
         fontSize: '10px',
@@ -41,36 +81,15 @@ export const useStyles = makeStyles(theme => ({
     pr: {
         paddingRight: '5px',
     },
-    paper: {
-        paddingBottom: 50,
-    },
-    list: {
-        marginBottom: theme.spacing(2),
-    },
-    subheader: {
-        backgroundColor: theme.palette.background.paper,
-    },
-    appBar: {
-        top: 'auto',
-        bottom: 0,
-    },
-    grow: {
-        flexGrow: 1,
+    img: {
+        width: '30px',
+        padding: '0 5px',
     },
     circle: {
         overflow: 'hidden',
         [theme.breakpoints.up('sm')]: {
             maxWidth: '50%',
         },
-        // position: 'absolute',
-        // top: '25%',
-    },
-    fabButton: {
-        position: 'absolute',
-        zIndex: 1,
-        top: -30,
-        left: 0,
-        right: 0,
-        margin: '0 auto',
+        alignItems: 'center',
     },
 }));

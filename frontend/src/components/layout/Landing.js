@@ -1,38 +1,53 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { IconButton, Grid, Box, LinearProgress, Button } from '@material-ui/core';
+import { IconButton, Grid, Box, LinearProgress, Button, Typography, useMediaQuery } from '@material-ui/core';
+import { withStyles, makeStyles, useTheme } from '@material-ui/core/styles';
+import { useStyles } from '../../styles/custom';
 
-const Landing = ({ isAuthenticated }) => {
+const Landing = ({ isAuthenticated, history }) => {
+    const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+
+    const handleRedirect = newRoute => {
+        history.push(newRoute);
+    };
+
     if (isAuthenticated) {
-        return <Redirect to='/matches' />;
+        // console.log('history', history);
+        // console.log('log', window.location.href);
+        return <Redirect to="/matches" />;
     }
+
     return (
-        <section className='landing'>
-            <div className='dark-overlay'>
-                <div className='landing-inner'>
-                    <h1 className='x-large'>Your love Is In The Stars</h1>
-                    <div className='lead'>
-                        <div className='buttons'>
-                            <Link to='/register' className='btn btn-primary'>
-                                <Button variant='contained' size='large'>
-                                    Create Account
-                                </Button>
-                            </Link>
-                            <p>or</p>
-                            <Link to='/login' className='btn btn-light'>
-                                Log in with Google
-                            </Link>
-                            <br />
-                            <Link to='/login' className='btn btn-light'>
-                                Log in with username
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <Box display="flex" flexDirection="column" textAlign="center">
+            <Typography variant={isMobile ? 'h3' : 'h2'}>Your love Is</Typography>
+            <Typography className={classes.customHeader} variant={isMobile ? 'h3' : 'h2'}>
+                In The Stars
+            </Typography>
+            <Button
+                onClick={() => handleRedirect('/register')}
+                variant="contained"
+                color="primary"
+                className={classes.customButton}>
+                Create Account
+            </Button>
+            <Typography className={classes.customHeader} variant="h5">
+                or
+            </Typography>
+            <Button onClick={() => handleRedirect('/login')} variant="contained" className={classes.customButton}>
+                <img className={classes.img} alt="google" src={require('../../google.png')} />
+                Log in with Google
+            </Button>
+            <Button
+                onClick={() => handleRedirect('/login')}
+                color="secondary"
+                className={classes.customTransparentButton}>
+                Log in with username
+            </Button>
+        </Box>
     );
 };
 
@@ -44,4 +59,4 @@ const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps)(Landing);
+export default connect(mapStateToProps)(withRouter(Landing));

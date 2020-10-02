@@ -22,7 +22,7 @@ import ProfileCreation from './components/profile/CreateProfile';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
-import theme from './styles/custom';
+import { theme } from './styles/custom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import Circle from './components/layout/Circle';
@@ -64,9 +64,7 @@ const App = () => {
                                 <Circle />
                             </Grid>
                         </Box>
-                        <Box>
-                            <Footer />
-                        </Box>
+                        <Footer />
                     </Box>
                 </Router>
             </Provider>

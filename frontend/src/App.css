@@ -11,9 +11,14 @@ body {
 .circle {
     border-radius: 50%;
     position: relative;
-    padding: 0 50px;
+    margin: 0 -10px;
     width: calc(100% + 20px);
     animation: rotating 20s linear infinite;
+    max-width: 100%;
+}
+
+.circle:hover {
+    animation-play-state: paused;
 }
 
 .link-decor {

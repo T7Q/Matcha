@@ -9,7 +9,7 @@ export const loadUser = () => async dispatch => {
 
     try {
         const res = await axios.get('/account/auth');
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.error) {
             dispatch({
                 type: AUTH_FAIL,

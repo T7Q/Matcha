@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -25,31 +25,31 @@ const Login = ({ login, isAuthenticated, user }) => {
 
     // Redirect is logged in
     if (isAuthenticated && user.status === 2) {
-        return <Redirect to='/matches' />;
+        return <Redirect to="/matches" />;
     } else if (isAuthenticated && user.status === 1) {
-        return <Redirect to='/complete' />;
+        return <Redirect to="/complete" />;
     }
 
     return (
-        <Box position='absolute' top='25%'>
-            <Link to='/'>
+        <Box>
+            <Link to="/">
                 <IconButton>
                     <ArrowBackIosIcon />
                 </IconButton>
             </Link>
             <Form onSubmit={onSubmit}>
                 <Input
-                    header='Enter username and password'
-                    type='username'
+                    header="Enter username and password"
+                    type="username"
                     handleChange={onChange}
                     value={username}
                 />
-                <Input type='password' handleChange={onChange} value={password} />
-                <Button type='submit' variant='contained' color='primary'>
+                <Input type="password" handleChange={onChange} value={password} />
+                <Button type="submit" variant="contained" color="primary">
                     Next
                 </Button>
-                <Link to='/forgetPwd'>
-                    <Button color='primary'>Forgot password?</Button>
+                <Link to="/forgetPwd">
+                    <Button color="primary">Forgot password?</Button>
                 </Link>
             </Form>
             {/* <form onSubmit={onSubmit}>

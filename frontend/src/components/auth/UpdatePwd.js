@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -25,17 +25,17 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
     };
 
     if (isAuthenticated && user.status === 2) {
-        return <Redirect to='/matches' />;
+        return <Redirect to="/matches" />;
     } else if (isAuthenticated && user.status === 1) {
-        return <Redirect to='/complete' />;
+        return <Redirect to="/complete" />;
     }
 
     return (
-        <Box position='absolute' top='25%'>
+        <Box>
             <Form onSubmit={onSubmit}>
-                <Input header='Enter your new password' type='password' value={password} handleChange={onChange} />
-                <Input type='confirmPassword' value={confirmPassword} handleChange={onChange} />
-                <Button size='large' type='submit' variant='contained' color='primary'>
+                <Input header="Enter your new password" type="password" value={password} handleChange={onChange} />
+                <Input type="confirmPassword" value={confirmPassword} handleChange={onChange} />
+                <Button size="large" type="submit" variant="contained" color="primary">
                     Upload & log in
                 </Button>
             </Form>

@@ -1,4 +1,4 @@
-import { GET_MATCH, FETCH_MORE_MATCH, SET_OFFSET, MATCH_ERROR } from '../actions/types';
+import { GET_MATCH, FETCH_MORE_MATCH, MATCH_ERROR } from '../actions/types';
 
 const initialState = {
     match: [],
@@ -29,7 +29,7 @@ export default function (state = initialState, action) {
                 error: payload,
                 loading: false,
             };
-        case FETCH_MORE_MATCH:  
+        case FETCH_MORE_MATCH:
             return {
                 ...state,
                 iStart: state.iStart + state.count,

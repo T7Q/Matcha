@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import UserCard from './UserCard';
 import { Grid } from '@material-ui/core';

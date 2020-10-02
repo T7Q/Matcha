@@ -8,7 +8,7 @@ const Footer = () => {
 
     return (
         !isMobile && (
-            <Box textAlign="center" p={2} bgcolor="secondary.dark">
+            <Box zIndex="1" textAlign="center" p={2} bgcolor="secondary.dark">
                 <Typography>Tatiana Kuumola</Typography>
                 <Typography>Diana Mukaliyeva</Typography>
             </Box>

@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Container, Grid, Box } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Landing from './components/layout/Landing';
@@ -9,7 +9,6 @@ import Register from './components/profile/CreateAccount';
 import Login from './components/auth/Login';
 import ForgotPwd from './components/auth/ForgotPwd';
 import UpdatePwd from './components/auth/UpdatePwd';
-import Likes from './components/likes/Likes';
 import Matches from './components/matches/Matches';
 import Profile from './components/profile/Profile';
 import Chat from './components/chat/Chat';
@@ -41,11 +40,14 @@ const App = () => {
                     <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
                         <CssBaseline />
                         <Navbar />
-                        <Box p={5} m={5} flexGrow={1}>
+                        <Box p={5} m={{ xs: 'auto', sm: '50px' }} flexGrow={1}>
                             <Grid container spacing={1}>
-                                <Grid container item md={6} sm={12}>
+                                <Grid container item sm={12}>
+                                    <Box my={5}></Box>
+                                </Grid>
+                                <Grid alignItems="center" justify="center" container item sm={6} xs={12}>
                                     <Route exact path="/" component={Landing} />
-                                    <section className="container">
+                                    <Box>
                                         <Alert />
                                         <Switch>
                                             <Route exact path="/login" component={Login} />
@@ -59,7 +61,7 @@ const App = () => {
                                             <Route exact path="/complete" component={ProfileCreation} />
                                             <PrivateRoute exact path="/matches" component={Matches} />
                                         </Switch>
-                                    </section>
+                                    </Box>
                                 </Grid>
                                 <Circle />
                             </Grid>

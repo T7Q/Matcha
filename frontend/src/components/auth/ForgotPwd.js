@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -24,26 +24,26 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
     };
 
     if (isAuthenticated && user.status === 2) {
-        return <Redirect to='/matches' />;
+        return <Redirect to="/matches" />;
     } else if (isAuthenticated && user.status === 1) {
-        return <Redirect to='/complete' />;
+        return <Redirect to="/complete" />;
     }
 
     return (
-        <Box position='absolute' top='25%'>
-            <Link to='/login'>
+        <Box>
+            <Link to="/login">
                 <IconButton>
                     <ArrowBackIosIcon />
                 </IconButton>
             </Link>
             <Form onSubmit={onSubmit}>
                 <Input
-                    header='Enter your email to reset your password'
-                    type='email'
+                    header="Enter your email to reset your password"
+                    type="email"
                     value={email}
                     handleChange={onChange}
                 />
-                <Button size='large' type='submit' variant='contained' color='primary'>
+                <Button size="large" type="submit" variant="contained" color="primary">
                     Next
                 </Button>
             </Form>

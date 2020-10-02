@@ -99,7 +99,7 @@ const StyledMenuItem = withStyles(theme => ({
     },
 }))(MenuItem);
 
-const Navbar = ({ logout, auth: { isAuthenticated, loading, user }, history }) => {
+const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
     const [profileSettings, setProfileSettings] = useState(null);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -165,50 +165,66 @@ const Navbar = ({ logout, auth: { isAuthenticated, loading, user }, history }) =
                             </Typography>
                         </IconButton>
                     )}
-                    {menuItems.map(menu => (
-                        <IconButton
-                            key={menu.title}
-                            className={classes.customButton}
-                            onClick={() => handleNavigation(menu.pageUrl)}>
+                    {isAuthenticated &&
+                        user.status === 2 &&
+                        menuItems.map(menu => (
+                            <IconButton
+                                key={menu.title}
+                                className={classes.customButton}
+                                onClick={() => handleNavigation(menu.pageUrl)}>
+                                <Typography
+                                    color="textPrimary"
+                                    className={isMobile ? classes.text : ''}
+                                    variant="button">
+                                    <Badge className={classes.pr}>{menu.icon}</Badge> {menu.title}
+                                </Typography>
+                            </IconButton>
+                        ))}
+                </Box>
+                {isAuthenticated ? (
+                    <Box display="flex">
+                        {user.status === 2 && (
+                            <>
+                                <IconButton className={classes.customButton} onClick={handleClick}>
+                                    <Typography
+                                        variant="button"
+                                        className={isMobile ? classes.text : ''}
+                                        color="textSecondary">
+                                        <Badge className={classes.pr}>
+                                            <AccountCircle />
+                                        </Badge>
+                                        {isMobile ? 'profile' : user.username}
+                                    </Typography>
+                                </IconButton>
+                                <StyledMenu
+                                    anchorEl={profileSettings}
+                                    open={Boolean(profileSettings)}
+                                    onClose={handleClose}>
+                                    {profileMenu.map(menuItem => (
+                                        <StyledMenuItem
+                                            key={menuItem.title}
+                                            onClick={() => handleNavigation(menuItem.pageUrl)}>
+                                            {menuItem.title}
+                                        </StyledMenuItem>
+                                    ))}
+                                </StyledMenu>
+                            </>
+                        )}
+                        <IconButton className={classes.customButton} onClick={logout}>
                             <Typography
-                                color="textPrimary"
+                                variant="button"
                                 className={isMobile ? classes.text : ''}
-                                variant="button">
-                                <Badge className={classes.pr}>{menu.icon}</Badge> {menu.title}
+                                color="textPrimary">
+                                <Badge className={classes.pr}>
+                                    <ExitToAppOutlined />
+                                </Badge>
+                                Logout
                             </Typography>
                         </IconButton>
-                    ))}
-                </Box>
-                <Box display="flex">
-                    <IconButton className={classes.customButton} onClick={handleClick}>
-                        <Typography
-                            variant="button"
-                            className={isMobile ? classes.text : ''}
-                            color="textSecondary">
-                            <Badge className={classes.pr}>
-                                <AccountCircle />
-                            </Badge>
-                            {isMobile ? 'profile' : user.username}
-                        </Typography>
-                    </IconButton>
-                    <StyledMenu anchorEl={profileSettings} open={Boolean(profileSettings)} onClose={handleClose}>
-                        {profileMenu.map(menuItem => (
-                            <StyledMenuItem
-                                key={menuItem.title}
-                                onClick={() => handleNavigation(menuItem.pageUrl)}>
-                                {menuItem.title}
-                            </StyledMenuItem>
-                        ))}
-                    </StyledMenu>
-                    <IconButton className={classes.customButton} onClick={logout}>
-                        <Typography variant="button" className={isMobile ? classes.text : ''} color="textPrimary">
-                            <Badge className={classes.pr}>
-                                <ExitToAppOutlined />
-                            </Badge>
-                            Logout
-                        </Typography>
-                    </IconButton>
-                </Box>
+                    </Box>
+                ) : (
+                    ''
+                )}
             </Toolbar>
         </AppBar>
     );

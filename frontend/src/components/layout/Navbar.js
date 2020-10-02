@@ -22,6 +22,7 @@ import {
     Menu,
     useMediaQuery,
 } from '@material-ui/core';
+import { useStyles } from '../../styles/custom';
 
 const StyledMenu = withStyles(theme => ({
     paper: {
@@ -45,49 +46,10 @@ const StyledMenu = withStyles(theme => ({
     />
 ));
 
-const useStyles = makeStyles(theme => ({
-    customIconButton: {
-        flex: '0 1 auto',
-        [theme.breakpoints.down('xs')]: {
-            padding: '15px 5px',
-        },
-    },
-    text: {
-        fontSize: '10px',
-    },
-    pr: {
-        paddingRight: '5px',
-    },
-    paper: {
-        paddingBottom: 50,
-    },
-    list: {
-        marginBottom: theme.spacing(2),
-    },
-    subheader: {
-        backgroundColor: theme.palette.background.paper,
-    },
-    appBar: {
-        top: 'auto',
-        bottom: 0,
-    },
-    grow: {
-        flexGrow: 1,
-    },
-    fabButton: {
-        position: 'absolute',
-        zIndex: 1,
-        top: -30,
-        left: 0,
-        right: 0,
-        margin: '0 auto',
-    },
-}));
-
 const StyledMenuItem = withStyles(theme => ({
     root: {
         color: '#fff',
-        '&:focus': {
+        '&:hover': {
             backgroundColor: theme.palette.primary.main,
             '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
                 color: theme.palette.common.white,

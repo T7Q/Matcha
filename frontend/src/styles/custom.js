@@ -72,6 +72,16 @@ export const useStyles = makeStyles(theme => ({
             backgroundColor: theme.palette.secondary.main,
         },
     },
+    customIconButton: {
+        '&:hover $span': {
+            color: theme.palette.primary.main,
+        },
+        borderRadius: '5px',
+        flex: '0 1 auto',
+        [theme.breakpoints.down('xs')]: {
+            padding: '15px 5px',
+        },
+    },
     customHeader: {
         color: '#fff',
     },

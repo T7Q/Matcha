@@ -35,6 +35,10 @@ export const theme = createMuiTheme({
 });
 
 export const useStyles = makeStyles(theme => ({
+    root: {
+        width: '75%',
+        margin: '15px',
+    },
     customButton: {
         margin: '10px',
         fontSize: '16px',

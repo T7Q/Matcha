@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { forgetPwd } from '../../actions/auth';
@@ -8,6 +7,7 @@ import { IconButton, Button, Box } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Input from '../common/Input';
 import Form from '../common/IndividualForm';
+import { useStyles } from '../../styles/custom';
 
 const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
     const [formData, setFormData] = useState({
@@ -15,8 +15,13 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
     });
 
     const { email } = formData;
+    const classes = useStyles();
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const handleRedirect = newRoute => {
+        history.push(newRoute);
+    };
 
     const onSubmit = async e => {
         e.preventDefault();
@@ -31,11 +36,9 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
 
     return (
         <Box>
-            <Link to="/login">
-                <IconButton>
-                    <ArrowBackIosIcon />
-                </IconButton>
-            </Link>
+            <IconButton onClick={() => handleRedirect('/login')}>
+                <ArrowBackIosIcon />
+            </IconButton>
             <Form onSubmit={onSubmit}>
                 <Input
                     header="Enter your email to reset your password"
@@ -43,7 +46,7 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
                     value={email}
                     handleChange={onChange}
                 />
-                <Button size="large" type="submit" variant="contained" color="primary">
+                <Button className={classes.customButton} type="submit" variant="contained" color="primary">
                     Next
                 </Button>
             </Form>

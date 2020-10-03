@@ -7,12 +7,15 @@ import { updatePwd } from '../../actions/auth';
 import { Button, Box } from '@material-ui/core';
 import Input from '../common/Input';
 import Form from '../common/IndividualForm';
+import { useStyles } from '../../styles/custom';
 
 const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
     const [formData, setFormData] = useState({
         password: '',
         confirmPassword: '',
     });
+    const classes = useStyles();
+
     // const token = props.location.search.split('=');
     // console.log(token);
     const { password, confirmPassword } = formData;
@@ -35,7 +38,7 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
             <Form onSubmit={onSubmit}>
                 <Input header="Enter your new password" type="password" value={password} handleChange={onChange} />
                 <Input type="confirmPassword" value={confirmPassword} handleChange={onChange} />
-                <Button size="large" type="submit" variant="contained" color="primary">
+                <Button className={classes.customButton} type="submit" variant="contained" color="primary">
                     Upload & log in
                 </Button>
             </Form>

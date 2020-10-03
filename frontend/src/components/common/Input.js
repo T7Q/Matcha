@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Typography, TextField, Box } from '@material-ui/core';
 import { useStyles } from '../../styles/custom';
 
-const Input = ({ value, header, type, label, handleChange }) => {
+const Input = ({ value, header, type, label, handleChange, ...rest }) => {
     const classes = useStyles();
 
     return (
@@ -26,11 +26,12 @@ const Input = ({ value, header, type, label, handleChange }) => {
                         ? [type][0]
                         : 'text'
                 }
-                label={label ? label : type}
+                // label={label ? label : type}
                 className={classes.customInput}
                 placeholder={[type][0]}
                 value={value}
                 onChange={handleChange}
+                {...rest}
             />
         </Fragment>
     );

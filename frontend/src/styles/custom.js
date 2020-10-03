@@ -1,13 +1,15 @@
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles';
 
+const primaryColor = {
+    main: '#ca416e',
+    light: '#ff749c',
+    dark: '#950043',
+    contrastText: '#fff',
+};
+
 export const theme = createMuiTheme({
     palette: {
-        primary: {
-            main: '#ca416e',
-            light: '#ff749c',
-            dark: '#950043',
-            contrastText: '#fff',
-        },
+        primary: primaryColor,
         secondary: {
             main: '#0e1125',
             light: '#34374d',
@@ -32,12 +34,42 @@ export const theme = createMuiTheme({
             paddingBottom: '.5rem',
         },
     },
+    overrides: {
+        MuiToggleButton: {
+            root: {
+                '&$selected, &$selected:hover': {
+                    backgroundColor: primaryColor.main + ' !important',
+                },
+                margin: '5px',
+                backgroundColor: 'white',
+                '&:hover': {
+                    backgroundColor: primaryColor.light,
+                },
+                '& .MuiToggleButton-label': {
+                    color: 'black',
+                    fontSize: '20px',
+                    textTransform: 'lowercase',
+                },
+            },
+        },
+    },
 });
 
 export const useStyles = makeStyles(theme => ({
     root: {
         width: '75%',
         margin: '15px',
+        padding: '5px',
+    },
+    customRadio: {
+        color: 'black',
+    },
+    radio: {
+        maxWidth: '300px',
+        borderRadius: '30px !important',
+        [theme.breakpoints.down('xs')]: {
+            width: '200px',
+        },
     },
     customButton: {
         margin: '10px',
@@ -109,8 +141,18 @@ export const useStyles = makeStyles(theme => ({
         },
         alignItems: 'center',
     },
+    customSelect: {
+        backgroundColor: 'white',
+        color: 'black',
+        borderRadius: '3px',
+        height: '40px',
+        fontSize: 20,
+        width: '300px',
+        [theme.breakpoints.down('xs')]: {
+            width: '200px',
+        },
+    },
     customInput: {
-        // textAlign: 'center',
         // width: '100%',
         margin: '5px',
         // backgroundColor: 'transparent',
@@ -118,6 +160,9 @@ export const useStyles = makeStyles(theme => ({
             color: theme.palette.secondary.main,
             fontSize: '20px',
             // marginLeft: '25%',
+        },
+        '& input': {
+            textAlign: 'center',
         },
         '& label.Mui-focused': {
             // marginLeft: 0,

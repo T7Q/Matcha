@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 import { withRouter } from 'react-router-dom';
-import { Grid, Box } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({

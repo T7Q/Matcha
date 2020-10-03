@@ -15,6 +15,7 @@ const Input = ({ value, header, type, label, handleChange }) => {
                 </Box>
             )}
             <TextField
+                inputProps={{ style: { textAlign: 'center' } }}
                 variant="outlined"
                 id={[type][0]}
                 name={[type][0]}

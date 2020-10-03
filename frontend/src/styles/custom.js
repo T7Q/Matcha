@@ -110,21 +110,35 @@ export const useStyles = makeStyles(theme => ({
         alignItems: 'center',
     },
     customInput: {
+        // textAlign: 'center',
         // width: '100%',
         margin: '5px',
         // backgroundColor: 'transparent',
         '& label': {
+            color: theme.palette.secondary.main,
             fontSize: '20px',
-            color: theme.palette.primary.main,
+            // marginLeft: '25%',
+        },
+        '& label.Mui-focused': {
+            // marginLeft: 0,
         },
         '& .MuiOutlinedInput-root': {
             borderColor: 'grey',
             borderRadius: '30px',
-            backgroundColor: theme.palette.secondary.main,
-            color: 'white',
+            backgroundColor: '#fff',
+            color: theme.palette.secondary.main,
             width: '100%',
             fontSize: '20px',
             borderWidth: 2,
         },
+        // '& $div': {
+        //     justifyContent: 'center',
+        //     '& $input': {
+        //         width: '30%',
+        //     },
+        // },
+        // '& $p': {
+        //     alignSelf: 'center',
+        // },
     },
 }));

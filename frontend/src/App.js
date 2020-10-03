@@ -32,7 +32,7 @@ const App = () => {
                         <Box p={5} m={{ xs: 'auto', lg: '50px' }} flexGrow={1}>
                             <Grid container spacing={1}>
                                 <Grid container item sm={12}>
-                                    <Box my={5}></Box>
+                                    <Box my={{ xs: 2, md: 5 }}></Box>
                                 </Grid>
                                 <CustomRouter />
                                 <Circle />

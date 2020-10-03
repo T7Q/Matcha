@@ -86,7 +86,7 @@ export const useStyles = makeStyles(theme => ({
         color: '#fff',
     },
     text: {
-        fontSize: '10px',
+        fontSize: '20px',
     },
     pr: {
         paddingRight: '5px',
@@ -101,5 +101,23 @@ export const useStyles = makeStyles(theme => ({
             maxWidth: '50%',
         },
         alignItems: 'center',
+    },
+    customInput: {
+        // width: '100%',
+        margin: '5px',
+        // backgroundColor: 'transparent',
+        '& label': {
+            fontSize: '20px',
+            color: theme.palette.primary.main,
+        },
+        '& .MuiOutlinedInput-root': {
+            borderColor: 'grey',
+            borderRadius: '30px',
+            backgroundColor: theme.palette.secondary.main,
+            color: 'white',
+            width: '100%',
+            fontSize: '20px',
+            borderWidth: 2,
+        },
     },
 }));

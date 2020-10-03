@@ -95,8 +95,11 @@ export const useStyles = makeStyles(theme => ({
     pr: {
         paddingRight: '5px',
     },
+    p2: {
+        padding: '15px',
+    },
     img: {
-        width: '30px',
+        width: '40px',
         padding: '0 5px',
     },
     circle: {

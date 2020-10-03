@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { forgetPwd } from '../../actions/auth';
@@ -36,9 +36,11 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
 
     return (
         <Box>
-            <IconButton onClick={() => handleRedirect('/login')}>
-                <ArrowBackIosIcon />
-            </IconButton>
+            <Box ml="-40px">
+                <IconButton color="inherit" onClick={() => handleRedirect('/login')}>
+                    <ArrowBackIosIcon fontSize="large" />
+                </IconButton>
+            </Box>
             <Form onSubmit={onSubmit}>
                 <Input
                     header="Enter your email to reset your password"

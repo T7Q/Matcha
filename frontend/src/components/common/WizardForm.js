@@ -1,17 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { IconButton, Grid, Box, LinearProgress, Button } from '@material-ui/core';
+import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
+import { useStyles } from '../../styles/custom';
 
-const useStyles = makeStyles({
-    root: {
-        width: '75%',
-        margin: '15px',
-    },
-});
-
-const WizardForm = ({ header, children, formData, setFormData, onSubmit }) => {
+const WizardForm = ({ header, children, formData, setFormData, onSubmit, history }) => {
     let step = formData.currentStep;
     const steps = children.length;
     const classes = useStyles();
@@ -28,43 +21,37 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit }) => {
         setFormData({ ...formData, currentStep: step });
     };
 
+    const handleRedirect = newRoute => {
+        history.push(newRoute);
+    };
+
     const normalise = value => ((value - 1) * 100) / (steps - 1);
 
     return (
         <form onSubmit={onSubmit}>
-            {step === 1 ? (
-                <Link to='/'>
-                    <IconButton>
-                        <ArrowBackIosIcon />
-                    </IconButton>
-                </Link>
-            ) : (
-                <IconButton onClick={prev}>
-                    <ArrowBackIosIcon />
+            <Box ml="-40px">
+                <IconButton color="inherit" onClick={step === 1 ? () => handleRedirect('/') : prev}>
+                    <ArrowBackIosIcon fontSize="large" />
                 </IconButton>
-            )}
-            <Box display='flex'>
-                <h3 style={{ verticalAlign: 'middle' }}>{header}</h3>
-                <LinearProgress className={classes.root} variant='determinate' value={normalise(step)} />
             </Box>
-            <Grid container spacing={1}>
-                <Grid item xs={6}>
-                    {children[step - 1]}
-                </Grid>
-                <Grid item xs={6}></Grid>
-                <Grid item xs={6}>
+            <Box display="flex" flexDirection="column" textAlign="center">
+                <Box display="flex" my={5}>
+                    <Typography variant="h6">{header}</Typography>
+                    <LinearProgress className={classes.root} variant="determinate" value={normalise(step)} />
+                </Box>
+                {children[step - 1]}
+                <Box mt={5}>
                     <Button
-                        size='large'
-                        variant='contained'
-                        color='primary'
+                        variant="contained"
+                        color="primary"
+                        className={classes.customButton}
                         onClick={step < steps ? next : onSubmit}>
                         {step < steps ? 'Next' : 'Done'}
                     </Button>
-                </Grid>
-                <Grid item xs={6}></Grid>
-            </Grid>
+                </Box>
+            </Box>
         </form>
     );
 };
 
-export default WizardForm;
+export default withRouter(WizardForm);

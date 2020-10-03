@@ -51,12 +51,15 @@ const Login = ({ login, isAuthenticated, user, history }) => {
                     value={username}
                 />
                 <Input type="password" handleChange={onChange} value={password} />
-                <Button type="submit" variant="contained" color="primary">
+                <Button type="submit" variant="contained" color="primary" className={classes.customButton}>
                     Next
                 </Button>
-                <Link to="/forgetPwd">
-                    <Button color="primary">Forgot password?</Button>
-                </Link>
+                <Button
+                    className={classes.customTransparentButton}
+                    onClick={() => handleRedirect('/forgetPwd')}
+                    color="secondary">
+                    Forgot password?
+                </Button>
             </Form>
         </Box>
     );

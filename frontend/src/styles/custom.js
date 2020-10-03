@@ -45,7 +45,7 @@ export const useStyles = makeStyles(theme => ({
         lineHeight: '1.3',
         letterSpacing: 'normal',
         minWidth: '170px',
-        fontWeight: '500',
+        fontWeight: '700',
         border: `1px solid ${theme.palette.primary.main}`,
         '&:hover': {
             backgroundColor: 'transparent',
@@ -69,7 +69,7 @@ export const useStyles = makeStyles(theme => ({
         fontWeight: '500',
         color: '#fff',
         '&:hover': {
-            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.primary.main,
         },
     },
     customIconButton: {

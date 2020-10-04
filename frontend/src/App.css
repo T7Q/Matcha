@@ -25,6 +25,11 @@ body {
     text-decoration: none;
 }
 
+.MuiDropzoneArea-root {
+    max-width: 300px;
+    margin: 10px;
+}
+
 .flex {
     display: flex;
 }

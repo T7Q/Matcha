@@ -35,7 +35,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
                 </IconButton>
             </Box>
             <Box display="flex" flexDirection="column" textAlign="center">
-                <Box display="flex" my={5}>
+                <Box display="flex" my={5} maxWidth="300px">
                     <Typography variant="h6">{header}</Typography>
                     <LinearProgress className={classes.root} variant="determinate" value={normalise(step)} />
                 </Box>

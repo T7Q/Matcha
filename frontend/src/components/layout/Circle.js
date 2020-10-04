@@ -12,7 +12,7 @@ const Circle = ({ auth: { isAuthenticated, user } }) => {
 
     return (
         !isMobile &&
-        (!isAuthenticated || user.status === 1) && (
+        !isAuthenticated && (
             <Grid container className={classes.circle} item md={6} xs={12}>
                 <img className="circle" src={require('../../circle.png')} alt="circle" />
             </Grid>

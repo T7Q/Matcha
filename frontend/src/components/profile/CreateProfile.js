@@ -143,9 +143,6 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                 <ToggleButton className={classes.radio} name="woman" value="woman">
                     Woman
                 </ToggleButton>
-                <ToggleButton className={classes.radio} name="other" value="other">
-                    Other
-                </ToggleButton>
             </ToggleButtonGroup>
             <ToggleButtonGroup
                 orientation="vertical"
@@ -189,25 +186,60 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     ))}
                 </ToggleButtonGroup>
             </Box>
-            <Fragment>
+            <Box>
                 <Box pb={2}>
                     <Typography variant="h5" className={classes.customHeader}>
                         Add photos of you
                     </Typography>
                 </Box>
-                <Box display="flex" flexWrap="wrap">
+                <Box display="flex" flexWrap="wrap" justifyContent="center">
                     <DropzoneArea
                         acceptedFiles={['image/*']}
                         onChange={image => setFormData({ ...formData, images: image })}
                         showFileNames
                         initialFiles={images}
-                        dropzoneText="Maximum 1 photos"
+                        dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
-                        className={classes.dropzone}
+                    />
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        onChange={image => setFormData({ ...formData, images: image })}
+                        showFileNames
+                        initialFiles={images}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
+                    />
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        onChange={image => setFormData({ ...formData, images: image })}
+                        showFileNames
+                        initialFiles={images}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
+                    />
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        onChange={image => setFormData({ ...formData, images: image })}
+                        showFileNames
+                        initialFiles={images}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
+                    />
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        onChange={image => setFormData({ ...formData, images: image })}
+                        showFileNames
+                        initialFiles={images}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
                     />
                 </Box>
-            </Fragment>
+            </Box>
             <Fragment>
                 <Box pb={2}>
                     <Typography variant="h5" className={classes.customHeader}>

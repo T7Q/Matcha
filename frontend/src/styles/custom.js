@@ -186,4 +186,7 @@ export const useStyles = makeStyles(theme => ({
         //     alignSelf: 'center',
         // },
     },
+    dropzone: {
+        maxWidth: '300px',
+    },
 }));

@@ -18,13 +18,7 @@ import Chat from '../chat/Chat';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
     return (
-        <Grid
-            alignItems="center"
-            justify="center"
-            container
-            item
-            md={!isAuthenticated || user.status === 1 ? 6 : 12}
-            xs={12}>
+        <Grid alignItems="center" justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
             <Route exact path="/" component={Landing} />
             <Box>
                 <Alert />

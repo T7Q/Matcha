@@ -73,14 +73,14 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
 
     return (
         <WizardForm header="About you" setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
-            {/* <Box>
+            <Box>
                 <Typography className={classes.customHeader} variant={isMobile ? 'h5' : 'h4'}>
                     Set up your profile
                 </Typography>
                 <Typography className={classes.customHeader} variant={isMobile ? 'h5' : 'h4'}>
                     to meet new people
                 </Typography>
-            </Box> */}
+            </Box>
             <MuiPickersUtilsProvider utils={LuxonUtils}>
                 <Box py={2}>
                     <Typography variant="h5" className={classes.customHeader}>
@@ -169,51 +169,54 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     Both
                 </ToggleButton>
             </ToggleButtonGroup>
-            <ToggleButtonGroup
-                orientation="vertical"
-                value={tags}
-                onChange={(e, v) => {
-                    setFormData({ ...formData, tags: v });
-                }}>
-                <Box width={{ md: '300px' }} py={2}>
+            <Box px={{ md: 5 }}>
+                <Box pb={2}>
                     <Typography variant="h5" className={classes.customHeader}>
                         You are passionate about ...
                     </Typography>
                 </Box>
-                <Box display="flex" flexWrap="wrap">
+                <ToggleButtonGroup
+                    style={{ flexDirection: 'row', flexWrap: 'wrap' }}
+                    orientation="vertical"
+                    value={tags}
+                    onChange={(e, v) => {
+                        setFormData({ ...formData, tags: v });
+                    }}>
                     {realTags.map(tag => (
                         <ToggleButton key={tag.tag} className={classes.radio} name={tag.tag} value={tag.tag}>
                             {tag.tag}
                         </ToggleButton>
                     ))}
-                </Box>
-            </ToggleButtonGroup>
+                </ToggleButtonGroup>
+            </Box>
             <Fragment>
-                <h2>Add photos of you</h2>
-                <DropzoneArea
-                    acceptedFiles={['image/*']}
-                    onChange={image => setFormData({ ...formData, images: image })}
-                    showFileNames
-                    initialFiles={images}
-                    dropzoneText="Maximum 1 photos"
-                    showAlerts={false}
-                    filesLimit={1}
-                />
-                <DropzoneArea
-                    acceptedFiles={['image/*']}
-                    onChange={image => setFormData({ ...formData, images: image })}
-                    showFileNames
-                    initialFiles={images}
-                    dropzoneText="Maximum 4 photos"
-                    showAlerts={false}
-                    filesLimit={1}
-                />
+                <Box pb={2}>
+                    <Typography variant="h5" className={classes.customHeader}>
+                        Add photos of you
+                    </Typography>
+                </Box>
+                <Box display="flex" flexWrap="wrap">
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        onChange={image => setFormData({ ...formData, images: image })}
+                        showFileNames
+                        initialFiles={images}
+                        dropzoneText="Maximum 1 photos"
+                        showAlerts={false}
+                        filesLimit={1}
+                        className={classes.dropzone}
+                    />
+                </Box>
             </Fragment>
             <Fragment>
-                <h2>Introduce yourself</h2>
+                <Box pb={2}>
+                    <Typography variant="h5" className={classes.customHeader}>
+                        Introduce yourself
+                    </Typography>
+                </Box>
                 <TextareaAutosize
                     name="bio"
-                    style={{ minWidth: '400px', minHeight: '50%' }}
+                    style={{ minWidth: '400px', minHeight: '150px' }}
                     onChange={onChange}
                     value={bio}
                     placeholder="For example, how would your best friend discribe you"

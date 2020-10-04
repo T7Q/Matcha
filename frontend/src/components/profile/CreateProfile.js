@@ -21,7 +21,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         gender: '',
         sex_preference: '',
         bio: '',
-        birth_date: '2010-05-05',
+        birth_date: '2010/05/05',
         tags: '',
         country: '',
         currentStep: 1,
@@ -82,8 +82,17 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
 
     const onSubmit = e => {
         e.preventDefault();
-        // createProfile(formData, history);
-        console.log(formData);
+        const dataToSubmit = formData;
+        dataToSubmit.birth_date = birth_date.ts;
+        delete dataToSubmit.currentStep;
+        delete dataToSubmit.images1;
+        delete dataToSubmit.images2;
+        delete dataToSubmit.images3;
+        delete dataToSubmit.images4;
+        delete dataToSubmit.images5;
+        dataToSubmit.userId = user.userId;
+        createProfile(dataToSubmit, history);
+        // console.log(dataToSubmit);
     };
 
     return (
@@ -105,9 +114,9 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                 <DatePicker
                     disableFuture
                     inputVariant="outlined"
-                    minDate="1900-01-01"
+                    minDate="1900/01/01"
                     openTo="year"
-                    format="dd/MM/yyyy"
+                    format="yyyy/MM/dd"
                     // label="Date of birth"
                     views={['year', 'month', 'date']}
                     value={birth_date}
@@ -121,15 +130,15 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                         Where do you primary live?
                     </Typography>
                 </Box>
-                <Box py={1}>
-                    <CountryDropdown
-                        defaultOptionLabel="Please, select a country"
-                        className={classes.customSelect}
-                        value={country}
-                        onChange={val => setFormData({ ...formData, country: val })}
-                    />
-                </Box>
-                <Box py={1}>
+                {/* <Box py={1}> */}
+                <CountryDropdown
+                    defaultOptionLabel="Please, select a country"
+                    className={classes.customSelect}
+                    value={country}
+                    onChange={val => setFormData({ ...formData, country: val })}
+                />
+                {/* </Box> */}
+                {/* <Box py={1}>
                     <RegionDropdown
                         className={classes.customSelect}
                         blankOptionLabel="First, select country"
@@ -138,7 +147,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                         value={region}
                         onChange={val => setFormData({ ...formData, region: val })}
                     />
-                </Box>
+                </Box> */}
             </Box>
             <ToggleButtonGroup
                 orientation="vertical"

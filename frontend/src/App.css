@@ -30,6 +30,15 @@ body {
     margin: 10px;
 }
 
+.MuiGrid-grid-xs-4 {
+    flex-grow: 1 !important;
+    max-width: 100% !important;
+}
+
+.MuiDropzoneArea-text {
+    margin-bottom: 0 !important;
+}
+
 .flex {
     display: flex;
 }

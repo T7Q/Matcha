@@ -9,14 +9,12 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { Grid, Box, TextareaAutosize, Typography, useMediaQuery } from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Box, TextareaAutosize, Typography, useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 // import { setAlert } from '../../actions/alert';
-import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 import { createProfile } from '../../actions/profile';
 import { useStyles } from '../../styles/custom';
-import CustomInput from '../common/Input';
 
 const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     const [formData, setFormData] = useState({
@@ -28,7 +26,11 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         country: '',
         currentStep: 1,
         region: '',
-        images: [],
+        images1: [],
+        images2: [],
+        images3: [],
+        images4: [],
+        images5: [],
     });
     const [realTags, setRealTags] = useState([]);
 
@@ -55,7 +57,20 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         return <Redirect to="/" />;
     }
 
-    const { images, gender, sex_preference, bio, birth_date, tags, country, region } = formData;
+    const {
+        images1,
+        images2,
+        images3,
+        images4,
+        images5,
+        gender,
+        sex_preference,
+        bio,
+        birth_date,
+        tags,
+        country,
+        region,
+    } = formData;
     const onChange = e => {
         // console.log(e.target.name);
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -67,8 +82,8 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
 
     const onSubmit = e => {
         e.preventDefault();
-        createProfile(formData, history);
-        // console.log(formData);
+        // createProfile(formData, history);
+        console.log(formData);
     };
 
     return (
@@ -195,45 +210,45 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                 <Box display="flex" flexWrap="wrap" justifyContent="center">
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images: image })}
+                        onChange={image => setFormData({ ...formData, images1: image })}
                         showFileNames
-                        initialFiles={images}
+                        initialFiles={images1}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images: image })}
+                        onChange={image => setFormData({ ...formData, images2: image })}
                         showFileNames
-                        initialFiles={images}
+                        initialFiles={images2}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images: image })}
+                        onChange={image => setFormData({ ...formData, images3: image })}
                         showFileNames
-                        initialFiles={images}
+                        initialFiles={images3}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images: image })}
+                        onChange={image => setFormData({ ...formData, images4: image })}
                         showFileNames
-                        initialFiles={images}
+                        initialFiles={images4}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images: image })}
+                        onChange={image => setFormData({ ...formData, images5: image })}
                         showFileNames
-                        initialFiles={images}
+                        initialFiles={images5}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}

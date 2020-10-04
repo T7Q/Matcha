@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import Input from '../common/Input';

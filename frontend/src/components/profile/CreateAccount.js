@@ -29,8 +29,7 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     const { username, firstname, lastname, email, password, confirmPassword } = formData;
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const onSubmit = async e => {
-        e.preventDefault();
+    const onSubmit = async () => {
         if (password !== confirmPassword) {
             setAlert('Passwords do not match', 'danger');
         } else {
@@ -41,13 +40,25 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
 
     return (
         <WizardForm header="Registration" setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
-            <Input type="email" header="Welcome! What's your email?" value={email} handleChange={onChange} />
+            <Input
+                type="email"
+                header="Welcome! What's your email?"
+                value={email}
+                handleChange={onChange}
+                autoFocus
+            />
             <Input type="username" header="Create a username" value={username} handleChange={onChange} />
             <Input type="firstname" header="What's your first name" value={firstname} handleChange={onChange} />
             <Input type="lastname" header="What's your last name" value={lastname} handleChange={onChange} />
             <Grid container direction="column" spacing={1}>
                 <Grid item>
-                    <Input type="password" header="Create a password" value={password} handleChange={onChange} />
+                    <Input
+                        type="password"
+                        header="Create a password"
+                        value={password}
+                        handleChange={onChange}
+                        autoFocus
+                    />
                 </Grid>
                 <Grid item>
                     <Input

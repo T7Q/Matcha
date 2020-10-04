@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { GET_PROFILE, PROFILE_ERROR } from './types';
+import { CREATE_PROFILE, PROFILE_ERROR } from './types';
 import { setAlert } from './alert';
+import { loadUser } from './auth';
 
 // Get current user profile
 export const getCurrentProfile = () => async dispatch => {
@@ -8,7 +9,7 @@ export const getCurrentProfile = () => async dispatch => {
         // console.log('current profile');
         const res = await axios.get('/profile');
         dispatch({
-            type: GET_PROFILE,
+            type: CREATE_PROFILE,
             payload: res.data,
         });
     } catch (err) {
@@ -40,9 +41,10 @@ export const createProfile = (formData, history, edit = false) => async dispatch
             });
         } else {
             dispatch({
-                type: GET_PROFILE,
+                type: CREATE_PROFILE,
                 payload: res.data,
             });
+            dispatch(loadUser());
             history.push('/Profile');
         }
     } catch (err) {

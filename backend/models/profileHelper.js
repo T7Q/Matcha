@@ -4,7 +4,7 @@ const { validateTagsInDb } = require('./profile');
 const validateGender = gender => {
     let errors = {};
     if (!gender) {
-        errors['error'] = 'Mandatory field';
+        errors['error'] = 'Gender is missing';
     } else if (!['man', 'woman'].includes(gender)) {
         errors['error'] = 'Gender should be man or woman';
     }
@@ -14,7 +14,7 @@ const validateGender = gender => {
 const validateSexPreferences = sexPreference => {
     let errors = {};
     if (!sexPreference) {
-        errors['error'] = 'Pick one';
+        errors['error'] = 'Sex preference is missing';
     } else if (!['man', 'woman', 'both'].includes(sexPreference)) {
         errors['error'] = 'Sex preference should be man, woman or both';
     }
@@ -24,7 +24,7 @@ const validateSexPreferences = sexPreference => {
 const validateBio = bio => {
     let errors = {};
     if (!bio) {
-        errors['error'] = 'Required field';
+        errors['error'] = 'Bio is missing';
     }
     if (bio.length > 200) {
         errors['error'] = 'Bio should be less between 1 to 200 characters';
@@ -35,7 +35,7 @@ const validateBio = bio => {
 const validateName = name => {
     let errors = {};
     if (!name) {
-        errors['error'] = 'Required field';
+        errors['error'] = 'Name is missing';
     }
     if (name.length > 25) {
         errors['error'] = 'Should be between 1 to 25 characthers';
@@ -45,9 +45,7 @@ const validateName = name => {
 
 const validateTags = async tags => {
     let errors = {};
-    if (!tags) {
-        errors['error'] = 'Required field';
-    } else if (tags.length < 5) {
+    if (!tags || tags.length < 5) {
         errors['error'] = 'You should pick at least 5 interest';
     } else if (!(await validateTagsInDb(tags))) {
         errors['error'] = 'Invalid tags, some of them dont exist';

@@ -9,7 +9,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
     const steps = children.length;
     const classes = useStyles();
 
-    const next = () => {
+    const next = event => {
         // If the current step is 1 or 2, then add one on "next" button click
         step = step >= steps ? steps : step + 1;
         setFormData({ ...formData, currentStep: step });
@@ -27,8 +27,13 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
 
     const normalise = value => ((value - 1) * 100) / (steps - 1);
 
+    const formSubmit = e => {
+        e.preventDefault();
+        step < steps ? next() : onSubmit();
+    };
+
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={formSubmit}>
             <Box ml="-40px">
                 <IconButton color="inherit" onClick={step === 1 ? () => handleRedirect('/') : prev}>
                     <ArrowBackIosIcon fontSize="large" />
@@ -41,11 +46,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
                 </Box>
                 {children[step - 1]}
                 <Box mt={5}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.customButton}
-                        onClick={step < steps ? next : onSubmit}>
+                    <Button variant="contained" color="primary" type="submit" className={classes.customButton}>
                         {step < steps ? 'Next' : 'Done'}
                     </Button>
                 </Box>

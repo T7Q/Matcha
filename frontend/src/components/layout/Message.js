@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Typography } from '@material-ui/core';
 
-const Message = ({ message }) => (message ? <Fragment>{message}</Fragment> : <Redirect to='/' />);
+const Message = ({ message }) => (message ? <Typography variant="h2">{message}</Typography> : <Redirect to="/" />);
 
 Message.propTypes = {
     message: PropTypes.string,

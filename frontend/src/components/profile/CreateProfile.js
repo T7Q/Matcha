@@ -81,9 +81,8 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     };
 
     const onSubmit = e => {
-        e.preventDefault();
         const dataToSubmit = formData;
-        dataToSubmit.birth_date = birth_date.ts;
+        // dataToSubmit.birth_date = birth_date;
         delete dataToSubmit.currentStep;
         delete dataToSubmit.images1;
         delete dataToSubmit.images2;
@@ -91,8 +90,8 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         delete dataToSubmit.images4;
         delete dataToSubmit.images5;
         dataToSubmit.userId = user.userId;
+        console.log(dataToSubmit);
         createProfile(dataToSubmit, history);
-        // console.log(dataToSubmit);
     };
 
     return (
@@ -114,11 +113,11 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                 <DatePicker
                     disableFuture
                     inputVariant="outlined"
-                    minDate="1900/01/01"
+                    minDate="1902/01/01"
                     openTo="year"
                     format="yyyy/MM/dd"
                     // label="Date of birth"
-                    views={['year', 'month', 'date']}
+                    // views={['year', 'month', 'date']}
                     value={birth_date}
                     onChange={handleDate}
                     className={classes.customInput}

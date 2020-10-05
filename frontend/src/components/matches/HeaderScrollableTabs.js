@@ -94,7 +94,7 @@ export default function HeaderScrollableTabs({ match, iEnd}) {
       </AppBar>
       <TabPanel value={value} index={0}>
         Item One
-        <Gallery match={match} iEnd={iEnd} type="recommend"/>
+        {/* <Gallery match={match} iEnd={iEnd} type="recommend"/> */}
       </TabPanel>
       <TabPanel value={value} index={1}>
         Item Two

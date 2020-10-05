@@ -45,7 +45,8 @@ const Likes = (props) => {
                     <Tab label="Item Three" />
                 </Tabs>
             </AppBar>
-            {value === 0 && <Profile />}
+            {value === 0 && <Chat />}
+            {value === 1 && <Chat />}
             {value === 1 && <Chat />}
         </div>
     );

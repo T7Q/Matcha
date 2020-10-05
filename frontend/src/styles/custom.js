@@ -86,6 +86,10 @@ export const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: 'transparent',
         },
+        flex: '0 1 auto',
+        [theme.breakpoints.down('xs')]: {
+            padding: '15px 5px',
+        },
     },
     hoverTransparent: {
         '&:hover': {
@@ -121,8 +125,12 @@ export const useStyles = makeStyles(theme => ({
     customHeader: {
         color: '#fff',
     },
+    appBar: {
+        top: 'auto',
+        bottom: 0,
+    },
     text: {
-        fontSize: '20px',
+        fontSize: '10px',
     },
     pr: {
         paddingRight: '5px',

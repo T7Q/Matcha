@@ -1,4 +1,4 @@
-import { CREATE_PROFILE, PROFILE_ERROR } from '../actions/types';
+import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR } from '../actions/types';
 
 const initialState = {
     profile: null,
@@ -15,6 +15,12 @@ export default function (state = initialState, action) {
             localStorage.setItem('token', payload.tkn);
             return {
                 ...state,
+                loading: false,
+            };
+        case GET_PROFILE:
+            return {
+                ...state,
+                profile: payload,
                 loading: false,
             };
         case PROFILE_ERROR:

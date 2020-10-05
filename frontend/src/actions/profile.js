@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CREATE_PROFILE, PROFILE_ERROR } from './types';
+import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR } from './types';
 import { setAlert } from './alert';
 import { loadUser } from './auth';
 
@@ -9,7 +9,7 @@ export const getCurrentProfile = () => async dispatch => {
         // console.log('current profile');
         const res = await axios.get('/profile');
         dispatch({
-            type: CREATE_PROFILE,
+            type: GET_PROFILE,
             payload: res.data,
         });
     } catch (err) {

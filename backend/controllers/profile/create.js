@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
         errors.push(profileHelper.validateName(country));
         errors.push(profileHelper.validateBirthdate(birth_date));
         errors.push(await profileHelper.validateTags(tags));
-        console.log('create1');
+        // console.log('create1');
         // remove empty objects from errors
         errors = errors.filter(error => {
             return Object.keys(error).length != 0;

@@ -15,7 +15,7 @@ export default function (state = initialState, action) {
             localStorage.setItem('token', payload.tkn);
             return {
                 ...state,
-                loading: false,
+                loading: true,
             };
         case GET_PROFILE:
             return {

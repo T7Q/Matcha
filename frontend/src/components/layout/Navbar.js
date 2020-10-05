@@ -172,7 +172,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
                                 </StyledMenu>
                             </>
                         )}
-                        <IconButton className={classes.customIconButton} onClick={logout}>
+                        <IconButton className={classes.customIconButton} onClick={() => logout(history)}>
                             <Typography
                                 variant="button"
                                 className={isMobile ? classes.text : ''}

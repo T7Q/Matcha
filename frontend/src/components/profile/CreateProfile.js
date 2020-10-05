@@ -25,17 +25,26 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         tags: '',
         country: '',
         currentStep: 1,
-        region: '',
-        images1: [],
-        images2: [],
-        images3: [],
-        images4: [],
-        images5: [],
+    });
+    const [images, setImages] = useState({
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
     });
     const [realTags, setRealTags] = useState([]);
+    const [base64Images, setBase64Image] = useState({
+        1: '',
+        2: '',
+        4: '',
+        4: '',
+        5: '',
+    });
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+    const classes = useStyles();
 
     useEffect(() => {
         let isMounted = true;
@@ -49,50 +58,46 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         };
     }, []);
 
-    const classes = useStyles();
-
     if (isAuthenticated && user.status === 2) {
         return <Redirect to="/matches" />;
     } else if (!isAuthenticated) {
         return <Redirect to="/" />;
     }
 
-    const {
-        images1,
-        images2,
-        images3,
-        images4,
-        images5,
-        gender,
-        sex_preference,
-        bio,
-        birth_date,
-        tags,
-        country,
-        region,
-    } = formData;
+    const { gender, sex_preference, bio, birth_date, tags, country } = formData;
     const onChange = e => {
-        // console.log(e.target.name);
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleDate = e => {
-        setFormData({ ...formData, birth_date: e });
+    const onFileToBase64 = (file, key) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = event => {
+            setBase64Image({ ...base64Images, [key]: event.target.result });
+        };
+    };
+
+    const handleDate = date => {
+        setFormData({ ...formData, birth_date: date });
+    };
+
+    const handleUpload = (upload, key) => {
+        if (upload.length > 0) {
+            setImages({ ...images, [key]: upload });
+            onFileToBase64(upload[0], key);
+        }
     };
 
     const onSubmit = e => {
         const dataToSubmit = formData;
-        // dataToSubmit.birth_date = birth_date;
         delete dataToSubmit.currentStep;
-        delete dataToSubmit.images1;
-        delete dataToSubmit.images2;
-        delete dataToSubmit.images3;
-        delete dataToSubmit.images4;
-        delete dataToSubmit.images5;
         dataToSubmit.userId = user.userId;
         console.log(dataToSubmit);
-        createProfile(dataToSubmit, history);
+        createProfile(dataToSubmit, base64Images, history);
     };
+
+    // console.log(base64Images);
+    // console.log(images);
 
     return (
         <WizardForm header="About you" setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
@@ -129,24 +134,12 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                         Where do you primary live?
                     </Typography>
                 </Box>
-                {/* <Box py={1}> */}
                 <CountryDropdown
                     defaultOptionLabel="Please, select a country"
                     className={classes.customSelect}
                     value={country}
                     onChange={val => setFormData({ ...formData, country: val })}
                 />
-                {/* </Box> */}
-                {/* <Box py={1}>
-                    <RegionDropdown
-                        className={classes.customSelect}
-                        blankOptionLabel="First, select country"
-                        defaultOptionLabel="Now select a region"
-                        country={country}
-                        value={region}
-                        onChange={val => setFormData({ ...formData, region: val })}
-                    />
-                </Box> */}
             </Box>
             <ToggleButtonGroup
                 orientation="vertical"
@@ -218,49 +211,69 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                 <Box display="flex" flexWrap="wrap" justifyContent="center">
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images1: image })}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 1)}
                         showFileNames
-                        initialFiles={images1}
+                        initialFiles={images[1]}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images2: image })}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 2)}
                         showFileNames
-                        initialFiles={images2}
+                        initialFiles={images[2]}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images3: image })}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 3)}
                         showFileNames
-                        initialFiles={images3}
+                        initialFiles={images[3]}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images4: image })}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 4)}
                         showFileNames
-                        initialFiles={images4}
+                        initialFiles={images[4]}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
                     <DropzoneArea
                         acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images5: image })}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 5)}
                         showFileNames
-                        initialFiles={images5}
+                        initialFiles={images[5]}
                         dropzoneText="Add photo here"
                         showAlerts={false}
                         filesLimit={1}
                     />
+                    {/* {Object.entries(images).map(key => (
+                        <Box key={key}>
+                            key {key}
+                            <DropzoneArea
+                                acceptedFiles={['image/*']}
+                                clearOnUnmount={false}
+                                onChange={kk => setImages({ ...images, key: kk })}
+                                showFileNames
+                                initialFiles={images[key]}
+                                dropzoneText="Add photo here"
+                                showAlerts={false}
+                                filesLimit={1}
+                            />
+                        </Box>
+                    ))} */}
                 </Box>
             </Box>
             <Fragment>

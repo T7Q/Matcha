@@ -29,7 +29,7 @@ const limiter = new rateLimit({
 
 app.use(cors({ origin: 'http:localhost:3000' }));
 // Accept the incoming JSON body in requests
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 // Secure HTTP headers
 app.use(helmet({ contentSecurityPolicy: false }));

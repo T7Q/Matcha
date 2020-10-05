@@ -31,7 +31,7 @@ export const register = props => async dispatch => {
     };
 
     const body = JSON.stringify(props);
-    console.log(body);
+    // console.log(body);
 
     try {
         const res = await axios.post('/account/register', body, config);
@@ -68,9 +68,9 @@ export const login = ({ username, password }) => async dispatch => {
     const body = JSON.stringify({ username, password });
 
     try {
-        console.log(body);
+        // console.log(body);
         const res = await axios.post('/account/login', body, config);
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.error) {
             const error = res.data.error;
             dispatch(setAlert(error, 'danger'));

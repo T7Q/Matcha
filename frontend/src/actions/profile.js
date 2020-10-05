@@ -40,9 +40,9 @@ export const createProfile = (formData, images, history, edit = false) => async 
             },
         };
         const imagesToSubmit = convertImages(images);
-        console.log(imagesToSubmit);
+        // console.log(imagesToSubmit);
         const res = await axios.post('profile/create', formData, config);
-        console.log('res', res);
+        // console.log('res', res);
         if (res.data.error) {
             const errors = res.data.error;
             errors.forEach(error => dispatch(setAlert(error.error, 'danger')));
@@ -57,11 +57,11 @@ export const createProfile = (formData, images, history, edit = false) => async 
                 payload: res.data,
             });
             const imagesRes = await axios.post('/profile/uploadphoto', imagesToSubmit, config);
-            console.log(imagesRes);
+            // console.log(imagesRes);
             if (imagesRes.data.error) {
                 console.log(imagesRes.data.error);
             } else {
-                console.log('success', imagesRes);
+                // console.log('success', imagesRes);
             }
             dispatch(loadUser());
             history.push('/Profile');

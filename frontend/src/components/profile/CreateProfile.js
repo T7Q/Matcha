@@ -34,6 +34,13 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         5: [],
     });
     const [realTags, setRealTags] = useState([]);
+    const [base64Images, setBase64Image] = useState({
+        1: '',
+        2: '',
+        4: '',
+        4: '',
+        5: '',
+    });
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -62,8 +69,23 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const onFileToBase64 = (file, key) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = event => {
+            setBase64Image({ ...base64Images, [key]: event.target.result });
+        };
+    };
+
     const handleDate = date => {
         setFormData({ ...formData, birth_date: date });
+    };
+
+    const handleUpload = (upload, key) => {
+        if (upload.length > 0) {
+            setImages({ ...images, [key]: upload });
+            onFileToBase64(upload[0], key);
+        }
     };
 
     const onSubmit = e => {
@@ -71,13 +93,15 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         delete dataToSubmit.currentStep;
         dataToSubmit.userId = user.userId;
         console.log(dataToSubmit);
-        // createProfile(dataToSubmit, history);
-        console.log(images);
+        createProfile(dataToSubmit, base64Images, history);
     };
+
+    // console.log(base64Images);
+    // console.log(images);
 
     return (
         <WizardForm header="About you" setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
-            {/* <Box>
+            <Box>
                 <Typography className={classes.customHeader} variant={isMobile ? 'h5' : 'h4'}>
                     Set up your profile
                 </Typography>
@@ -177,7 +201,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                         </ToggleButton>
                     ))}
                 </ToggleButtonGroup>
-            </Box> */}
+            </Box>
             <Box>
                 <Box pb={2}>
                     <Typography variant="h5" className={classes.customHeader}>
@@ -185,19 +209,71 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     </Typography>
                 </Box>
                 <Box display="flex" flexWrap="wrap" justifyContent="center">
-                    {Object.keys(images).map(key => (
-                        <Fragment key={key}>
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 1)}
+                        showFileNames
+                        initialFiles={images[1]}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
+                    />
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 2)}
+                        showFileNames
+                        initialFiles={images[2]}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
+                    />
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 3)}
+                        showFileNames
+                        initialFiles={images[3]}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
+                    />
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 4)}
+                        showFileNames
+                        initialFiles={images[4]}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
+                    />
+                    <DropzoneArea
+                        acceptedFiles={['image/*']}
+                        clearOnUnmount={false}
+                        onChange={upload => handleUpload(upload, 5)}
+                        showFileNames
+                        initialFiles={images[5]}
+                        dropzoneText="Add photo here"
+                        showAlerts={false}
+                        filesLimit={1}
+                    />
+                    {/* {Object.entries(images).map(key => (
+                        <Box key={key}>
+                            key {key}
                             <DropzoneArea
                                 acceptedFiles={['image/*']}
-                                onChange={image => setImages({ key: image })}
+                                clearOnUnmount={false}
+                                onChange={kk => setImages({ ...images, key: kk })}
                                 showFileNames
                                 initialFiles={images[key]}
                                 dropzoneText="Add photo here"
                                 showAlerts={false}
                                 filesLimit={1}
                             />
-                        </Fragment>
-                    ))}
+                        </Box>
+                    ))} */}
                 </Box>
             </Box>
             <Fragment>

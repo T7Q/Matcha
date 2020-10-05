@@ -2,3 +2,6 @@
 *.env
 .DS_Store
 *package-lock.json
+backend/images/*
+!backend/images/Photo_1601037282389_683.png
+

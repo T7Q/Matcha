@@ -3,7 +3,7 @@ const validateOrder = (userSelectedOrder) => {
         return false;
     for (const element of userSelectedOrder) {
         let temp = element.split('_');
-        if(!(["date", "match", "distance", "age", "fame", "common_tag"].includes(temp[0])))
+        if(!(["date", "match", "distance", "age", "fame", "commonTag"].includes(temp[0])))
             return true;
         if(!(["asc", "desc"].includes(temp[1])))
             return true;

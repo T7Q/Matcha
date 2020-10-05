@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH } from './types';
+import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, GET_FILTER_MATCH } from './types';
+
 // const route = `/match/recommend`;
 
 // Get current user profile
@@ -32,6 +33,30 @@ export const getRecommend = path => async dispatch => {
         });
     }
 };
+
+// Get current user profile
+export const getFiltered = (filter) => async dispatch => {
+    let route = '/match/filter';
+    // console.log("FILTER ACTION");
+    // console.log("FILTER", filter);
+    const data = filter
+    try {
+        // console.log("got to try");
+        const res = await axios.post(route, data);
+        // console.log("from server", res.data);
+        dispatch({
+            type: GET_MATCH,
+            // payload: filter,
+            payload: res.data,
+        });
+    } catch (err) {
+        dispatch({
+            type: MATCH_ERROR,
+            payload: { msg: err },
+        });
+    }
+};
+
 
 // Get more matches
 export const fetchMore = () => dispatch => {

@@ -16,3 +16,4 @@ export const GET_MATCH = 'GET_MATCH';
 export const FETCH_MORE_MATCH = 'FETCH_MORE_MATCH';
 export const MATCH_ERROR = 'MATCH_ERROR';
 export const SET_OFFSET = 'SET_OFFSET';
+export const GET_FILTER_MATCH = 'GET_FILTER_MATCH';

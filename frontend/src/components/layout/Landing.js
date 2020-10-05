@@ -6,11 +6,13 @@ import { Box, Button, Typography, useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { useStyles } from '../../styles/custom';
 
-const Landing = ({ isAuthenticated, history }) => {
+const Landing = ({ isAuthenticated, history, ...rest }) => {
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
+    console.log("LANDING", rest);
+    console.log("history", history);
     const handleRedirect = newRoute => {
         history.push(newRoute);
     };

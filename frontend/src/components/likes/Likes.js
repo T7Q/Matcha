@@ -27,7 +27,7 @@ const Likes = (props) => {
         search: 1
     }
 
-    const [value, setValue] = React.useState(indexToTabName[page]);
+    const [value, setValue] = React.useState(0);
     const handleChange = (event, newValue) => {
         history.push(`/likes/${tabNameToIndex[newValue]}`);
         setValue(newValue);
@@ -40,13 +40,11 @@ const Likes = (props) => {
                     value={value}
                     onChange={handleChange} 
                 >
-                    <Tab label="Recommended"  />
-                    <Tab label="Search"  />
-                    <Tab label="Item Three" />
+                    <Tab label="Likes you"  />
+                    <Tab label="Connect"  />
                 </Tabs>
             </AppBar>
-            {value === 0 && <Chat />}
-            {value === 1 && <Chat />}
+            {value === 0 && <Profile />}
             {value === 1 && <Chat />}
         </div>
     );

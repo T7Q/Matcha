@@ -30,10 +30,11 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <Route exact path="/updatePwd" component={UpdatePwd} />
                     <Route exact path="/message" component={Message} />
                     <PrivateRoute exact path="/messages" component={Chat} />
-                    <PrivateRoute exact path="/likes" component={Likes} />
+                    <PrivateRoute path="/likes" component={Likes} />
+                    <PrivateRoute exact path="/likes:page" component={Likes} />
                     <PrivateRoute exact path="/profile" component={Profile} />
                     <Route exact path="/complete" component={ProfileCreation} />
-                    <PrivateRoute exact path="/matches" component={Matches} />
+                    <PrivateRoute path="/matches" component={Matches} />
                 </Switch>
             </Box>
         </Grid>

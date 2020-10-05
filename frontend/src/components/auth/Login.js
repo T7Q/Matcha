@@ -9,11 +9,12 @@ import Input from '../common/Input';
 import Form from '../common/IndividualForm';
 import { useStyles } from '../../styles/custom';
 
-const Login = ({ login, isAuthenticated, user, history }) => {
+const Login = ({ login, isAuthenticated, user, history }, path) => {
     const [formData, setFormData] = useState({
         username: '',
         password: '',
     });
+    // console.log("LOGIN PATH");
 
     const classes = useStyles();
     const { username, password } = formData;
@@ -31,6 +32,7 @@ const Login = ({ login, isAuthenticated, user, history }) => {
 
     // Redirect is logged in
     if (isAuthenticated && user.status === 2) {
+
         return <Redirect to="/matches" />;
     } else if (isAuthenticated && user.status === 1) {
         return <Redirect to="/complete" />;

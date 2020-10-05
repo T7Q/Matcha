@@ -10,7 +10,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    isAuthenticated: null,
+    isAuthenticated: false,
     loading: true,
     user: { userId: 0, status: -1 },
 };

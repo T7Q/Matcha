@@ -27,8 +27,6 @@ export default function (state = initialState, action) {
     const { type, payload } = action;
     // console.log("REDUCER");
     // console.log("state", state);
-    // console.log("data", payload);
-    console.log("state", state);
     // console.log("payload", payload);
     switch (type) {
         case GET_MATCH:

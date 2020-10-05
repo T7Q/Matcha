@@ -5,7 +5,7 @@ import { Grid, Box } from '@material-ui/core';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import CustomRouter from './components/routing/CustomRouter';
-// import setAuthToken from './utils/setAuthToken';
+import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
 // Redux
 import { Provider } from 'react-redux';
@@ -15,10 +15,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import Circle from './components/layout/Circle';
 
-// setAuthToken(localStorage.getItem('token'));
 
 const App = () => {
     useEffect(() => {
+        setAuthToken(localStorage.getItem('token'));
         store.dispatch(loadUser());
     }, []);
 

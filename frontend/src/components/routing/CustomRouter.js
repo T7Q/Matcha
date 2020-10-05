@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Grid, Box } from '@material-ui/core';
 import PrivateRoute from './PrivateRoute';
@@ -30,11 +30,12 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <Route exact path="/updatePwd" component={UpdatePwd} />
                     <Route exact path="/message" component={Message} />
                     <PrivateRoute exact path="/messages" component={Chat} />
-                    <PrivateRoute path="/likes" component={Likes} />
-                    <PrivateRoute exact path="/likes:page" component={Likes} />
+                    <Redirect exact from="/likes" to="/likes/likesyou" />
+                    <PrivateRoute path="/likes/:page?" component={Likes} />
                     <PrivateRoute exact path="/profile" component={Profile} />
                     <Route exact path="/complete" component={ProfileCreation} />
-                    <PrivateRoute path="/matches" component={Matches} />
+                    <Redirect exact from="/matches" to="/matches/recommended" />
+                    <PrivateRoute path="/matches/:page?" component={Matches} />
                 </Switch>
             </Box>
         </Grid>

@@ -18,7 +18,7 @@ import Box from '@material-ui/core/Box';
 import WbIncandescentIcon from '@material-ui/icons/WbIncandescent';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import LooksIcon from '@material-ui/icons/Looks';
-import Match from './Matches';
+import Match from './GetMatches';
 import Gallery from "./Gallery";
 
 function TabPanel(props) {

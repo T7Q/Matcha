@@ -7,45 +7,49 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Profile from '../profile/Profile'
 import Chat from '../chat/Chat'
+import Match from '../common/matchGallery/GetMatches'
+import Typography from '@material-ui/core/Typography';
 
 
 const Likes = (props) => {
     const { match, history } = props;
     const { params } = match;
     const { page } = params; 
-    console.log("PROPS", props);
-    console.log("MATCH", match);
-    console.log("PAGE", page);
 
     const tabNameToIndex = {
-        0: "recommend",
-        1: "search"
+        0: "likesyou",
+        1: "connected",
+        2: "temp"
     }
 
     const indexToTabName = {
-        recommend: 0,
-        search: 1
+        likesyou: 0,
+        connected: 1,
+        temp: 2
     }
 
-    const [value, setValue] = React.useState(0);
+    const [selectedTab, setValue] = React.useState(indexToTabName[page]);
+
     const handleChange = (event, newValue) => {
+        // console.log("new value", newValue);
         history.push(`/likes/${tabNameToIndex[newValue]}`);
         setValue(newValue);
-      };
+    };
+
     return (
         <div>
-            <p>Likes</p>
             <AppBar position="static">
+                <Typography variant="h6">Likes</Typography>
                 <Tabs
-                    value={value}
+                    value={selectedTab}
                     onChange={handleChange} 
                 >
                     <Tab label="Likes you"  />
-                    <Tab label="Connect"  />
+                    <Tab label="Connected"  />
                 </Tabs>
             </AppBar>
-            {value === 0 && <Profile />}
-            {value === 1 && <Chat />}
+            {selectedTab === 0 && <Match route="/match/likedme"/>}
+            {selectedTab === 1 && <Match route="/match/connected"/>}
         </div>
     );
 };

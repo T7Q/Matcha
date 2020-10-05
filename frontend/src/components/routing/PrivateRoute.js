@@ -3,12 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component, auth: { isAuthenticated, loading, user }, path, history, ...rest }) => {
-    // console.log("rest ", rest);
-    // console.log("history ", history);
-    // console.log("COMPONENT ", Component);
-    // console.log("auth", isAuthenticated);
-
+const PrivateRoute = ({ component: Component, auth: { isAuthenticated, loading, user }, path, params, url, history, ...rest }) => {
     return (
         <Route
             {...rest}

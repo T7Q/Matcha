@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import Switches from "./Switch";
 import RangeSlider from "./Slider";
-import MultipleSelect from "./MultipleSelect";
+import MultipleSelect from "../matchGallery/MultipleSelect";
 import Temp from "./Temp";
 
 

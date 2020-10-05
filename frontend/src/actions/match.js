@@ -4,22 +4,11 @@ import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, GET_FILTER_MATCH } from './ty
 // const route = `/match/recommend`;
 
 // Get current user profile
-export const getRecommend = path => async dispatch => {
-    // dispatch(loadUser());
-    let route = '';
-    // console.log("PATH", path);
-    switch(path){
-        case("/matches"):
-            route = `/match/recommend`;
-            break;
-        // case("/likes"):
-        //     route = `/match/likedme`;
-        //     break;
-    }
-    // console.log("temp", temp);
-    // console.log('getRecommended');
+export const getRecommend = route => async dispatch => {
+    // let route = '';
+    console.log("actions PATH", route);
+
     try {
-        // const res = await axios.get(`/match/recommend`);
         const res = await axios.get(route);
         dispatch({
             type: GET_MATCH,
@@ -37,8 +26,7 @@ export const getRecommend = path => async dispatch => {
 // Get current user profile
 export const getFiltered = (filter) => async dispatch => {
     let route = '/match/filter';
-    // console.log("FILTER ACTION");
-    // console.log("FILTER", filter);
+
     const data = filter
     try {
         // console.log("got to try");

@@ -25,17 +25,19 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         tags: '',
         country: '',
         currentStep: 1,
-        region: '',
-        images1: [],
-        images2: [],
-        images3: [],
-        images4: [],
-        images5: [],
+    });
+    const [images, setImages] = useState({
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
     });
     const [realTags, setRealTags] = useState([]);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+    const classes = useStyles();
 
     useEffect(() => {
         let isMounted = true;
@@ -49,54 +51,33 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         };
     }, []);
 
-    const classes = useStyles();
-
     if (isAuthenticated && user.status === 2) {
         return <Redirect to="/matches" />;
     } else if (!isAuthenticated) {
         return <Redirect to="/" />;
     }
 
-    const {
-        images1,
-        images2,
-        images3,
-        images4,
-        images5,
-        gender,
-        sex_preference,
-        bio,
-        birth_date,
-        tags,
-        country,
-        region,
-    } = formData;
+    const { gender, sex_preference, bio, birth_date, tags, country } = formData;
     const onChange = e => {
-        // console.log(e.target.name);
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleDate = e => {
-        setFormData({ ...formData, birth_date: e });
+    const handleDate = date => {
+        setFormData({ ...formData, birth_date: date });
     };
 
     const onSubmit = e => {
         const dataToSubmit = formData;
-        // dataToSubmit.birth_date = birth_date;
         delete dataToSubmit.currentStep;
-        delete dataToSubmit.images1;
-        delete dataToSubmit.images2;
-        delete dataToSubmit.images3;
-        delete dataToSubmit.images4;
-        delete dataToSubmit.images5;
         dataToSubmit.userId = user.userId;
         console.log(dataToSubmit);
-        createProfile(dataToSubmit, history);
+        // createProfile(dataToSubmit, history);
+        console.log(images);
     };
 
     return (
         <WizardForm header="About you" setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
-            <Box>
+            {/* <Box>
                 <Typography className={classes.customHeader} variant={isMobile ? 'h5' : 'h4'}>
                     Set up your profile
                 </Typography>
@@ -129,24 +110,12 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                         Where do you primary live?
                     </Typography>
                 </Box>
-                {/* <Box py={1}> */}
                 <CountryDropdown
                     defaultOptionLabel="Please, select a country"
                     className={classes.customSelect}
                     value={country}
                     onChange={val => setFormData({ ...formData, country: val })}
                 />
-                {/* </Box> */}
-                {/* <Box py={1}>
-                    <RegionDropdown
-                        className={classes.customSelect}
-                        blankOptionLabel="First, select country"
-                        defaultOptionLabel="Now select a region"
-                        country={country}
-                        value={region}
-                        onChange={val => setFormData({ ...formData, region: val })}
-                    />
-                </Box> */}
             </Box>
             <ToggleButtonGroup
                 orientation="vertical"
@@ -208,7 +177,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                         </ToggleButton>
                     ))}
                 </ToggleButtonGroup>
-            </Box>
+            </Box> */}
             <Box>
                 <Box pb={2}>
                     <Typography variant="h5" className={classes.customHeader}>
@@ -216,51 +185,19 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                     </Typography>
                 </Box>
                 <Box display="flex" flexWrap="wrap" justifyContent="center">
-                    <DropzoneArea
-                        acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images1: image })}
-                        showFileNames
-                        initialFiles={images1}
-                        dropzoneText="Add photo here"
-                        showAlerts={false}
-                        filesLimit={1}
-                    />
-                    <DropzoneArea
-                        acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images2: image })}
-                        showFileNames
-                        initialFiles={images2}
-                        dropzoneText="Add photo here"
-                        showAlerts={false}
-                        filesLimit={1}
-                    />
-                    <DropzoneArea
-                        acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images3: image })}
-                        showFileNames
-                        initialFiles={images3}
-                        dropzoneText="Add photo here"
-                        showAlerts={false}
-                        filesLimit={1}
-                    />
-                    <DropzoneArea
-                        acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images4: image })}
-                        showFileNames
-                        initialFiles={images4}
-                        dropzoneText="Add photo here"
-                        showAlerts={false}
-                        filesLimit={1}
-                    />
-                    <DropzoneArea
-                        acceptedFiles={['image/*']}
-                        onChange={image => setFormData({ ...formData, images5: image })}
-                        showFileNames
-                        initialFiles={images5}
-                        dropzoneText="Add photo here"
-                        showAlerts={false}
-                        filesLimit={1}
-                    />
+                    {Object.keys(images).map(key => (
+                        <Fragment key={key}>
+                            <DropzoneArea
+                                acceptedFiles={['image/*']}
+                                onChange={image => setImages({ key: image })}
+                                showFileNames
+                                initialFiles={images[key]}
+                                dropzoneText="Add photo here"
+                                showAlerts={false}
+                                filesLimit={1}
+                            />
+                        </Fragment>
+                    ))}
                 </Box>
             </Box>
             <Fragment>

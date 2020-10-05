@@ -15,6 +15,7 @@ import Profile from '../profile/Profile';
 import ProfileCreation from '../profile/CreateProfile';
 import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
+// import NotFound from '../layout/NotFound';
 import Chat from '../chat/Chat';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
@@ -24,6 +25,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
             <Box>
                 <Alert />
                 <Switch>
+                    {/* <Route exact path="/" component={Landing} /> */}
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/forgetPwd" component={ForgotPwd} />
@@ -36,6 +38,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <Route exact path="/complete" component={ProfileCreation} />
                     <Redirect exact from="/matches" to="/matches/recommended" />
                     <PrivateRoute path="/matches/:page?" component={Matches} />
+                    {/* <Route component={NotFound} /> */}
                 </Switch>
             </Box>
         </Grid>

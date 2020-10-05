@@ -90,13 +90,14 @@ export const login = ({ username, password }) => async dispatch => {
 };
 
 // LOGOUT / Clear profile
-export const logout = () => async dispatch => {
+export const logout = history => async dispatch => {
     try {
         await axios.post('/account/logout');
     } catch (error) {
         console.log(error);
     }
     dispatch({ type: LOGOUT });
+    history.push('/');
 };
 
 // Forgot password

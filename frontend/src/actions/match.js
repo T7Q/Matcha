@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, GET_FILTER_MATCH } from './types';
+import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, GET_FILTER_MATCH, FILTER_UPDATE, FILTER_RESET } from './types';
 import store from '../store';
 // const route = `/match/recommend`;
 
@@ -8,19 +8,21 @@ export const getRecommend = (route, filterIsOn) => async dispatch => {
     // let route = '';
     // console.log("actions PATH", route);
     // console.log("filterIsOn", filterIsOn);
-
+    // console.log("ACTION getRecommend");
+    // set filter params
     let data = {};
-    console.log("HERE page", route.split("/")[2]);
-    if (route.split("/")[2] !== "recommend" || route.split("/")[2] !== "recommend"){
-        data = { type: route.split("/")[2] };
-    } else {
+    let param = route.split("/")[2]
+    if (param === "recommend" || param === "search"){
         data = store.getState().match.filter;
+    } else {
+        data = { type: param };
     }
-    console.log("data", data);
-    
+    console.log("FILTER", data);
+    console.log("filter ON", filterIsOn);
     try {
         let res = {};
-        if (filterIsOn === 1) {
+        if (filterIsOn > 0) {
+            console.log("here");
             res = await axios.post('/match/filter', data);
         } else {
             res = await axios.get(route);
@@ -65,5 +67,22 @@ export const getFiltered = (filter) => async dispatch => {
 export const fetchMore = () => dispatch => {
     dispatch({
         type: FETCH_MORE_MATCH,
+    });
+};
+
+// Get more matches
+export const resetFilter = () => dispatch => {
+    dispatch({
+        type: FILTER_RESET,
+    });
+};
+
+// Update filters
+export const updateFilter = (filter) => dispatch => {
+    // console.log("ACTION", filter);
+    // console.log(store.getState().match.filter);
+    dispatch({
+        type: FILTER_UPDATE,
+        payload: filter,
     });
 };

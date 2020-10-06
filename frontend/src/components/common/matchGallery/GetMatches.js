@@ -11,9 +11,10 @@ import Gallery from "./Gallery";
 // console.log("TYPE", type);
 
 const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path, route, filterIsOn }) => {
-    // console.log("MATCH component");
+    console.log("MATCH component");
 
     useEffect(() => {
+        console.log("useEffect match component");
         getRecommend(route, filterIsOn);
     }, [getRecommend, route, filterIsOn]);
     

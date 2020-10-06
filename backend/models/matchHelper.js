@@ -46,8 +46,8 @@ const buildBase = (req, settings) => {
 
 const setWeights = (believeCn, believeWest, userHasTags) => {
     let weight = { tag: 0.1, cn: 0.45, west: 0.45 };
-    weight.cn = (believeCn === 0 ? 0 : weight.cn);
-    weight.west = (believeWest === 0 ? 0 : weight.west);
+    weight.cn = (believeCn === false ? 0 : weight.cn);
+    weight.west = (believeWest === false ? 0 : weight.west);
     weight.tag = (!userHasTags ? 0 : weight.tag);
     return weight;
 };

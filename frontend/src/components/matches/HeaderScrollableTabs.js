@@ -15,6 +15,7 @@ import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import Match from "../common/matchGallery/GetMatches";
 
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -86,6 +87,7 @@ export default function ScrollableTabsButtonForce({ page, history }) {
     };
 
     const route = "/matches/" + page;
+    
     return (
         <div className={classes.root}>
             <AppBar position="static">

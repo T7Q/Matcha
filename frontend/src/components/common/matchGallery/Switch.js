@@ -26,3 +26,14 @@ export default function Switches() {
     </div>
   );
 }
+
+// Switch.propTypes = {
+//   updateFilter: PropTypes.func.isRequired,
+//   match: PropTypes.object.isRequired,
+// };
+
+// const mapStateToProps = (state) => ({
+//   match: state.match,
+// });
+
+// export default connect(mapStateToProps, { updateFilter })(Switches);

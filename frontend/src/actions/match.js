@@ -1,15 +1,24 @@
 import axios from 'axios';
 import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, GET_FILTER_MATCH } from './types';
-
+import store from '../store';
 // const route = `/match/recommend`;
 
 // Get current user profile
-export const getRecommend = route => async dispatch => {
+export const getRecommend = (route, filterIsOn) => async dispatch => {
     // let route = '';
-    console.log("actions PATH", route);
+    // console.log("actions PATH", route);
+    // console.log("filterIsOn", filterIsOn);
+
+    const data = store.getState().match.filter;
+    // console.log("filter from state", data);
 
     try {
-        const res = await axios.get(route);
+        let res = {};
+        if (filterIsOn === 1) {
+            res = await axios.post('/match/filter', data);
+        } else {
+            res = await axios.get(route);
+        }
         dispatch({
             type: GET_MATCH,
             payload: res.data,

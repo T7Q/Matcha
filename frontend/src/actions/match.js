@@ -9,9 +9,15 @@ export const getRecommend = (route, filterIsOn) => async dispatch => {
     // console.log("actions PATH", route);
     // console.log("filterIsOn", filterIsOn);
 
-    const data = store.getState().match.filter;
-    // console.log("filter from state", data);
-
+    let data = {};
+    console.log("HERE page", route.split("/")[2]);
+    if (route.split("/")[2] !== "recommend" || route.split("/")[2] !== "recommend"){
+        data = { type: route.split("/")[2] };
+    } else {
+        data = store.getState().match.filter;
+    }
+    console.log("data", data);
+    
     try {
         let res = {};
         if (filterIsOn === 1) {

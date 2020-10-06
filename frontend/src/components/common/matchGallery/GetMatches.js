@@ -25,9 +25,6 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path,
     window.addEventListener("scroll", handleScroll);
     return (
         <Fragment>
-            {/* <Filter>here</Filter> */}
-            {/* <HeaderScrollableTabs variant="h6" match={match} iEnd={iEnd}>Horizontal scroll</HeaderScrollableTabs> */}
-            {/* <div>Matches: {match.length}</div> */}
             <Gallery match={match} iEnd={iEnd} />
         </Fragment>
     );

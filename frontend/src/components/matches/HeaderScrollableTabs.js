@@ -9,11 +9,11 @@ import PersonPinIcon from "@material-ui/icons/PersonPin";
 import HelpIcon from "@material-ui/icons/Help";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import SearchIcon from '@material-ui/icons/Search';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
-import LoyaltyIcon from '@material-ui/icons/Loyalty';
-import Match from '../common/matchGallery/GetMatches'
+import SearchIcon from "@material-ui/icons/Search";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
+import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import LoyaltyIcon from "@material-ui/icons/Loyalty";
+import Match from "../common/matchGallery/GetMatches";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -28,7 +28,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box p={3}>
-                    <Typography>{children}</Typography>
+                    <>{children}</>
                 </Box>
             )}
         </div>
@@ -56,22 +56,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ScrollableTabsButtonForce( { page, history } ) {
+export default function ScrollableTabsButtonForce({ page, history }) {
     const tabNameToIndex = {
-        0: "recommended",
+        0: "recommend",
         1: "search",
         2: "online",
-        3: "newPeople",
+        3: "new",
         4: "popular",
         5: "random",
         6: "nearby",
     };
 
     const indexToTabName = {
-        recommended: 0,
+        recommend: 0,
         search: 1,
         online: 2,
-        newPeople: 3,
+        new: 3,
         popular: 4,
         random: 5,
         nearby: 6,
@@ -85,9 +85,10 @@ export default function ScrollableTabsButtonForce( { page, history } ) {
         setValue(newValue);
     };
 
+    const route = "/matches/" + page;
     return (
         <div className={classes.root}>
-            <AppBar position="static" >
+            <AppBar position="static">
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -122,11 +123,7 @@ export default function ScrollableTabsButtonForce( { page, history } ) {
                         icon={<WhatshotIcon />}
                         {...a11yProps(4)}
                     />
-                    <Tab
-                        label="Random"
-                        icon={<HelpIcon />}
-                        {...a11yProps(5)}
-                    />
+                    <Tab label="Random" icon={<HelpIcon />} {...a11yProps(5)} />
                     <Tab
                         label="Nearby"
                         icon={<PersonPinIcon />}
@@ -135,26 +132,17 @@ export default function ScrollableTabsButtonForce( { page, history } ) {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-              {/* <Match route="/match/recommend" filterIsOn={1}/> */}
+                <Match route="/match/recommend" filterIsOn={0}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                {/* <Match route="/match/search" filterIsOn={1}/> */}
+                FILTER HERE
             </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-                Item Four
-            </TabPanel>
-            <TabPanel value={value} index={4}>
-                Item Five
-            </TabPanel>
-            <TabPanel value={value} index={5}>
-                Item Six
-            </TabPanel>
-            <TabPanel value={value} index={6}>
-                Item Seven
-            </TabPanel>
+            {value > 1 && value < 7 && (
+                <TabPanel value={value} index={value}>
+                    <Match route={route} filterIsOn={1} />
+                </TabPanel>
+            )}
         </div>
     );
 }

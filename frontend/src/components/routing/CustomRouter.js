@@ -17,6 +17,7 @@ import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 // import NotFound from '../layout/NotFound';
 import Chat from '../chat/Chat';
+import Visits from '../visits/Visits';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
     return (
@@ -33,11 +34,12 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <Route exact path="/message" component={Message} />
                     <PrivateRoute exact path="/messages" component={Chat} />
                     <Redirect exact from="/likes" to="/likes/likesyou" />
-                    <PrivateRoute path="/likes/:page?" component={Likes} />
+                    <PrivateRoute exact path="/likes/:page?" component={Likes} />
                     <PrivateRoute exact path="/profile" component={Profile} />
                     <Route exact path="/complete" component={ProfileCreation} />
                     <Redirect exact from="/matches" to="/matches/recommended" />
-                    <PrivateRoute path="/matches/:page?" component={Matches} />
+                    <PrivateRoute exact path="/matches/:page?" component={Matches} />
+                    <PrivateRoute exact path="/visits/:page?" component={Visits} />
                     {/* <Route component={NotFound} /> */}
                 </Switch>
             </Box>

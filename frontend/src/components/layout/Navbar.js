@@ -94,7 +94,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
         },
         {
             title: 'Visit history',
-            pageUrl: '/profile',
+            pageUrl: '/visits',
         },
     ];
 

@@ -1,56 +1,25 @@
 import React from "react";
-
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-// import Profile from '../profile/Profile'
-// import Chat from '../chat/Chat'
 import Match from '../common/matchGallery/GetMatches'
-import Typography from '@material-ui/core/Typography';
+import HeaderScrollableTabs from "./HeaderScrollableTabs";
+import Container from '@material-ui/core/Container';
 
 
-const Matches = (props) => {
-    const { match, history } = props;
-    const { params } = match;
-    const { page } = params; 
 
-    console.log("FROM MATCHESNAV");
-    const tabNameToIndex = {
-        0: "recommended",
-        1: "search"
-    }
+const Matches = ({ match, history }) => {
+    const { page } = match.params; 
 
-    const indexToTabName = {
-        recommended: 0,
-        search: 1
-    }
-
-    const [selectedTab, setValue] = React.useState(indexToTabName[page]);
-
-    const handleChange = (event, newValue) => {
-        console.log("new value", newValue);
-        history.push(`/matches/${tabNameToIndex[newValue]}`);
-        setValue(newValue);
-    };
+    // console.log("components/matches");
+    // console.log("PAGE", page, "history", history);
 
     return (
         <div>
-            <AppBar position="static">
-                <Typography variant="h6">Matches</Typography>
-                <Tabs
-                    value={selectedTab}
-                    onChange={handleChange} 
-                >
-                    <Tab label="Recommended"  />
-                    <Tab label="Search"  />
-                </Tabs>
-            </AppBar>
-            {selectedTab === 0 && <Match route="/match/recommend"/>}
-            {selectedTab === 1 && <Match route="/match/recommend"/>}
+            <Container fixed>
+                <HeaderScrollableTabs variant="h6" page={page} history={history}>Horizontal scroll</HeaderScrollableTabs>
+                <Match route="/match/recommend" filterIsOn={1}/>
+            </Container>
         </div>
     );
 };
 
 export default Matches;
+

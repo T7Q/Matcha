@@ -11,8 +11,6 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { Grid } from "@material-ui/core";
-import InfiniteScroll from 'react-infinite-scroll-component';
-
 
 const useStyles = makeStyles({
     root: {

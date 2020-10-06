@@ -1,4 +1,4 @@
-import { GET_MATCH, FETCH_MORE_MATCH, SET_OFFSET, MATCH_ERROR, GET_FILTER_MATCH } from '../actions/types';
+import { GET_MATCH, FETCH_MORE_MATCH, MATCH_ERROR, GET_FILTER_MATCH } from '../actions/types';
 
 const initialState = {
     match: [],
@@ -26,8 +26,6 @@ const initialState = {
 export default function (state = initialState, action) {
     const { type, payload } = action;
     // console.log("REDUCER");
-    // console.log("state", state);
-    // console.log("payload", payload);
     switch (type) {
         case GET_MATCH:
             return {

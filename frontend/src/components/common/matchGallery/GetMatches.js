@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getRecommend, fetchMore } from "../../../actions/match";
-import Typography from "@material-ui/core/Typography";
 import Gallery from "./Gallery";
 // import HeaderScrollableTabs from "./HeaderScrollableTabs";
 // import MultipleSelect from "./MultipleSelect";
@@ -11,27 +10,24 @@ import Gallery from "./Gallery";
 
 // console.log("TYPE", type);
 
-const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path, route }) => {
+const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path, route, filterIsOn }) => {
     // console.log("MATCH component");
-    // console.log("LOCATION", route);
 
     useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        getRecommend(route);
-    }, [getRecommend, route ]);
-
-    // console.log("TYPE", path);
+        getRecommend(route, filterIsOn);
+    }, [getRecommend, route, filterIsOn]);
+    
     const handleScroll = () => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            // console.log("you're at the bottom of the page");
             fetchMore();
         }
     }
+    window.addEventListener("scroll", handleScroll);
     return (
         <Fragment>
             {/* <Filter>here</Filter> */}
             {/* <HeaderScrollableTabs variant="h6" match={match} iEnd={iEnd}>Horizontal scroll</HeaderScrollableTabs> */}
-            <Typography variant="h6">Matches: {match.length}</Typography>
+            {/* <div>Matches: {match.length}</div> */}
             <Gallery match={match} iEnd={iEnd} />
         </Fragment>
     );
@@ -41,7 +37,8 @@ Match.propTypes = {
     getRecommend: PropTypes.func.isRequired,
     fetchMore: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
-    route: PropTypes.object.isRequired,
+    route: PropTypes.string.isRequired,
+    filterIsOn: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({

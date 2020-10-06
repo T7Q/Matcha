@@ -53,6 +53,7 @@ export const theme = createMuiTheme({
             },
         },
     },
+
 });
 
 export const useStyles = makeStyles(theme => ({
@@ -125,10 +126,10 @@ export const useStyles = makeStyles(theme => ({
     customHeader: {
         color: '#fff',
     },
-    appBar: {
-        top: 'auto',
-        bottom: 0,
-    },
+    // appBar: {
+    //     top: 'auto',
+    //     bottom: 0,
+    // },
     text: {
         fontSize: '10px',
     },

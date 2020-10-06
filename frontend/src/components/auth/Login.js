@@ -37,8 +37,8 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
     }
 
     return (
-        <Box>
-            <Box ml="-40px">
+        <Box pt="150px">
+            <Box>
                 <IconButton color="inherit" onClick={() => handleRedirect('/')}>
                     <ArrowBackIosIcon fontSize="large" />
                 </IconButton>

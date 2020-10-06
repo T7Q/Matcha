@@ -20,7 +20,7 @@ const Landing = ({ isAuthenticated, history, ...rest }) => {
     }
 
     return (
-        <Box display="flex" flexDirection="column" textAlign="center">
+        <Box pt="200px" display="flex" flexDirection="column" textAlign="center">
             <Typography variant={isMobile ? 'h3' : 'h2'}>Your love Is</Typography>
             <Typography className={classes.customHeader} variant={isMobile ? 'h3' : 'h2'}>
                 In The Stars

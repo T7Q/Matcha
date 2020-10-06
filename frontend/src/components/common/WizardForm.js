@@ -33,25 +33,27 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
     };
 
     return (
-        <form onSubmit={formSubmit}>
-            <Box ml="-40px">
-                <IconButton color="inherit" onClick={step === 1 ? () => handleRedirect('/') : prev}>
-                    <ArrowBackIosIcon fontSize="large" />
-                </IconButton>
-            </Box>
-            <Box display="flex" flexDirection="column" textAlign="center">
-                <Box display="flex" my={5} maxWidth="300px">
-                    <Typography variant="h6">{header}</Typography>
-                    <LinearProgress className={classes.root} variant="determinate" value={normalise(step)} />
+        <Box width="auto" pt="100px" mb={{ xs: '80px' }}>
+            <form onSubmit={formSubmit}>
+                <Box>
+                    <IconButton color="inherit" onClick={step === 1 ? () => handleRedirect('/') : prev}>
+                        <ArrowBackIosIcon fontSize="large" />
+                    </IconButton>
                 </Box>
-                {children[step - 1]}
-                <Box mt={5}>
-                    <Button variant="contained" color="primary" type="submit" className={classes.customButton}>
-                        {step < steps ? 'Next' : 'Done'}
-                    </Button>
+                <Box display="flex" flexDirection="column" textAlign="center">
+                    <Box display="flex" my={5} maxWidth="300px">
+                        <Typography variant="h6">{header}</Typography>
+                        <LinearProgress className={classes.root} variant="determinate" value={normalise(step)} />
+                    </Box>
+                    {children[step - 1]}
+                    <Box mt={5}>
+                        <Button variant="contained" color="primary" type="submit" className={classes.customButton}>
+                            {step < steps ? 'Next' : 'Done'}
+                        </Button>
+                    </Box>
                 </Box>
-            </Box>
-        </form>
+            </form>
+        </Box>
     );
 };
 

@@ -86,7 +86,7 @@ export const useStyles = makeStyles(theme => ({
         maxWidth: '300px',
         borderRadius: '30px !important',
         [theme.breakpoints.down('xs')]: {
-            width: '200px',
+            maxWidth: '200px',
         },
     },
     customButton: {
@@ -174,6 +174,7 @@ export const useStyles = makeStyles(theme => ({
         height: '40px',
         fontSize: 20,
         width: '300px',
+        margin: 'auto',
         [theme.breakpoints.down('xs')]: {
             width: '200px',
         },
@@ -202,14 +203,12 @@ export const useStyles = makeStyles(theme => ({
             fontSize: '20px',
             borderWidth: 2,
         },
-        // '& $div': {
-        //     justifyContent: 'center',
-        //     '& $input': {
-        //         width: '30%',
-        //     },
-        // },
-        // '& $p': {
-        //     alignSelf: 'center',
-        // },
+    },
+    bioInput: {
+        minHeight: '150px',
+        minWidth: '400px',
+        [theme.breakpoints.down('xs')]: {
+            minWidth: '200px',
+        },
     },
 }));

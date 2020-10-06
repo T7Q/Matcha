@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Grid, useMediaQuery } from '@material-ui/core';
+import { Grid, useMediaQuery, Box } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { useStyles } from '../../styles/custom';
 
@@ -14,7 +14,9 @@ const Circle = ({ auth: { isAuthenticated, user } }) => {
         !isMobile &&
         !isAuthenticated && (
             <Grid container className={classes.circle} item md={6} xs={12}>
-                <img className="circle" src={require('../../circle.png')} alt="circle" />
+                <Box pt="200px">
+                    <img className="circle" src={require('../../circle.png')} alt="circle" />
+                </Box>
             </Grid>
         )
     );

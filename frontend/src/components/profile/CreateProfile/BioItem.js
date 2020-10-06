@@ -14,7 +14,7 @@ const BioItem = ({ bio, onChange }) => {
             </Box>
             <TextareaAutosize
                 name="bio"
-                style={{ minWidth: '400px', minHeight: '150px' }}
+                className={classes.bioInput}
                 onChange={onChange}
                 value={bio}
                 placeholder="For example, how would your best friend discribe you"

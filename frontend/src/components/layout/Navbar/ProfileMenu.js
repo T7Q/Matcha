@@ -10,7 +10,7 @@ const profileMenu = [
     },
     {
         title: 'Account Settings',
-        pageUrl: '/likes',
+        pageUrl: '/settings',
     },
     {
         title: 'Visit history',

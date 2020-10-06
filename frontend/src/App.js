@@ -28,11 +28,9 @@ const App = () => {
                     <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
                         <CssBaseline />
                         <Navbar />
-                        <Box p={5} m={{ xs: 'auto', lg: '50px' }} flexGrow={1}>
-                            <Grid container spacing={1}>
-                                <Grid container item sm={12}>
-                                    <Box my={{ xs: 2, md: 5 }}></Box>
-                                </Grid>
+                        {/* <Box p={5} m={{ xs: 'auto', lg: '50px' }} flexGrow={1}> */}
+                        <Box flexGrow={1}>
+                            <Grid container>
                                 <CustomRouter />
                                 <Circle />
                             </Grid>

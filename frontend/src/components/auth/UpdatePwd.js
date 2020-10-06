@@ -33,7 +33,7 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
     }
 
     return (
-        <Box>
+        <Box pt="150px">
             <Form onSubmit={onSubmit}>
                 <Input header="Enter your new password" type="password" value={password} handleChange={onChange} />
                 <Input type="confirmPassword" value={confirmPassword} handleChange={onChange} />

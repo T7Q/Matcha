@@ -17,12 +17,16 @@ import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 // import NotFound from '../layout/NotFound';
 import Chat from '../chat/Chat';
+import Settings from '../profile/Settings';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
     return (
         <Grid alignItems="center" justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
             <Route exact path="/" component={Landing} />
-            <Box>
+            <Box
+                pt={{ xs: '0px', sm: '64px' }}
+                // textAlign="center"
+                width={isAuthenticated && user.status !== 1 ? '100%' : 'auto'}>
                 <Alert />
                 <Switch>
                     {/* <Route exact path="/" component={Landing} /> */}
@@ -38,6 +42,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <Route exact path="/complete" component={ProfileCreation} />
                     <Redirect exact from="/matches" to="/matches/recommended" />
                     <PrivateRoute path="/matches/:page?" component={Matches} />
+                    <PrivateRoute path="/settings" component={Settings} />
                     {/* <Route component={NotFound} /> */}
                 </Switch>
             </Box>

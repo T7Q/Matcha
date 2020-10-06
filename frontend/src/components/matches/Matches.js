@@ -145,6 +145,7 @@ const Matches = ({ match, history }) => {
             <TabPanel value={value} index={0}>
                 <Filter>filteR</Filter>
                 <Match route="/match/recommend" filterIsOn={0}/>
+                <Filter>filteR</Filter>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 {/* <Match route="/match/search" filterIsOn={1}/> */}

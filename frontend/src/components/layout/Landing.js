@@ -11,15 +11,11 @@ const Landing = ({ isAuthenticated, history, ...rest }) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
-    console.log("LANDING", rest);
-    console.log("history", history);
     const handleRedirect = newRoute => {
         history.push(newRoute);
     };
 
     if (isAuthenticated) {
-        // console.log('history', history);
-        // console.log('log', window.location.href);
         return <Redirect to="/matches" />;
     }
 

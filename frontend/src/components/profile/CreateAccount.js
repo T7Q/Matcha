@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
-import { withRouter } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
 
 const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({
@@ -33,7 +32,7 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
         if (password !== confirmPassword) {
             setAlert('Passwords do not match', 'danger');
         } else {
-            console.log(username, email, password, firstname, lastname, confirmPassword);
+            // console.log(username, email, password, firstname, lastname, confirmPassword);
             register({ username, email, password, confirmPassword, lastname, firstname, history });
         }
     };

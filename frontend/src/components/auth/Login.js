@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../../actions/auth';
 import { IconButton, Button, Box } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { login } from '../../actions/auth';
 import Input from '../common/Input';
 import Form from '../common/IndividualForm';
 import { useStyles } from '../../styles/custom';
@@ -14,7 +14,6 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
         username: '',
         password: '',
     });
-    // console.log("LOGIN PATH");
 
     const classes = useStyles();
     const { username, password } = formData;
@@ -30,9 +29,8 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
         login({ username, password });
     };
 
-    // Redirect is logged in
+    // Redirect if logged in
     if (isAuthenticated && user.status === 2) {
-
         return <Redirect to="/matches" />;
     } else if (isAuthenticated && user.status === 1) {
         return <Redirect to="/complete" />;

@@ -12,7 +12,7 @@ import Alert from '../layout/Alert';
 import Message from '../layout/Message';
 import Register from '../profile/CreateAccount';
 import Profile from '../profile/Profile';
-import ProfileCreation from '../profile/CreateProfile';
+import ProfileCreation from '../profile/CreateProfile/';
 import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 // import NotFound from '../layout/NotFound';

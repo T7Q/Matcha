@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Grid, Box } from '@material-ui/core';
-import Navbar from './components/layout/Navbar';
+import Navbar from './components/layout/Navbar/';
 import Footer from './components/layout/Footer';
 import CustomRouter from './components/routing/CustomRouter';
 import setAuthToken from './utils/setAuthToken';
@@ -14,7 +14,6 @@ import { theme } from './styles/custom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import Circle from './components/layout/Circle';
-
 
 const App = () => {
     useEffect(() => {
@@ -43,8 +42,6 @@ const App = () => {
                 </Router>
             </Provider>
         </ThemeProvider>
-
-
     );
 };
 

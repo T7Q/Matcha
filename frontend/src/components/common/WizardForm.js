@@ -9,7 +9,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
     const steps = children.length;
     const classes = useStyles();
 
-    const next = event => {
+    const next = () => {
         // If the current step is 1 or 2, then add one on "next" button click
         step = step >= steps ? steps : step + 1;
         setFormData({ ...formData, currentStep: step });

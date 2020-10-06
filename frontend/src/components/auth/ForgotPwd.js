@@ -9,13 +9,11 @@ import Input from '../common/Input';
 import Form from '../common/IndividualForm';
 import { useStyles } from '../../styles/custom';
 
-const ForgetPwd = ({ forgetPwd, isAuthenticated, user, message, history }) => {
-    const [formData, setFormData] = useState({
-        email: '',
-    });
+const ForgetPwd = ({ forgetPwd, isAuthenticated, user, history }) => {
+    const [formData, setFormData] = useState({ email: '' });
 
-    const { email } = formData;
     const classes = useStyles();
+    const { email } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -60,13 +58,11 @@ ForgetPwd.propTypes = {
     forgetPwd: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
     user: PropTypes.object,
-    message: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user,
-    message: state.message,
 });
 
 export default connect(mapStateToProps, { forgetPwd })(withRouter(ForgetPwd));

@@ -24,14 +24,14 @@ const convertImages = images => {
     const data = {
         key: 'photo',
         value: Object.values(images)
-            .filter(value => value !== '')
+            .filter(value => !Array.isArray(value) && value !== '')
             .map(value => ({ type: 'profile', data: value })),
     };
     return data;
 };
 
 // Create or update profile
-export const createProfile = (formData, images, history, edit = false) => async dispatch => {
+export const createProfile = (formData, images, history) => async dispatch => {
     try {
         // console.log('create profile');
         const config = {

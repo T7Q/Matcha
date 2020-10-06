@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Grid, useMediaQuery } from '@material-ui/core';
-import { useStyles } from '../../styles/custom';
 import { useTheme } from '@material-ui/core/styles';
+import { useStyles } from '../../styles/custom';
 
 const Circle = ({ auth: { isAuthenticated, user } }) => {
     const classes = useStyles();

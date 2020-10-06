@@ -56,6 +56,24 @@ export const theme = createMuiTheme({
 });
 
 export const useStyles = makeStyles(theme => ({
+    menu: {
+        '& .MuiMenu-paper': {
+            border: '1px solid #000',
+            background: theme.palette.secondary.main,
+        },
+    },
+    menuItem: {
+        color: '#fff',
+        '&:hover': {
+            backgroundColor: theme.palette.primary.main,
+            '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+                color: theme.palette.common.white,
+            },
+        },
+        '& .MuiListItemIcon-root': {
+            color: theme.palette.common.white,
+        },
+    },
     root: {
         width: '75%',
         margin: '15px',

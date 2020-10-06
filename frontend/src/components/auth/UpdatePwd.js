@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { updatePwd } from '../../actions/auth';
 import { Button, Box } from '@material-ui/core';
+import { updatePwd } from '../../actions/auth';
 import Input from '../common/Input';
 import Form from '../common/IndividualForm';
 import { useStyles } from '../../styles/custom';
@@ -14,10 +13,10 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
         password: '',
         confirmPassword: '',
     });
-    const classes = useStyles();
 
     // const token = props.location.search.split('=');
     // console.log(token);
+    const classes = useStyles();
     const { password, confirmPassword } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });

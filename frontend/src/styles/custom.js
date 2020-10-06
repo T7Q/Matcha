@@ -113,7 +113,7 @@ export const useStyles = makeStyles(theme => ({
         },
     },
     customIconButton: {
-        '&:hover $span': {
+        '&:hover span': {
             color: theme.palette.primary.main,
         },
         borderRadius: '5px',

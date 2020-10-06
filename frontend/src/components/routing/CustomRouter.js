@@ -48,6 +48,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     {/* <Route component={NotFound} /> */}
                 </Switch>
             </Box>
+            
         </Grid>
     );
 };

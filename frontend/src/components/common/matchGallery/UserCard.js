@@ -43,7 +43,7 @@ const UserCard = ({ card }) => {
                     <CardContent>
                         <Typography
                             className={classes.title}
-                            color="textSecondary"
+                          
                             gutterBottom
                         >
                             {card.user_id}
@@ -53,7 +53,7 @@ const UserCard = ({ card }) => {
                         </Typography>
                         <Typography
                             className={classes.pos}
-                            color="textSecondary"
+                            
                         >
                             {card.distance === null ? 0 : card.distance} km
                         </Typography>

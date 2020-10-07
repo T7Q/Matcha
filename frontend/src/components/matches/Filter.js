@@ -1,25 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { updateFilter, resetFilter } from "../../actions/match";
-
-// import MultipleSelect from "../common/matchGallery/MultipleSelect";
-import RangeSlider from "../common/matchGallery/Slider";
-import Switch from "@material-ui/core/Switch";
-
-import Button from "@material-ui/core/Button";
-import Match from "../common/matchGallery/GetMatches";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-
-import Collapse from "@material-ui/core/Collapse";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import IconButton from "@material-ui/core/IconButton";
+import axios from "axios";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
-import Slider from "@material-ui/core/Slider";
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import { Switch, Collapse, Slider, Typography, Grid, Button, IconButton, makeStyles, TextField} from "@material-ui/core";
+import { HighlightOff, ExpandMore } from "@material-ui/icons";
+
+import { updateFilter, resetFilter } from "../../actions/match";
+import Match from "../common/matchGallery/GetMatches";
+
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 function valuetext(value) {
     return `${value}`;
-  }
+}
 
 const Filter = ({
     updateFilter,
@@ -51,27 +42,37 @@ const Filter = ({
     setting,
 }) => {
     const [filterIsOn, setFilter] = React.useState(0);
-    // const orientation = ["gay", "lesbian", "straight woman", "straight man", "bi"];
-    // const tags = ['Cooking', 'Art', 'Games'];
-    // console.log("FILTER component");
-    // console.log("route", route);
-    const countries = ["Finland", "Estonia", "Brazil"];
+    const orientation = [
+        { type: "Gay" },
+        { type: "Lesbian" },
+        { type: "Straight woman" },
+        { type: "Straight man" },
+        { type: "Bi" },
+    ];
+    console.log("FILTER component");
+
     useEffect(() => {
         updateFilter(filter);
     }, [updateFilter, filter]);
+
+    const [realTags, setRealTags] = useState([]);
+    useEffect(() => {
+        let isMounted = true;
+        async function getTags() {
+            const res = await axios.get("/profile/tags");
+            isMounted && setRealTags(res.data);
+        }
+        getTags();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
 
     const handleChange = (event) => {
         updateFilter({ ...filter, [event.target.name]: event.target.checked });
     };
 
-    const handleClickFilter = (e) => {
-        console.log("BUTON CLICK");
-        e.preventDefault();
-        setFilter(filterIsOn + 1);
-    };
-
     const handleClickReset = (e) => {
-        e.preventDefault();
         resetFilter();
         setFilter(0);
     };
@@ -83,38 +84,57 @@ const Filter = ({
         setExpanded(!expanded);
     };
 
-    const [age, setAge] = React.useState([18, 120]);
+    const handleDistanceChange = (event, newValue) => {
+        updateFilter({
+            ...filter,
+            min_distance: newValue[0],
+            max_distance: newValue[1],
+        });
+    };
 
-  const handleAgeChange = (event, newValue) => {
-    setAge(newValue);
-    updateFilter({ ...filter, min_age: newValue[0], max_age: newValue[1]});
+    const handleFameChange = (event, newValue) => {
+        updateFilter({
+            ...filter,
+            min_fame: newValue[0],
+            max_fame: newValue[1],
+        });
+    };
+    const handleInterestChange = (event, newValue) => {
+        let selectedTags = [];
+        if (newValue.length !== 0) {
+            const temp = Object.entries(newValue);
+            temp.forEach(([key, value]) => {
+                selectedTags.push(value.tag);
+            });
+        }
+        updateFilter({
+            ...filter,
+            tags: selectedTags,
+        });
+    };
+    const handleOrientationChange = (event, newValue) => {
+        let value = "";
+        console.log("input", newValue);
+        if(newValue !== null) {
+            value = newValue['type'].replace(/\s+/g, '_').toLowerCase();
+        }
+        updateFilter({
+            ...filter,
+            sex_orientation: value,
+        });
+    };
 
-  };
-    const [distance, setDistance] = React.useState([0, 200000]);
-
-  const handleDistanceChange = (event, newValue) => {
-    setDistance(newValue);
-    updateFilter({ ...filter, min_distance: newValue[0], max_distance: newValue[1]});
-
-  };
-    const [fame, setFame] = React.useState([0, 5]);
-
-  const handleFameChange = (event, newValue) => {
-    setFame(newValue);
-    updateFilter({ ...filter, min_fame: newValue[0], max_fame: newValue[1]});
-
-  };
-
-    // console.log("filterON", filterIsOn, "page", route.split("/")[2]);
     return (
         <>
             {filterIsOn > 0 ? (
                 <IconButton
-                    onClick={handleClickReset}
+                    onClick={() => {
+                        handleClickReset();
+                    }}
                     aria-label="close"
                     size="small"
                 >
-                    <HighlightOffIcon color="primary" />
+                    <HighlightOff color="primary" />
                 </IconButton>
             ) : (
                 ""
@@ -127,96 +147,126 @@ const Filter = ({
                 aria-expanded={expanded}
                 aria-label="show more"
             >
-                <ExpandMoreIcon color="primary" />
+                <ExpandMore color="primary" />
             </IconButton>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                        <Typography id="range-slider" gutterBottom>
+                            Age 18 - 120
+                        </Typography>
+                        <Slider
+                            min={18}
+                            max={120}
+                            value={[filter.min_age, filter.max_age]}
+                            onChange={(event, newValue) => {
+                                updateFilter({
+                                    ...filter,
+                                    min_age: newValue[0],
+                                    max_age: newValue[1],
+                                });
+                            }}
+                            valueLabelDisplay="auto"
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                        />
+                        <Typography id="range-slider" gutterBottom>
+                            Distance 0 - 200,000 km
+                        </Typography>
+                        <Slider
+                            min={0}
+                            max={200000}
+                            value={[filter.min_distance, filter.max_distance]}
+                            onChange={handleDistanceChange}
+                            valueLabelDisplay="auto"
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                        />
+                        <Typography id="range-slider" gutterBottom>
+                            Fame rating 0 - 5
+                        </Typography>
+                        <Slider
+                            min={0}
+                            max={5}
+                            value={[filter.min_fame, filter.max_fame]}
+                            onChange={handleFameChange}
+                            valueLabelDisplay="auto"
+                            aria-labelledby="range-slider"
+                            getAriaValueText={valuetext}
+                        />
 
-            <Grid container spacing={3}>
+                    </Grid>
+                    <Grid item xs={6}>
+                       
+                        <Autocomplete
+                            multiple
+                            limitTags={2}
+                            id="tags-standard"
+                            onChange={handleInterestChange}
+                            options={realTags}
+                            getOptionLabel={(option) => option.tag}
+                            defaultValue={[]}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="standard"
+                                    label="Interests"
+                                    placeholder="Interests"
+                                />
+                            )}
+                        />
+                        <Autocomplete
+                            id="combo-box-demo"
+                            onChange={handleOrientationChange}
+                            options={orientation}
+                            getOptionLabel={(option) => option.type}
+                            getOptionSelected={(option) => option.type}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="I'm looking for"
+                                />
+                            )}
+                        />
 
-            <Grid item xs={6}>
-
-            
-                <Switch
-                    checked={filter.believe_cn}
-                    onChange={handleChange}
-                    color="primary"
-                    name="believe_cn"
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                />
-                <Switch
-                    checked={filter.believe_west}
-                    onChange={handleChange}
-                    color="primary"
-                    name="believe_west"
-                    inputProps={{ "aria-label": "secondary checkbox" }}
-                />
-            </Grid>
-            <Grid item xs={6}>
-                <Typography id="range-slider" gutterBottom>
-                Age 18 - 120
-                </Typography>
-                <Slider
-                    min={18}
-                    max={120}
-                    value={[filter.min_age, filter.max_age]}
-                    onChange={handleAgeChange}
-                    valueLabelDisplay="auto"
-                    aria-labelledby="range-slider"
-                    getAriaValueText={valuetext}
-                />
-                <Typography id="range-slider" gutterBottom>
-                Distance 0 - 20,020 km
-                </Typography>
-                <Slider
-                    min={0}
-                    max={10000}
-                    value={[filter.min_distance, filter.max_distance]}
-                    onChange={handleDistanceChange}
-                    valueLabelDisplay="auto"
-                    aria-labelledby="range-slider"
-                    getAriaValueText={valuetext}
-                />
-                <Typography id="range-slider" gutterBottom>
-                Fame rating 0 - 5
-                </Typography>
-                <Slider
-                    min={0}
-                    max={5}
-                    value={[filter.min_fame, filter.max_fame]}
-                    onChange={handleFameChange}
-                    valueLabelDisplay="auto"
-                    aria-labelledby="range-slider"
-                    getAriaValueText={valuetext}
-                />
-
-                
-                <RangeSlider title="Fame rating 0 - 5" min={0} max={5}>
-                    SLider
-                </RangeSlider>
-                {/* <MultipleSelect names={countries}>Country</MultipleSelect> */}
-                {/* <MultipleSelect names={tags} title="Interests">Interests</MultipleSelect> */}
-                {/* <MultipleSelect names={orientation}>Sex orintation</MultipleSelect> */}
+                        <Switch
+                            checked={filter.believe_cn}
+                            onChange={handleChange}
+                            color="primary"
+                            name="believe_cn"
+                            inputProps={{ "aria-label": "secondary checkbox" }}
+                        />
+                        <Switch
+                            checked={filter.believe_west}
+                            onChange={handleChange}
+                            color="primary"
+                            name="believe_west"
+                            inputProps={{ "aria-label": "secondary checkbox" }}
+                        />
+                    </Grid>
                 </Grid>
+                <Grid container>
+                    <Grid item xs={12}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={(e) => {
+                                setFilter(filterIsOn + 1);
+                            }}
+                        >
+                            See results
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                handleClickReset();
+                            }}
+                        >
+                            Reset
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid container >
-                <Grid item xs={12}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleClickFilter}
-                >
-                    See results
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleClickReset}
-                >
-                    Reset
-                </Button>
-                </Grid>
-                </Grid>
-                
             </Collapse>
             {filterIsOn === 0 && route.split("/")[2] === "recommend" ? (
                 <Match route={route} filterIsOn={0} />

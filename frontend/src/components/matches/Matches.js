@@ -1,24 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-// import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import PersonPinIcon from "@material-ui/icons/PersonPin";
-import HelpIcon from "@material-ui/icons/Help";
+// import { makeStyles } from "@material-ui/core/styles";
+import { AppBar, Tabs, Tab, Container } from '@material-ui/core';
 import Box from "@material-ui/core/Box";
-import SearchIcon from "@material-ui/icons/Search";
-import WhatshotIcon from "@material-ui/icons/Whatshot";
-import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
-import LoyaltyIcon from "@material-ui/icons/Loyalty";
-import Match from "../common/matchGallery/GetMatches";
-import Container from "@material-ui/core/Container";
-import Filter from "./Filter";
+import { Search, Whatshot, Favorite, PersonPin, Help, Loyalty, QueryBuilder } from '@material-ui/icons';
 
-// import { resetFilter } from "../../actions/match";
+import Match from "../common/matchGallery/GetMatches";
+import Filter from "./Filter";
+import { resetFilter } from "../../actions/match";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -53,15 +44,16 @@ function a11yProps(index) {
     };
 }
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        width: "100%",
-        backgroundColor: theme.palette.background.default,
-    },
-}));
+// const useStyles = makeStyles((theme) => ({
+//     root: {
+//         flexGrow: 1,
+//         width: "100%",
+//         backgroundColor: theme.palette.background.default,
+//     },
+// }));
 
-const Matches = ({ match, history}) => {
+const Matches = ({ resetFilter, match, history}) => {
+ 
     const { page } = match.params;
 
     // console.log("components/matches");
@@ -89,7 +81,7 @@ const Matches = ({ match, history}) => {
         nearby: 6,
     };
 
-    const classes = useStyles();
+
     const [value, setValue] = React.useState(indexToTabName[page]);
 
     const handleChange = (event, newValue) => {
@@ -111,42 +103,44 @@ const Matches = ({ match, history}) => {
                 >
                     <Tab
                         label="Recommended"
-                        icon={<FavoriteIcon />}
+                        icon={<Favorite />}
                         {...a11yProps(0)}
                     />
                     <Tab
                         label="Search"
-                        icon={<SearchIcon />}
+                        icon={<Search />}
                         {...a11yProps(1)}
                     />
                     <Tab
                         label="Online"
-                        icon={<QueryBuilderIcon />}
+                        icon={<QueryBuilder />}
                         {...a11yProps(2)}
                     />
                     <Tab
                         label="New People"
-                        icon={<LoyaltyIcon />}
+                        icon={<Loyalty />}
                         {...a11yProps(3)}
                     />
                     <Tab
                         label="Popular"
-                        icon={<WhatshotIcon />}
+                        icon={<Whatshot />}
                         {...a11yProps(4)}
                     />
-                    <Tab label="Random" icon={<HelpIcon />} {...a11yProps(5)} />
+                    <Tab label="Random" icon={<Help />} {...a11yProps(5)} />
                     <Tab
                         label="Nearby"
-                        icon={<PersonPinIcon />}
+                        icon={<PersonPin />}
                         {...a11yProps(6)}
                     />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
+                {/* {resetFilter()} */}
                 <span>Sort </span>
                 Filter <Filter route={route} setting={false}></Filter>
             </TabPanel>
             <TabPanel value={value} index={1}>
+                {/* {resetFilter()} */}
                 <span>Sort </span>
                 Filter <Filter route={route} setting={true}></Filter>
             </TabPanel>
@@ -160,4 +154,17 @@ const Matches = ({ match, history}) => {
 };
 
 
-export default Matches;
+// export default Matches;
+
+Matches.propTypes = {
+    resetFilter: PropTypes.func.isRequired,
+    match: PropTypes.object.isRequired,
+};
+
+// const mapStateToProps = (state) => ({
+//     match: state.match,
+// });
+
+export default connect(null, {
+    resetFilter,
+})(Matches);

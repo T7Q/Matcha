@@ -22,7 +22,7 @@ export const getRecommend = (route, filterIsOn) => async (dispatch) => {
     try {
         const res =
             filterIsOn > 0
-                ? await axios.post(route, data)
+                ? await axios.post("/match/filter", data)
                 : await axios.get(route);
         dispatch({
             type: GET_MATCH,
@@ -52,7 +52,7 @@ export const resetFilter = () => (dispatch) => {
 
 // Update filter parameter
 export const updateFilter = (filter) => (dispatch) => {
-    console.log("ACTION update filter", filter);
+    // console.log("ACTION update filter", filter);
     dispatch({
         type: FILTER_UPDATE,
         payload: filter,

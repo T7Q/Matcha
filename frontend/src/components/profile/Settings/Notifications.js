@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Checkbox, FormGroup, FormControlLabel, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 
@@ -11,9 +12,26 @@ const Notifications = () => {
     const { email, push } = notifications;
     const classes = useStyles();
 
-    const handleSubmit = event => {
+    useEffect(() => {
+        let isMounted = true;
+        async function getNotifications() {
+            const res = await axios.get('profile/notifications');
+            isMounted && setNotifications(res.data);
+        }
+        getNotifications();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const handleSubmit = async event => {
         event.preventDefault();
-        console.log('submit notifications');
+        try {
+            const res = await axios.post('/profile/notifications', notifications);
+            return res.data;
+        } catch (error) {
+            // console.log(error);
+        }
     };
 
     return (
@@ -22,6 +40,7 @@ const Notifications = () => {
                 <FormControlLabel
                     control={
                         <Checkbox
+                            value={email}
                             checked={email}
                             onChange={() => setNotifications({ ...notifications, email: !email })}
                             color="primary"

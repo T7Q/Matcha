@@ -117,10 +117,28 @@ const getUserTags = async user_id => {
 };
 
 const getTags = async (req, res) => {
-    const result = await db.query(`
-        SELECT tags.tag_name AS tag
-        FROM tags`);
-    return res.json(result.rows);
+    try {
+        const result = await db.query(`
+            SELECT tags.tag_name AS tag
+            FROM tags`);
+        return res.json(result.rows);
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+const getNotifications = async (req, res) => {
+    try {
+        const result = await db.query(
+            `
+            SELECT email_notification AS email, real_time_notification AS push
+            FROM users WHERE user_id = $1`,
+            [req.user.userId]
+        );
+        return res.json(result.rows[0]);
+    } catch (e) {
+        console.log(e);
+    }
 };
 
 module.exports = {
@@ -136,4 +154,5 @@ module.exports = {
     userHasTags,
     validateTagsInDb,
     getUserTags,
+    getNotifications,
 };

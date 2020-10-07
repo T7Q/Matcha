@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS "users"
  "latitude"                 float NULL ,
  "longitude"                float NULL ,
  "bio"                      text NULL ,
- "fame_rating"              decimal(3,2) NULL ,
+ "fame_rating"              decimal(3,2) DEFAULT 0 ,
  "fame_14_days"              decimal(3,2) NULL ,
  "ip_address"               varchar(15) NULL ,
  "geo_localisation_allowed" boolean NULL DEFAULT FALSE ,

@@ -17,7 +17,7 @@ import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 // import NotFound from '../layout/NotFound';
 import Chat from '../chat/Chat';
-import Settings from '../profile/Settings';
+import Settings from '../profile/Settings/';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
     return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,9 +13,9 @@ import {
     DialogTitle,
 } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
-import { deleteAction } from '../../../actions/profile';
+import { deleteProfile } from '../../../actions/profile';
 
-const DeleteAccount = ({ deleteAction, history }) => {
+const DeleteAccount = ({ deleteProfile, history }) => {
     const [open, setOpen] = React.useState(false);
 
     const classes = useStyles();
@@ -31,7 +30,7 @@ const DeleteAccount = ({ deleteAction, history }) => {
     };
 
     const deleteAccount = () => {
-        deleteAction(history);
+        deleteProfile(history);
     };
 
     return (
@@ -65,7 +64,7 @@ const DeleteAccount = ({ deleteAction, history }) => {
 };
 
 DeleteAccount.propTypes = {
-    deleteAction: PropTypes.func.isRequired,
+    deleteProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, { deleteAction })(withRouter(DeleteAccount));
+export default connect(null, { deleteProfile })(withRouter(DeleteAccount));

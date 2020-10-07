@@ -1,6 +1,7 @@
+const bcrypt = require('bcrypt');
 const { findUserInfo } = require('./account');
 
-const validateEmail = async (email) => {
+const validateEmail = async email => {
     let errors = {};
 
     if (!email) {
@@ -14,9 +15,9 @@ const validateEmail = async (email) => {
         }
     }
     return errors;
-}
+};
 
-const validateUsername = async (username) => {
+const validateUsername = async username => {
     let errors = {};
 
     if (!username) {
@@ -30,9 +31,9 @@ const validateUsername = async (username) => {
         }
     }
     return errors;
-}
+};
 
-const validateName = (name) => {
+const validateName = name => {
     let errors = {};
 
     if (!name) {
@@ -44,7 +45,7 @@ const validateName = (name) => {
         }
     }
     return errors;
-}
+};
 
 const validatePassword = (password, confirmPassword) => {
     let errors = {};
@@ -67,11 +68,21 @@ const validatePassword = (password, confirmPassword) => {
         errors['error_confirm_pwd'] = 'Passwords do not match';
     }
     return errors;
-}
+};
+
+const checkPassword = async (userId, password) => {
+    const user = await findUserInfo('user_id', userId, 'password');
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        return false;
+    }
+    return true;
+};
 
 module.exports = {
     validateEmail,
     validateName,
     validatePassword,
-    validateUsername
-}
+    validateUsername,
+    checkPassword,
+};

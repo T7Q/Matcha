@@ -71,7 +71,7 @@ export const createProfile = (formData, images, history) => async dispatch => {
     }
 };
 
-export const deleteAction = history => async dispatch => {
+export const deleteProfile = history => async dispatch => {
     try {
         const res = await axios.post('/profile/delete', { key: 'delete' });
         if (res.data.error) {
@@ -81,6 +81,16 @@ export const deleteAction = history => async dispatch => {
             dispatch({ type: LOGOUT });
             history.push('/');
         }
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const editProfile = body => async dispatch => {
+    try {
+        const res = await axios.post('/profile/edit', body);
+        console.log('edit profile actions', res.data);
+        return res.data;
     } catch (error) {
         console.log(error);
     }

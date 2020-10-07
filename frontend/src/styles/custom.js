@@ -63,6 +63,11 @@ export const theme = createMuiTheme({
                 justifyContent: 'start',
             },
         },
+        MuiDialog: {
+            paper: {
+                backgroundColor: '#34374d',
+            },
+        },
     },
 });
 

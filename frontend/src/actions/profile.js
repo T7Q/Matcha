@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR } from './types';
+import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR, LOGOUT } from './types';
 import { setAlert } from './alert';
 import { loadUser } from './auth';
 
@@ -68,5 +68,20 @@ export const createProfile = (formData, images, history) => async dispatch => {
         }
     } catch (err) {
         console.log(err);
+    }
+};
+
+export const deleteAction = history => async dispatch => {
+    try {
+        const res = await axios.post('/profile/delete', { key: 'delete' });
+        if (res.data.error) {
+            const error = res.data.error;
+            dispatch(setAlert(error, 'danger'));
+        } else {
+            dispatch({ type: LOGOUT });
+            history.push('/');
+        }
+    } catch (error) {
+        console.log(error);
     }
 };

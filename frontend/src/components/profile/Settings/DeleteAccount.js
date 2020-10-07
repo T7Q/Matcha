@@ -1,13 +1,37 @@
 import React from 'react';
-import { Box, Button, Typography } from '@material-ui/core';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+    Box,
+    Button,
+    Typography,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
+import { deleteAction } from '../../../actions/profile';
 
-const DeleteAccount = () => {
+const DeleteAccount = ({ deleteAction, history }) => {
+    const [open, setOpen] = React.useState(false);
+
     const classes = useStyles();
 
     const handleSubmit = event => {
         event.preventDefault();
-        console.log('delete account');
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const deleteAccount = () => {
+        deleteAction(history);
     };
 
     return (
@@ -23,9 +47,25 @@ const DeleteAccount = () => {
                     className={`${classes.customButton} ${classes.p2}`}>
                     Delete
                 </Button>
+                <Dialog open={open} onClose={handleClose}>
+                    <DialogTitle id="alert-dialog-title">Are you sure you want to delete account?</DialogTitle>
+                    <DialogContent>You can't undo this action</DialogContent>
+                    <DialogActions>
+                        <Button onClick={deleteAccount} variant="contained">
+                            Delete
+                        </Button>
+                        <Button onClick={handleClose} variant="contained" color="primary" autoFocus>
+                            Cancel
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         </form>
     );
 };
 
-export default DeleteAccount;
+DeleteAccount.propTypes = {
+    deleteAction: PropTypes.func.isRequired,
+};
+
+export default connect(null, { deleteAction })(withRouter(DeleteAccount));

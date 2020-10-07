@@ -19,7 +19,9 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
         return <Redirect to="/matches" />;
     }
 
-    return (
+    return loading ? (
+        <>Loading</>
+    ) : (
         <Box pt="200px" display="flex" flexDirection="column" textAlign="center">
             <Typography variant={isMobile ? 'h3' : 'h2'}>Your love Is</Typography>
             <Typography className={classes.customHeader} variant={isMobile ? 'h3' : 'h2'}>

@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+// import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -7,7 +9,6 @@ import Tab from "@material-ui/core/Tab";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import PersonPinIcon from "@material-ui/icons/PersonPin";
 import HelpIcon from "@material-ui/icons/Help";
-import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import SearchIcon from "@material-ui/icons/Search";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -15,8 +16,9 @@ import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import Match from "../common/matchGallery/GetMatches";
 import Container from "@material-ui/core/Container";
-import Filter from './Filter'; 
+import Filter from "./Filter";
 
+// import { resetFilter } from "../../actions/match";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -59,14 +61,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Matches = ({ match, history }) => {
-        const { page } = match.params;
-    
-        // console.log("components/matches");
-        // console.log("PAGE", page, "history", history);
-        const route = "/match/" + page
+const Matches = ({ match, history}) => {
+    const { page } = match.params;
 
-// export default function ScrollableTabsButtonForce({ page, history }) {
+    // console.log("components/matches");
+    // console.log("PAGE", page, "history", history);
+    const route = "/match/" + page;
+
+    // export default function ScrollableTabsButtonForce({ page, history }) {
     const tabNameToIndex = {
         0: "recommend",
         1: "search",
@@ -95,8 +97,6 @@ const Matches = ({ match, history }) => {
         setValue(newValue);
     };
 
-    // const route = "/matches/" + page;
-    
     return (
         <Container fixed>
             <AppBar position="static">
@@ -143,14 +143,12 @@ const Matches = ({ match, history }) => {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                <Filter>filteR</Filter>
-                <Match route="/match/recommend" filterIsOn={0}/>
-                <Filter>filteR</Filter>
+                <span>Sort </span>
+                Filter <Filter route={route} setting={false}></Filter>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                {/* <Match route="/match/search" filterIsOn={1}/> */}
-                <Filter>filteR</Filter>
-                FILTER HERE
+                <span>Sort </span>
+                Filter <Filter route={route} setting={true}></Filter>
             </TabPanel>
             {value > 1 && value < 7 && (
                 <TabPanel value={value} index={value}>
@@ -159,6 +157,7 @@ const Matches = ({ match, history }) => {
             )}
         </Container>
     );
-}
+};
+
 
 export default Matches;

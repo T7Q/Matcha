@@ -80,6 +80,13 @@ const setDistance = (minDistance, maxDistance) => {
             " and (ST_Distance(users.geolocation, $2)::integer / 1000) <=  " + maxDistance +")");
 }
 
+const setFame = (minFame, maxFame) => {
+    minFame = (minFame ? minFame : 0 );
+    maxFame= (maxFame ? maxFame : 5);
+    return (" and (fame_rating >= " + minFame +
+            " and fame_rating <=  " + maxFame + ")");
+}
+
 const setTags = (tags, index, values) => {
     filter = "";
     for (const element of tags) {
@@ -114,9 +121,10 @@ const buildFilter= (req, userDbData, values) => {
     let orientation = setSexPreference(userDbData.sex_orientation, req.body.sex_orientation);
     let age =  setAgePreference(req.body.min_age, req.body.max_age);
     let distance = setDistance(req.body.min_distance, req.body.max_distance);
+    let fame = setFame(req.body.min_fame, req.body.max_fame);
     let tags = (req.body.tags? setTags(req.body.tags, index, values) : "");
     let country = (req.body.country? setCountry(req.body.country, index, values) : "");
-    return(orientation + age + distance + tags + country);
+    return(orientation + age + distance + tags + country + fame);
 };
 
 const buildOrder = (userSuppliedOrder, order) => {

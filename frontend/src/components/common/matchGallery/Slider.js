@@ -15,11 +15,14 @@ function valuetext(value) {
 
 export default function RangeSlider({ title, min, max }) {
     // console.log("title", title);
+  
   const classes = useStyles();
   const [value, setValue] = React.useState([0, 20020]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    // console.log("SLIDER CHANGE", newValue);
+    
   };
 
   return (

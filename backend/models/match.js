@@ -63,34 +63,34 @@ const getMatch = async (user, settings) => {
     const cnHoroscopeCompValue = getCompatibilityValue("default", user.chinese_horo, "chinese");
     const westHoroscopeCompValue = getCompatibilityValue("default", user.western_horo, "western");
     const connected = getConnectionValue("", user.user_id);
-    // console.log(
-    //     `
-    //     SELECT
-    //         users.user_id,
-    //         users.first_name,
-    //         (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
-    //         users.fame_rating as fame,
-    //         users.profile_pic_path,
-    //         (ST_Distance(users.geolocation, $2)::integer / 1000) as distance,
-    //         ${numberOfCommonTags},
-    //         ${connected},
-    //         (
-    //             ${tagsCompValue} * ${settings.weight.tag} +
-    //             ${cnHoroscopeCompValue} * ${settings.weight.cn} +
-    //             ${westHoroscopeCompValue} * ${settings.weight.west}
-    //         ) as match
-    //         ${settings.dateColumn}
-    //     FROM public.users
-    //     ${settings.join}
-    //     WHERE
-    //         users.user_id <> $1
-    //         and users.status = 2
-    //         ${settings.filter}
-    //     ORDER BY
-    //         ${settings.order}
-    //     ${settings.limit}
-    //     `
-    // )
+    console.log(
+        `
+        SELECT
+            users.user_id,
+            users.first_name,
+            (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
+            users.fame_rating as fame,
+            users.profile_pic_path,
+            (ST_Distance(users.geolocation, $2)::integer / 1000) as distance,
+            ${numberOfCommonTags},
+            ${connected},
+            (
+                ${tagsCompValue} * ${settings.weight.tag} +
+                ${cnHoroscopeCompValue} * ${settings.weight.cn} +
+                ${westHoroscopeCompValue} * ${settings.weight.west}
+            ) as match
+            ${settings.dateColumn}
+        FROM public.users
+        ${settings.join}
+        WHERE
+            users.user_id <> $1
+            and users.status = 2
+            ${settings.filter}
+        ORDER BY
+            ${settings.order}
+        ${settings.limit}
+        `
+    )
     const res = await db.query(
         `
         SELECT

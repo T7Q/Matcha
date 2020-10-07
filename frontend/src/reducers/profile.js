@@ -1,4 +1,4 @@
-import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR, FILTER_UPDATE } from '../actions/types';
+import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR } from '../actions/types';
 
 const initialState = {
     profile: null,

@@ -39,7 +39,7 @@ const Password = () => {
                             className={classes.customInput}
                             variant="outlined"
                             type="password"
-                            name="newPassword"
+                            name="oldPassword"
                             placeholder="new password"
                             value={newPassword}
                             onChange={onChange}

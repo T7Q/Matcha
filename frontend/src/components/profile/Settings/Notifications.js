@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Checkbox, FormGroup, FormControlLabel, Button } from '@material-ui/core';
+import { Box, Checkbox, FormGroup, FormControlLabel, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 
 const Notifications = () => {
@@ -27,7 +27,7 @@ const Notifications = () => {
                             color="primary"
                         />
                     }
-                    label="Allow email notifications"
+                    label={<Typography variant="h5">Allow email notifications</Typography>}
                     labelPlacement="start"
                 />
                 <FormControlLabel
@@ -38,7 +38,7 @@ const Notifications = () => {
                             color="primary"
                         />
                     }
-                    label="Allow push notifications"
+                    label={<Typography variant="h5">Allow push notifications</Typography>}
                     labelPlacement="start"
                 />
                 <Button

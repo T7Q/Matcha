@@ -30,6 +30,7 @@ const Settings = () => {
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+    const isMedium = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleChange = (event, newTab) => {
         setTab(newTab);
@@ -48,7 +49,7 @@ const Settings = () => {
             </Box>
             <Box alignItems="center" flexGrow={1} display="flex">
                 <Grid container>
-                    <Grid container item md={6} xs={12} justify="center">
+                    <Grid container item sm={6} xs={12} justify="center">
                         <Tabs
                             indicatorColor="primary"
                             textColor="primary"
@@ -61,13 +62,13 @@ const Settings = () => {
                                 icon={<NotificationsActive />}
                             />
                             <Tab label="&emsp;Change password&emsp;&#8811;" icon={<Lock />} />
-                            <Tab label="&emsp;Change email&emsp;&emsp;&emsp;&#8811;" icon={<Email />} />
-                            <Tab label="&emsp;Blocked users &nbsp;&emsp;&emsp;&#8811;" icon={<Block />} />
-                            <Tab label="&emsp;Delete account &nbsp;&nbsp;&emsp;&#8811;" icon={<Delete />} />
+                            <Tab label="&emsp;Change email &emsp;&emsp;&emsp;&#8811;" icon={<Email />} />
+                            <Tab label="&emsp;Blocked users &nbsp; &emsp;&emsp;&#8811;" icon={<Block />} />
+                            <Tab label="&emsp;Delete account &nbsp; &nbsp;&emsp;&#8811;" icon={<Delete />} />
                         </Tabs>
                     </Grid>
-                    <Grid container justify={isMobile ? 'center' : 'flex-start'} item md={6} xs={12}>
-                        <Box pt={3}>
+                    <Grid container justify={isMobile ? 'center' : 'flex-start'} item sm={6} xs={12}>
+                        <Box pt={3} m={3}>
                             {tab === 0 && <></>}
                             {tab === 1 && <NotificationsTab />}
                             {tab === 2 && <PasswordTab />}

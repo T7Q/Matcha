@@ -3,15 +3,7 @@ import { TextField, FormGroup, Box, Button, Typography } from '@material-ui/core
 import { useStyles } from '../../../styles/custom';
 
 const DeleteAccount = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-    });
-
-    const { email, password } = formData;
     const classes = useStyles();
-
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -20,9 +12,9 @@ const DeleteAccount = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box m={2} textAlign="center">
-                <Typography>When you delete your account, everything is permanently gone.</Typography>
-                <Typography>Your account will no longerappear to other people on Matcha.</Typography>
+            <Box m={{ xs: 2, sm: 0 }} mr={{ sm: 6 }} textAlign="center">
+                <Typography variant="h6">When you delete your account, everything is permanently gone.</Typography>
+                <Typography variant="h6">Your account will no longer appear to other people on Matcha.</Typography>
                 <Button
                     type="submit"
                     size="small"

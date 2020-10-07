@@ -41,11 +41,11 @@ const Settings = () => {
                             value={tab}
                             onChange={handleChange}>
                             <Tab style={{ display: 'none' }} label="hidden" />
-                            <Tab label="Notifications" icon={<NotificationsActiveOutlinedIcon />} />
-                            <Tab label="Change password" icon={<LockOutlinedIcon />} />
-                            <Tab label="Change email" icon={<EmailOutlinedIcon />} />
-                            <Tab label="Blocked users" icon={<BlockOutlinedIcon />} />
-                            <Tab label="Delete account" icon={<DeleteOutlinedIcon />} />
+                            <Tab label="&emsp;Notifications" icon={<NotificationsActiveOutlinedIcon />} />
+                            <Tab label="&emsp;Change password" icon={<LockOutlinedIcon />} />
+                            <Tab label="&emsp;Change email" icon={<EmailOutlinedIcon />} />
+                            <Tab label="&emsp;Blocked users" icon={<BlockOutlinedIcon />} />
+                            <Tab label="&emsp;Delete account" icon={<DeleteOutlinedIcon />} />
                         </Tabs>
                     </Grid>
                     <Grid container justify="center" md={6} xs={12}>

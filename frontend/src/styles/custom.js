@@ -57,6 +57,12 @@ export const theme = createMuiTheme({
                 color: '#fff',
             },
         },
+        MuiTab: {
+            wrapper: {
+                flexDirection: 'row',
+                justifyContent: 'start',
+            },
+        },
     },
 });
 

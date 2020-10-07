@@ -85,13 +85,3 @@ export const deleteProfile = history => async dispatch => {
         console.log(error);
     }
 };
-
-export const editProfile = body => async dispatch => {
-    try {
-        const res = await axios.post('/profile/edit', body);
-        console.log('edit profile actions', res.data);
-        return res.data;
-    } catch (error) {
-        console.log(error);
-    }
-};

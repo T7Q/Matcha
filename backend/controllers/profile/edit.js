@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const profileModel = require('../../models/profile');
 const profileHelper = require('../../models/profileHelper');
 const accountHelper = require('../../models/accountHelper');
@@ -38,9 +39,9 @@ const general = async (req, res) => {
             }
             break;
         case 'password':
-            if (accountHelper.checkPassword(userId, value.password)) {
-                error = accountHelper.validatePassword(value.newPassword, value.confirmPassword);
-                value = value.newPassword;
+            if (await accountHelper.checkPassword(userId, value.oldPassword)) {
+                error = await accountHelper.validatePassword(value.newPassword, value.confirmPassword);
+                value = await bcrypt.hash(value.newPassword, 10);
             } else {
                 error = { error: 'wrong password' };
             }

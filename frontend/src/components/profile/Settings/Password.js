@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
+// import { editProfile } from '../../../actions/profile';
 
 const Password = () => {
     const [formData, setFormData] = useState({
@@ -14,9 +18,15 @@ const Password = () => {
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const handleSubmit = event => {
+    const handleSubmit = async event => {
         event.preventDefault();
         console.log('submit password');
+        try {
+            const res = await axios.post('/profile/edit', { key: 'password', value: formData });
+            console.log('res in password', res.data);
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
@@ -39,7 +49,7 @@ const Password = () => {
                             className={classes.customInput}
                             variant="outlined"
                             type="password"
-                            name="oldPassword"
+                            name="newPassword"
                             placeholder="new password"
                             value={newPassword}
                             onChange={onChange}

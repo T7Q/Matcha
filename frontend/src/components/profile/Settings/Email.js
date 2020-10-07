@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
-import { editProfile } from '../../../actions/profile';
 
-const Email = ({ editProfile }) => {
+const Email = () => {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -19,12 +16,13 @@ const Email = ({ editProfile }) => {
 
     const handleSubmit = async event => {
         event.preventDefault();
-        const result = await editProfile({ key: 'email', value: { email: email, password: password } });
-        console.log(result);
-        // if (result.data.error) {
-        //     log
-        // }
-        console.log('submit email');
+        try {
+            const res = await axios.post('/profile/edit', { key: 'email', value: formData });
+            console.log('edit profile actions', res.data);
+            return res.data;
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -67,8 +65,4 @@ const Email = ({ editProfile }) => {
     );
 };
 
-Email.propTypes = {
-    editProfile: PropTypes.func.isRequired,
-};
-
-export default connect(null, { editProfile })(Email);
+export default Email;

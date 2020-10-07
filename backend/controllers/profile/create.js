@@ -27,6 +27,11 @@ module.exports = async (req, res) => {
 
         // Build query to insert tags into database
         // console.log('create2');
+        // Remove old tags if user has any
+        const userTags = await profileModel.userHasTags(userId);
+        if (userTags) {
+            await profileModel.deleteRowOneCondition('user_tags', 'user_id', userId);
+        }
         const query = profileHelper.buildQueryForSavingTags(tags, userId);
         // console.log('create3');
         // Insert tags to the database

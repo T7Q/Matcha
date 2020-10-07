@@ -9,6 +9,7 @@ const SexPreferenceItem = ({ setFormData, formData }) => {
     const [realTags, setRealTags] = useState([]);
 
     useEffect(() => {
+        console.log('in use Effect');
         let isMounted = true;
         async function getTags() {
             const res = await axios.get('profile/tags');

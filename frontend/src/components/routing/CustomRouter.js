@@ -25,6 +25,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
             <Route exact path="/" component={Landing} />
             <Box
                 pt={{ xs: '0px', sm: '64px' }}
+                mb={{ xs: '100px', sm: '0' }}
                 // textAlign="center"
                 width={isAuthenticated && user.status !== 1 ? '100%' : 'auto'}>
                 <Alert />

@@ -35,7 +35,7 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, history }) => {
     return (
         <Box pt="150px">
             <Box>
-                <IconButton color="inherit" onClick={() => handleRedirect('/login')}>
+                <IconButton onClick={() => handleRedirect('/login')}>
                     <ArrowBackIosIcon fontSize="large" />
                 </IconButton>
             </Box>

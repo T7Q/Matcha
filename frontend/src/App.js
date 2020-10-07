@@ -30,7 +30,7 @@ const App = () => {
                         <Navbar />
                         {/* <Box p={5} m={{ xs: 'auto', lg: '50px' }} flexGrow={1}> */}
                         <Box flexGrow={1}>
-                            <Grid container>
+                            <Grid style={{ minHeight: '80vh' }} container>
                                 <CustomRouter />
                                 <Circle />
                             </Grid>

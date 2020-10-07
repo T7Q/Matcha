@@ -19,8 +19,8 @@ export const theme = createMuiTheme({
             contrastText: '#fff',
         },
         text: {
-            primary: '#b5bad3',
-            secondary: '#fff',
+            primary: '#fff',
+            secondary: '#b5bad3',
         },
         background: {
             default: 'rgb(12, 16, 35, 0.95)',
@@ -50,6 +50,11 @@ export const theme = createMuiTheme({
                     fontSize: '20px',
                     textTransform: 'lowercase',
                 },
+            },
+        },
+        MuiIconButton: {
+            root: {
+                color: '#fff',
             },
         },
     },

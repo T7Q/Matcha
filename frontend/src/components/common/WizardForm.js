@@ -36,7 +36,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
         <Box width="auto" pt="100px" mb={{ xs: '80px' }}>
             <form onSubmit={formSubmit}>
                 <Box>
-                    <IconButton color="inherit" onClick={step === 1 ? () => handleRedirect('/') : prev}>
+                    <IconButton onClick={step === 1 ? () => handleRedirect('/') : prev}>
                         <ArrowBackIosIcon fontSize="large" />
                     </IconButton>
                 </Box>

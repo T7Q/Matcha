@@ -33,7 +33,10 @@ const NavItem = ({ isAuthenticated, user, isMobile, handleNavigation }) => {
                         key={menu.title}
                         className={classes.customIconButton}
                         onClick={() => handleNavigation(menu.pageUrl)}>
-                        <Typography color="textPrimary" className={isMobile ? classes.text : ''} variant="button">
+                        <Typography
+                            color="textSecondary"
+                            className={isMobile ? classes.text : ''}
+                            variant="button">
                             <Badge className={classes.pr}>{menu.icon}</Badge> {menu.title}
                         </Typography>
                     </IconButton>

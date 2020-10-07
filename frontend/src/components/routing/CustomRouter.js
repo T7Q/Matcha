@@ -21,7 +21,7 @@ import Settings from '../profile/Settings';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
     return (
-        <Grid alignItems="center" justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
+        <Grid justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
             <Route exact path="/" component={Landing} />
             <Box
                 pt={{ xs: '0px', sm: '64px' }}

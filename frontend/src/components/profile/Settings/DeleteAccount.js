@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { TextField, FormGroup, Box, Button, Typography } from '@material-ui/core';
+import React from 'react';
+import { Box, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 
 const DeleteAccount = () => {

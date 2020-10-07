@@ -1,22 +1,6 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Redirect, withRouter } from 'react-router-dom';
-import {
-    Box,
-    Typography,
-    Grid,
-    Tab,
-    Tabs,
-    Checkbox,
-    FormGroup,
-    TextField,
-    FormControlLabel,
-    Button,
-    useMediaQuery,
-} from '@material-ui/core';
+import { Box, Typography, Grid, Tab, Tabs, useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-import { useStyles } from '../../../styles/custom';
 import { NotificationsActive, Lock, Email, Block, Delete } from '@material-ui/icons';
 import NotificationsTab from './Notifications';
 import PasswordTab from './Password';
@@ -26,11 +10,9 @@ import DeleteAccountTab from './DeleteAccount';
 
 const Settings = () => {
     const [tab, setTab] = useState(0);
-    const classes = useStyles();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-    const isMedium = useMediaQuery(theme.breakpoints.down('sm'));
 
     const handleChange = (event, newTab) => {
         setTab(newTab);

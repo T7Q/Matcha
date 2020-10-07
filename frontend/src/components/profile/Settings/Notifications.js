@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Checkbox, FormGroup, FormControlLabel, Button, Typography } from '@material-ui/core';
+import { Checkbox, FormGroup, FormControlLabel, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 
 const Notifications = () => {

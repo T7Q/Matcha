@@ -28,7 +28,6 @@ const Notifications = () => {
         event.preventDefault();
         try {
             const res = await axios.post('/profile/notifications', notifications);
-            return res.data;
         } catch (error) {
             // console.log(error);
         }

@@ -1,32 +1,23 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import { createProfile } from '../../actions/profile';
-
+import { createProfile } from '../../../actions/profile';
 
 const CreateProfile = ({ createProfile, history }) => {
     const [formData, setFormData] = useState({
-        gender: "",
-        sex_preference: "",
-        bio: "",
-        birth_date: "",
-        tags: "",
-        country: ""
+        gender: '',
+        sex_preference: '',
+        bio: '',
+        birth_date: '',
+        tags: '',
+        country: '',
     });
 
-    
-    const {
-        gender,
-        sex_preference,
-        bio,
-        birth_date,
-        tags,
-        country
-    } = formData;
+    const { gender, sex_preference, bio, birth_date, tags, country } = formData;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value})
+    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
     const onSubmit = e => {
         e.preventDefault();
         createProfile(formData, history);
@@ -35,12 +26,11 @@ const CreateProfile = ({ createProfile, history }) => {
         <Fragment>
             <h1 className="large text-primary">Create Your Profile</h1>
             <p className="lead">
-                <i className="fas fa-user"></i> Let's get some information to make
-                your profile stand out
+                <i className="fas fa-user"></i> Let's get some information to make your profile stand out
             </p>
-            <form className="form" onSubmit={ e=>onSubmit(e)}>
+            <form className="form" onSubmit={e => onSubmit(e)}>
                 <div className="form-group">
-                    <select name="country" value={country} onChange={ e=>onChange(e)}>
+                    <select name="country" value={country} onChange={e => onChange(e)}>
                         <option value="0">*Your country</option>
                         <option value="Spain">Spain</option>
                         <option value="Finland">Finland</option>
@@ -48,14 +38,14 @@ const CreateProfile = ({ createProfile, history }) => {
                     </select>
                 </div>
                 <div className="form-group">
-                    <select name="gender" value={gender} onChange={ e=>onChange(e)}>
+                    <select name="gender" value={gender} onChange={e => onChange(e)}>
                         <option value="0">Your gender</option>
                         <option value="Woman">Woman</option>
                         <option value="Man">Man</option>
                     </select>
                 </div>
                 <div className="form-group">
-                    <select name="sex_preference" value={sex_preference} onChange={ e=>onChange(e)}>
+                    <select name="sex_preference" value={sex_preference} onChange={e => onChange(e)}>
                         <option value="0">Cooking</option>
                         <option value="Woman">Walking</option>
                         <option value="Man">Art</option>
@@ -63,7 +53,7 @@ const CreateProfile = ({ createProfile, history }) => {
                     </select>
                 </div>
                 <div className="form-group">
-                    <select name="tags" value={tags} onChange={ e=>onChange(e)}>
+                    <select name="tags" value={tags} onChange={e => onChange(e)}>
                         <option value="0">You are interested in</option>
                         <option value="Woman">Woman</option>
                         <option value="Man">Man</option>
@@ -75,22 +65,20 @@ const CreateProfile = ({ createProfile, history }) => {
                         type="text"
                         placeholder="birth_date"
                         name="birth_date"
-                        value={birth_date} onChange={ e=>onChange(e)}
+                        value={birth_date}
+                        onChange={e => onChange(e)}
                     />
                     <small className="form-text">
-                        If you want your latest repos and a Github link, include
-                        your username
+                        If you want your latest repos and a Github link, include your username
                     </small>
                 </div>
                 <div className="form-group">
                     <textarea
                         placeholder="A short bio of yourself"
-                        name="bio" 
-                        value={bio} onChange={ e=>onChange(e)}
-                    ></textarea>
-                    <small className="form-text">
-                        Tell us a little about yourself
-                    </small>
+                        name="bio"
+                        value={bio}
+                        onChange={e => onChange(e)}></textarea>
+                    <small className="form-text">Tell us a little about yourself</small>
                 </div>
                 <input type="submit" class="btn btn-primary my-1" />
             </form>
@@ -99,7 +87,7 @@ const CreateProfile = ({ createProfile, history }) => {
 };
 
 CreateProfile.propTypes = {
-    createProfile: PropTypes.func.isRequired
+    createProfile: PropTypes.func.isRequired,
 };
 
 export default connect(null, { createProfile })(withRouter(CreateProfile));

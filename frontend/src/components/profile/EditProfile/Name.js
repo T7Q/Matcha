@@ -3,13 +3,13 @@ import axios from 'axios';
 import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 
-const Email = () => {
+const Name = (firstName, lastName) => {
     const [formData, setFormData] = useState({
-        email: '',
-        password: '',
+        firstname: firstName,
+        lastname: lastName,
     });
 
-    const { email, password } = formData;
+    const { firstname, lastname } = formData;
     const classes = useStyles();
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,8 +17,8 @@ const Email = () => {
     const handleSubmit = async event => {
         event.preventDefault();
         try {
-            const res = await axios.post('/profile/edit', { key: 'email', value: formData });
-            console.log('edit profile actions', res.data);
+            // const res = await axios.post('/profile/edit', { key: 'name', value: formData });
+            // console.log('edit profile actions', res.data);
         } catch (error) {
             console.log(error);
         }
@@ -31,8 +31,8 @@ const Email = () => {
                     <Grid item>
                         <TextField
                             variant="outlined"
-                            name="email"
-                            type="email"
+                            name="firstname"
+                            type="text"
                             className={classes.customInput}
                             placeholder="new email"
                             value={email}
@@ -64,4 +64,4 @@ const Email = () => {
     );
 };
 
-export default Email;
+export default Name;

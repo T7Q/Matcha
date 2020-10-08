@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import axios from "axios";
 import clsx from "clsx";
 import { getCountries } from "countries-cities";
-// https://www.npmjs.com/package/country-city
 import {
     Button,
     Collapse,
@@ -21,6 +20,7 @@ import { HighlightOff, ExpandMore } from "@material-ui/icons";
 
 import { updateFilter, resetFilter } from "../../actions/match";
 import Match from "../common/matchGallery/GetMatches";
+// import Toggle from "./filter/Toggle";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -276,6 +276,8 @@ const Filter = ({
                         />
                     </Grid>
                     <Grid item xs={6}>
+                        New Switch
+                        {/* <Toggle name="believe_cn" updateFilter={updateFilter()} filter={filter} /> */}
                         I believe in Chinese Astrology
                         <Switch
                             checked={filter.believe_cn}
@@ -327,23 +329,6 @@ const Filter = ({
                                 />
                             )}
                         />
-                        {/* <Autocomplete
-                            multiple
-                            limitTags={2}
-                            id="tags-standard"
-                            // onChange={handleCityChange}
-                            options={cities}
-                            getOptionLabel={(option) => option}
-                            defaultValue={[]}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    variant="standard"
-                                    label="City"
-                                    placeholder="City"
-                                />
-                            )}
-                        /> */}
                     </Grid>
                 </Grid>
                 <Grid container>

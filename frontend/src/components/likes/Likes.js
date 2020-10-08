@@ -5,22 +5,14 @@ import Match from "../common/matchGallery/GetMatches";
 const Likes = ({ match, history }) => {
     const { page } = match.params;
 
-    const tabNameToIndex = {
-        0: "likesyou",
-        1: "connected",
-        2: "temp",
-    };
+    const indexToTabName = ["likesyou", "connected", "temp"];
 
-    const indexToTabName = {
-        likesyou: 0,
-        connected: 1,
-        temp: 2,
-    };
-
-    const [selectedTab, setValue] = React.useState(indexToTabName[page]);
+    const [selectedTab, setValue] = React.useState(
+        indexToTabName.indexOf(page)
+    );
 
     const handleChange = (event, newValue) => {
-        history.push(`/likes/${tabNameToIndex[newValue]}`);
+        history.push(`/likes/${indexToTabName[newValue]}`);
         setValue(newValue);
     };
 

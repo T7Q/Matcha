@@ -5,26 +5,16 @@ import Match from "../common/matchGallery/GetMatches";
 const Visits = ({ match, history }) => {
     const { page } = match.params;
 
-    const tabNameToIndex = {
-        0: "newvisits",
-        1: "allvisits",
-        2: "myvisits",
-    };
+    const indexToTabName = ["newvisits", "allvisits", "myvisits"];
 
-    const indexToTabName = {
-        newvisits: 0,
-        allvisits: 1,
-        myvisits: 2,
-    };
-
-    const [selectedTab, setValue] = React.useState(indexToTabName[page]);
+    const [selectedTab, setValue] = React.useState(
+        indexToTabName.indexOf(page)
+    );
 
     const handleChange = (event, newValue) => {
-        history.push(`/visits/${tabNameToIndex[newValue]}`);
+        history.push(`/visits/${indexToTabName[newValue]}`);
         setValue(newValue);
     };
-
-    const tabs = ["New visits", "All visits", "My visits"];
 
     return (
         <div>

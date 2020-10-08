@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
 import clsx from "clsx";
-import { getCountries } from 'countries-cities';
+import { getCountries } from "countries-cities";
 // https://www.npmjs.com/package/country-city
 import {
     Button,
@@ -24,9 +24,6 @@ import Match from "../common/matchGallery/GetMatches";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -44,21 +41,18 @@ const useStyles = makeStyles((theme) => ({
         transform: "rotate(180deg)",
     },
 
-
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-      },
-      selectEmpty: {
+    },
+    selectEmpty: {
         marginTop: theme.spacing(2),
-      },
+    },
 }));
 
 function valuetext(value) {
     return `${value}`;
 }
-
-
 
 const Filter = ({
     updateFilter,
@@ -70,26 +64,26 @@ const Filter = ({
     const [filterIsOn, setFilter] = React.useState(0);
 
     const orientation = [
-        { label: "man interested in man", db: "gay"},
-        { label: "woman interested in woman", db: "lesbian"},
-        { label: "woman interested in man", db: "straight_woman"},
-        { label: "man interested in woman", db: "straight_man"},
-        { label: "woman interested in woman and man", db: "bi"},
-        { label: "man interested in woman and man", db: "bi"},
+        { label: "man interested in man", db: "gay" },
+        { label: "woman interested in woman", db: "lesbian" },
+        { label: "woman interested in man", db: "straight_woman" },
+        { label: "man interested in woman", db: "straight_man" },
+        { label: "woman interested in woman and man", db: "bi" },
+        { label: "man interested in woman and man", db: "bi" },
     ];
 
     const sort = [
-        { label: "Yongest" , db: "age_asc" },
-        { label: "Oldest" , db: "age_desc" },
-        { label: "Best rating" , db: "fame_desc" },
-        { label: "Lowest rating" , db: "fame_asc" },
-        { label: "Closest" , db: "distance_asc" },
-        { label: "Furtherst away" , db: "distance_desc" },
-        { label: "Most interest in common" , db: "commonTag_desc" },
-        { label: "Least interest in common" , db: "commonTag_asc" },
+        { label: "Yongest", db: "age_asc" },
+        { label: "Oldest", db: "age_desc" },
+        { label: "Best rating", db: "fame_desc" },
+        { label: "Lowest rating", db: "fame_asc" },
+        { label: "Closest", db: "distance_asc" },
+        { label: "Furtherst away", db: "distance_desc" },
+        { label: "Most interest in common", db: "commonTag_desc" },
+        { label: "Least interest in common", db: "commonTag_asc" },
     ];
     // console.log("FILTER component");
-   
+
     const countries = getCountries();
 
     useEffect(() => {
@@ -176,66 +170,61 @@ const Filter = ({
     const handleSortChange = (event, newValue) => {
         let value = [];
         if (newValue !== null) {
-            value[0] = newValue.db
+            value[0] = newValue.db;
         }
         updateFilter({
             ...filter,
             order: value,
         });
         setFilter(filterIsOn + 1);
-    
     };
 
     return (
         <>
             <Grid container spacing={2}>
-            <Grid item xs={3}>
-            <Autocomplete
-                            id="combo-sort"
-                            onChange={handleSortChange}
-                            options={sort}
-                            getOptionLabel={(option) => option.label}
-                            getOptionSelected={(option) => option}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Sort"
-                                />
-                            )}
-                        />
-            </Grid>
-            <Grid item xs={3}>
-            Filter
-            {filterIsOn > 0 ? (
-                <IconButton
-                    onClick={() => {
-                        handleClickReset();
-                    }}
-                    aria-label="close"
-                    size="small"
-                >
-                    <HighlightOff color="primary" />
-                </IconButton>
-            ) : (
-                ""
-            )}
-            <IconButton
-                className={clsx(classes.expand, {
-                    [classes.expandOpen]: expanded,
-                })}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-            >
-                <ExpandMore color="primary" />
-            </IconButton>
-
-            </Grid>
+                <Grid item xs={3}>
+                    <Autocomplete
+                        id="combo-sort"
+                        onChange={handleSortChange}
+                        options={sort}
+                        getOptionLabel={(option) => option.label}
+                        getOptionSelected={(option) => option}
+                        renderInput={(params) => (
+                            <TextField {...params} label="Sort" />
+                        )}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    Filter
+                    {filterIsOn > 0 ? (
+                        <IconButton
+                            onClick={() => {
+                                handleClickReset();
+                            }}
+                            aria-label="close"
+                            size="small"
+                        >
+                            <HighlightOff color="primary" />
+                        </IconButton>
+                    ) : (
+                        ""
+                    )}
+                    <IconButton
+                        className={clsx(classes.expand, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                    >
+                        <ExpandMore color="primary" />
+                    </IconButton>
+                </Grid>
             </Grid>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
-                    I believe in Western Astrology
+                        I believe in Western Astrology
                         <Switch
                             checked={filter.believe_west}
                             onChange={handleChange}
@@ -287,7 +276,7 @@ const Filter = ({
                         />
                     </Grid>
                     <Grid item xs={6}>
-                    I believe in Chinese Astrology
+                        I believe in Chinese Astrology
                         <Switch
                             checked={filter.believe_cn}
                             onChange={handleChange}
@@ -295,7 +284,16 @@ const Filter = ({
                             name="believe_cn"
                             inputProps={{ "aria-label": "secondary checkbox" }}
                         />
-                        
+                        <Autocomplete
+                            id="combo-box-demo"
+                            onChange={handleOrientationChange}
+                            options={orientation}
+                            getOptionLabel={(option) => option.label}
+                            getOptionSelected={(option) => option}
+                            renderInput={(params) => (
+                                <TextField {...params} label="I'm a ..." />
+                            )}
+                        />
                         <Autocomplete
                             multiple
                             limitTags={2}
@@ -313,23 +311,6 @@ const Filter = ({
                             )}
                         />
                         <Autocomplete
-                            id="combo-box-demo"
-                            onChange={handleOrientationChange}
-                            options={orientation}
-                            getOptionLabel={(option) => option.label}
-                            getOptionSelected={(option) => option}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="I'm a ..."
-                                />
-                            )}
-                        />
-
-                        
-
-
-<Autocomplete
                             multiple
                             limitTags={2}
                             id="country-standard"
@@ -340,12 +321,13 @@ const Filter = ({
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    variant="standard"
+                                    variant="outlined"
+                                    // variant="standard"
                                     label="Living in ..."
                                 />
                             )}
                         />
-{/* <Autocomplete
+                        {/* <Autocomplete
                             multiple
                             limitTags={2}
                             id="tags-standard"
@@ -362,11 +344,6 @@ const Filter = ({
                                 />
                             )}
                         /> */}
-
-
-
-
-
                     </Grid>
                 </Grid>
                 <Grid container>

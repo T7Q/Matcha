@@ -7,15 +7,22 @@ import Typography from '@material-ui/core/Typography';
 import ProfileActions from './ProfileActions';
 import Moment from 'react-moment';
 
+
+
+
 const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
     useEffect(() => {
         getCurrentProfile();
     }, [getCurrentProfile]);
 
+ 
+
+
     return loading && profile === null ? (
         <Spinner />
     ) : (
         <Fragment>
+
             <ProfileActions />
             <Typography variant='h6'>
                 Logged in user id: {profile.user_id}

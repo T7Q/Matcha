@@ -2,10 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-// import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Tabs, Tab, Container } from '@material-ui/core';
-import Box from "@material-ui/core/Box";
-import { Search, Whatshot, Favorite, PersonPin, Help, Loyalty, QueryBuilder } from '@material-ui/icons';
+import { AppBar, Tabs, Tab, Container, Box } from "@material-ui/core";
+import {
+    Search,
+    Whatshot,
+    Favorite,
+    PersonPin,
+    Help,
+    Loyalty,
+    QueryBuilder,
+} from "@material-ui/icons";
 
 import Match from "../common/matchGallery/GetMatches";
 import Filter from "./Filter";
@@ -44,48 +50,22 @@ function a11yProps(index) {
     };
 }
 
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         flexGrow: 1,
-//         width: "100%",
-//         backgroundColor: theme.palette.background.default,
-//     },
-// }));
-
-const Matches = ({ resetFilter, match, history}) => {
-
+const Matches = ({ resetFilter, match, history }) => {
     const { page } = match.params;
-
-    // console.log("components/matches");
-    // console.log("PAGE", page, "history", history);
     const route = "/match/" + page;
-
-    // export default function ScrollableTabsButtonForce({ page, history }) {
-    const tabNameToIndex = {
-        0: "recommend",
-        1: "search",
-        2: "online",
-        3: "new",
-        4: "popular",
-        5: "random",
-        6: "nearby",
-    };
-
-    const indexToTabName = {
-        recommend: 0,
-        search: 1,
-        online: 2,
-        new: 3,
-        popular: 4,
-        random: 5,
-        nearby: 6,
-    };
-
-
-    const [value, setValue] = React.useState(indexToTabName[page]);
+    const indexToTabName = [
+        "recommend",
+        "search",
+        "online",
+        "new",
+        "popular",
+        "random",
+        "nearby",
+    ];
+    const [value, setValue] = React.useState(indexToTabName.indexOf(page));
 
     const handleChange = (event, newValue) => {
-        history.push(`/matches/${tabNameToIndex[newValue]}`);
+        history.push(`/matches/${indexToTabName[newValue]}`);
         setValue(newValue);
         resetFilter();
     };
@@ -107,11 +87,7 @@ const Matches = ({ resetFilter, match, history}) => {
                         icon={<Favorite />}
                         {...a11yProps(0)}
                     />
-                    <Tab
-                        label="Search"
-                        icon={<Search />}
-                        {...a11yProps(1)}
-                    />
+                    <Tab label="Search" icon={<Search />} {...a11yProps(1)} />
                     <Tab
                         label="Online"
                         icon={<QueryBuilder />}
@@ -152,17 +128,10 @@ const Matches = ({ resetFilter, match, history}) => {
     );
 };
 
-
-// export default Matches;
-
 Matches.propTypes = {
     resetFilter: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
 };
-
-// const mapStateToProps = (state) => ({
-//     match: state.match,
-// });
 
 export default connect(null, {
     resetFilter,

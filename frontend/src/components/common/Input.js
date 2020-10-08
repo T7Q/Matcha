@@ -15,6 +15,7 @@ const Input = ({ value, header, type, label, handleChange, placeholder, ...rest 
                 </Box>
             )}
             <TextField
+                error={rest.helperText ? true : false}
                 variant="outlined"
                 // id={[type][0]}
                 name={[type][0]}

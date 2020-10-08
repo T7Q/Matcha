@@ -73,8 +73,9 @@ export const login = ({ username, password }) => async dispatch => {
         // console.log(res.data);
         if (res.data.error) {
             const error = res.data.error;
-            dispatch(setAlert(error, 'danger'));
             dispatch({ type: AUTH_FAIL });
+            return { error: error };
+            // dispatch(setAlert(error, 'danger'));
         } else {
             // console.log('in login before success');
             dispatch({

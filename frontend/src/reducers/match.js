@@ -1,33 +1,40 @@
-import { GET_MATCH, FETCH_MORE_MATCH, SET_OFFSET, MATCH_ERROR, GET_FILTER_MATCH } from '../actions/types';
+import {
+    GET_MATCH,
+    FETCH_MORE_MATCH,
+    MATCH_ERROR,
+    GET_FILTER_MATCH,
+    FILTER_RESET,
+    FILTER_UPDATE,
+} from "../actions/types";
 
 const initialState = {
     match: [],
     count: 6,
     iStart: 0,
     iEnd: 0,
-    matches: [],
     loading: true,
     error: {},
     filter: {
-        type: '',
+        type: "",
         min_age: 18,
-        max_age: 62,
+        max_age: 120,
         min_distance: 0,
         max_distance: 200000,
+        min_fame: 0,
+        max_fame: 5,
         tags: "",
         country: "",
-        order: ["fame_desc"],
-        believe_cn: "",
-        believe_west: "",
-        sex_orientation : "",
-    }
+        order: "",
+        believe_cn: true,
+        believe_west: true,
+        sex_orientation: "",
+    },
 };
 
 export default function (state = initialState, action) {
     const { type, payload } = action;
     // console.log("REDUCER");
-    // console.log("state", state);
-    // console.log("payload", payload);
+    // console.log("state", state.filter);
     switch (type) {
         case GET_MATCH:
             return {
@@ -53,6 +60,32 @@ export default function (state = initialState, action) {
                 ...state,
                 iStart: state.iStart + state.count,
                 iEnd: state.iEnd + state.count,
+                loading: false,
+            };
+        case FILTER_RESET:
+            return {
+                ...state,
+                filter: {
+                    type: "",
+                    min_age: 18,
+                    max_age: 120,
+                    min_distance: 0,
+                    max_distance: 200000,
+                    min_fame: 0,
+                    max_fame: 5,
+                    tags: "",
+                    country: "",
+                    order: "",
+                    believe_cn: true,
+                    believe_west: true,
+                    sex_orientation: "",
+                },
+                loading: false,
+            };
+        case FILTER_UPDATE:
+            return {
+                ...state,
+                filter: payload,
                 loading: false,
             };
         default:

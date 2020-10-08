@@ -14,7 +14,7 @@ const profileMenu = [
     },
     {
         title: 'Visit history',
-        pageUrl: '/profile',
+        pageUrl: '/visits',
     },
 ];
 

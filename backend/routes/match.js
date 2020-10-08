@@ -8,27 +8,27 @@ const authorization = require('../middleware/authorization');
 // @access  Public
 router.post('/filter', authorization.required, filter);
 
-// @route   POST /match/likedme
+// @route   GET /match/likedme
 // @desc    Display all who liked me
 // @access  Private
 router.get('/likedme', authorization.required, display.likedMe);
 
-// @route   POST /match/connected
+// @route   GET /match/connected
 // @desc    Display all who liked me
 // @access  Private
 router.get('/connected', authorization.required, display.connected);
 
-// @route   POST /match/visitedme
+// @route   GET /match/visitedme
 // @desc    Display all who liked me
 // @access  Private
 router.get('/visitedme', authorization.required, display.visitedMe);
 
-// @route   POST /match/visitedme
+// @route   GET /match/visitedme
 // @desc    Display all who liked me
 // @access  Private
 router.get('/visitedbyme', authorization.required, display.visitedByMe);
 
-// @route   POST /match/recommend
+// @route   GET /match/recommend
 // @desc    Display all who liked me
 // @access  Private
 router.get('/recommend', authorization.required, display.recommend);

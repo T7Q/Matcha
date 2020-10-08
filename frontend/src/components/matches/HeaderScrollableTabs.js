@@ -1,15 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-
-// import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Tabs, Tab, Container } from '@material-ui/core';
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import PersonPinIcon from "@material-ui/icons/PersonPin";
+import HelpIcon from "@material-ui/icons/Help";
+import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { Search, Whatshot, Favorite, PersonPin, Help, Loyalty, QueryBuilder } from '@material-ui/icons';
-
+import SearchIcon from "@material-ui/icons/Search";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
+import QueryBuilderIcon from "@material-ui/icons/QueryBuilder";
+import LoyaltyIcon from "@material-ui/icons/Loyalty";
 import Match from "../common/matchGallery/GetMatches";
-import Filter from "./Filter";
-import { resetFilter } from "../../actions/match";
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,23 +49,15 @@ function a11yProps(index) {
     };
 }
 
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         flexGrow: 1,
-//         width: "100%",
-//         backgroundColor: theme.palette.background.default,
-//     },
-// }));
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+        width: "100%",
+        backgroundColor: theme.palette.background.default,
+    },
+}));
 
-const Matches = ({ resetFilter, match, history}) => {
- 
-    const { page } = match.params;
-
-    // console.log("components/matches");
-    // console.log("PAGE", page, "history", history);
-    const route = "/match/" + page;
-
-    // export default function ScrollableTabsButtonForce({ page, history }) {
+export default function ScrollableTabsButtonForce({ page, history }) {
     const tabNameToIndex = {
         0: "recommend",
         1: "search",
@@ -81,7 +78,7 @@ const Matches = ({ resetFilter, match, history}) => {
         nearby: 6,
     };
 
-
+    const classes = useStyles();
     const [value, setValue] = React.useState(indexToTabName[page]);
 
     const handleChange = (event, newValue) => {
@@ -89,8 +86,10 @@ const Matches = ({ resetFilter, match, history}) => {
         setValue(newValue);
     };
 
+    const route = "/matches/" + page;
+    
     return (
-        <Container fixed>
+        <div className={classes.root}>
             <AppBar position="static">
                 <Tabs
                     value={value}
@@ -103,66 +102,49 @@ const Matches = ({ resetFilter, match, history}) => {
                 >
                     <Tab
                         label="Recommended"
-                        icon={<Favorite />}
+                        icon={<FavoriteIcon />}
                         {...a11yProps(0)}
                     />
                     <Tab
                         label="Search"
-                        icon={<Search />}
+                        icon={<SearchIcon />}
                         {...a11yProps(1)}
                     />
                     <Tab
                         label="Online"
-                        icon={<QueryBuilder />}
+                        icon={<QueryBuilderIcon />}
                         {...a11yProps(2)}
                     />
                     <Tab
                         label="New People"
-                        icon={<Loyalty />}
+                        icon={<LoyaltyIcon />}
                         {...a11yProps(3)}
                     />
                     <Tab
                         label="Popular"
-                        icon={<Whatshot />}
+                        icon={<WhatshotIcon />}
                         {...a11yProps(4)}
                     />
-                    <Tab label="Random" icon={<Help />} {...a11yProps(5)} />
+                    <Tab label="Random" icon={<HelpIcon />} {...a11yProps(5)} />
                     <Tab
                         label="Nearby"
-                        icon={<PersonPin />}
+                        icon={<PersonPinIcon />}
                         {...a11yProps(6)}
                     />
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                {/* {resetFilter()} */}
-                <Filter route={route} setting={false}></Filter>
+                <Match route="/match/recommend" filterIsOn={0}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                {/* {resetFilter()} */}
-                <Filter route={route} setting={true}></Filter>
+                {/* <Match route="/match/search" filterIsOn={1}/> */}
+                FILTER HERE
             </TabPanel>
             {value > 1 && value < 7 && (
                 <TabPanel value={value} index={value}>
                     <Match route={route} filterIsOn={1} />
                 </TabPanel>
             )}
-        </Container>
+        </div>
     );
-};
-
-
-// export default Matches;
-
-Matches.propTypes = {
-    resetFilter: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-};
-
-// const mapStateToProps = (state) => ({
-//     match: state.match,
-// });
-
-export default connect(null, {
-    resetFilter,
-})(Matches);
+}

@@ -1,40 +1,31 @@
-import axios from 'axios';
-import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, GET_FILTER_MATCH } from './types';
-
-// const route = `/match/recommend`;
-
-// Get current user profile
-export const getRecommend = route => async dispatch => {
-    // let route = '';
-    console.log("actions PATH", route);
-
-    try {
-        const res = await axios.get(route);
-        dispatch({
-            type: GET_MATCH,
-            payload: res.data,
-        });
-    } catch (err) {
-        // console.log('error in recomm', err);
-        dispatch({
-            type: MATCH_ERROR,
-            payload: { msg: err },
-        });
-    }
-};
+import axios from "axios";
+import {
+    GET_MATCH,
+    MATCH_ERROR,
+    FETCH_MORE_MATCH,
+    FILTER_UPDATE,
+    FILTER_RESET,
+} from "./types";
+import store from "../store";
 
 // Get current user profile
-export const getFiltered = (filter) => async dispatch => {
-    let route = '/match/filter';
+export const getRecommend = (route, filterIsOn) => async (dispatch) => {
+    const page = route.split("/")[2];
 
-    const data = filter
+    const data =
+        filterIsOn > 0
+            ? page === "filter"
+                ? store.getState().match.filter
+                : { type: page }
+            : {};
+
     try {
-        // console.log("got to try");
-        const res = await axios.post(route, data);
-        // console.log("from server", res.data);
+        const res =
+            filterIsOn > 0
+                ? await axios.post("/match/filter", data)
+                : await axios.get(route);
         dispatch({
             type: GET_MATCH,
-            // payload: filter,
             payload: res.data,
         });
     } catch (err) {
@@ -45,10 +36,25 @@ export const getFiltered = (filter) => async dispatch => {
     }
 };
 
-
-// Get more matches
-export const fetchMore = () => dispatch => {
+// Get more matches for gallery
+export const fetchMore = () => (dispatch) => {
     dispatch({
         type: FETCH_MORE_MATCH,
+    });
+};
+
+// Reset filter to max values
+export const resetFilter = () => (dispatch) => {
+    dispatch({
+        type: FILTER_RESET,
+    });
+};
+
+// Update filter parameter
+export const updateFilter = (filter) => (dispatch) => {
+    // console.log("ACTION update filter", filter);
+    dispatch({
+        type: FILTER_UPDATE,
+        payload: filter,
     });
 };

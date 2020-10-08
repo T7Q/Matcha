@@ -7,44 +7,45 @@ import Match from '../common/matchGallery/GetMatches'
 import Typography from '@material-ui/core/Typography';
 
 
-const Likes = ({ match, history }) => {
+const Visits = ({ match, history }) => {
     const { page } = match.params; 
 
-    // console.log("PAGE", page, "history", history);
     const tabNameToIndex = {
-        0: "likesyou",
-        1: "connected",
-        2: "temp"
+        0: "newvisits",
+        1: "allvisits",
+        2: "myvisits"
     }
 
     const indexToTabName = {
-        likesyou: 0,
-        connected: 1,
-        temp: 2
+        newvisits: 0,
+        allvisits: 1,
+        myvisits: 2
     }
 
     const [selectedTab, setValue] = React.useState(indexToTabName[page]);
 
     const handleChange = (event, newValue) => {
-        history.push(`/likes/${tabNameToIndex[newValue]}`);
+        history.push(`/visits/${tabNameToIndex[newValue]}`);
         setValue(newValue);
     };
 
     return (
         <div>
             <AppBar position="static">
-                <Typography variant="h6">Likes</Typography>
+                <Typography variant="h6">Visit History</Typography>
                 <Tabs
                     value={selectedTab}
                     onChange={handleChange} >
-                    <Tab label="Likes you"  />
-                    <Tab label="Connected"  />
+                    <Tab label="New visits"  />
+                    <Tab label="All visits"  />
+                    <Tab label="My visits"  />
                 </Tabs>
             </AppBar>
-            {selectedTab === 0 && <Match route="/match/likedme" filterIsOn={0}/>}
-            {selectedTab === 1 && <Match route="/match/connected" filterIsOn={0}/>}
+            {selectedTab === 0 && <Match route="/match/visitedMe" filterIsOn={0}/>}
+            {selectedTab === 1 && <Match route="/match/visitedMe" filterIsOn={0}/>}
+            {selectedTab === 2 && <Match route="/match/visitedByMe" filterIsOn={0}/>}
         </div>
     );
 };
 
-export default Likes;
+export default Visits;

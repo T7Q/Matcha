@@ -54,6 +54,7 @@ export const theme = createMuiTheme({
         },
         MuiIconButton: {
             root: {
+                textTransform: 'capitalize',
                 color: '#fff',
             },
         },
@@ -68,6 +69,19 @@ export const theme = createMuiTheme({
                 backgroundColor: '#34374d',
             },
         },
+        MuiFormHelperText: {
+            root: {
+                '&.Mui-error': {
+                    fontSize: 'medium',
+                },
+            },
+        },
+        // button in nav to capitalize
+        // MuiTypography: {
+        //     button: {
+        //         textTransform: 'capitalize',
+        //     },
+        // },
     },
 });
 

@@ -32,7 +32,7 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
             return;
         }
         const res = await login(formData);
-        if (res.error) {
+        if (res && res.error) {
             setErrors({
                 usernameError: res.error,
                 passwordError: res.error,

@@ -11,6 +11,7 @@ import { useStyles } from '../../styles/custom';
 
 const ForgetPwd = ({ forgetPwd, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({ email: '' });
+    const [error, setError] = useState('');
 
     const classes = useStyles();
     const { email } = formData;
@@ -23,7 +24,12 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, history }) => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        forgetPwd({ email, history });
+        if (!email) {
+            setError('required field');
+            return;
+        }
+        const res = await forgetPwd({ email, history });
+        if (res) setError(res);
     };
 
     if (isAuthenticated && user.status === 2) {
@@ -45,6 +51,7 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, history }) => {
                     type="email"
                     value={email}
                     handleChange={onChange}
+                    helperText={error}
                 />
                 <Button className={classes.customButton} type="submit" variant="contained" color="primary">
                     Next

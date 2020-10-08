@@ -106,8 +106,7 @@ export const forgetPwd = ({ email, history }) => async dispatch => {
     try {
         const res = await axios.post('/account/pwdReset', { email });
         if (res.data.error) {
-            const error = res.data.error;
-            dispatch(setAlert(error, 'danger'));
+            return res.data.error;
         } else {
             dispatch({
                 type: MESSAGE,

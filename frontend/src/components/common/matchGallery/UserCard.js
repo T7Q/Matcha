@@ -31,6 +31,8 @@ const useStyles = makeStyles({
 
 const UserCard = ({ card }) => {
     const classes = useStyles();
+    card.fame = parseFloat(card.fame);
+
     return (
             <Grid item xs={12} sm={4}>
                 {/* <img src={str}></img> */}
@@ -43,7 +45,7 @@ const UserCard = ({ card }) => {
                     <CardContent>
                         <Typography
                             className={classes.title}
-                          
+
                             gutterBottom
                         >
                             {card.user_id}
@@ -53,7 +55,7 @@ const UserCard = ({ card }) => {
                         </Typography>
                         <Typography
                             className={classes.pos}
-                            
+
                         >
                             {card.distance === null ? 0 : card.distance} km
                         </Typography>

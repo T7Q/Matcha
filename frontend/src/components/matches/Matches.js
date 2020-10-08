@@ -53,7 +53,7 @@ function a11yProps(index) {
 // }));
 
 const Matches = ({ resetFilter, match, history}) => {
- 
+
     const { page } = match.params;
 
     // console.log("components/matches");
@@ -87,11 +87,12 @@ const Matches = ({ resetFilter, match, history}) => {
     const handleChange = (event, newValue) => {
         history.push(`/matches/${tabNameToIndex[newValue]}`);
         setValue(newValue);
+        resetFilter();
     };
 
     return (
-        <Container fixed>
-            <AppBar position="static">
+        <Box>
+            <AppBar color="secondary" position="static">
                 <Tabs
                     value={value}
                     onChange={handleChange}
@@ -134,20 +135,20 @@ const Matches = ({ resetFilter, match, history}) => {
                     />
                 </Tabs>
             </AppBar>
-            <TabPanel value={value} index={0}>
-                {/* {resetFilter()} */}
-                <Filter route={route} setting={false}></Filter>
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                {/* {resetFilter()} */}
-                <Filter route={route} setting={true}></Filter>
-            </TabPanel>
-            {value > 1 && value < 7 && (
-                <TabPanel value={value} index={value}>
-                    <Match route={route} filterIsOn={1} />
+            <Container>
+                <TabPanel value={value} index={0}>
+                    <Filter route={route} setting={false}></Filter>
                 </TabPanel>
-            )}
-        </Container>
+                <TabPanel value={value} index={1}>
+                    <Filter route={route} setting={true}></Filter>
+                </TabPanel>
+                {value > 1 && value < 7 && (
+                    <TabPanel value={value} index={value}>
+                        <Match route={route} filterIsOn={1} />
+                    </TabPanel>
+                )}
+            </Container>
+        </Box>
     );
 };
 

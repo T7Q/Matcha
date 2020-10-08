@@ -18,6 +18,7 @@ import Likes from '../likes/Likes';
 // import NotFound from '../layout/NotFound';
 import Chat from '../chat/Chat';
 import Settings from '../profile/Settings/';
+import EditProfile from '../profile/EditProfile';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
     return (
@@ -44,6 +45,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <Redirect exact from="/matches" to="/matches/recommended" />
                     <PrivateRoute path="/matches/:page?" component={Matches} />
                     <PrivateRoute path="/settings" component={Settings} />
+                    <PrivateRoute path="profile/edit" component={EditProfile} />
                     {/* <Route component={NotFound} /> */}
                 </Switch>
             </Box>

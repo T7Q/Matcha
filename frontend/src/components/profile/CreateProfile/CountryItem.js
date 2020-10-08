@@ -1,10 +1,11 @@
 import React from 'react';
-import { Box, Typography } from '@material-ui/core';
-import { CountryDropdown } from 'react-country-region-selector';
+import { Box, Typography, TextField } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
-
-const CountryItem = ({ country, setFormData, formData }) => {
+import { getCountries } from 'countries-cities';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+const CountryItem = ({ setFormData, formData }) => {
     const classes = useStyles();
+    const countries = getCountries();
 
     return (
         <Box display="flex" flexDirection="column">
@@ -13,11 +14,15 @@ const CountryItem = ({ country, setFormData, formData }) => {
                     Where do you primary live?
                 </Typography>
             </Box>
-            <CountryDropdown
-                defaultOptionLabel="Please, select a country"
-                className={classes.customSelect}
+            <Autocomplete
+                onChange={(e, val) => setFormData({ ...formData, country: val })}
+                options={countries}
+                getOptionLabel={option => option}
+                getOptionSelected={option => option}
                 value={formData.country}
-                onChange={val => setFormData({ ...formData, country: val })}
+                renderInput={params => (
+                    <TextField {...params} variant="standard" label="Country" placeholder="Country" />
+                )}
             />
         </Box>
     );

@@ -98,8 +98,8 @@ const Matches = ({ resetFilter, match, history}) => {
                     onChange={handleChange}
                     variant="scrollable"
                     scrollButtons="on"
-                    indicatorColor="secondary"
-                    textColor="secondary"
+                    indicatorColor="primary"
+                    textColor="primary"
                     aria-label="scrollable force tabs example"
                 >
                     <Tab

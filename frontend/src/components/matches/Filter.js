@@ -3,14 +3,32 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
 import clsx from "clsx";
+import { getNames, getData } from 'country-list';
+// import { getCountries } from 'countries-cities';
 
-import { Switch, Collapse, Slider, Typography, Grid, Button, IconButton, makeStyles, TextField} from "@material-ui/core";
+import {
+    Button,
+    Collapse,
+    Grid,
+    IconButton,
+    makeStyles,
+    Slider,
+    Switch,
+    TextField,
+    Typography,
+} from "@material-ui/core";
+
 import { HighlightOff, ExpandMore } from "@material-ui/icons";
 
 import { updateFilter, resetFilter } from "../../actions/match";
 import Match from "../common/matchGallery/GetMatches";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
+
+import { CountryDropdown } from "react-country-region-selector";
+
+
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -28,11 +46,22 @@ const useStyles = makeStyles((theme) => ({
     expandOpen: {
         transform: "rotate(180deg)",
     },
+
+
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+      },
+      selectEmpty: {
+        marginTop: theme.spacing(2),
+      },
 }));
 
 function valuetext(value) {
     return `${value}`;
 }
+
+
 
 const Filter = ({
     updateFilter,
@@ -50,6 +79,11 @@ const Filter = ({
         { type: "Bi" },
     ];
     console.log("FILTER component");
+    console.log("coutnreis", getNames());
+    const countries = getNames();
+
+ 
+
 
     useEffect(() => {
         updateFilter(filter);
@@ -115,12 +149,23 @@ const Filter = ({
     const handleOrientationChange = (event, newValue) => {
         let value = "";
         console.log("input", newValue);
-        if(newValue !== null) {
-            value = newValue['type'].replace(/\s+/g, '_').toLowerCase();
+        if (newValue !== null) {
+            value = newValue["type"].replace(/\s+/g, "_").toLowerCase();
         }
         updateFilter({
             ...filter,
             sex_orientation: value,
+        });
+    };
+    const handleCountryChange = (event, newValue) => {
+        let value = "";
+        console.log("input", newValue);
+        if (newValue !== null) {
+            value = newValue;
+        }
+        updateFilter({
+            ...filter,
+            country: value,
         });
     };
 
@@ -194,10 +239,8 @@ const Filter = ({
                             aria-labelledby="range-slider"
                             getAriaValueText={valuetext}
                         />
-
                     </Grid>
                     <Grid item xs={6}>
-                       
                         <Autocomplete
                             multiple
                             limitTags={2}
@@ -229,6 +272,7 @@ const Filter = ({
                             )}
                         />
 
+
                         <Switch
                             checked={filter.believe_cn}
                             onChange={handleChange}
@@ -243,6 +287,30 @@ const Filter = ({
                             name="believe_west"
                             inputProps={{ "aria-label": "secondary checkbox" }}
                         />
+
+
+<Autocomplete
+                            multiple
+                            limitTags={2}
+                            id="tags-standard"
+                            onChange={handleCountryChange}
+                            options={countries}
+                            getOptionLabel={(option) => option}
+                            defaultValue={[]}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="standard"
+                                    label="Interests"
+                                    placeholder="Interests"
+                                />
+                            )}
+                        />
+
+
+
+
+
                     </Grid>
                 </Grid>
                 <Grid container>

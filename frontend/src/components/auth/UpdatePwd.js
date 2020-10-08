@@ -9,11 +9,8 @@ import Form from '../common/IndividualForm';
 import { useStyles } from '../../styles/custom';
 
 const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
-    const [formData, setFormData] = useState({
-        password: '',
-        confirmPassword: '',
-    });
-
+    const [formData, setFormData] = useState({ password: '', confirmPassword: '' });
+    // const [errors, setErrors] = useState({ passwordError: '', confirmPasswordError: '' });
     // const token = props.location.search.split('=');
     // console.log(token);
     const classes = useStyles();
@@ -23,7 +20,17 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        updatePwd({ password, confirmPassword, history });
+        // if (!password || !confirmPassword) {
+        //     setErrors({
+        //         passwordError: !password && 'required field',
+        //         confirmPasswordError: !confirmPassword && 'required field',
+        //     });
+        //     return;
+        // }
+        const res = await updatePwd({ password, confirmPassword, history });
+        // if (res && res.error) {
+        //     setErrors({})
+        // }
     };
 
     if (isAuthenticated && user.status === 2) {

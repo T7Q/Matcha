@@ -48,6 +48,10 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         return <Redirect to="/" />;
     }
 
+    const validate = target => {
+        console.log(target);
+    };
+
     const onChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -61,7 +65,12 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     };
 
     return (
-        <WizardForm header="About you" setFormData={setFormData} formData={formData} onSubmit={onSubmit}>
+        <WizardForm
+            validate={validate}
+            header="About you"
+            setFormData={setFormData}
+            formData={formData}
+            onSubmit={onSubmit}>
             <Box>
                 <Typography className={classes.customHeader} variant={isMobile ? 'h5' : 'h4'}>
                     Set up your profile

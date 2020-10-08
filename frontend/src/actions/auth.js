@@ -25,12 +25,12 @@ export const loadUser = () => async dispatch => {
     }
 };
 
-export const register = props => async dispatch => {
+export const register = ({ formData, history }) => async dispatch => {
     const config = {
         headers: { 'Content-Type': 'application/json' },
     };
 
-    const body = JSON.stringify(props);
+    const body = JSON.stringify(formData);
     // console.log(body);
 
     try {
@@ -52,8 +52,8 @@ export const register = props => async dispatch => {
                 type: MESSAGE,
                 payload: 'Verify your email to secure your account',
             });
-            props.history.push('/message');
-            setTimeout(() => props.history.push('/login'), 5000);
+            history.push('/message');
+            setTimeout(() => history.push('/login'), 5000);
         }
     } catch (error) {
         console.log(error);
@@ -124,8 +124,7 @@ export const updatePwd = ({ password, confirmPassword, history }) => async dispa
     try {
         const res = await axios.post('/account/pwdUpdate', { password, confirmPassword });
         if (res.data.error) {
-            const error = res.data.error;
-            dispatch(setAlert(error, 'danger'));
+            return res.data.error;
         } else {
             history.push('/login');
         }

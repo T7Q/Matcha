@@ -18,7 +18,7 @@ const Input = ({ value, header, type, label, handleChange, placeholder, ...rest 
                 error={rest.helperText ? true : false}
                 variant="outlined"
                 // id={[type][0]}
-                name={[type][0]}
+                name={rest.name ? rest.name : [type][0]}
                 type={
                     type === 'confirmPassword'
                         ? 'password'

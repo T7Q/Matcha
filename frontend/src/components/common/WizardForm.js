@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../styles/custom';
 
-const WizardForm = ({ header, children, formData, setFormData, onSubmit, history }) => {
+const WizardForm = ({ header, children, formData, setFormData, onSubmit, history, validate }) => {
     let step = formData.currentStep;
     const steps = children.length;
     const classes = useStyles();
@@ -19,6 +19,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
         // If the current step is 2 or 3, then subtract one on "previous" button click
         step = step <= 1 ? 1 : step - 1;
         setFormData({ ...formData, currentStep: step });
+        // validate(children[step - 1].props.name, children[step - 1].props.value);
     };
 
     const handleRedirect = newRoute => {
@@ -27,9 +28,12 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
 
     const normalise = value => ((value - 1) * 100) / (steps - 1);
 
-    const formSubmit = e => {
+    const formSubmit = async e => {
         e.preventDefault();
-        step < steps ? next() : onSubmit();
+        // console.log(children[step - 1].props);
+        if (await validate(children[step - 1].props.name, children[step - 1].props)) {
+            step < steps ? next() : onSubmit();
+        }
     };
 
     return (

@@ -136,13 +136,11 @@ const Matches = ({ resetFilter, match, history}) => {
             </AppBar>
             <TabPanel value={value} index={0}>
                 {/* {resetFilter()} */}
-                <span>Sort </span>
-                Filter <Filter route={route} setting={false}></Filter>
+                <Filter route={route} setting={false}></Filter>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 {/* {resetFilter()} */}
-                <span>Sort </span>
-                Filter <Filter route={route} setting={true}></Filter>
+                <Filter route={route} setting={true}></Filter>
             </TabPanel>
             {value > 1 && value < 7 && (
                 <TabPanel value={value} index={value}>

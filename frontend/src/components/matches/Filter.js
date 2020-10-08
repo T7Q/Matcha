@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
 import clsx from "clsx";
-import { getNames, getData } from 'country-list';
-// import { getCountries } from 'countries-cities';
-
+import { getCountries } from 'countries-cities';
+// https://www.npmjs.com/package/country-city
 import {
     Button,
     Collapse,
@@ -24,8 +23,6 @@ import { updateFilter, resetFilter } from "../../actions/match";
 import Match from "../common/matchGallery/GetMatches";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
-import { CountryDropdown } from "react-country-region-selector";
 
 
 
@@ -72,17 +69,32 @@ const Filter = ({
 }) => {
     const [filterIsOn, setFilter] = React.useState(0);
     const orientation = [
-        { type: "Gay" },
-        { type: "Lesbian" },
-        { type: "Straight woman" },
-        { type: "Straight man" },
-        { type: "Bi" },
+        "Gay",
+        "Lesbian",
+        "Straight woman",
+        "Straight man",
+        "Bi",
     ];
-    console.log("FILTER component");
-    console.log("coutnreis", getNames());
-    const countries = getNames();
+    const sort = [
+        "Yongest" ,
+        "Oldest" ,
+        "Best rating" ,
+        "Lowest rating" ,
+        "Closest" ,
+        "Furtherst away" ,
+        "Most interest in common" ,
+        "Least interest in common" ,
+    ];
+    // console.log("FILTER component");
+   
+    const countries = getCountries();
+    // let cities = [];
 
- 
+    // for (const element of countries ){
+    //     cities = cities.concat(getCities(element));
+    // };
+    // console.log("cities", cities);
+    // console.log("cities", countries);
 
 
     useEffect(() => {
@@ -148,9 +160,8 @@ const Filter = ({
     };
     const handleOrientationChange = (event, newValue) => {
         let value = "";
-        console.log("input", newValue);
         if (newValue !== null) {
-            value = newValue["type"].replace(/\s+/g, "_").toLowerCase();
+            value = newValue.replace(/\s+/g, "_").toLowerCase();
         }
         updateFilter({
             ...filter,
@@ -159,18 +170,66 @@ const Filter = ({
     };
     const handleCountryChange = (event, newValue) => {
         let value = "";
-        console.log("input", newValue);
+        // cities = [];
+        // console.log("input", newValue);
         if (newValue !== null) {
             value = newValue;
+            // for (const element of newValue ){
+            //     cities = cities.concat(getCities(element));
+            // };
+            // console.log("cities", cities);
+            // console.log("cities", getCities("Finland"));
+            // console.log("cities", getCities(newValue[0]));
         }
         updateFilter({
             ...filter,
             country: value,
         });
     };
+    const handleSortChange = (event, newValue) => {
+        let value = [];
+        const options = {
+            Yongest:  "age_asc",
+            Oldest: "age_desc",
+            Best_rating: "fame_desc",
+            Lowest_rating: "fame_asc",
+            Closest: "distance_asc",
+            Furtherst_away: "distance_desc",
+            Most_interest_in_common: "commonTag_desc" ,
+            Least_interest_in_common: "commonTag_asc",
+        }
+        // console.log("input", newValue);
+        if (newValue !== null) {
+            const temp = newValue.replace(/\s+/g, "_");
+            value[0] = options[temp];
+        }
+        updateFilter({
+            ...filter,
+            order: value,
+        });
+        document.getElementById("filterBtn").click();
+    };
 
     return (
         <>
+            <Grid container spacing={2}>
+            <Grid item xs={3}>
+            <Autocomplete
+                            id="combo-sort"
+                            onChange={handleSortChange}
+                            options={sort}
+                            getOptionLabel={(option) => option}
+                            getOptionSelected={(option) => option}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Sort"
+                                />
+                            )}
+                        />
+            </Grid>
+            <Grid item xs={3}>
+            Filter
             {filterIsOn > 0 ? (
                 <IconButton
                     onClick={() => {
@@ -194,6 +253,9 @@ const Filter = ({
             >
                 <ExpandMore color="primary" />
             </IconButton>
+
+            </Grid>
+            </Grid>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
@@ -244,7 +306,7 @@ const Filter = ({
                         <Autocomplete
                             multiple
                             limitTags={2}
-                            id="tags-standard"
+                            id="interest-standard"
                             onChange={handleInterestChange}
                             options={realTags}
                             getOptionLabel={(option) => option.tag}
@@ -262,8 +324,8 @@ const Filter = ({
                             id="combo-box-demo"
                             onChange={handleOrientationChange}
                             options={orientation}
-                            getOptionLabel={(option) => option.type}
-                            getOptionSelected={(option) => option.type}
+                            getOptionLabel={(option) => option}
+                            getOptionSelected={(option) => option}
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
@@ -292,7 +354,7 @@ const Filter = ({
 <Autocomplete
                             multiple
                             limitTags={2}
-                            id="tags-standard"
+                            id="country-standard"
                             onChange={handleCountryChange}
                             options={countries}
                             getOptionLabel={(option) => option}
@@ -301,11 +363,28 @@ const Filter = ({
                                 <TextField
                                     {...params}
                                     variant="standard"
-                                    label="Interests"
-                                    placeholder="Interests"
+                                    label="Country"
+                                    placeholder="Country"
                                 />
                             )}
                         />
+{/* <Autocomplete
+                            multiple
+                            limitTags={2}
+                            id="tags-standard"
+                            // onChange={handleCityChange}
+                            options={cities}
+                            getOptionLabel={(option) => option}
+                            defaultValue={[]}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="standard"
+                                    label="City"
+                                    placeholder="City"
+                                />
+                            )}
+                        /> */}
 
 
 
@@ -316,6 +395,7 @@ const Filter = ({
                 <Grid container>
                     <Grid item xs={12}>
                         <Button
+                            id="filterBtn"
                             variant="contained"
                             color="primary"
                             onClick={(e) => {

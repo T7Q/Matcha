@@ -11,6 +11,7 @@ import {
     Help,
     Loyalty,
     QueryBuilder,
+    WbIncandescent
 } from "@material-ui/icons";
 
 import Match from "../common/matchGallery/GetMatches";
@@ -95,7 +96,7 @@ const Matches = ({ resetFilter, match, history }) => {
                     />
                     <Tab
                         label="New People"
-                        icon={<Loyalty />}
+                        icon={<WbIncandescent />}
                         {...a11yProps(3)}
                     />
                     <Tab

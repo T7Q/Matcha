@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import axios from "axios";
-import clsx from "clsx";
-import { getCountries } from "countries-cities";
+import React from "react";
+
 import {
     Switch,
-    TextField,
-    Typography,
+    // TextField,
+    // Typography,
 } from "@material-ui/core";
-
 
 const Toggle = ({ name, updateFilter, filter }) => {
     const handleChange = (event) => {
-    
-        updateFilter({ ...filter, [event.target.name]: event.target.checked });
-        
+        updateFilter({ ...filter, [event.target.name]: event.target.checked});
     };
     console.log("name", name);
     console.log("filter", filter);
@@ -31,4 +24,4 @@ const Toggle = ({ name, updateFilter, filter }) => {
     );
 };
 
-export default Toggle
+export default Toggle;

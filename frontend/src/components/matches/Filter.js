@@ -20,7 +20,7 @@ import { HighlightOff, ExpandMore } from "@material-ui/icons";
 
 import { updateFilter, resetFilter } from "../../actions/match";
 import Match from "../common/matchGallery/GetMatches";
-// import Toggle from "./filter/Toggle";
+import Toggle from "./filter/Toggle";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -277,15 +277,15 @@ const Filter = ({
                     </Grid>
                     <Grid item xs={6}>
                         New Switch
-                        {/* <Toggle name="believe_cn" updateFilter={updateFilter()} filter={filter} /> */}
-                        I believe in Chinese Astrology
-                        <Switch
+                        <Toggle name="believe_cn" updateFilter={updateFilter} filter={filter} />
+                        {/* I believe in Chinese Astrology */}
+                        {/* <Switch
                             checked={filter.believe_cn}
                             onChange={handleChange}
                             color="primary"
                             name="believe_cn"
                             inputProps={{ "aria-label": "secondary checkbox" }}
-                        />
+                        /> */}
                         <Autocomplete
                             id="combo-box-demo"
                             onChange={handleOrientationChange}

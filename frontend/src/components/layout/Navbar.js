@@ -86,7 +86,7 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
     const profileMenu = [
         {
             title: 'My profile',
-            pageUrl: '/profile',
+            pageUrl: '/profile/me',
         },
         {
             title: 'Account Settings',

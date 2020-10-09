@@ -7,7 +7,6 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 const ProfileActions = () => {
     return (
         <>
-            {/* <Button variant="contained">Edit</Button> */}
             <IconButton>
                 <ArrowForwardIosIcon />
             </IconButton>

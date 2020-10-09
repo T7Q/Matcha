@@ -2,21 +2,20 @@ import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
-import { getCurrentProfile } from '../../actions/profile';
+import { getProfile } from '../../actions/profile';
 import Typography from '@material-ui/core/Typography';
 import ProfileActions from './ProfileActions';
-import Moment from 'react-moment';
+import Moment from 'react-moment'; 
 
+const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...props }) => {
+    // get the type the profile (my or other user) based on url param
+    const type = (props.match.path === "/profile/me" ? "myProfile" : "otherUser");
+    // map other user id from url param
+    const otherUserId = (props.match.path === "/profile/me" ? authUserId : props.match.params.user_id)
 
-
-
-const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
     useEffect(() => {
-        getCurrentProfile();
-    }, [getCurrentProfile]);
-
- 
-
+        getProfile(type, otherUserId);
+    }, [getProfile, type, otherUserId]);
 
     return loading && profile === null ? (
         <Spinner />
@@ -25,7 +24,7 @@ const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
 
             <ProfileActions />
             <Typography variant='h6'>
-                Logged in user id: {profile.user_id}
+                user id: {profile.user_id}
                 <ProfileActions />
             </Typography>
             <Typography variant='body1'>
@@ -50,12 +49,14 @@ const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
 };
 
 Profile.propTypes = {
-    getCurrentProfile: PropTypes.func.isRequired,
+    getProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
+    authUserId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
     profile: state.profile,
+    authUserId: state.auth.user.userId,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile);
+export default connect(mapStateToProps, { getProfile })(Profile);

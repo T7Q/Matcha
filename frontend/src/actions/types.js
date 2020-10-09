@@ -19,3 +19,4 @@ export const SET_OFFSET = 'SET_OFFSET';
 export const GET_FILTER_MATCH = 'GET_FILTER_MATCH';
 export const FILTER_RESET = 'FILTER_RESET';
 export const FILTER_UPDATE = 'FILTER_UPDATE';
+export const CLEAR_PROFILE = 'CLEAR_PROFILE';

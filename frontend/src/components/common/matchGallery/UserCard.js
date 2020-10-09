@@ -11,6 +11,8 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatIcon from "@material-ui/icons/Chat";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { Grid } from "@material-ui/core";
+import { Link } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -28,6 +30,17 @@ const UserCard = ({ card }) => {
     const classes = useStyles();
     card.fame = parseFloat(card.fame);
     // console.log("card", card);
+    console.log("card", card);
+    const handleRedirect = newRoute => {
+        // history.push(newRoute);
+        console.log("clicked");
+        // return <Redirect to=`/profile/${card.user_id}` />
+        return <Redirect to="/Likes" />
+    
+        // return <Link to={`/profile/${card.user_id}`} className='btn btn-primary' >visit profile</Link> 
+    };
+    const sendto = `/profile/${card.user_id}`;
+    console.log("sendto", sendto);
     return (
         <Grid item xs={12} sm={4}>
             <Card className={classes.root}>
@@ -58,7 +71,9 @@ const UserCard = ({ card }) => {
                         {card.fame === null ? 0 : card.fame.toFixed(1)}
                     </Button>
                     {/* <Connection connected={card.connected} /> */}
-                    <IconButton aria-label="chat">
+                    <Link to={sendto} className='btn btn-primary' >visit profile</Link> 
+                    <IconButton aria-label="chat" onClick={() => handleRedirect()}>
+                        {/* {card.connected ? <ChatIcon /> : <FavoriteIcon onClick={() => { alert('clicked') }}/>} */}
                         {card.connected ? <ChatIcon /> : <FavoriteIcon />}
                     </IconButton>
                 </CardActions>

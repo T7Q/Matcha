@@ -12,7 +12,7 @@ router.get('/me', authorization.required, show.myProfile);
 // @route   GET /user/:user_id
 // @desc    Get profile by user ID
 // @access  Private
-router.get('/:user_id', authorization.required, show.userProfile);
+router.get('/user/:user_id', authorization.required, show.userProfile);
 
 // @route   GET /tags
 // @desc    Get all tags

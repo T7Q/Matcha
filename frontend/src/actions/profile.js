@@ -19,7 +19,7 @@ export const getProfile = (type, userId) => async (dispatch) => {
         const res =
             type === "myProfile"
                 ? await axios.get("/profile/me")
-                : await axios.get(`/profile/${userId}`);
+                : await axios.get(`/profile/user/${userId}`);
 
         // send data to reducer
         dispatch({

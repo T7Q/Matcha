@@ -4,7 +4,7 @@ const accountModel = require('../../models/account');
 
 const userProfile = async (req, res) => {
     const userId = req.params.user_id;
-    console.log("user profile by id")
+
     try {
         let userInfo = await accountModel.findUserInfo("user_id", userId, "user_id", "fame_rating",
         "bio", "first_name", "last_name",
@@ -16,7 +16,7 @@ const userProfile = async (req, res) => {
                 userInfo['tags'].push(value.tag_name)
             })
         }
-        console.log(userInfo);
+        
         return res.json(userInfo);
     } catch (e) {
         return res.json({ error: "Error getting profile info" });

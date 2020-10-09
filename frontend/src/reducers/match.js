@@ -1,10 +1,11 @@
 import {
     GET_MATCH,
-    FETCH_MORE_MATCH,
     MATCH_ERROR,
-    GET_FILTER_MATCH,
+    FETCH_MORE_MATCH,
     FILTER_RESET,
     FILTER_UPDATE,
+    UPDATE_CONNECTED,
+    UPDATE_ERROR
 } from "../actions/types";
 
 const initialState = {
@@ -34,19 +35,15 @@ const initialState = {
 export default function (state = initialState, action) {
     const { type, payload } = action;
     // console.log("REDUCER");
-    // console.log("state", state.filter);
+    // console.log("stateMATCH", state);
+    // console.log("action", action);
+    // console.log("action", state.match.payload);
     switch (type) {
         case GET_MATCH:
             return {
                 ...state,
                 iEnd: state.iStart + state.count,
                 match: payload,
-                loading: false,
-            };
-        case GET_FILTER_MATCH:
-            return {
-                ...state,
-                // filter: payload,
                 loading: false,
             };
         case MATCH_ERROR:
@@ -88,6 +85,17 @@ export default function (state = initialState, action) {
                 filter: payload,
                 loading: false,
             };
+            case UPDATE_CONNECTED:
+                return {
+                    ...state,
+                    loading: false,
+                };
+            case UPDATE_ERROR:
+                return {
+                    ...state,
+                    error: payload,
+                    loading: false,
+                };
         default:
             return state;
     }

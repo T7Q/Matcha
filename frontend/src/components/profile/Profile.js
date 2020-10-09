@@ -1,29 +1,34 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Moment from 'react-moment'; 
+import { Typography } from '@material-ui/core';
+// import ProfileActions from './ProfileActions';
+import { getProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
-import { getCurrentProfile } from '../../actions/profile';
-import Typography from '@material-ui/core/Typography';
-import ProfileActions from './ProfileActions';
-import Moment from 'react-moment';
 
-const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
+const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...props }) => {
+    // get the type the profile (my or other user) based on url param
+    const type = (props.match.path === "/profile/me" ? "myProfile" : "otherUser");
+    // map other user id from url param
+    const otherUserId = (props.match.path === "/profile/me" ? authUserId : props.match.params.user_id)
+    // console.log("PROFILE user info", type, otherUserId, profile);
+
     useEffect(() => {
-        getCurrentProfile();
-    }, [getCurrentProfile]);
-
-    return loading && profile === null ? (
+        getProfile(type, otherUserId);
+        // addInteraction(),
+    }, [getProfile, type, otherUserId]);
+    return loading ? (
         <Spinner />
     ) : (
         <Fragment>
-            <ProfileActions />
+
+            {/* <ProfileActions /> */}
             <Typography variant='h6'>
-                Logged in user id: {profile.user_id}
-                <ProfileActions />
+                user id: {profile.user_id}
             </Typography>
             <Typography variant='body1'>
                 {profile.first_name} {profile.last_name}
-                <ProfileActions />
             </Typography>
             <Typography variant='body1'>{profile.fame_rating}</Typography>
             <Typography variant='body1'>{profile.username}</Typography>
@@ -43,12 +48,14 @@ const Profile = ({ getCurrentProfile, profile: { profile, loading } }) => {
 };
 
 Profile.propTypes = {
-    getCurrentProfile: PropTypes.func.isRequired,
+    getProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
+    authUserId: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
     profile: state.profile,
+    authUserId: state.auth.user.userId,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(Profile);
+export default connect(mapStateToProps, { getProfile })(Profile);

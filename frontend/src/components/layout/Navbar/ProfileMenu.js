@@ -6,7 +6,7 @@ import { useStyles } from '../../../styles/custom';
 const profileMenu = [
     {
         title: 'My profile',
-        pageUrl: '/profile',
+        pageUrl: '/profile/me',
     },
     {
         title: 'Account Settings',

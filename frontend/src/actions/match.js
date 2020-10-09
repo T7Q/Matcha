@@ -58,3 +58,4 @@ export const updateFilter = (filter) => (dispatch) => {
         payload: filter,
     });
 };
+

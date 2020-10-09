@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import axios from "axios";
 import clsx from "clsx";
-import { getCountries } from 'countries-cities';
-// https://www.npmjs.com/package/country-city
+import { getCountries } from "countries-cities";
 import {
     Button,
     Collapse,
@@ -21,11 +20,9 @@ import { HighlightOff, ExpandMore } from "@material-ui/icons";
 
 import { updateFilter, resetFilter } from "../../actions/match";
 import Match from "../common/matchGallery/GetMatches";
+import Toggle from "./filter/Toggle";
 
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
-
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,21 +41,18 @@ const useStyles = makeStyles((theme) => ({
         transform: "rotate(180deg)",
     },
 
-
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
-      },
-      selectEmpty: {
+    },
+    selectEmpty: {
         marginTop: theme.spacing(2),
-      },
+    },
 }));
 
 function valuetext(value) {
     return `${value}`;
 }
-
-
 
 const Filter = ({
     updateFilter,
@@ -68,34 +62,29 @@ const Filter = ({
     setting,
 }) => {
     const [filterIsOn, setFilter] = React.useState(0);
+
     const orientation = [
-        "Gay",
-        "Lesbian",
-        "Straight woman",
-        "Straight man",
-        "Bi",
+        { label: "man interested in man", db: "gay" },
+        { label: "woman interested in woman", db: "lesbian" },
+        { label: "woman interested in man", db: "straight_woman" },
+        { label: "man interested in woman", db: "straight_man" },
+        { label: "woman interested in woman and man", db: "bi" },
+        { label: "man interested in woman and man", db: "bi" },
     ];
+
     const sort = [
-        "Yongest" ,
-        "Oldest" ,
-        "Best rating" ,
-        "Lowest rating" ,
-        "Closest" ,
-        "Furtherst away" ,
-        "Most interest in common" ,
-        "Least interest in common" ,
+        { label: "Yongest", db: "age_asc" },
+        { label: "Oldest", db: "age_desc" },
+        { label: "Best rating", db: "fame_desc" },
+        { label: "Lowest rating", db: "fame_asc" },
+        { label: "Closest", db: "distance_asc" },
+        { label: "Furtherst away", db: "distance_desc" },
+        { label: "Most interest in common", db: "commonTag_desc" },
+        { label: "Least interest in common", db: "commonTag_asc" },
     ];
     // console.log("FILTER component");
-   
+
     const countries = getCountries();
-    // let cities = [];
-
-    // for (const element of countries ){
-    //     cities = cities.concat(getCities(element));
-    // };
-    // console.log("cities", cities);
-    // console.log("cities", countries);
-
 
     useEffect(() => {
         updateFilter(filter);
@@ -161,7 +150,7 @@ const Filter = ({
     const handleOrientationChange = (event, newValue) => {
         let value = "";
         if (newValue !== null) {
-            value = newValue.replace(/\s+/g, "_").toLowerCase();
+            value = newValue.db;
         }
         updateFilter({
             ...filter,
@@ -170,16 +159,8 @@ const Filter = ({
     };
     const handleCountryChange = (event, newValue) => {
         let value = "";
-        // cities = [];
-        // console.log("input", newValue);
         if (newValue !== null) {
             value = newValue;
-            // for (const element of newValue ){
-            //     cities = cities.concat(getCities(element));
-            // };
-            // console.log("cities", cities);
-            // console.log("cities", getCities("Finland"));
-            // console.log("cities", getCities(newValue[0]));
         }
         updateFilter({
             ...filter,
@@ -188,77 +169,69 @@ const Filter = ({
     };
     const handleSortChange = (event, newValue) => {
         let value = [];
-        const options = {
-            Yongest:  "age_asc",
-            Oldest: "age_desc",
-            Best_rating: "fame_desc",
-            Lowest_rating: "fame_asc",
-            Closest: "distance_asc",
-            Furtherst_away: "distance_desc",
-            Most_interest_in_common: "commonTag_desc" ,
-            Least_interest_in_common: "commonTag_asc",
-        }
-        // console.log("input", newValue);
         if (newValue !== null) {
-            const temp = newValue.replace(/\s+/g, "_");
-            value[0] = options[temp];
+            value[0] = newValue.db;
         }
         updateFilter({
             ...filter,
             order: value,
         });
-        document.getElementById("filterBtn").click();
+        setFilter(filterIsOn + 1);
     };
 
     return (
         <>
             <Grid container spacing={2}>
-            <Grid item xs={3}>
-            <Autocomplete
-                            id="combo-sort"
-                            onChange={handleSortChange}
-                            options={sort}
-                            getOptionLabel={(option) => option}
-                            getOptionSelected={(option) => option}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Sort"
-                                />
-                            )}
-                        />
-            </Grid>
-            <Grid item xs={3}>
-            Filter
-            {filterIsOn > 0 ? (
-                <IconButton
-                    onClick={() => {
-                        handleClickReset();
-                    }}
-                    aria-label="close"
-                    size="small"
-                >
-                    <HighlightOff color="primary" />
-                </IconButton>
-            ) : (
-                ""
-            )}
-            <IconButton
-                className={clsx(classes.expand, {
-                    [classes.expandOpen]: expanded,
-                })}
-                onClick={handleExpandClick}
-                aria-expanded={expanded}
-                aria-label="show more"
-            >
-                <ExpandMore color="primary" />
-            </IconButton>
-
-            </Grid>
+                <Grid item xs={3}>
+                    <Autocomplete
+                        id="combo-sort"
+                        onChange={handleSortChange}
+                        options={sort}
+                        getOptionLabel={(option) => option.label}
+                        getOptionSelected={(option) => option}
+                        renderInput={(params) => (
+                            <TextField {...params} label="Sort" />
+                        )}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    Filter
+                    {filterIsOn > 0 ? (
+                        <IconButton
+                            onClick={() => {
+                                handleClickReset();
+                            }}
+                            aria-label="close"
+                            size="small"
+                        >
+                            <HighlightOff color="primary" />
+                        </IconButton>
+                    ) : (
+                        ""
+                    )}
+                    <IconButton
+                        className={clsx(classes.expand, {
+                            [classes.expandOpen]: expanded,
+                        })}
+                        onClick={handleExpandClick}
+                        aria-expanded={expanded}
+                        aria-label="show more"
+                    >
+                        <ExpandMore color="primary" />
+                    </IconButton>
+                </Grid>
             </Grid>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <Grid container spacing={3}>
                     <Grid item xs={6}>
+                        I believe in Western Astrology
+                        <Switch
+                            checked={filter.believe_west}
+                            onChange={handleChange}
+                            color="primary"
+                            name="believe_west"
+                            inputProps={{ "aria-label": "secondary checkbox" }}
+                        />
                         <Typography id="range-slider" gutterBottom>
                             Age 18 - 120
                         </Typography>
@@ -303,6 +276,26 @@ const Filter = ({
                         />
                     </Grid>
                     <Grid item xs={6}>
+                        New Switch
+                        <Toggle name="believe_cn" updateFilter={updateFilter} filter={filter} />
+                        {/* I believe in Chinese Astrology */}
+                        {/* <Switch
+                            checked={filter.believe_cn}
+                            onChange={handleChange}
+                            color="primary"
+                            name="believe_cn"
+                            inputProps={{ "aria-label": "secondary checkbox" }}
+                        /> */}
+                        <Autocomplete
+                            id="combo-box-demo"
+                            onChange={handleOrientationChange}
+                            options={orientation}
+                            getOptionLabel={(option) => option.label}
+                            getOptionSelected={(option) => option}
+                            renderInput={(params) => (
+                                <TextField {...params} label="I'm a ..." />
+                            )}
+                        />
                         <Autocomplete
                             multiple
                             limitTags={2}
@@ -315,43 +308,11 @@ const Filter = ({
                                 <TextField
                                     {...params}
                                     variant="standard"
-                                    label="Interests"
-                                    placeholder="Interests"
+                                    label="My interests are ..."
                                 />
                             )}
                         />
                         <Autocomplete
-                            id="combo-box-demo"
-                            onChange={handleOrientationChange}
-                            options={orientation}
-                            getOptionLabel={(option) => option}
-                            getOptionSelected={(option) => option}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="I'm looking for"
-                                />
-                            )}
-                        />
-
-
-                        <Switch
-                            checked={filter.believe_cn}
-                            onChange={handleChange}
-                            color="primary"
-                            name="believe_cn"
-                            inputProps={{ "aria-label": "secondary checkbox" }}
-                        />
-                        <Switch
-                            checked={filter.believe_west}
-                            onChange={handleChange}
-                            color="primary"
-                            name="believe_west"
-                            inputProps={{ "aria-label": "secondary checkbox" }}
-                        />
-
-
-<Autocomplete
                             multiple
                             limitTags={2}
                             id="country-standard"
@@ -362,34 +323,12 @@ const Filter = ({
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    variant="standard"
-                                    label="Country"
-                                    placeholder="Country"
+                                    variant="outlined"
+                                    // variant="standard"
+                                    label="Living in ..."
                                 />
                             )}
                         />
-{/* <Autocomplete
-                            multiple
-                            limitTags={2}
-                            id="tags-standard"
-                            // onChange={handleCityChange}
-                            options={cities}
-                            getOptionLabel={(option) => option}
-                            defaultValue={[]}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    variant="standard"
-                                    label="City"
-                                    placeholder="City"
-                                />
-                            )}
-                        /> */}
-
-
-
-
-
                     </Grid>
                 </Grid>
                 <Grid container>

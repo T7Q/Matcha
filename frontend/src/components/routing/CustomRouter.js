@@ -39,7 +39,9 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <PrivateRoute exact path="/messages" component={Chat} />
                     <Redirect exact from="/likes" to="/likes/likesyou" />
                     <PrivateRoute exact path="/likes/:page?" component={Likes} />
-                    <PrivateRoute exact path="/profile" component={Profile} />
+                    <Redirect exact from="/profile" to="/profile/me" />
+                    <PrivateRoute exact path="/profile/me" component={Profile} />
+                    <PrivateRoute exact path="/profile/:user_id?" component={Profile} />
                     <Route exact path="/complete" component={ProfileCreation} />
                     <PrivateRoute path="/settings" component={Settings} />
                     <Redirect exact from="/matches" to="/matches/recommend" />

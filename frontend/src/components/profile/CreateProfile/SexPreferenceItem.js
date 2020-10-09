@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, FormHelperText, FormControl } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 import { useStyles } from '../../../styles/custom';
 
-const SexPreferenceItem = ({ setFormData, formData }) => {
+const SexPreferenceItem = ({ error, setData, formData }) => {
     const classes = useStyles();
 
     return (
@@ -11,8 +11,8 @@ const SexPreferenceItem = ({ setFormData, formData }) => {
             orientation="vertical"
             value={formData.sex_preference}
             exclusive
-            onChange={(e, v) => {
-                setFormData({ ...formData, sex_preference: v });
+            onChange={(e, value) => {
+                setData(value, 'sex_preference');
             }}>
             <Box width={{ md: '300px' }} py={2}>
                 <Typography variant="h5" className={classes.customHeader}>
@@ -28,6 +28,9 @@ const SexPreferenceItem = ({ setFormData, formData }) => {
             <ToggleButton className={classes.radio} name="both" value="both">
                 Both
             </ToggleButton>
+            <FormControl className={classes.ml} error={error ? true : false}>
+                <FormHelperText>{error}</FormHelperText>
+            </FormControl>
         </ToggleButtonGroup>
     );
 };

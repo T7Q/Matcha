@@ -23,7 +23,9 @@ module.exports = async (req, res) => {
             return Object.keys(error).length != 0;
         });
 
-        if (errors.length != 0) return res.json({ error: errors });
+        errors = Object.assign({}, ...errors);
+
+        if (Object.keys(errors).length !== 0) return res.json({ error: errors });
 
         // Build query to insert tags into database
         // console.log('create2');
@@ -43,6 +45,7 @@ module.exports = async (req, res) => {
 
         // Change user status to "2" to be discoverable by other users
         await profileModel.editProfile(userId, 'status', '2');
+        await profileModel.editProfile(userId, 'online', '1');
 
         return res.json({
             tkn: jwt.sign(

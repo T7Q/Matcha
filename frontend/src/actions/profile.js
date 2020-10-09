@@ -45,12 +45,11 @@ export const createProfile = (formData, images, history) => async dispatch => {
         // console.log('res', res);
         if (res.data.error) {
             const errors = res.data.error;
-            errors.forEach(error => dispatch(setAlert(error.error, 'danger')));
-            console.log('error in createprofile', errors);
             dispatch({
                 type: PROFILE_ERROR,
                 payload: res.data.error,
             });
+            return errors;
         } else {
             dispatch({
                 type: CREATE_PROFILE,

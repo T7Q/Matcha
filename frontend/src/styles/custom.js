@@ -20,6 +20,7 @@ export const theme = createMuiTheme({
         },
         text: {
             primary: '#fff',
+            // primary: '#b5bad3',
             secondary: '#b5bad3',
         },
         background: {
@@ -90,6 +91,11 @@ export const theme = createMuiTheme({
                 color: '#000',
             },
         },
+        MuiAutocomplete: {
+            option: {
+                color: '#0e1125',
+            },
+        },
     },
 });
 
@@ -99,6 +105,11 @@ export const useStyles = makeStyles(theme => ({
             border: '1px solid #000',
             background: theme.palette.secondary.main,
         },
+    },
+    whiteInput: {
+        // backgroundColor: '#fff',
+        // color: '#000',
+        // borderRadius: '30px',
     },
     menuItem: {
         color: '#fff',
@@ -242,29 +253,14 @@ export const useStyles = makeStyles(theme => ({
             borderWidth: 2,
         },
     },
-    customAutocomplete: {
-        // backgroundColor: '#000',
-        // color: '#000',
-        // '& option': {
-        //     backgroundColor: '#fff',
-        //     color: '#c0c0c0',
-        //     width: '100%',
-        //     fontSize: '20px',
-        //     borderWidth: 2,
-        // },
-        // '& .MuiAutocomplete-option': {
-        //     backgroundColor: '#fff',
-        //     color: '#c0c0c0',
-        //     width: '100%',
-        //     fontSize: '20px',
-        //     borderWidth: 2,
-        // },
-    },
     bioInput: {
-        minHeight: '150px',
+        // minHeight: '150px',
         minWidth: '400px',
         [theme.breakpoints.down('xs')]: {
             minWidth: '200px',
         },
+    },
+    ml: {
+        marginLeft: '30px',
     },
 }));

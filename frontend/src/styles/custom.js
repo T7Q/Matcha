@@ -82,6 +82,14 @@ export const theme = createMuiTheme({
         //         textTransform: 'capitalize',
         //     },
         // },
+        MuiDropzoneArea: {
+            text: {
+                color: '#000',
+            },
+            icon: {
+                color: '#000',
+            },
+        },
     },
 });
 
@@ -233,6 +241,24 @@ export const useStyles = makeStyles(theme => ({
             fontSize: '20px',
             borderWidth: 2,
         },
+    },
+    customAutocomplete: {
+        // backgroundColor: '#000',
+        // color: '#000',
+        // '& option': {
+        //     backgroundColor: '#fff',
+        //     color: '#c0c0c0',
+        //     width: '100%',
+        //     fontSize: '20px',
+        //     borderWidth: 2,
+        // },
+        // '& .MuiAutocomplete-option': {
+        //     backgroundColor: '#fff',
+        //     color: '#c0c0c0',
+        //     width: '100%',
+        //     fontSize: '20px',
+        //     borderWidth: 2,
+        // },
     },
     bioInput: {
         minHeight: '150px',

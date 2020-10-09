@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Typography } from '@material-ui/core';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
+import { Box, Typography, TextField } from '@material-ui/core';
+import { ToggleButton, ToggleButtonGroup, Autocomplete } from '@material-ui/lab';
 import { useStyles } from '../../../styles/custom';
 
 const SexPreferenceItem = ({ setFormData, formData }) => {
@@ -13,14 +13,14 @@ const SexPreferenceItem = ({ setFormData, formData }) => {
         let isMounted = true;
         async function getTags() {
             const res = await axios.get('profile/tags');
-            isMounted && setRealTags(res.data);
+            isMounted && setRealTags(res.data.map(item => item.tag));
         }
         getTags();
         return () => {
             isMounted = false;
         };
     }, []);
-
+    console.log(formData.tags);
     return (
         <Box px={{ md: 5 }}>
             <Box pb={2}>
@@ -28,19 +28,19 @@ const SexPreferenceItem = ({ setFormData, formData }) => {
                     You are passionate about ...
                 </Typography>
             </Box>
-            <ToggleButtonGroup
-                style={{ flexDirection: 'row', flexWrap: 'wrap' }}
-                orientation="vertical"
-                value={formData.tags}
+            <Autocomplete
                 onChange={(e, v) => {
                     setFormData({ ...formData, tags: v });
-                }}>
-                {realTags.map(tag => (
-                    <ToggleButton key={tag.tag} className={classes.radio} name={tag.tag} value={tag.tag}>
-                        {tag.tag}
-                    </ToggleButton>
-                ))}
-            </ToggleButtonGroup>
+                }}
+                className={classes.customAutocomplete}
+                multiple
+                options={realTags}
+                getOptionLabel={option => option}
+                value={formData.tags}
+                renderInput={params => (
+                    <TextField {...params} variant="standard" label="Tags" placeholder="passions" />
+                )}
+            />
         </Box>
     );
 };

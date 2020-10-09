@@ -21,10 +21,21 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         sex_preference: '',
         bio: '',
         birth_date: '2010/05/05',
-        tags: '',
+        tags: [],
         country: '',
         currentStep: 1,
     });
+
+    const [errors, setErrors] = useState({
+        birthdayError: '',
+        countryError: '',
+        genderError: '',
+        sexpreferenceError: '',
+        tagsError: '',
+        imagesError: '',
+        bioError: '',
+    });
+
     const [images, setImages] = useState({
         1: [],
         base1: '',
@@ -42,6 +53,26 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     const classes = useStyles();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
+    const validateNext = async (name, props) => {
+        const value = props.value;
+        console.log('name: ', name, '!');
+        console.log('props: ', props, '!');
+        switch (name) {
+            case 'birthday':
+                return true;
+            case 'country':
+                return true;
+            case 'gender':
+                return true;
+            case 'sexPreference':
+                return true;
+            case 'tags':
+                return true;
+            default:
+                return true;
+        }
+    };
+
     if (isAuthenticated && user.status === 2) {
         return <Redirect to="/matches" />;
     } else if (!isAuthenticated) {
@@ -50,6 +81,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
 
     const validate = target => {
         console.log(target);
+        return true;
     };
 
     const onChange = e => {
@@ -66,12 +98,12 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
 
     return (
         <WizardForm
-            validate={validate}
+            validate={validateNext}
             header="About you"
             setFormData={setFormData}
             formData={formData}
             onSubmit={onSubmit}>
-            <Box>
+            {/* <Box>
                 <Typography className={classes.customHeader} variant={isMobile ? 'h5' : 'h4'}>
                     Set up your profile
                 </Typography>
@@ -82,7 +114,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
             <BirthdayItem setFormData={setFormData} formData={formData} />
             <CountryItem setFormData={setFormData} formData={formData} />
             <GenderItem formData={formData} setFormData={setFormData} />
-            <SexPreferenceItem formData={formData} setFormData={setFormData} />
+            <SexPreferenceItem formData={formData} setFormData={setFormData} /> */}
             <TagItem formData={formData} setFormData={setFormData} />
             <UploadItem images={images} setImages={setImages} />
             <BioItem bio={formData.bio} onChange={onChange} />

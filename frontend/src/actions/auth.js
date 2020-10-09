@@ -37,12 +37,10 @@ export const register = ({ formData, history }) => async dispatch => {
         const res = await axios.post('/account/register', body, config);
         if (res.data.error) {
             const errors = res.data.error;
-            if (errors) {
-                errors.forEach(error => dispatch(setAlert(error.error, 'danger')));
-            }
             dispatch({
                 type: REGISTER_FAIL,
             });
+            return errors;
         } else {
             dispatch({
                 type: REGISTER_SUCCESS,

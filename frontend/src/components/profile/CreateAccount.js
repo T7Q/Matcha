@@ -216,7 +216,12 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     };
 
     const onSubmit = async () => {
-        register({ username, email, password, confirmPassword, lastname, firstname, history });
+        const dataToSubmit = { ...formData };
+        delete dataToSubmit.currentStep;
+        const errorsFromApi = await register(dataToSubmit);
+        if (errorsFromApi) {
+            setErrors({ ...errors, ...errorsFromApi });
+        }
     };
 
     return (

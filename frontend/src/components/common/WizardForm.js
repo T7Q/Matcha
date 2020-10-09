@@ -6,7 +6,13 @@ import { useStyles } from '../../styles/custom';
 
 const WizardForm = ({ header, children, formData, setFormData, onSubmit, history, validate }) => {
     let step = formData.currentStep;
-    const steps = children.length;
+    let steps = 1;
+    if (children) {
+        steps = children.length;
+    }
+    if (!steps) {
+        steps = 1;
+    }
     const classes = useStyles();
 
     const next = () => {
@@ -30,8 +36,9 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
 
     const formSubmit = async e => {
         e.preventDefault();
-        // console.log(children[step - 1].props);
-        if (await validate(children[step - 1].props.name, children[step - 1].props)) {
+        if (steps === 1) {
+            onSubmit();
+        } else if (await validate(children[step - 1].props.name, children[step - 1].props)) {
             step < steps ? next() : onSubmit();
         }
     };
@@ -49,7 +56,7 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
                         <Typography variant="h6">{header}</Typography>
                         <LinearProgress className={classes.root} variant="determinate" value={normalise(step)} />
                     </Box>
-                    {children[step - 1]}
+                    {steps === 1 ? children : children[step - 1]}
                     <Box mt={5}>
                         <Button variant="contained" color="primary" type="submit" className={classes.customButton}>
                             {step < steps ? 'Next' : 'Done'}

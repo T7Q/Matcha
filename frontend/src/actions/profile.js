@@ -3,7 +3,8 @@ import {
     CREATE_PROFILE,
     GET_PROFILE,
     PROFILE_ERROR,
-    CLEAR_PROFILE,
+    UPDATE_CONNECTED,
+    UPDATE_ERROR,
 } from "./types";
 import { setAlert } from "./alert";
 import { loadUser } from "./auth";
@@ -11,7 +12,7 @@ import { loadUser } from "./auth";
 // Get user profile
 export const getProfile = (type, userId) => async (dispatch) => {
     // clear profile state to prevent blinking of old info on screen
-    dispatch({ type: CLEAR_PROFILE });
+    // dispatch({ type: CLEAR_PROFILE });
 
     // send request to corresponding router depending on wheather profile is My or Other user
     try {
@@ -89,5 +90,34 @@ export const createProfile = (formData, images, history) => async (
         }
     } catch (err) {
         console.log(err);
+    }
+};
+
+// Add like, block user, report user
+export const addInteraction = (type, toUserId, match) => async (dispatch) => {
+    // console.log("ACTION add interaction");
+    // console.log("type", type, "toUserId", toUserId);
+
+    // prepare data to send to the server
+    const data = { key: "likes", to_user_id: toUserId };
+    try {
+        // add interaction to the database
+        await axios.post("/profile/addinteraction", data);
+
+        // update relevant state
+        match.forEach((element) => {
+            if (element.user_id === toUserId) {
+                element["connected"] = 1;
+            }
+        });
+
+        dispatch({
+            type: UPDATE_CONNECTED,
+        });
+    } catch (err) {
+        dispatch({
+            type: UPDATE_ERROR,
+            payload: { status: err },
+        });
     }
 };

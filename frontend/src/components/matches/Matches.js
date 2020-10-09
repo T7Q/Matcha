@@ -9,7 +9,6 @@ import {
     Favorite,
     PersonPin,
     Help,
-    Loyalty,
     QueryBuilder,
     WbIncandescent
 } from "@material-ui/icons";

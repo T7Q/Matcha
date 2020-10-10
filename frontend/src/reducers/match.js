@@ -4,9 +4,25 @@ import {
     FETCH_MORE_MATCH,
     FILTER_RESET,
     FILTER_UPDATE,
-    UPDATE_CONNECTED,
+    UPDATE_LIKES,
     UPDATE_ERROR
 } from "../actions/types";
+
+const filter = {
+    type: "",
+    min_age: 18,
+    max_age: 120,
+    min_distance: 0,
+    max_distance: 200000,
+    min_fame: 0,
+    max_fame: 5,
+    tags: "",
+    country: "",
+    order: "",
+    believe_cn: true,
+    believe_west: true,
+    sex_orientation: "",
+};
 
 const initialState = {
     match: [],
@@ -15,21 +31,7 @@ const initialState = {
     iEnd: 0,
     loading: true,
     error: {},
-    filter: {
-        type: "",
-        min_age: 18,
-        max_age: 120,
-        min_distance: 0,
-        max_distance: 200000,
-        min_fame: 0,
-        max_fame: 5,
-        tags: "",
-        country: "",
-        order: "",
-        believe_cn: true,
-        believe_west: true,
-        sex_orientation: "",
-    },
+    filter: filter,
 };
 
 export default function (state = initialState, action) {
@@ -62,21 +64,7 @@ export default function (state = initialState, action) {
         case FILTER_RESET:
             return {
                 ...state,
-                filter: {
-                    type: "",
-                    min_age: 18,
-                    max_age: 120,
-                    min_distance: 0,
-                    max_distance: 200000,
-                    min_fame: 0,
-                    max_fame: 5,
-                    tags: "",
-                    country: "",
-                    order: "",
-                    believe_cn: true,
-                    believe_west: true,
-                    sex_orientation: "",
-                },
+                filter: filter,
                 loading: false,
             };
         case FILTER_UPDATE:
@@ -85,7 +73,7 @@ export default function (state = initialState, action) {
                 filter: payload,
                 loading: false,
             };
-            case UPDATE_CONNECTED:
+            case UPDATE_LIKES:
                 return {
                     ...state,
                     loading: false,

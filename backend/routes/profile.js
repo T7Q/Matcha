@@ -37,12 +37,12 @@ router.post('/editTags', authorization.required, edit.tags);
 // @route   POST /profile/addinteraction
 // @desc    Add like, view, block, report
 // @access  Private
-router.post('/addinteraction', authorization.required, interaction.add);
+router.post('/addinteraction/:type/:user_id', authorization.required, interaction.add);
 
 // @route   POST /profile/removeinteraction
 // @desc    remove like, view, block, report
 // @access  Private
-router.post('/removeinteraction', authorization.required, interaction.remove);
+router.post('/removeinteraction/:type/:user_id', authorization.required, interaction.remove);
 
 // @route   POST /profile/delete
 // @desc    Delete account
@@ -63,5 +63,10 @@ router.post('/uploadphoto', authorization.required, photo.upload);
 // @desc    Delete user photo
 // @access  Private
 router.post('/deletephoto', authorization.required, photo.deletePhoto);
+
+// @route   POST /profile/connected
+// @desc    Check if users are connected
+// @access  Private
+router.post('/connected/:user_id', authorization.required, interaction.connected);
 
 module.exports = router;

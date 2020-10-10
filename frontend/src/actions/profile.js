@@ -3,7 +3,7 @@ import {
     CREATE_PROFILE,
     GET_PROFILE,
     PROFILE_ERROR,
-    UPDATE_CONNECTED,
+    UPDATE_LIKES,
     UPDATE_ERROR,
 } from "./types";
 import { setAlert } from "./alert";
@@ -93,26 +93,39 @@ export const createProfile = (formData, images, history) => async (
     }
 };
 
-// Add like, block user, report user
-export const addInteraction = (type, toUserId, match) => async (dispatch) => {
-    // console.log("ACTION add interaction");
-    // console.log("type", type, "toUserId", toUserId);
-
-    // prepare data to send to the server
-    const data = { key: "likes", to_user_id: toUserId };
+// Add like, update connection level
+export const addLike = (type, toUserId, match) => async (dispatch) => {
     try {
-        // add interaction to the database
-        await axios.post("/profile/addinteraction", data);
-
-        // update relevant state
+        await axios.post(`/profile/addinteraction/likes/${toUserId}`, {});
+        const result = await axios.post(`/profile/connected/${toUserId}`, {});
         match.forEach((element) => {
             if (element.user_id === toUserId) {
-                element["connected"] = 1;
+                element["connected"] = result.data.msg;
             }
         });
-
         dispatch({
-            type: UPDATE_CONNECTED,
+            type: UPDATE_LIKES,
+        });
+    } catch (err) {
+        dispatch({
+            type: UPDATE_ERROR,
+            payload: { status: err },
+        });
+    }
+};
+
+// Remove like, update connection level
+export const removeLike = (type, toUserId, match) => async (dispatch) => {
+    try {
+        await axios.post(`/profile/removeinteraction/likes/${toUserId}`, {});
+        const result = await axios.post(`/profile/connected/${toUserId}`, {});
+        match.forEach((element) => {
+            if (element.user_id === toUserId) {
+                element["connected"] = result.data.msg;
+            }
+        });
+        dispatch({
+            type: UPDATE_LIKES,
         });
     } catch (err) {
         dispatch({

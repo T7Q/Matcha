@@ -21,5 +21,5 @@ export const FETCH_MORE_MATCH = 'FETCH_MORE_MATCH';
 export const MATCH_ERROR = 'MATCH_ERROR';
 export const FILTER_RESET = 'FILTER_RESET';
 export const FILTER_UPDATE = 'FILTER_UPDATE';
-export const UPDATE_CONNECTED = 'UPDATE_CONNECTED';
+export const UPDATE_LIKES = 'UPDATE_LIKES';
 export const UPDATE_ERROR = 'UPDATE_ERROR';

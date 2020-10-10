@@ -5,39 +5,47 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { addInteraction } from "../../../actions/profile";
+import { addLike, removeLike } from "../../../actions/profile";
 
-const LikeButton = ({ addInteraction, match, auth, card }) => {
+const LikeButton = ({ addLike, removeLike, match, auth, card }) => {
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
             let toUserId = card.user_id;
-            addInteraction("likes", toUserId, match.match);
+            if (card.connected === 0)
+                addLike("likes", toUserId, match.match);
+            // else if (card.connected === 1 || card.connected === 2 )
+            else
+                removeLike("likes", toUserId, match.match);
         } else {
             alert("CAN'T LIKE, ADD at least 1 photo");
         }
     };
-
     return (
         <>
-            {card.connected ? (
-                <IconButton
-                    aria-label="message"
-                    component={Link}
-                    to="/messages"
-                >
+            <IconButton aria-label="like" onClick={handleLike}>
+                <Favorite />
+            </IconButton>
+            {(card.connected === 1 || card.connected === 2 )? (
+                <IconButton aria-label="chat" component={Link} to="/messages">
+                    + 
+                </IconButton>
+            ) : (
+                ""
+            )}
+            {card.connected === 2 ? (
+                <IconButton aria-label="chat" component={Link} to="/messages">
                     <Chat />
                 </IconButton>
             ) : (
-                <IconButton aria-label="like" onClick={handleLike}>
-                    <Favorite />
-                </IconButton>
+                ""
             )}
         </>
     );
 };
 
 LikeButton.propTypes = {
-    addInteraction: PropTypes.func.isRequired,
+    addLike: PropTypes.func.isRequired,
+    removeLike: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
 };
@@ -48,5 +56,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-    addInteraction,
+    addLike, removeLike
 })(LikeButton);

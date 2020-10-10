@@ -123,6 +123,16 @@ const getTags = async (req, res) => {
     return res.json(result.rows);
 };
 
+const userHasPhotos = async user_id => {
+    const res = await db.query(
+        `SELECT count(image_id)
+        FROM images WHERE user_id=$1`,
+        [user_id]
+    );
+    return res.rows[0].count;
+};
+
+
 module.exports = {
     getTags,
     addPhotoToDb,
@@ -136,4 +146,5 @@ module.exports = {
     userHasTags,
     validateTagsInDb,
     getUserTags,
+    userHasPhotos,
 };

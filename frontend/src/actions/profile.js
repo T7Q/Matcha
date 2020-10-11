@@ -1,5 +1,13 @@
 import axios from 'axios';
-import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_LIKES, UPDATE_ERROR, SET_SNACKBAR } from './types';
+import {
+    CREATE_PROFILE,
+    GET_PROFILE,
+    PROFILE_ERROR,
+    UPDATE_LIKES,
+    UPDATE_ERROR,
+    SET_SNACKBAR,
+    LOGOUT,
+} from './types';
 import { setAlert } from './alert';
 import { loadUser } from './auth';
 
@@ -151,5 +159,20 @@ export const addInteraction = (type, toUserId, setSnackbar) => async dispatch =>
                 snackbarMessage: 'Something went wrong saving your preference. Try again.',
             },
         });
+    }
+};
+
+export const deleteProfile = history => async dispatch => {
+    try {
+        const res = await axios.post('/profile/delete', { key: 'delete' });
+        if (res.data.error) {
+            const error = res.data.error;
+            dispatch(setAlert(error, 'danger'));
+        } else {
+            dispatch({ type: LOGOUT });
+            history.push('/');
+        }
+    } catch (error) {
+        console.log(error);
     }
 };

@@ -4,9 +4,9 @@ const { validateTagsInDb } = require('./profile');
 const validateGender = gender => {
     let errors = {};
     if (!gender) {
-        errors['error'] = 'Gender is missing';
+        errors['genderError'] = 'Gender is missing';
     } else if (!['man', 'woman'].includes(gender)) {
-        errors['error'] = 'Gender should be man or woman';
+        errors['genderError'] = 'Gender should be man or woman';
     }
     return errors;
 };
@@ -14,9 +14,9 @@ const validateGender = gender => {
 const validateSexPreferences = sexPreference => {
     let errors = {};
     if (!sexPreference) {
-        errors['error'] = 'Sex preference is missing';
+        errors['sex_preferenceError'] = 'Sex preference is missing';
     } else if (!['man', 'woman', 'both'].includes(sexPreference)) {
-        errors['error'] = 'Sex preference should be man, woman or both';
+        errors['sex_preferenceError'] = 'Sex preference should be man, woman or both';
     }
     return errors;
 };
@@ -24,10 +24,10 @@ const validateSexPreferences = sexPreference => {
 const validateBio = bio => {
     let errors = {};
     if (!bio) {
-        errors['error'] = 'Bio is missing';
+        errors['bioError'] = 'Bio is missing';
     }
     if (bio.length > 200) {
-        errors['error'] = 'Bio should be less between 1 to 200 characters';
+        errors['bioError'] = 'Bio should be between 1 to 200 characters';
     }
     return errors;
 };
@@ -35,10 +35,10 @@ const validateBio = bio => {
 const validateName = name => {
     let errors = {};
     if (!name) {
-        errors['error'] = 'Name is missing';
+        errors['nameError'] = 'Name is missing';
     }
     if (name.length > 25) {
-        errors['error'] = 'Should be between 1 to 25 characthers';
+        errors['nameError'] = 'Should be between 1 to 25 characthers';
     }
     return errors;
 };
@@ -46,18 +46,18 @@ const validateName = name => {
 const validateTags = async tags => {
     let errors = {};
     if (!tags || tags.length < 5) {
-        errors['error'] = 'You should pick at least 5 interest';
+        errors['tagsError'] = 'You should pick at least 5 interest';
     } else if (!(await validateTagsInDb(tags))) {
-        errors['error'] = 'Invalid tags, some of them dont exist';
+        errors['tagsError'] = 'Invalid tags, some of them dont exist';
     }
     return errors;
 };
 
 const getAge = dob => {
-    var today = new Date();
-    var birthDate = new Date(dob);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
+    const today = new Date();
+    const birthDate = new Date(dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
@@ -68,9 +68,9 @@ const validateBirthdate = dob => {
     let errors = {};
     let age = getAge(dob);
     if (age < 18) {
-        errors['error'] = 'You must be at least 18 years old to user our services';
+        errors['birthdateError'] = 'You must be at least 18 years old to user our services';
     } else if (age > 120) {
-        errors['error'] = 'You must be alive to user our services';
+        errors['birthdateError'] = 'You must be alive to user our services';
     }
     return errors;
 };

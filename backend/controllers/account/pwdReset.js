@@ -6,18 +6,18 @@ module.exports = async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-        return res.json({ error: 'Field can not be empty' });
+        return res.json({ error: 'field can not be empty' });
     }
     try {
         const user = await accountModel.findUserInfo('email', email, 'user_id', 'username', 'status');
 
         if (!user) {
-            return res.json({ error: 'User not found' });
+            return res.json({ error: 'user with this email not found' });
         }
 
         // check if account activated
         if (user.status === 0) {
-            return res.json({ error: 'Your account is not activated yet' });
+            return res.json({ error: 'account is not activated yet' });
         }
 
         // create new token to reset password

@@ -19,13 +19,15 @@ import Likes from '../likes/Likes';
 import Chat from '../chat/Chat';
 import Settings from '../profile/Settings';
 import Visits from '../visits/Visits';
+import EditProfile from '../profile/EditProfile';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
     return (
-        <Grid alignItems="center" justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
+        <Grid justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
             <Route exact path="/" component={Landing} />
             <Box
                 pt={{ xs: '0px', sm: '64px' }}
+                mb={{ xs: '100px', sm: '0' }}
                 // textAlign="center"
                 width={isAuthenticated && user.status !== 1 ? '100%' : 'auto'}>
                 <Alert />
@@ -47,10 +49,10 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <Redirect exact from="/matches" to="/matches/recommend" />
                     <PrivateRoute exact path="/matches/:page?" component={Matches} />
                     <PrivateRoute exact path="/visits/:page?" component={Visits} />
+                    <PrivateRoute path="profile/edit" component={EditProfile} />
                     {/* <Route component={NotFound} /> */}
                 </Switch>
             </Box>
-            
         </Grid>
     );
 };

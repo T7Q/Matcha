@@ -32,7 +32,7 @@ const ProfileMenu = ({ isMobile, user, profileSettings, setProfileSettings, hand
     return (
         <>
             <IconButton className={classes.customIconButton} onClick={handleClick}>
-                <Typography variant="button" className={isMobile ? classes.text : ''} color="textSecondary">
+                <Typography variant="button" className={isMobile ? classes.text : ''} color="textPrimary">
                     <Badge className={classes.pr}>
                         <AccountCircle />
                     </Badge>

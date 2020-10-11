@@ -1,66 +1,84 @@
-const profileModel = require("../../models/profile");
-const profileHelper = require("../../models/profileHelper");
+const bcrypt = require('bcrypt');
+const profileModel = require('../../models/profile');
+const profileHelper = require('../../models/profileHelper');
+const accountHelper = require('../../models/accountHelper');
 
 const general = async (req, res) => {
-    const { key, value } = req.body;
+    let { key, value } = req.body;
+    const userId = req.user.userId;
+    // console.log('body', req.body);
+
     let error = {};
 
-    if (!key) {
-        return res.json({ error: "Invalid parameters" });
-    }
     // Validate new profile info
     switch (key) {
-        case "first_name":
+        case 'first_name':
             error = profileHelper.validateName(value);
             break;
-        case "last_name":
+        case 'last_name':
             error = profileHelper.validateName(value);
             break;
-        case "gender":
+        case 'gender':
             error = profileHelper.validateGender(value);
             break;
-        case "sex_preference":
+        case 'sex_preference':
             error = profileHelper.validateSexPreferences(value);
             break;
-        case "bio":
+        case 'bio':
             error = profileHelper.validateBio(value);
             break;
-        case "birth_date":
+        case 'birth_date':
             error = profileHelper.validateBirthdate(value);
             break;
-        case "country":
+        case 'email':
+            if (await accountHelper.checkPassword(userId, value.password)) {
+                error = await accountHelper.validateEmail(value.email);
+                value = value.email;
+            } else {
+                error = { error: 'wrong password' };
+            }
+            break;
+        case 'password':
+            if (await accountHelper.checkPassword(userId, value.oldPassword)) {
+                error = await accountHelper.validatePassword(value.newPassword, value.confirmPassword);
+                value = await bcrypt.hash(value.newPassword, 10);
+            } else {
+                error = { error: 'wrong password' };
+            }
+            break;
+        case 'country':
             break;
         default:
-            return res.json({ error: "Invalid parameters" });
+            return res.json({ error: 'Invalid parameters' });
     }
     // Check for validation errors
     if (Object.keys(error).length !== 0) {
         return res.json(error);
     }
+    // console.log('error', error);
     // Update profile parameter
     try {
-        await profileModel.editProfile(req.user.userId, key, value);
-        return res.json({ msg: "Your profile was successfully updated" });
+        await profileModel.editProfile(userId, key, value);
+        return res.json({ msg: 'Your profile was successfully updated' });
     } catch (e) {
-        return res.json({ error: "Something went wrong adding Profile info" });
+        return res.json({ error: 'Something went wrong adding Profile info' });
     }
 };
 
 const tags = async (req, res) => {
     const { value } = req.body;
     let tagsError = profileHelper.validateTags(value);
-    if(tagsError.error)
-        return res.json(tagsError);
+    if (tagsError.error) return res.json(tagsError);
     try {
         // Crosscheck the list of new tags with default tags in the database
         let validateTagsInDb = await profileModel.validateTagsInDb(value);
         if (!validateTagsInDb) {
-            return res.json({ error: "Invalid tags, some of them dont exist" });
+            return res.json({ error: 'Invalid tags, some of them dont exist' });
         }
         // Remove old tags if user has any
-        userTags = await profileModel.userHasTags(req.user.userId);
+        const userTags = await profileModel.userHasTags(req.user.userId);
         if (userTags) {
-            await profileModel.deleteRowOneCondition("user_tags", "user_id", req.user.userId);
+            await profileModel.deleteRowOneCondition('user_tags', 'user_id', req.user.userId);
         }
         // Build query to insert tags into database
         const query = profileHelper.buildQueryForSavingTags(value, req.user.userId);
@@ -68,9 +86,9 @@ const tags = async (req, res) => {
         // Insert tags to the database
         await profileModel.saveTags(query);
 
-        return res.json({ msg: "Tags were successfully updated" });
+        return res.json({ msg: 'Tags were successfully updated' });
     } catch (e) {
-        return res.json({error: "Something went wrong adding tags to the database"});
+        return res.json({ error: 'Something went wrong adding tags to the database' });
     }
 };
 

@@ -19,8 +19,9 @@ export const theme = createMuiTheme({
             contrastText: '#fff',
         },
         text: {
-            primary: '#b5bad3',
-            secondary: '#fff',
+            primary: '#fff',
+            // primary: '#b5bad3',
+            secondary: '#b5bad3',
         },
         background: {
             default: 'rgb(12, 16, 35, 0.95)',
@@ -52,6 +53,49 @@ export const theme = createMuiTheme({
                 },
             },
         },
+        MuiIconButton: {
+            root: {
+                textTransform: 'capitalize',
+                color: '#fff',
+            },
+        },
+        MuiTab: {
+            wrapper: {
+                flexDirection: 'row',
+                justifyContent: 'start',
+            },
+        },
+        MuiDialog: {
+            paper: {
+                backgroundColor: '#34374d',
+            },
+        },
+        MuiFormHelperText: {
+            root: {
+                '&.Mui-error': {
+                    fontSize: 'medium',
+                },
+            },
+        },
+        // button in nav to capitalize
+        // MuiTypography: {
+        //     button: {
+        //         textTransform: 'capitalize',
+        //     },
+        // },
+        MuiDropzoneArea: {
+            text: {
+                color: '#000',
+            },
+            icon: {
+                color: '#000',
+            },
+        },
+        MuiAutocomplete: {
+            option: {
+                color: '#0e1125',
+            },
+        },
     },
 
 });
@@ -62,6 +106,11 @@ export const useStyles = makeStyles(theme => ({
             border: '1px solid #000',
             background: theme.palette.secondary.main,
         },
+    },
+    whiteInput: {
+        // backgroundColor: '#fff',
+        // color: '#000',
+        // borderRadius: '30px',
     },
     menuItem: {
         color: '#fff',
@@ -206,10 +255,13 @@ export const useStyles = makeStyles(theme => ({
         },
     },
     bioInput: {
-        minHeight: '150px',
+        // minHeight: '150px',
         minWidth: '400px',
         [theme.breakpoints.down('xs')]: {
             minWidth: '200px',
         },
+    },
+    ml: {
+        marginLeft: '30px',
     },
 }));

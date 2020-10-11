@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import { Box, TextareaAutosize, Typography } from '@material-ui/core';
+import { Box, TextareaAutosize, Typography, FormHelperText, FormControl } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 
-const BioItem = ({ bio, onChange }) => {
+const BioItem = ({ bio, setData, error }) => {
     const classes = useStyles();
 
     return (
@@ -14,11 +14,15 @@ const BioItem = ({ bio, onChange }) => {
             </Box>
             <TextareaAutosize
                 name="bio"
-                className={classes.bioInput}
-                onChange={onChange}
+                rowsMin={15}
                 value={bio}
+                className={classes.bioInput}
+                onChange={e => setData(e.target.value, 'bio')}
                 placeholder="For example, how would your best friend discribe you"
             />
+            <FormControl className={classes.ml} error={error ? true : false}>
+                <FormHelperText>{error}</FormHelperText>
+            </FormControl>
         </Fragment>
     );
 };

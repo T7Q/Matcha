@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Typography, TextField } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
 import { getCountries } from 'countries-cities';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-const CountryItem = ({ setFormData, formData }) => {
+import { useStyles } from '../../../styles/custom';
+
+const CountryItem = ({ error, setData, formData }) => {
     const classes = useStyles();
     const countries = getCountries();
 
@@ -15,13 +16,21 @@ const CountryItem = ({ setFormData, formData }) => {
                 </Typography>
             </Box>
             <Autocomplete
-                onChange={(e, val) => setFormData({ ...formData, country: val })}
+                onChange={(e, val) => setData(val, 'country')}
                 options={countries}
                 getOptionLabel={option => option}
                 getOptionSelected={option => option}
                 value={formData.country}
                 renderInput={params => (
-                    <TextField {...params} variant="standard" label="Country" placeholder="Country" />
+                    <TextField
+                        autoFocus
+                        {...params}
+                        className={classes.customInput}
+                        error={error ? true : false}
+                        helperText={error}
+                        variant="outlined"
+                        placeholder="Country"
+                    />
                 )}
             />
         </Box>

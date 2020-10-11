@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Typography, TextField, Box } from '@material-ui/core';
 import { useStyles } from '../../styles/custom';
 
-const Input = ({ value, header, type, label, handleChange, ...rest }) => {
+const Input = ({ value, header, type, label, handleChange, placeholder, ...rest }) => {
     const classes = useStyles();
 
     return (
@@ -15,10 +15,10 @@ const Input = ({ value, header, type, label, handleChange, ...rest }) => {
                 </Box>
             )}
             <TextField
-                inputProps={{ style: { textAlign: 'center' } }}
+                error={rest.helperText ? true : false}
                 variant="outlined"
-                id={[type][0]}
-                name={[type][0]}
+                // id={[type][0]}
+                name={rest.name ? rest.name : [type][0]}
                 type={
                     type === 'confirmPassword'
                         ? 'password'
@@ -26,9 +26,8 @@ const Input = ({ value, header, type, label, handleChange, ...rest }) => {
                         ? [type][0]
                         : 'text'
                 }
-                // label={label ? label : type}
                 className={classes.customInput}
-                placeholder={[type][0]}
+                placeholder={placeholder ? placeholder : [type][0]}
                 value={value}
                 onChange={handleChange}
                 {...rest}

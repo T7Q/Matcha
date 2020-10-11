@@ -30,6 +30,7 @@ const ImageItem = ({ images, setImages }) => {
             </Box>
             <Box display="flex" flexWrap="wrap" justifyContent="center">
                 <DropzoneArea
+                    textColor="secondary"
                     acceptedFiles={['image/*']}
                     clearOnUnmount={false}
                     onChange={upload => handleUpload(upload, 1, 'base1')}

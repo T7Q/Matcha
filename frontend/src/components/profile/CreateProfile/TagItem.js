@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Box, Typography } from '@material-ui/core';
-import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { useStyles } from '../../../styles/custom';
+import { Box, Typography, TextField } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
 
-const SexPreferenceItem = ({ setFormData, formData }) => {
-    const classes = useStyles();
+const SexPreferenceItem = ({ error, setData, formData }) => {
     const [realTags, setRealTags] = useState([]);
 
     useEffect(() => {
         let isMounted = true;
         async function getTags() {
             const res = await axios.get('profile/tags');
-            isMounted && setRealTags(res.data);
+            isMounted && setRealTags(res.data.map(item => item.tag));
         }
         getTags();
         return () => {
@@ -23,23 +21,26 @@ const SexPreferenceItem = ({ setFormData, formData }) => {
     return (
         <Box px={{ md: 5 }}>
             <Box pb={2}>
-                <Typography variant="h5" className={classes.customHeader}>
-                    You are passionate about ...
-                </Typography>
+                <Typography variant="h5">You are passionate about ...</Typography>
             </Box>
-            <ToggleButtonGroup
-                style={{ flexDirection: 'row', flexWrap: 'wrap' }}
-                orientation="vertical"
+            <Autocomplete
+                onChange={(e, value) => {
+                    setData(value, 'tags');
+                }}
+                multiple
+                options={realTags}
+                getOptionLabel={option => option}
                 value={formData.tags}
-                onChange={(e, v) => {
-                    setFormData({ ...formData, tags: v });
-                }}>
-                {realTags.map(tag => (
-                    <ToggleButton key={tag.tag} className={classes.radio} name={tag.tag} value={tag.tag}>
-                        {tag.tag}
-                    </ToggleButton>
-                ))}
-            </ToggleButtonGroup>
+                renderInput={params => (
+                    <TextField
+                        {...params}
+                        error={error ? true : false}
+                        helperText={error}
+                        variant="outlined"
+                        placeholder="passions"
+                    />
+                )}
+            />
         </Box>
     );
 };

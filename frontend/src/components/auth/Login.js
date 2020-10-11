@@ -10,10 +10,8 @@ import Form from '../common/IndividualForm';
 import { useStyles } from '../../styles/custom';
 
 const Login = ({ login, isAuthenticated, user, history }, path) => {
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-    });
+    const [formData, setFormData] = useState({ username: '', password: '' });
+    const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
 
     const classes = useStyles();
     const { username, password } = formData;
@@ -26,7 +24,20 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
 
     const onSubmit = async e => {
         e.preventDefault();
-        login({ username, password });
+        if (!username || !password) {
+            setErrors({
+                usernameError: !username && 'username required',
+                passwordError: !password && 'password required',
+            });
+            return;
+        }
+        const res = await login(formData);
+        if (res && res.error) {
+            setErrors({
+                usernameError: res.error,
+                passwordError: res.error,
+            });
+        }
     };
 
     // Redirect if logged in
@@ -39,7 +50,7 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
     return (
         <Box pt="150px">
             <Box>
-                <IconButton color="inherit" onClick={() => handleRedirect('/')}>
+                <IconButton onClick={() => handleRedirect('/')}>
                     <ArrowBackIosIcon fontSize="large" />
                 </IconButton>
             </Box>
@@ -49,8 +60,14 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
                     type="username"
                     handleChange={onChange}
                     value={username}
+                    helperText={errors.usernameError}
                 />
-                <Input type="password" handleChange={onChange} value={password} />
+                <Input
+                    type="password"
+                    handleChange={onChange}
+                    value={password}
+                    helperText={errors.passwordError}
+                />
                 <Button type="submit" variant="contained" color="primary" className={classes.customButton}>
                     Next
                 </Button>

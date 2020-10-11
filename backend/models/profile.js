@@ -1,4 +1,4 @@
-const db = require("./db");
+const db = require('./db');
 
 // console.log("\u001b[32m" +
 const registerProfile = async (user_id, req) => {
@@ -56,16 +56,16 @@ const deleteRowOneCondition = async (table, column, value) => {
     );
 };
 
-const placeholderValues = (array) => {
-    let placeholder = "";
+const placeholderValues = array => {
+    let placeholder = '';
     for (i = 1; i < array.length + 1; i++) {
-        placeholder += "$" + i;
-        if (i != array.length) placeholder += ",";
+        placeholder += '$' + i;
+        if (i != array.length) placeholder += ',';
     }
     return placeholder;
 };
 
-const validateTagsInDb = async (tags) => {
+const validateTagsInDb = async tags => {
     let placeholder = placeholderValues(tags);
     let res = await db.query(
         `SELECT count(tag_id)\
@@ -86,7 +86,7 @@ const getDataOneCondition = async (table, select, condition, value) => {
     return res.rows;
 };
 
-const saveTags = async (query) => {
+const saveTags = async query => {
     const { values, placeholder } = query;
     await db.query(
         `INSERT INTO public.user_tags(user_id, tag_id)
@@ -95,7 +95,7 @@ const saveTags = async (query) => {
     );
 };
 
-const userHasTags = async (user_id) => {
+const userHasTags = async user_id => {
     const res = await db.query(
         `SELECT count(tag_id)
         FROM user_tags
@@ -105,7 +105,7 @@ const userHasTags = async (user_id) => {
     return res.rows[0].count == 0 ? false : true;
 };
 
-const getUserTags = async (user_id) => {
+const getUserTags = async user_id => {
     const res = await db.query(
         `SELECT tags.tag_name
         FROM public.user_tags
@@ -116,14 +116,42 @@ const getUserTags = async (user_id) => {
     return res;
 };
 
-const getTags = async (req, res) => {
-    const result = await db.query(`
-        SELECT tags.tag_name AS tag
-        FROM tags`);
-    return res.json(result.rows);
+const getUserPhotos = async user_id => {
+    const res = await db.query(
+        `SELECT image_path
+        FROM images
+        WHERE user_id = $1`,
+        [user_id]
+    );
+    return res;
 };
 
-const userHasPhotos = async (user_id) => {
+const getTags = async (req, res) => {
+    try {
+        const result = await db.query(`
+            SELECT tags.tag_name AS tag
+            FROM tags`);
+        return res.json(result.rows);
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+const getNotifications = async (req, res) => {
+    try {
+        const result = await db.query(
+            `
+            SELECT email_notification AS email, real_time_notification AS push
+            FROM users WHERE user_id = $1`,
+            [req.user.userId]
+        );
+        return res.json(result.rows[0]);
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+const userHasPhotos = async user_id => {
     const res = await db.query(
         `SELECT count(image_id)
         FROM images WHERE user_id=$1`,
@@ -144,10 +172,10 @@ const otherUserLikesYou = async (fromUserId, toUserId) => {
 
 const usersConnected = async (fromUserId, toUserId) => {
     const res = await db.query(
-        `SELECT 
+        `SELECT
         (CASE
             WHEN ((SELECT count(likes.like_id) AS from_likes FROM likes
-                    WHERE likes.from_user_id = $1 
+                    WHERE likes.from_user_id = $1
                     AND likes.to_user_id = $2) = 1
             AND (SELECT count(likes.like_id) AS to_likes FROM likes
                     WHERE likes.from_user_id = $2
@@ -166,9 +194,9 @@ const usersConnected = async (fromUserId, toUserId) => {
     return res.rows[0].connected;
 };
 
-const getUserAge = async (userId) => {
+const getUserAge = async userId => {
     const res = await db.query(
-        `SELECT (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age 
+        `SELECT (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age
         FROM users where user_id =$1`,
         [userId]
     );
@@ -179,7 +207,7 @@ const getDistance = async (authUserId, otherUserId) => {
         `SELECT (ST_Distance(users.geolocation,
             (SELECT geolocation FROM users WHERE user_id = $2))::integer / 1000)
             as distance
-        FROM users 
+        FROM users
         WHERE user_id = $1`,
         [authUserId, otherUserId]
     );
@@ -204,4 +232,6 @@ module.exports = {
     usersConnected,
     getUserAge,
     getDistance,
+    getNotifications,
+    getUserPhotos,
 };

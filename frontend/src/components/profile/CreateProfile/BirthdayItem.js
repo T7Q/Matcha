@@ -4,7 +4,7 @@ import { useStyles } from '../../../styles/custom';
 import LuxonUtils from '@date-io/luxon';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 
-const BirthdayItem = ({ birthDate, setFormData, formData }) => {
+const BirthdayItem = ({ setFormData, formData, error }) => {
     const classes = useStyles();
 
     const handleDate = date => {
@@ -27,6 +27,8 @@ const BirthdayItem = ({ birthDate, setFormData, formData }) => {
                 value={formData.birth_date}
                 onChange={handleDate}
                 className={classes.customInput}
+                error={error ? true : false}
+                helperText={error}
             />
         </MuiPickersUtilsProvider>
     );

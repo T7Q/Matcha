@@ -6,7 +6,7 @@ import { Box, Button, Typography, useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { useStyles } from '../../styles/custom';
 
-const Landing = ({ isAuthenticated, history, ...rest }) => {
+const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
     const classes = useStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -19,7 +19,9 @@ const Landing = ({ isAuthenticated, history, ...rest }) => {
         return <Redirect to="/matches" />;
     }
 
-    return (
+    return loading ? (
+        <>Loading</>
+    ) : (
         <Box pt="200px" display="flex" flexDirection="column" textAlign="center">
             <Typography variant={isMobile ? 'h3' : 'h2'}>Your love Is</Typography>
             <Typography className={classes.customHeader} variant={isMobile ? 'h3' : 'h2'}>
@@ -54,10 +56,12 @@ const Landing = ({ isAuthenticated, history, ...rest }) => {
 
 Landing.propTypes = {
     isAuthenticated: PropTypes.bool,
+    loading: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
+    loading: state.auth.loading,
 });
 
 export default connect(mapStateToProps)(withRouter(Landing));

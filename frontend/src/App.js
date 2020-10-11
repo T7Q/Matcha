@@ -14,6 +14,15 @@ import { theme } from './styles/custom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import Circle from './components/layout/Circle';
+// import BackgroundImage from './background2.jpg';
+
+// const style = {
+//     background: {
+//         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(${BackgroundImage})`,
+//         backgroundSize: 'cover',
+//         backgroundRepeat: 'no-repeat',
+//     },
+// };
 
 import CustomizedSnackbars  from './components/common/CustomizedSnackbars';
 
@@ -27,13 +36,13 @@ const App = () => {
         <ThemeProvider theme={theme}>
             <Provider store={store}>
                 <Router>
+                    <CssBaseline />
                     <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
-                        <CssBaseline />
                         <Navbar />
                         <CustomizedSnackbars/>
                         {/* <Box p={5} m={{ xs: 'auto', lg: '50px' }} flexGrow={1}> */}
                         <Box flexGrow={1}>
-                            <Grid container>
+                            <Grid style={{ minHeight: '80vh' }} container>
                                 <CustomRouter />
                                 <Circle />
                             </Grid>

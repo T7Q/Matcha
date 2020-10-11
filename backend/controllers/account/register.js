@@ -5,10 +5,12 @@ const helper = require('../../models/accountHelper');
 const mail = require('../../utils/mail');
 
 module.exports = async (req, res) => {
-    console.log('on server side');
     const { email, username, lastname, firstname, password, confirmPassword } = req.body;
-    req.body.username = username.toLowerCase();
-    req.body.email = email.toLowerCase();
+
+    if (username && email) {
+        req.body.username = username.toLowerCase();
+        req.body.email = email.toLowerCase();
+    }
 
     let errors = [];
     try {
@@ -20,10 +22,9 @@ module.exports = async (req, res) => {
 
         // remove empty objects from errors
         errors = errors.filter(error => Object.keys(error).length != 0);
+        errors = Object.assign({}, ...errors);
 
-        if (errors.length != 0) {
-            return res.json({ error: errors });
-        }
+        if (Object.keys(errors).length !== 0) return res.json({ error: errors });
 
         req.body.password = await bcrypt.hash(password, 10);
         req.body.token = crypto.randomBytes(42).toString('hex');

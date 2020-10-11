@@ -5,6 +5,7 @@ import {
     PROFILE_ERROR,
     UPDATE_LIKES,
     UPDATE_ERROR,
+    SET_SNACKBAR,
 } from "./types";
 import { setAlert } from "./alert";
 import { loadUser } from "./auth";
@@ -144,18 +145,28 @@ export const removeLike = (location, toUserId, match, profile) => async (dispatc
 };
 
 // Add like, update connection level
-export const addInteraction = (type, toUserId) => async (dispatch) => {
+export const addInteraction = (type, toUserId, setSnackbar) => async (dispatch) => {
     try {
-        // const result = await axios.post(`/profile/addinteraction/${type}/${toUserId}`, {});
-        console.log("ACTION add ", type);
-        // console.log("ACTION add ", type, "respond", result);
-            // dispatch({
-            //     type: UPDATE_LIKES,
-            // });
+        if (type === "report_users") {
+            const result = await axios.post(`/profile/addinteraction/${type}/${toUserId}`, {});
+            dispatch({
+                type: SET_SNACKBAR,
+                payload: {
+                    snackbarOpen: true,
+                    snackbarType: "success",
+                    snackbarMessage: result.data.msg,
+                }
+            });
+
+        }
     } catch (err) {
         dispatch({
-            type: UPDATE_ERROR,
-            payload: { status: err },
+            type: SET_SNACKBAR,
+            payload: {
+                snackbarOpen: true,
+                snackbarType: "error",
+                snackbarMessage: "Something went wrong saving your preference. Try again."
+            }
         });
     }
 };

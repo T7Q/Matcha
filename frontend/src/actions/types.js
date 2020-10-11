@@ -23,3 +23,6 @@ export const FILTER_RESET = 'FILTER_RESET';
 export const FILTER_UPDATE = 'FILTER_UPDATE';
 export const UPDATE_LIKES = 'UPDATE_LIKES';
 export const UPDATE_ERROR = 'UPDATE_ERROR';
+// Alert 
+export const SET_SNACKBAR = 'SET_SNACKBAR';
+

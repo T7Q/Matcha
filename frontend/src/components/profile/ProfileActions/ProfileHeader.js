@@ -1,10 +1,8 @@
 import React from 'react';
-import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
 import LikeButton from "../../common/matchGallery/LikeButton";
 import MoreInfo from "./MoreInfo";
 import UserRating from "./UserRating";
-import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 
 const ProfileHeader = ({ profile, type }) => {

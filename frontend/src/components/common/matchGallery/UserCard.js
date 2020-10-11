@@ -31,7 +31,6 @@ const UserCard = ({ card }) => {
         ? "/messages"
         : `/profile/${card.user_id}`;
     const linkToProfile = `/profile/${card.user_id}`;
-    // const temp = "/messages";
 
     return (
         <Grid item xs={12} sm={4}>
@@ -66,7 +65,7 @@ const UserCard = ({ card }) => {
                     <Button size="small" component={Link} to={link}>
                         {card.fame === null ? 0 : card.fame.toFixed(1)}
                     </Button>
-                    <LikeButton card={card} />
+                    <LikeButton card={card} location={"userCard"} />
                 </CardActions>
             </Card>
         </Grid>

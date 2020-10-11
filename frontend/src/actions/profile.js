@@ -3,8 +3,9 @@ import {
     CREATE_PROFILE,
     GET_PROFILE,
     PROFILE_ERROR,
-    UPDATE_CONNECTED,
+    UPDATE_LIKES,
     UPDATE_ERROR,
+    SET_SNACKBAR,
 } from "./types";
 import { setAlert } from "./alert";
 import { loadUser } from "./auth";
@@ -19,7 +20,7 @@ export const getProfile = (type, userId) => async (dispatch) => {
         const res =
             type === "myProfile"
                 ? await axios.get("/profile/me")
-                : await axios.get(`/profile/${userId}`);
+                : await axios.get(`/profile/user/${userId}`);
 
         // send data to reducer
         dispatch({
@@ -93,31 +94,79 @@ export const createProfile = (formData, images, history) => async (
     }
 };
 
-// Add like, block user, report user
-export const addInteraction = (type, toUserId, match) => async (dispatch) => {
-    // console.log("ACTION add interaction");
-    // console.log("type", type, "toUserId", toUserId);
-
-    // prepare data to send to the server
-    const data = { key: "likes", to_user_id: toUserId };
+// Add like, update connection level
+export const addLike = (location, toUserId, match, profile) => async (dispatch) => {
     try {
-        // add interaction to the database
-        await axios.post("/profile/addinteraction", data);
+        await axios.post(`/profile/addinteraction/likes/${toUserId}`, {});
+        const result = await axios.post(`/profile/connected/${toUserId}`, {});
+        if (location === "userCard") {
+            match.forEach((element) => {
+                if (element.user_id === toUserId) {
+                    element["connected"] = result.data.msg;
+                }
+            });
+        } else if (location === "profile"){
+            profile.connected = result.data.msg;
+        } 
+            dispatch({
+                type: UPDATE_LIKES,
+            });
+    } catch (err) {
+        dispatch({
+            type: UPDATE_ERROR,
+            payload: { status: err },
+        });
+    }
+};
 
-        // update relevant state
+// Remove like, update connection level
+export const removeLike = (location, toUserId, match, profile) => async (dispatch) => {
+    try {
+        await axios.post(`/profile/removeinteraction/likes/${toUserId}`, {});
+        const result = await axios.post(`/profile/connected/${toUserId}`, {});
+        if (location === "userCard") {
         match.forEach((element) => {
             if (element.user_id === toUserId) {
-                element["connected"] = 1;
+                element["connected"] = result.data.msg;
             }
         });
-
+        } else if (location === "profile"){
+            profile.connected = result.data.msg;
+        } 
         dispatch({
-            type: UPDATE_CONNECTED,
+            type: UPDATE_LIKES,
         });
     } catch (err) {
         dispatch({
             type: UPDATE_ERROR,
             payload: { status: err },
+        });
+    }
+};
+
+// Add like, update connection level
+export const addInteraction = (type, toUserId, setSnackbar) => async (dispatch) => {
+    try {
+        if (type === "report_users") {
+            const result = await axios.post(`/profile/addinteraction/${type}/${toUserId}`, {});
+            dispatch({
+                type: SET_SNACKBAR,
+                payload: {
+                    snackbarOpen: true,
+                    snackbarType: "success",
+                    snackbarMessage: result.data.msg,
+                }
+            });
+
+        }
+    } catch (err) {
+        dispatch({
+            type: SET_SNACKBAR,
+            payload: {
+                snackbarOpen: true,
+                snackbarType: "error",
+                snackbarMessage: "Something went wrong saving your preference. Try again."
+            }
         });
     }
 };

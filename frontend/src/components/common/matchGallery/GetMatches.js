@@ -14,9 +14,12 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path,
     // console.log("GetMatch component");
 
     useEffect(() => {
+        // console.log("useEffect MATCH component", match);
+        
         getRecommend(route, filterIsOn);
     }, [getRecommend, route, filterIsOn]);
     
+
     const handleScroll = () => {
         const temp = window.innerHeight + window.scrollY;
         const temp2 = document.body.offsetHeight;

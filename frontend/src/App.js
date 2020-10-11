@@ -15,6 +15,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 import Circle from './components/layout/Circle';
 
+import CustomizedSnackbars  from './components/common/CustomizedSnackbars';
+
 const App = () => {
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'));
@@ -28,6 +30,7 @@ const App = () => {
                     <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
                         <CssBaseline />
                         <Navbar />
+                        <CustomizedSnackbars/>
                         {/* <Box p={5} m={{ xs: 'auto', lg: '50px' }} flexGrow={1}> */}
                         <Box flexGrow={1}>
                             <Grid container>

@@ -10,9 +10,9 @@ const Toggle = ({ name, updateFilter, filter }) => {
     const handleChange = (event) => {
         updateFilter({ ...filter, [event.target.name]: event.target.checked});
     };
-    console.log("name", name);
-    console.log("filter", filter);
-    console.log("filter[name]", filter[name]);
+    // console.log("name", name);
+    // console.log("filter", filter);
+    // console.log("filter[name]", filter[name]);
     return (
         <Switch
             checked={filter[name]}

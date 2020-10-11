@@ -1,8 +1,6 @@
 const profileModel = require("../../models/profile");
 
 const add = async (req, res) => {
-    console.log("type", req.params.type, "user_id", req.params.user_id);
-    // const { key, to_user_id } = req.body;
     const key = req.params.type;
     const to_user_id = req.params.user_id;
     const from_user_id = req.user.userId;
@@ -29,7 +27,6 @@ const add = async (req, res) => {
 };
 
 const remove = async (req, res) => {
-    // const { key, to_user_id } = req.body;
     const key = req.params.type;
     const to_user_id = req.params.user_id;
     const from_user_id = req.user.userId;

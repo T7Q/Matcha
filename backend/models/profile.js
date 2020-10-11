@@ -166,6 +166,26 @@ const usersConnected = async (fromUserId, toUserId) => {
     return res.rows[0].connected;
 };
 
+const getUserAge = async (userId) => {
+    const res = await db.query(
+        `SELECT (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age 
+        FROM users where user_id =$1`,
+        [userId]
+    );
+    return res.rows[0].age;
+};
+const getDistance = async (authUserId, otherUserId) => {
+    const res = await db.query(
+        `SELECT (ST_Distance(users.geolocation,
+            (SELECT geolocation FROM users WHERE user_id = $2))::integer / 1000)
+            as distance
+        FROM users 
+        WHERE user_id = $1`,
+        [authUserId, otherUserId]
+    );
+    return res.rows[0].distance;
+};
+
 module.exports = {
     getTags,
     addPhotoToDb,
@@ -182,4 +202,6 @@ module.exports = {
     userHasPhotos,
     otherUserLikesYou,
     usersConnected,
+    getUserAge,
+    getDistance,
 };

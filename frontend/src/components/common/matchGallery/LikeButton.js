@@ -7,15 +7,15 @@ import { Link } from "react-router-dom";
 
 import { addLike, removeLike } from "../../../actions/profile";
 
-const LikeButton = ({ addLike, removeLike, match, auth, card }) => {
+const LikeButton = ({ addLike, removeLike, match, auth, card, location, profile }) => {
+
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
             let toUserId = card.user_id;
             if (card.connected === 0)
-                addLike("likes", toUserId, match.match);
-            // else if (card.connected === 1 || card.connected === 2 )
+                addLike(location, toUserId, match.match, profile.profile);
             else
-                removeLike("likes", toUserId, match.match);
+                removeLike(location, toUserId, match.match, profile.profile);
         } else {
             alert("CAN'T LIKE, ADD at least 1 photo");
         }
@@ -23,18 +23,18 @@ const LikeButton = ({ addLike, removeLike, match, auth, card }) => {
     return (
         <>
             <IconButton aria-label="like" onClick={handleLike}>
-                <Favorite />
+                <Favorite style={{fill: "green"}}/>
             </IconButton>
             {(card.connected === 1 || card.connected === 2 )? (
-                <IconButton aria-label="chat" component={Link} to="/messages">
-                    + 
+                <IconButton aria-label="chat" component={Link} to="/messages" >
+                <Favorite style={{fill: "red"}}/>
                 </IconButton>
             ) : (
                 ""
             )}
             {card.connected === 2 ? (
                 <IconButton aria-label="chat" component={Link} to="/messages">
-                    <Chat />
+                    <Chat style={{fill: "blue"}}/>
                 </IconButton>
             ) : (
                 ""
@@ -48,11 +48,13 @@ LikeButton.propTypes = {
     removeLike: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
+    profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
     match: state.match,
     auth: state.auth,
+    profile: state.profile,
 });
 
 export default connect(mapStateToProps, {

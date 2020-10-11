@@ -94,15 +94,44 @@ export const createProfile = (formData, images, history) => async (
 };
 
 // Add like, update connection level
-export const addLike = (type, toUserId, match) => async (dispatch) => {
+export const addLike = (location, toUserId, match, profile) => async (dispatch) => {
     try {
         await axios.post(`/profile/addinteraction/likes/${toUserId}`, {});
         const result = await axios.post(`/profile/connected/${toUserId}`, {});
+        if (location === "userCard") {
+            match.forEach((element) => {
+                if (element.user_id === toUserId) {
+                    element["connected"] = result.data.msg;
+                }
+            });
+        } else if (location === "profile"){
+            profile.connected = result.data.msg;
+        } 
+            dispatch({
+                type: UPDATE_LIKES,
+            });
+    } catch (err) {
+        dispatch({
+            type: UPDATE_ERROR,
+            payload: { status: err },
+        });
+    }
+};
+
+// Remove like, update connection level
+export const removeLike = (location, toUserId, match, profile) => async (dispatch) => {
+    try {
+        await axios.post(`/profile/removeinteraction/likes/${toUserId}`, {});
+        const result = await axios.post(`/profile/connected/${toUserId}`, {});
+        if (location === "userCard") {
         match.forEach((element) => {
             if (element.user_id === toUserId) {
                 element["connected"] = result.data.msg;
             }
         });
+        } else if (location === "profile"){
+            profile.connected = result.data.msg;
+        } 
         dispatch({
             type: UPDATE_LIKES,
         });
@@ -114,19 +143,15 @@ export const addLike = (type, toUserId, match) => async (dispatch) => {
     }
 };
 
-// Remove like, update connection level
-export const removeLike = (type, toUserId, match) => async (dispatch) => {
+// Add like, update connection level
+export const addInteraction = (type, toUserId) => async (dispatch) => {
     try {
-        await axios.post(`/profile/removeinteraction/likes/${toUserId}`, {});
-        const result = await axios.post(`/profile/connected/${toUserId}`, {});
-        match.forEach((element) => {
-            if (element.user_id === toUserId) {
-                element["connected"] = result.data.msg;
-            }
-        });
-        dispatch({
-            type: UPDATE_LIKES,
-        });
+        // const result = await axios.post(`/profile/addinteraction/${type}/${toUserId}`, {});
+        console.log("ACTION add ", type);
+        // console.log("ACTION add ", type, "respond", result);
+            // dispatch({
+            //     type: UPDATE_LIKES,
+            // });
     } catch (err) {
         dispatch({
             type: UPDATE_ERROR,

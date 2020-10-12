@@ -7,6 +7,7 @@ import {
     UPDATE_ERROR,
     SET_SNACKBAR,
     LOGOUT,
+    UPDATE_BlOCKED,
 } from "./types";
 import { setAlert } from "./alert";
 import { loadUser } from "./auth";
@@ -157,14 +158,21 @@ export const addInteraction = (type, toUserId) => async (dispatch) => {
             `/profile/addinteraction/${type}/${toUserId}`,
             {}
         );
-        dispatch({
-            type: SET_SNACKBAR,
-            payload: {
-                snackbarOpen: true,
-                snackbarType: "success",
-                snackbarMessage: result.data.msg,
-            },
-        });
+        if (type === "blocked") {
+            dispatch({
+                type: UPDATE_BlOCKED,
+                payload: "1",
+            });
+        } else {
+            dispatch({
+                type: SET_SNACKBAR,
+                payload: {
+                    snackbarOpen: true,
+                    snackbarType: "success",
+                    snackbarMessage: result.data.msg,
+                },
+            });
+        }
     } catch (err) {
         dispatch({
             type: SET_SNACKBAR,
@@ -178,22 +186,29 @@ export const addInteraction = (type, toUserId) => async (dispatch) => {
     }
 };
 // Add like, update connection level
-export const unblockUser = (unblockList) => async (dispatch) => {
+export const unblockUser = (location, unblockList) => async (dispatch) => {
     try {
         for (const e of unblockList) {
-            await axios.post(
+            const res = await axios.post(
                 `/profile/removeinteraction/blocked/${e.user_id}`,
                 {}
             );
         }
-        dispatch({
-            type: SET_SNACKBAR,
-            payload: {
-                snackbarOpen: true,
-                snackbarType: "success",
-                snackbarMessage: "Successfully updated",
-            },
-        });
+        if (location === "settings") {
+            dispatch({
+                type: SET_SNACKBAR,
+                payload: {
+                    snackbarOpen: true,
+                    snackbarType: "success",
+                    snackbarMessage: "Successfully updated",
+                },
+            });
+        } else if (location === "profile") {
+            dispatch({
+                type: UPDATE_BlOCKED,
+                payload: "0",
+            });
+        }
     } catch (err) {
         dispatch({
             type: SET_SNACKBAR,

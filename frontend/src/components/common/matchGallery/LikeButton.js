@@ -29,7 +29,7 @@ const LikeButton = ({
         }
     };
     const handleUnblock = () => {
-        setSnackbar(true, "warning", "You have blocked this user. To unblock visit settings");
+        setSnackbar(true, "warning", "You have blocked this user.");
     };
     if (location === "profile" && card.blocked === "1") {
         return (

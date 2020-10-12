@@ -24,6 +24,7 @@
         "fs": "0.0.1-security",
         "luxon": "^1.25.0",
         "material-ui-dropzone": "^3.5.0",
+        "material-ui-toggle-icon": "^1.1.1",
         "react-country-region-selector": "^3.0.1",
         "regex": "^0.1.1",
         "socket.io": "^2.3.0"

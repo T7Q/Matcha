@@ -75,7 +75,19 @@ const myProfile = async (req, res) => {
     }
 };
 
+const blockedUsers = async (req, res) => {
+    const userId = req.user.userId;
+    try {
+        let blockedList = await profileModel.getBlockedUsers(userId);
+        blockedList.map(item => item.blocked = false );
+        return res.json(blockedList);
+    } catch (e) {
+        return res.json({ error: 'Error getting blocked users info' });
+    }
+};
+
 module.exports = {
     userProfile,
     myProfile,
+    blockedUsers,
 };

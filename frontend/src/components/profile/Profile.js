@@ -9,7 +9,7 @@ import { Typography, Grid } from '@material-ui/core';
 import { getProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
 
-import ProfileHeader from './ProfileActions/ProfileHeader';
+import Header from './ProfileItems/Header';
 
 const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...props }) => {
     // get the type the profile (my or other user) based on url param
@@ -31,7 +31,7 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...pro
         <Spinner />
     ) : (
         <Fragment>
-            <ProfileHeader profile={profile} type={type} />
+            <Header profile={profile} type={type} />
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                     <Typography variant="h6">BLOCKED {profile.blocked}</Typography>

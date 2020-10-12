@@ -9,7 +9,7 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 import { addInteraction, unblockUser } from "../../../actions/profile";
 
-const ActionsDropdown = ({
+const Dropdown = ({
     addInteraction,
     unblockUser,
     profile: { profile },
@@ -51,9 +51,6 @@ const ActionsDropdown = ({
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose} style={{ color: "blue" }}>
-                    UNMATCH
-                </MenuItem>
                 <MenuItem
                     style={{ color: "blue" }}
                     onClick={handleClickInteraction("reported")}
@@ -84,7 +81,7 @@ const ActionsDropdown = ({
     );
 };
 
-ActionsDropdown.propTypes = {
+Dropdown.propTypes = {
     addInteraction: PropTypes.func.isRequired,
     unblockUser: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
@@ -97,4 +94,4 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
     addInteraction,
     unblockUser,
-})(ActionsDropdown);
+})(Dropdown);

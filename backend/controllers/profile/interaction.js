@@ -2,11 +2,10 @@ const profileModel = require("../../models/profile");
 
 const add = async (req, res) => {
     const key = req.params.type;
-    const to_user_id = req.params.user_id;
-    const from_user_id = req.user.userId;
-    // console.log("backend iNTERACTION",key, to_user_id);
+    const toUserId = req.params.user_id;
+    const fromUserId = req.user.userId;
     try {
-        await profileModel.insertRow(key, from_user_id, to_user_id);
+        await profileModel.insertRow(key, fromUserId, toUserId);
         return res.json({ msg: "Succesfully saved" });
     } catch (e) {
         return res.json({
@@ -17,27 +16,15 @@ const add = async (req, res) => {
 
 const remove = async (req, res) => {
     const key = req.params.type;
-    const to_user_id = req.params.user_id;
-    const from_user_id = req.user.userId;
-    if (!key) {
-        return res.json({ error: "Invalid parameters" });
-    }
-    if (
-        key == "likes" ||
-        key == "views" ||
-        key == "reported" ||
-        key == "blocked"
-    ) {
-        try {
-            await profileModel.deleteRow(key, from_user_id, to_user_id);
-            return res.json({ msg: "Succesfully removed" });
-        } catch (e) {
-            return res.json({
-                error: "Something went wrong removing data from the database",
-            });
-        }
-    } else {
-        return res.json({ error: "Invalid parameters" });
+    const toUserId = req.params.user_id;
+    const fromUserId = req.user.userId;
+    try {
+        await profileModel.deleteRow(key, fromUserId, toUserId);
+        return res.json({ msg: "Succesfully removed" });
+    } catch (e) {
+        return res.json({
+            error: "Something went wrong removing data from the database",
+        });
     }
 };
 
@@ -45,10 +32,7 @@ const connected = async (req, res) => {
     const toUserId = req.params.user_id;
     const fromUserId = req.user.userId;
     try {
-        const connected = await profileModel.usersConnected(
-            fromUserId,
-            toUserId
-        );
+        const connected = await profileModel.usersConnected(fromUserId, toUserId);
         return res.json({ msg: connected });
     } catch (e) {
         return res.json({

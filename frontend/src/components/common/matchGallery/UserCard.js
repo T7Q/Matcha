@@ -25,7 +25,6 @@ const useStyles = makeStyles({
 const UserCard = ({ card }) => {
     const classes = useStyles();
     card.fame = parseFloat(card.fame);
-    // console.log("USERCARD", card);
 
     const link = card.connected
         ? "/messages"
@@ -36,17 +35,14 @@ const UserCard = ({ card }) => {
         <Grid item xs={12} sm={4}>
             <Card className={classes.root}>
                 <CardActionArea component={Link} to={linkToProfile}>
-                    {/* <CardActionArea > */}
                     <CardMedia
                         component="img"
                         alt="Contemplative Reptile"
-                        //   height="140"
                         image={"/" + card.profile_pic_path}
-                        // image="/Photo_1601037282389_683.png"
                         title="Contemplative Reptile"
                     />
 
-                    <CardContent>
+                    <CardContent style={{ backgroundColor: "grey" }}>
                         <Typography className={classes.title} gutterBottom>
                             {card.user_id}
                         </Typography>
@@ -59,7 +55,7 @@ const UserCard = ({ card }) => {
                         </Typography>
                     </CardContent>
                 </CardActionArea>
-                <CardActions>
+                <CardActions style={{ backgroundColor: "grey" }}>
                     <StarBorder label="10">10</StarBorder>
                     <Button size="small">{card.match.toFixed(0)}%</Button>
                     <Button size="small" component={Link} to={link}>

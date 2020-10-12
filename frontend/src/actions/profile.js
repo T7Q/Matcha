@@ -177,6 +177,35 @@ export const addInteraction = (type, toUserId) => async (dispatch) => {
         });
     }
 };
+// Add like, update connection level
+export const unblockUser = (unblockList) => async (dispatch) => {
+    try {
+        for (const e of unblockList) {
+            await axios.post(
+                `/profile/removeinteraction/blocked/${e.user_id}`,
+                {}
+            );
+        }
+        dispatch({
+            type: SET_SNACKBAR,
+            payload: {
+                snackbarOpen: true,
+                snackbarType: "success",
+                snackbarMessage: "Successfully updated",
+            },
+        });
+    } catch (err) {
+        dispatch({
+            type: SET_SNACKBAR,
+            payload: {
+                snackbarOpen: true,
+                snackbarType: "error",
+                snackbarMessage:
+                    "Something went wrong unblocking users. Try again.",
+            },
+        });
+    }
+};
 
 export const deleteProfile = (history) => async (dispatch) => {
     try {

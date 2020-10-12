@@ -79,4 +79,11 @@ router.post('/deletephoto', authorization.required, photo.deletePhoto);
 // @access  Private
 router.post('/connected/:user_id', authorization.required, interaction.connected);
 
+// @route   GET /blockedUsers
+// @desc    Get list of blocked users
+// @access  Private
+router.get('/blockedUsers', authorization.required, show.blockedUsers);
+
+
+
 module.exports = router;

@@ -1,15 +1,16 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, Box } from '@material-ui/core';
 // import ProfileActions from './ProfileActions';
 
 import { getProfile } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
 
 import Header from './ProfileItems/Header';
+import Carousel from './ProfileItems/Carousel';
 
 const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...props }) => {
     // get the type the profile (my or other user) based on url param
@@ -30,7 +31,7 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...pro
     return loading ? (
         <Spinner />
     ) : (
-        <Fragment>
+        <Box>
             <Header profile={profile} type={type} />
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
@@ -53,8 +54,13 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...pro
                         {profile.gender} interested in {profile.sex_preference}
                     </Typography>
                 </Grid>
+                <Grid item sm={12}>
+                    images here
+                    <Carousel photos={profile.photos}/>
+
+                </Grid>
             </Grid>
-        </Fragment>
+        </Box>
     );
 };
 

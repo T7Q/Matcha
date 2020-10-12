@@ -29,14 +29,7 @@ const LikeButton = ({
         }
     };
     const handleUnblock = () => {
-        if (auth.user.userHasPhotos > 0) {
-            let toUserId = card.user_id;
-            if (card.connected === 0)
-                addLike(location, toUserId, match.match, profile.profile);
-            else removeLike(location, toUserId, match.match, profile.profile);
-        } else {
-            setSnackbar(true, "error", "Add at least 1 photo to enable like functionality")
-        }
+        setSnackbar(true, "warning", "You have blocked this user. To unblock visit settings");
     };
     if (location === "profile" && card.blocked === "1") {
         return (

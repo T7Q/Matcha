@@ -36,21 +36,22 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
     }, []);
 
     const handleBlock = (index) => () => {
-        setSnackbar(true, "warning", "You have blocked this user. To unblock visit settings");
+        const newblockedList = [...blockedList];
+        newblockedList[index].blocked = !newblockedList[index].blocked;
+        setBlockedUsers(newblockedList);
     };
-
     const handleSave = () => {
         const unblockList = blockedList.filter((e) => e.blocked === false);
-        if (unblockList.length > 0) {
+        if (unblockList.length > 0){
             unblockUser(unblockList);
-            const newblockedList = blockedList.filter(
-                (e) => e.blocked === true
-            );
+            const newblockedList = blockedList.filter((e) => e.blocked === true);
             setBlockedUsers(newblockedList);
         } else {
             setSnackbar(true, "warning", "No changes applied");
         }
     };
+    
+    
 
     return (
         <FormGroup>

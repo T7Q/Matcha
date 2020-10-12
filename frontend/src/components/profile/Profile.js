@@ -13,10 +13,14 @@ import ProfileHeader from './ProfileActions/ProfileHeader';
 
 const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...props }) => {
     // get the type the profile (my or other user) based on url param
-    const type = props.match.path === '/profile/me' ? 'myProfile' : 'otherUser';
+    let type = props.match.path === '/profile/me' ? 'myProfile' : 'otherUser';
     // map other user id from url param
     const otherUserId = props.match.path === '/profile/me' ? authUserId : props.match.params.user_id;
     // console.log("PROFILE user info", type, otherUserId, profile);
+
+    if (otherUserId == authUserId) {
+        type = '/profile/me';
+    }
 
     useEffect(() => {
         getProfile(type, otherUserId);
@@ -30,6 +34,7 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...pro
             <ProfileHeader profile={profile} type={type} />
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
+                    <Typography variant="h6">BLOCKED {profile.blocked}</Typography>
                     <Typography variant="h6">My self-summary</Typography>
                     <Typography variant="body1">{profile.bio}</Typography>
                     <Typography variant="h6">My passions</Typography>

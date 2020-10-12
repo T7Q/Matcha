@@ -36,9 +36,7 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
     }, []);
 
     const handleBlock = (index) => () => {
-        const newblockedList = [...blockedList];
-        newblockedList[index].blocked = !newblockedList[index].blocked;
-        setBlockedUsers(newblockedList);
+        setSnackbar(true, "warning", "You have blocked this user. To unblock visit settings");
     };
 
     const handleSave = () => {

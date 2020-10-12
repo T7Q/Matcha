@@ -214,9 +214,19 @@ const getDistance = async (authUserId, otherUserId) => {
     return res.rows[0].distance;
 };
 
+const getBlockedValue = async (authUserId, otherUserId) => {
+    const res = await db.query(
+        `SELECT count(blocked.to_user_id) as blocked
+            FROM blocked
+            WHERE from_user_id = $1 AND to_user_id = $2`,
+        [authUserId, otherUserId]
+    );
+    return res.rows[0].blocked;
+};
+
 const getBlockedUsers = async (authUserId) => {
     const res = await db.query(
-        `SELECT blocked.to_user_id as user_id, users.profile_pic_path, users.first_name, (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
+        `SELECT blocked.to_user_id as user_id, users.profile_pic_path, users.first_name,(EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
             blocked.created_at FROM blocked
         LEFT JOIN users ON users.user_id = blocked.to_user_id
         WHERE blocked.from_user_id = $1
@@ -247,4 +257,5 @@ module.exports = {
     getNotifications,
     getUserPhotos,
     getBlockedUsers,
+    getBlockedValue,
 };

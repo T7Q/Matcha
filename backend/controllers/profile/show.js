@@ -35,6 +35,7 @@ const userProfile = async (req, res) => {
         userInfo['connected'] = await profileModel.usersConnected(authUserId, userId);
         userInfo['age'] = await profileModel.getUserAge(userId);
         userInfo['distance'] = await profileModel.getDistance(authUserId, userId);
+        userInfo['blocked'] = await profileModel.getBlockedValue(authUserId, userId);
         return res.json(userInfo);
     } catch (e) {
         return res.json({ error: 'Error getting profile info' });

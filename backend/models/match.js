@@ -1,4 +1,5 @@
 const db = require("./db");
+const { query } = require("./db");
 
 /* Supporting queries
     Values inserted are calculated on server or by database triggers,
@@ -26,61 +27,81 @@ const totalUserTags = `
 `;
 
 const getCompatibilityValue = (signUser1, signUser2, table) => {
-    
-    let defaultUser = (table === "western" ? "users.western_horo" : "users.chinese_horo");
-    signUser1 = (signUser1 === "default" ? defaultUser : "'" + signUser1 + "'");
-    table = (table === "western" ? "public.western_horo_compatibility" : "public.chinese_horo_compatibility");
+    let defaultUser =
+        table === "western" ? "users.western_horo" : "users.chinese_horo";
+    signUser1 = signUser1 === "default" ? defaultUser : "'" + signUser1 + "'";
+    table =
+        table === "western"
+            ? "public.western_horo_compatibility"
+            : "public.chinese_horo_compatibility";
 
     let query =
         "(\
             SELECT compatibility_value::float * 10 as Cn\
-            FROM " + table +
-            " WHERE (sign_1 = " + signUser1 + " and sign_2 =" + "'" + signUser2 + "'" + ") or\
-                    (sign_1 = " + "'" + signUser2 + "'" + " and sign_2 ="  + signUser1 + ")\
+            FROM " +
+        table +
+        " WHERE (sign_1 = " +
+        signUser1 +
+        " and sign_2 =" +
+        "'" +
+        signUser2 +
+        "'" +
+        ") or\
+                    (sign_1 = " +
+        "'" +
+        signUser2 +
+        "'" +
+        " and sign_2 =" +
+        signUser1 +
+        ")\
         )";
     return query;
-}
+};
 
 const getConnectionValue = (userId1, userId2) => {
-    userId1 = (userId1 === "" ? "users.user_id": userId1);
+    userId1 = userId1 === "" ? "users.user_id" : userId1;
     let query =
-    "(CASE\
+        "(CASE\
             WHEN ((SELECT count(likes.like_id) AS from_likes FROM likes\
-                    WHERE likes.from_user_id = " + userId1 +
-                    " AND likes.to_user_id = " + userId2 + ") = 1\
+                    WHERE likes.from_user_id = " +
+        userId1 +
+        " AND likes.to_user_id = " +
+        userId2 +
+        ") = 1\
             AND (SELECT count(likes.like_id) AS to_likes FROM likes\
-                    WHERE likes.from_user_id = " + userId2 +
-                    " AND likes.to_user_id = " + userId1 + ") = 1)\
+                    WHERE likes.from_user_id = " +
+        userId2 +
+        " AND likes.to_user_id = " +
+        userId1 +
+        ") = 1)\
             THEN 2\
             WHEN ((SELECT count(likes.like_id) AS to_likes FROM likes\
-                    WHERE likes.from_user_id = " + userId2 +
-                    " AND likes.to_user_id = " + userId1 + ") = 1)\
+                    WHERE likes.from_user_id = " +
+        userId2 +
+        " AND likes.to_user_id = " +
+        userId1 +
+        ") = 1)\
             THEN 1\
             ELSE 0\
     END) as connected";
     return query;
-}
-// const getConnectionValue = (userId1, userId2) => {
-//     userId1 = (userId1 === "" ? "users.user_id": userId1);
-//     let query =
-//     "(CASE\
-//             WHEN ((SELECT count(likes.like_id) AS from_likes FROM likes\
-//                     WHERE likes.from_user_id = " + userId1 +
-//                     " AND likes.to_user_id = " + userId2 + ") = 1\
-//             AND (SELECT count(likes.like_id) AS to_likes FROM likes\
-//                     WHERE likes.from_user_id = " + userId2 +
-//                     " AND likes.to_user_id = " + userId1 + ") = 1)\
-//             THEN 1\
-//             ELSE 0\
-//     END) as connected";
-//     return query;
-// }
+};
 
 // Query to get matching recommendations from database
-const getMatch = async (user, settings) => {        
-    const tagsCompValue = (user.userHasTags ? `${numberOfCommonTags} / ${totalUserTags} * 100` : 0);
-    const cnHoroscopeCompValue = getCompatibilityValue("default", user.chinese_horo, "chinese");
-    const westHoroscopeCompValue = getCompatibilityValue("default", user.western_horo, "western");
+const getMatch = async (user, settings) => {
+    const tagsCompValue = user.userHasTags
+        ? `${numberOfCommonTags} / ${totalUserTags} * 100`
+        : 0;
+    const cnHoroscopeCompValue = getCompatibilityValue(
+        "default",
+        user.chinese_horo,
+        "chinese"
+    );
+    const westHoroscopeCompValue = getCompatibilityValue(
+        "default",
+        user.western_horo,
+        "western"
+    );
     const connected = getConnectionValue("", user.user_id);
     // console.log(
     //     `
@@ -143,6 +164,5 @@ const getMatch = async (user, settings) => {
 };
 
 module.exports = {
-    getMatch
+    getMatch,
 };
-

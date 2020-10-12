@@ -12,7 +12,7 @@ const MoreInfo = ({ profile }) => {
                 {profile.distance}km away *
                 last seen{" "}
                 <Moment format="DD/MM/YYYY">{profile.last_seen}</Moment>{" "}
-                <ActionsDropdown userId={profile.user_id}/>
+                <ActionsDropdown userId={profile.user_id} blocked={profile.blocked}/>
             </Typography>
         </>
     );

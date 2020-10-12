@@ -18,7 +18,7 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...pro
     const otherUserId = props.match.path === '/profile/me' ? authUserId : props.match.params.user_id;
     // console.log("PROFILE user info", type, otherUserId, profile);
 
-    if (otherUserId == authUserId) {
+    if (otherUserId === authUserId) {
         type = '/profile/me';
     }
 

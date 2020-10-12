@@ -1,4 +1,4 @@
-import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR } from '../actions/types';
+import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_BlOCKED } from '../actions/types';
 
 const initialState = {
     profile: null,
@@ -28,12 +28,13 @@ export default function (state = initialState, action) {
                 error: payload,
                 loading: false,
             };
-        
-        // case CLEAR_PROFILE:
-        //     return {
-        //         ...state,
-        //         profile: null,
-        //     };
+        case UPDATE_BlOCKED:
+            const profile = state.profile;
+            profile.blocked = payload;
+            return {
+                ...state,
+                loading: false,
+            };
         default:
             return state;
     }

@@ -7,10 +7,15 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
-import { addInteraction } from "../../../actions/profile";
-import { setSnackbar } from "../../../actions/setsnackbar";
+import { addInteraction, unblockUser } from "../../../actions/profile";
 
-const ActionsDropdown = ({ addInteraction, setSnackbar, userId }) => {
+const ActionsDropdown = ({
+    addInteraction,
+    unblockUser,
+    profile: { profile },
+}) => {
+    const userId = profile.user_id;
+    const blocked = profile.blocked;
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -21,7 +26,13 @@ const ActionsDropdown = ({ addInteraction, setSnackbar, userId }) => {
         setAnchorEl(null);
     };
 
-    // console.log("dropdown", userId);
+    const handleClickUnblock = () => {
+        unblockUser("profile", [{ user_id: userId }]);
+    };
+    const handleClickInteraction = (type) => () => {
+        // unblockUser("profile", [{ user_id: userId }]);
+        addInteraction(type, userId);
+    };
 
     return (
         <div>
@@ -40,28 +51,34 @@ const ActionsDropdown = ({ addInteraction, setSnackbar, userId }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}
-                style={{color: "blue"}}
-                >UNMATCH</MenuItem>
+                <MenuItem onClick={handleClose} style={{ color: "blue" }}>
+                    UNMATCH
+                </MenuItem>
                 <MenuItem
-                    style={{color: "blue"}}
-                    onClick={() => {
-                        addInteraction("reported", userId);
-                    }}
+                    style={{ color: "blue" }}
+                    onClick={handleClickInteraction("reported")}
                 >
                     REPORT
                 </MenuItem>
-                <MenuItem
-                    onClick={() => {
-                        addInteraction("blocked", userId);
-                    }}
-                    style={{color: "blue"}}
-                >
-                    BLOCK
+                {blocked === "1" ? (
+                    <MenuItem
+                        onClick={handleClickUnblock}
+                        style={{ color: "blue" }}
+                    >
+                        UNBLOCK
+                    </MenuItem>
+                ) : (
+                    <MenuItem
+                        style={{ color: "red" }}
+                        onClick={handleClickInteraction("blocked")}
+                    >
+                        BLOCK
+                    </MenuItem>
+                )}
+
+                <MenuItem onClick={handleClose} style={{ color: "blue" }}>
+                    x
                 </MenuItem>
-                <MenuItem onClick={handleClose}
-                style={{color: "blue"}}
-                >x</MenuItem>
             </Menu>
         </div>
     );
@@ -69,18 +86,15 @@ const ActionsDropdown = ({ addInteraction, setSnackbar, userId }) => {
 
 ActionsDropdown.propTypes = {
     addInteraction: PropTypes.func.isRequired,
-    setSnackbar: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
+    unblockUser: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-    match: state.match,
-    auth: state.auth,
     profile: state.profile,
 });
 
-export default connect(mapStateToProps, { addInteraction, setSnackbar })(
-    ActionsDropdown
-);
+export default connect(mapStateToProps, {
+    addInteraction,
+    unblockUser,
+})(ActionsDropdown);

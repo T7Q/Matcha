@@ -15,6 +15,7 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const MESSAGE = 'MESSAGE';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
+export const UPDATE_BlOCKED = 'UPDATE_BlOCKED';
 // Match
 export const GET_MATCH = 'GET_MATCH';
 export const FETCH_MORE_MATCH = 'FETCH_MORE_MATCH';

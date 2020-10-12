@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS "user_tags"
  "tag_id"  bigint NOT NULL REFERENCES "tags" ( "tag_id" ) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "report_users"
+CREATE TABLE IF NOT EXISTS "reported"
 (
  "report_id"        bigserial NOT NULL PRIMARY KEY,
  "from_user_id"          bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS "report_users"
  "created_at"       timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS "block_users"
+CREATE TABLE IF NOT EXISTS "blocked"
 (
  "block_id"        bigserial NOT NULL PRIMARY KEY,
  "from_user_id"         bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,

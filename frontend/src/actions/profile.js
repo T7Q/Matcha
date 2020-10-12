@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
     CREATE_PROFILE,
     GET_PROFILE,
@@ -7,19 +7,21 @@ import {
     UPDATE_ERROR,
     SET_SNACKBAR,
     LOGOUT,
-} from './types';
-import { setAlert } from './alert';
-import { loadUser } from './auth';
+} from "./types";
+import { setAlert } from "./alert";
+import { loadUser } from "./auth";
 
 // Get user profile
-export const getProfile = (type, userId) => async dispatch => {
+export const getProfile = (type, userId) => async (dispatch) => {
     // clear profile state to prevent blinking of old info on screen
     // dispatch({ type: CLEAR_PROFILE });
 
     // send request to corresponding router depending on wheather profile is My or Other user
     try {
         const res =
-            type === 'myProfile' ? await axios.get('/profile/me') : await axios.get(`/profile/user/${userId}`);
+            type === "myProfile"
+                ? await axios.get("/profile/me")
+                : await axios.get(`/profile/user/${userId}`);
 
         // send data to reducer
         dispatch({
@@ -34,33 +36,37 @@ export const getProfile = (type, userId) => async dispatch => {
     }
 };
 
-const convertImages = images => {
+const convertImages = (images) => {
     const data = {
-        key: 'photo',
+        key: "photo",
         value: Object.values(images)
-            .filter(value => !Array.isArray(value) && value !== '')
-            .map(value => ({ type: 'profile', data: value })),
+            .filter((value) => !Array.isArray(value) && value !== "")
+            .map((value) => ({ type: "profile", data: value })),
     };
     return data;
 };
 
 // Create or update profile
-export const createProfile = (formData, images, history) => async dispatch => {
+export const createProfile = (formData, images, history) => async (
+    dispatch
+) => {
     try {
         // console.log('create profile');
         const config = {
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
         };
         const imagesToSubmit = convertImages(images);
         // console.log(imagesToSubmit);
-        const res = await axios.post('profile/create', formData, config);
+        const res = await axios.post("profile/create", formData, config);
         // console.log('res', res);
         if (res.data.error) {
             const errors = res.data.error;
-            errors.forEach(error => dispatch(setAlert(error.error, 'danger')));
-            console.log('error in createprofile', errors);
+            errors.forEach((error) =>
+                dispatch(setAlert(error.error, "danger"))
+            );
+            console.log("error in createprofile", errors);
             dispatch({
                 type: PROFILE_ERROR,
                 payload: res.data.error,
@@ -71,7 +77,11 @@ export const createProfile = (formData, images, history) => async dispatch => {
                 type: CREATE_PROFILE,
                 payload: res.data,
             });
-            const imagesRes = await axios.post('/profile/uploadphoto', imagesToSubmit, config);
+            const imagesRes = await axios.post(
+                "/profile/uploadphoto",
+                imagesToSubmit,
+                config
+            );
             // console.log(imagesRes);
             if (imagesRes.data.error) {
                 console.log(imagesRes.data.error);
@@ -79,7 +89,7 @@ export const createProfile = (formData, images, history) => async dispatch => {
                 // console.log('success', imagesRes);
             }
             dispatch(loadUser());
-            history.push('/Profile');
+            history.push("/Profile");
         }
     } catch (err) {
         console.log(err);
@@ -87,17 +97,19 @@ export const createProfile = (formData, images, history) => async dispatch => {
 };
 
 // Add like, update connection level
-export const addLike = (location, toUserId, match, profile) => async dispatch => {
+export const addLike = (location, toUserId, match, profile) => async (
+    dispatch
+) => {
     try {
         await axios.post(`/profile/addinteraction/likes/${toUserId}`, {});
         const result = await axios.post(`/profile/connected/${toUserId}`, {});
-        if (location === 'userCard') {
-            match.forEach(element => {
+        if (location === "userCard") {
+            match.forEach((element) => {
                 if (element.user_id === toUserId) {
-                    element['connected'] = result.data.msg;
+                    element["connected"] = result.data.msg;
                 }
             });
-        } else if (location === 'profile') {
+        } else if (location === "profile") {
             profile.connected = result.data.msg;
         }
         dispatch({
@@ -112,17 +124,19 @@ export const addLike = (location, toUserId, match, profile) => async dispatch =>
 };
 
 // Remove like, update connection level
-export const removeLike = (location, toUserId, match, profile) => async dispatch => {
+export const removeLike = (location, toUserId, match, profile) => async (
+    dispatch
+) => {
     try {
         await axios.post(`/profile/removeinteraction/likes/${toUserId}`, {});
         const result = await axios.post(`/profile/connected/${toUserId}`, {});
-        if (location === 'userCard') {
-            match.forEach(element => {
+        if (location === "userCard") {
+            match.forEach((element) => {
                 if (element.user_id === toUserId) {
-                    element['connected'] = result.data.msg;
+                    element["connected"] = result.data.msg;
                 }
             });
-        } else if (location === 'profile') {
+        } else if (location === "profile") {
             profile.connected = result.data.msg;
         }
         dispatch({
@@ -137,40 +151,42 @@ export const removeLike = (location, toUserId, match, profile) => async dispatch
 };
 
 // Add like, update connection level
-export const addInteraction = (type, toUserId, setSnackbar) => async dispatch => {
+export const addInteraction = (type, toUserId) => async (dispatch) => {
     try {
-        if (type === 'report_users') {
-            const result = await axios.post(`/profile/addinteraction/${type}/${toUserId}`, {});
-            dispatch({
-                type: SET_SNACKBAR,
-                payload: {
-                    snackbarOpen: true,
-                    snackbarType: 'success',
-                    snackbarMessage: result.data.msg,
-                },
-            });
-        }
+        const result = await axios.post(
+            `/profile/addinteraction/${type}/${toUserId}`,
+            {}
+        );
+        dispatch({
+            type: SET_SNACKBAR,
+            payload: {
+                snackbarOpen: true,
+                snackbarType: "success",
+                snackbarMessage: result.data.msg,
+            },
+        });
     } catch (err) {
         dispatch({
             type: SET_SNACKBAR,
             payload: {
                 snackbarOpen: true,
-                snackbarType: 'error',
-                snackbarMessage: 'Something went wrong saving your preference. Try again.',
+                snackbarType: "error",
+                snackbarMessage:
+                    "Something went wrong saving your preference. Try again.",
             },
         });
     }
 };
 
-export const deleteProfile = history => async dispatch => {
+export const deleteProfile = (history) => async (dispatch) => {
     try {
-        const res = await axios.post('/profile/delete', { key: 'delete' });
+        const res = await axios.post("/profile/delete", { key: "delete" });
         if (res.data.error) {
             const error = res.data.error;
-            dispatch(setAlert(error, 'danger'));
+            dispatch(setAlert(error, "danger"));
         } else {
             dispatch({ type: LOGOUT });
-            history.push('/');
+            history.push("/");
         }
     } catch (error) {
         console.log(error);

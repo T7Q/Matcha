@@ -40,22 +40,28 @@ const ActionsDropdown = ({ addInteraction, setSnackbar, userId }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>UNMATCH</MenuItem>
+                <MenuItem onClick={handleClose}
+                style={{color: "blue"}}
+                >UNMATCH</MenuItem>
                 <MenuItem
+                    style={{color: "blue"}}
                     onClick={() => {
-                        addInteraction("report_users", userId, setSnackbar);
+                        addInteraction("reported", userId);
                     }}
                 >
                     REPORT
                 </MenuItem>
                 <MenuItem
                     onClick={() => {
-                        addInteraction("block", userId);
+                        addInteraction("blocked", userId);
                     }}
+                    style={{color: "blue"}}
                 >
                     BLOCK
                 </MenuItem>
-                <MenuItem onClick={handleClose}>x</MenuItem>
+                <MenuItem onClick={handleClose}
+                style={{color: "blue"}}
+                >x</MenuItem>
             </Menu>
         </div>
     );

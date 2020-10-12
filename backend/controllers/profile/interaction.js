@@ -25,8 +25,8 @@ const remove = async (req, res) => {
     if (
         key == "likes" ||
         key == "views" ||
-        key == "report_users" ||
-        key == "block_users"
+        key == "reported" ||
+        key == "blocked"
     ) {
         try {
             await profileModel.deleteRow(key, from_user_id, to_user_id);

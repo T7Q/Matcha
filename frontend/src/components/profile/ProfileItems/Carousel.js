@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./slideImage.css";
 import CarouselSlide from "./CarouselSlide";
-// import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import Slide from "@material-ui/core/Slide";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { ChevronLeft, ChevronRight }from "@material-ui/icons";
+// import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
 function Arrow(props) {
     const { direction, clickFunction } = props;
     const icon =
-        direction === "left" ? <ChevronLeftIcon /> : <ChevronRightIcon />;
+        direction === "left" ? <ChevronLeft /> : <ChevronRight />;
 
     return <div onClick={clickFunction}>{icon}</div>;
 }

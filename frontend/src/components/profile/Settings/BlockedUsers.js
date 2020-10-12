@@ -21,17 +21,6 @@ const useStyles = makeStyles((theme) => ({
 
 const BlockedUsers = ({ unblockUser, setSnackbar }) => {
     const classes = useStyles();
-
-    const handleSave = () => {
-        const unblockList = blockedList.filter((e) => e.blocked === false);
-        if (unblockList.length > 0){
-            unblockUser(unblockList);
-            const newblockedList = blockedList.filter((e) => e.blocked === true);
-            setBlockedUsers(newblockedList);
-        } else {
-            setSnackbar(true, "warning", "No changes applied");
-        }
-    };
     const [blockedList, setBlockedUsers] = useState([]);
 
     useEffect(() => {
@@ -50,6 +39,19 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
         const newblockedList = [...blockedList];
         newblockedList[index].blocked = !newblockedList[index].blocked;
         setBlockedUsers(newblockedList);
+    };
+
+    const handleSave = () => {
+        const unblockList = blockedList.filter((e) => e.blocked === false);
+        if (unblockList.length > 0) {
+            unblockUser(unblockList);
+            const newblockedList = blockedList.filter(
+                (e) => e.blocked === true
+            );
+            setBlockedUsers(newblockedList);
+        } else {
+            setSnackbar(true, "warning", "No changes applied");
+        }
     };
 
     return (

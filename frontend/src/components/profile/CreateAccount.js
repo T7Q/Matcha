@@ -218,7 +218,7 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
     const onSubmit = async () => {
         const dataToSubmit = { ...formData };
         delete dataToSubmit.currentStep;
-        const errorsFromApi = await register(dataToSubmit);
+        const errorsFromApi = await register(dataToSubmit, history);
         if (errorsFromApi) {
             setErrors({ ...errors, ...errorsFromApi });
         }

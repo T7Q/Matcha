@@ -25,7 +25,7 @@ export const loadUser = () => async dispatch => {
     }
 };
 
-export const register = ({ formData, history }) => async dispatch => {
+export const register = (formData, history) => async dispatch => {
     const config = {
         headers: { 'Content-Type': 'application/json' },
     };

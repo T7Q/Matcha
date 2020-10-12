@@ -79,7 +79,7 @@ const blockedUsers = async (req, res) => {
     const userId = req.user.userId;
     try {
         let blockedList = await profileModel.getBlockedUsers(userId);
-        blockedList.map(item => item.blocked = false );
+        blockedList.map(item => item.blocked = true );
         return res.json(blockedList);
     } catch (e) {
         return res.json({ error: 'Error getting blocked users info' });

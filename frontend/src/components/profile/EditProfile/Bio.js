@@ -42,7 +42,12 @@ const Bio = ({ bioProp }) => {
     };
 
     return (
-        <WizardForm header="Edit bio" formData={formData} setFormData={setFormData} onSubmit={handleSubmit}>
+        <WizardForm
+            link="/profile/me"
+            header="Edit bio"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}>
             <>
                 <TextareaAutosize
                     name="bio"

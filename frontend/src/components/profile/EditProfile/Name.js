@@ -87,7 +87,12 @@ const Name = ({ firstName, lastName }) => {
     };
 
     return (
-        <WizardForm header="Edit name" formData={formData} setFormData={setFormData} onSubmit={handleSubmit}>
+        <WizardForm
+            link="/profile/me"
+            header="Edit name"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}>
             <>
                 <Input
                     name="firstname"

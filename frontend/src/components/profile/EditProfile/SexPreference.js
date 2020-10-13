@@ -47,6 +47,7 @@ const SexPreference = ({ genderProp, sexPreferenceProp }) => {
 
     return (
         <WizardForm
+            link="/profile/me"
             header="Edit sex preference"
             formData={formData}
             setFormData={setFormData}

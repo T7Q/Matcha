@@ -61,7 +61,12 @@ const Birthdate = ({ birthdateProp }) => {
     };
 
     return (
-        <WizardForm header="Edit birthdate" formData={formData} setFormData={setFormData} onSubmit={handleSubmit}>
+        <WizardForm
+            link="/profile/me"
+            header="Edit birthdate"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}>
             <MuiPickersUtilsProvider utils={LuxonUtils}>
                 <DatePicker
                     disableFuture

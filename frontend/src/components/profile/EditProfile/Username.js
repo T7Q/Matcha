@@ -56,7 +56,12 @@ const Username = ({ usernameProp }) => {
     };
 
     return (
-        <WizardForm header="Edit username" formData={formData} setFormData={setFormData} onSubmit={handleSubmit}>
+        <WizardForm
+            link="/profile/me"
+            header="Edit username"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}>
             <Input
                 name="username"
                 type="username"

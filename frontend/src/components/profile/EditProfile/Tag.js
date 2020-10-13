@@ -20,7 +20,6 @@ const Tag = () => {
         }
         async function getUserTags() {
             const tagsFromApi = await axios.get('/profile/me/tags');
-            console.log(tagsFromApi.data);
             isMounted && setFormData(tagsFromApi.data.map(item => item.tag_name));
         }
         getTags();
@@ -60,7 +59,12 @@ const Tag = () => {
     };
 
     return (
-        <WizardForm header="Edit passions" formData={formData} setFormData={setFormData} onSubmit={handleSubmit}>
+        <WizardForm
+            link="/profile/me"
+            header="Edit passions"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}>
             <Autocomplete
                 onChange={(e, value) => {
                     setData(value);

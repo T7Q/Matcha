@@ -34,7 +34,7 @@ const Edit = ({ getProfile, profile: { profile, loading }, ...props }) => {
     return loading ? (
         <Spinner />
     ) : (
-        <Box>
+        <Box mb="-50px">
             <Box mb="-100px">
                 <Header profile={profile} type="me" />
             </Box>
@@ -65,24 +65,6 @@ const Edit = ({ getProfile, profile: { profile, loading }, ...props }) => {
                                 return <>Page not found</>;
                         }
                     })()}
-                    {/* <Grid container justify={isMobile ? 'center' : 'flex-start'} item sm={9} xs={12}>
-                        <Box pt={3} m={3}>
-                            {tab === 0 && <></>}
-                            {tab === 1 && <Bio bioProp={profile.bio} />}
-                            {tab === 2 && <Birthdate birthdateProp={profile.birth_date} />}
-                            {tab === 3 && <Username usernameProp={profile.username} />}
-                            {tab === 4 && <Tag />}
-                            {tab === 5 && <Name firstName={profile.first_name} lastName={profile.last_name} />}
-                            {tab === 6 && (
-                                <SexPreference
-                                    genderProp={profile.gender}
-                                    sexPreferenceProp={profile.sex_preference}
-                                />
-                            )}
-                            {tab === 7 && <Photos />}
-                            {tab === 8 && <Country countryProp={profile.country} />}
-                        </Box>
-                    </Grid> */}
                 </Grid>
             </Grid>
         </Box>

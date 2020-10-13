@@ -46,16 +46,27 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
     return (
         <Box width="auto" pt="100px" mb={{ xs: '80px' }}>
             <form onSubmit={formSubmit}>
-                <Box>
+                <Box display="flex" alignItems="center" justifyContent="center">
                     <IconButton
                         onClick={step === 1 || steps === 1 ? () => handleRedirect(link ? link : '/') : prev}>
                         <ArrowBackIosIcon fontSize="large" />
                     </IconButton>
+                    {steps === 1 && <Typography variant="h6">{header}</Typography>}
                 </Box>
                 <Box display="flex" flexDirection="column" textAlign="center">
                     <Box display="flex" my={5} maxWidth="300px">
-                        <Typography variant="h6">{header}</Typography>
-                        <LinearProgress className={classes.root} variant="determinate" value={normalise(step)} />
+                        {steps === 1 ? (
+                            <></>
+                        ) : (
+                            <>
+                                <Typography variant="h6">{header}</Typography>
+                                <LinearProgress
+                                    className={classes.root}
+                                    variant="determinate"
+                                    value={normalise(step)}
+                                />
+                            </>
+                        )}
                     </Box>
                     {steps === 1 ? children : children[step - 1]}
                     <Box mt={5}>

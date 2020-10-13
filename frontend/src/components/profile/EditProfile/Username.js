@@ -62,7 +62,6 @@ const Username = ({ usernameProp }) => {
             <Input
                 name="username"
                 type="username"
-                header="Create a username"
                 value={username}
                 handleChange={onChange}
                 helperText={usernameError}

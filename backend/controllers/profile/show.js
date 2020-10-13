@@ -18,6 +18,7 @@ const userProfile = async (req, res) => {
             'chinese_horo',
             'western_horo',
             'gender',
+            'country',
             'sex_preference',
             'birth_date',
             'profile_pic_path',
@@ -53,6 +54,7 @@ const myProfile = async (req, res) => {
             'bio',
             'first_name',
             'last_name',
+            'country',
             'username',
             'chinese_horo',
             'western_horo',
@@ -80,8 +82,18 @@ const blockedUsers = async (req, res) => {
     const userId = req.user.userId;
     try {
         let blockedList = await profileModel.getBlockedUsers(userId);
-        blockedList.map(item => item.blocked = true );
+        blockedList.map(item => (item.blocked = true));
         return res.json(blockedList);
+    } catch (e) {
+        return res.json({ error: 'Error getting blocked users info' });
+    }
+};
+
+const userTags = async (req, res) => {
+    const userId = req.user.userId;
+    try {
+        let tags = await profileModel.getUserTags(userId);
+        return res.json(tags.rows);
     } catch (e) {
         return res.json({ error: 'Error getting blocked users info' });
     }
@@ -91,4 +103,5 @@ module.exports = {
     userProfile,
     myProfile,
     blockedUsers,
+    userTags,
 };

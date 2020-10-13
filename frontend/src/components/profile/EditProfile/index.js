@@ -9,10 +9,11 @@ import Spinner from '../../layout/Spinner';
 import Bio from './Bio';
 import Birthdate from './Birthdate';
 import Name from './Name';
-import Passion from './Passion';
+import Tag from './Tag';
 import Username from './Username';
 import SexPreference from './SexPreference';
 import Photos from './Photos';
+import Country from './Country';
 
 const Edit = ({ getProfile, profile: { profile, loading } }) => {
     const [tab, setTab] = useState(0);
@@ -27,8 +28,6 @@ const Edit = ({ getProfile, profile: { profile, loading } }) => {
     useEffect(() => {
         getProfile('myProfile');
     }, [getProfile]);
-
-    console.log(profile);
 
     return loading ? (
         <Spinner />
@@ -60,18 +59,25 @@ const Edit = ({ getProfile, profile: { profile, loading } }) => {
                             <Tab label="&emsp;Name &nbsp; &nbsp;&emsp;&#8811;" icon={<Delete />} />
                             <Tab label="&emsp;Sex preference &nbsp; &nbsp;&emsp;&#8811;" icon={<Delete />} />
                             <Tab label="&emsp;Photos &nbsp; &nbsp;&emsp;&#8811;" icon={<Delete />} />
+                            <Tab label="&emsp;Country &nbsp; &nbsp;&emsp;&#8811;" icon={<Delete />} />
                         </Tabs>
                     </Grid>
                     <Grid container justify={isMobile ? 'center' : 'flex-start'} item sm={9} xs={12}>
                         <Box pt={3} m={3}>
                             {tab === 0 && <></>}
                             {tab === 1 && <Bio bioProp={profile.bio} />}
-                            {tab === 2 && <Birthdate />}
+                            {tab === 2 && <Birthdate birthdateProp={profile.birth_date} />}
                             {tab === 3 && <Username usernameProp={profile.username} />}
-                            {tab === 4 && <Passion />}
+                            {tab === 4 && <Tag />}
                             {tab === 5 && <Name firstName={profile.first_name} lastName={profile.last_name} />}
-                            {tab === 6 && <SexPreference />}
+                            {tab === 6 && (
+                                <SexPreference
+                                    genderProp={profile.gender}
+                                    sexPreferenceProp={profile.sex_preference}
+                                />
+                            )}
                             {tab === 7 && <Photos />}
+                            {tab === 8 && <Country countryProp={profile.country} />}
                         </Box>
                     </Grid>
                 </Grid>

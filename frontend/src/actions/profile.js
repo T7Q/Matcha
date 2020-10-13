@@ -189,7 +189,7 @@ export const addInteraction = (type, toUserId) => async (dispatch) => {
 export const unblockUser = (location, unblockList) => async (dispatch) => {
     try {
         for (const e of unblockList) {
-            const res = await axios.post(
+            await axios.post(
                 `/profile/removeinteraction/blocked/${e.user_id}`,
                 {}
             );

@@ -4,6 +4,7 @@ import Match from "../common/matchGallery/GetMatches";
 
 const Visits = ({ match, history }) => {
     const { page } = match.params;
+    console.log("page", page);
 
     const indexToTabName = ["newvisits", "allvisits", "myvisits"];
 
@@ -12,6 +13,7 @@ const Visits = ({ match, history }) => {
     );
 
     const handleChange = (event, newValue) => {
+        console.log(newValue);
         history.push(`/visits/${indexToTabName[newValue]}`);
         setValue(newValue);
     };

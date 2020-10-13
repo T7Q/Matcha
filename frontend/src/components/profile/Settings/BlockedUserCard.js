@@ -31,7 +31,7 @@ const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) =>
             </ListItemAvatar>
             <ListItemText
                 id={labelId}
-                primary={`${value.blocked}, ${value.first_name}, ${value.age}, ${value.user_id}`}
+                primary={`${value.first_name}, ${value.age}`}
             />
             <ListItemSecondaryAction>
                 <IconButton onClick={handleBlock(index)}>

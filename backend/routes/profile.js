@@ -19,6 +19,11 @@ router.get('/user/:user_id', authorization.required, show.userProfile);
 // @access  Public
 router.get('/tags', profileModel.getTags);
 
+// @route   GET /profile/me/tags
+// @desc    Get all tags
+// @access  Public
+router.get('/me/tags', show.userTags);
+
 // @route   GET /profile/notifications
 // @desc    Get all tags
 // @access  Public
@@ -83,7 +88,5 @@ router.post('/connected/:user_id', authorization.required, interaction.connected
 // @desc    Get list of blocked users
 // @access  Private
 router.get('/blockedUsers', authorization.required, show.blockedUsers);
-
-
 
 module.exports = router;

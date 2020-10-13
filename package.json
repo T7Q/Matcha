@@ -22,7 +22,6 @@
         "axios": "^0.20.0",
         "classnames": "^2.2.6",
         "dotenv": "^8.2.0",
-        "fs": "0.0.1-security",
         "luxon": "^1.25.0",
         "material-ui-dropzone": "^3.5.0",
         "material-ui-toggle-icon": "^1.1.1",
@@ -31,7 +30,6 @@
         "react-material-ui-carousel": "^2.0.1",
         "react-responsive-carousel": "^3.2.10",
         "react-slick": "^0.27.11",
-        "regex": "^0.1.1",
         "socket.io": "^2.3.0"
     }
 }

@@ -19,7 +19,7 @@ import Likes from '../likes/Likes';
 import Chat from '../chat/Chat';
 import Settings from '../profile/Settings';
 import Visits from '../visits/Visits';
-import EditProfile from '../profile/EditProfile';
+import EditProfile from '../profile/EditProfile/';
 
 const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
     return (
@@ -45,11 +45,11 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <PrivateRoute exact path="/profile/me" component={Profile} />
                     <PrivateRoute exact path="/profile/:user_id?" component={Profile} />
                     <Route exact path="/complete" component={ProfileCreation} />
-                    <PrivateRoute path="/settings" component={Settings} />
+                    <PrivateRoute exact path="/settings" component={Settings} />
                     <Redirect exact from="/matches" to="/matches/recommend" />
                     <PrivateRoute exact path="/matches/:page?" component={Matches} />
                     <PrivateRoute exact path="/visits/:page?" component={Visits} />
-                    <PrivateRoute path="profile/edit" component={EditProfile} />
+                    <PrivateRoute exact path="/profile/me/edit" component={EditProfile} />
                     {/* <Route component={NotFound} /> */}
                 </Switch>
             </Box>

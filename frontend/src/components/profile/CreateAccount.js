@@ -76,9 +76,6 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
                 if (!value) {
                     setErrors({ ...errors, firstnameError: 'required field' });
                     return false;
-                } else if (value.length < 2) {
-                    setErrors({ ...errors, firstnameError: 'length requred more than 2 characters' });
-                    return false;
                 } else {
                     const re = /^[A-Za-z0-9]{0,}$/;
                     if (!re.test(value)) {
@@ -151,17 +148,25 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
             case 'firstname':
                 if (!value) {
                     setErrors({ ...errors, firstnameError: 'required field' });
-                } else if (value.length < 2) {
-                    setErrors({ ...errors, firstnameError: 'length requred more than 2 characters' });
                 } else {
-                    setErrors({ ...errors, firstnameError: '' });
+                    const re = /^[A-Za-z0-9]{0,}$/;
+                    if (!re.test(value)) {
+                        errors['firstnameError'] = 'Name must include letters and numbers only';
+                    } else {
+                        setErrors({ ...errors, firstnameError: '' });
+                    }
                 }
                 break;
             case 'lastname':
                 if (!value) {
                     setErrors({ ...errors, lastnameError: 'required field' });
                 } else {
-                    setErrors({ ...errors, lastnameError: '' });
+                    const re = /^[A-Za-z0-9]{0,}$/;
+                    if (!re.test(lastname)) {
+                        errors['firstnameError'] = 'Name must include letters and numbers only';
+                    } else {
+                        setErrors({ ...errors, lastnameError: '' });
+                    }
                 }
                 break;
             case 'password':

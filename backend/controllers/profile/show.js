@@ -15,6 +15,8 @@ const userProfile = async (req, res) => {
             'bio',
             'first_name',
             'last_name',
+            'email',
+            'username',
             'chinese_horo',
             'western_horo',
             'gender',

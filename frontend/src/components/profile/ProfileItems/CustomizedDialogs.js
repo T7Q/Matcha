@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -9,8 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import ImageGridList from "./ImageGridList";
-import Carousel from "./Carousel";
-import SingleLineGridList from "./SingleLineGridList";
+// import Carousel from "./Carousel";
+// import SingleLineGridList from "./SingleLineGridList";
 
 const styles = (theme) => ({
   root: {
@@ -45,12 +45,12 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
+// const DialogActions = withStyles((theme) => ({
+//   root: {
+//     margin: 0,
+//     padding: theme.spacing(1),
+//   },
+// }))(MuiDialogActions);
 
 export default function CustomizedDialogs({open, setOpen, profile}) {
 

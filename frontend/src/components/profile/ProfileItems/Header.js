@@ -22,9 +22,14 @@ const Header = ({ profile, type }) => {
                 color="primary"
                 onClick={handleClickOpen}
             >
-                Open dialog
+                Open Images
             </Button>
-            <CustomizedDialogs open={open} setOpen={setOpen} profile={profile}/>
+            <Button color="primary">Edit images</Button>
+            <CustomizedDialogs
+                open={open}
+                setOpen={setOpen}
+                profile={profile}
+            />
             <Typography variant="h3">
                 {profile.first_name}{" "}
                 {type === "otherUser" ? (

@@ -8,11 +8,31 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 const tileData = [
     {
+        key: 1,
         img: "/cat.jpg",
         title: "Image",
         author: "author",
     },
     {
+        key: 2,
+        img: "/Photo_1601037282389_683.png",
+        title: "Image",
+        author: "author",
+    },
+    {
+        key: 3,
+        img: "/Photo_1601037282389_683.png",
+        title: "Image",
+        author: "author",
+    },
+    {
+        key: 4,
+        img: "/cat.jpg",
+        title: "Image",
+        author: "author",
+    },
+    {
+        key: 5,
         img: "/Photo_1601037282389_683.png",
         title: "Image",
         author: "author",
@@ -65,7 +85,7 @@ export default function SingleLineGridList() {
         <div className={classes.root}>
             <GridList className={classes.gridList} cols={2.5}>
                 {tileData.map((tile) => (
-                    <GridListTile key={tile.img}>
+                    <GridListTile key={tile.key}>
                         <img src={tile.img} alt={tile.title} />
                         <GridListTileBar
                             title={tile.title}

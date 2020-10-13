@@ -1,16 +1,30 @@
 import React from "react";
-import { Typography, Avatar } from "@material-ui/core";
+import { Typography, Avatar, Button } from "@material-ui/core";
 import LikeButton from "../../common/matchGallery/LikeButton";
 import UserRating from "./UserRating";
 import Dropdown from "./Dropdown";
 import Moment from "react-moment";
+import CustomizedDialogs from "./CustomizedDialogs";
 
 const Header = ({ profile, type }) => {
     const avatarAlt = profile.first_name + " " + profile.last_name;
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
     return (
         <>
             <Typography variant="h6">user id: {profile.user_id}</Typography>
             <Avatar alt={avatarAlt} src={"/" + profile.profile_pic_path} />
+            <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleClickOpen}
+            >
+                Open dialog
+            </Button>
+            <CustomizedDialogs open={open} setOpen={setOpen} profile={profile}/>
             <Typography variant="h3">
                 {profile.first_name}{" "}
                 {type === "otherUser" ? (

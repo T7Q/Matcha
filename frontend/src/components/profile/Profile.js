@@ -10,7 +10,7 @@ import { getProfile } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
 
 import Header from "./ProfileItems/Header";
-import Carousel from "./ProfileItems/Carousel";
+// import Carousel from "./ProfileItems/Carousel";
 import SingleLineGridList from "./ProfileItems/SingleLineGridList";
 
 const Profile = ({

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../styles/custom';
 
-const WizardForm = ({ header, children, formData, setFormData, onSubmit, history, validate }) => {
+const WizardForm = ({ header, children, formData, setFormData, onSubmit, history, validate, link }) => {
     let step = formData.currentStep;
     let steps = 1;
     if (children) {
@@ -47,7 +47,8 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
         <Box width="auto" pt="100px" mb={{ xs: '80px' }}>
             <form onSubmit={formSubmit}>
                 <Box>
-                    <IconButton onClick={step === 1 ? () => handleRedirect('/') : prev}>
+                    <IconButton
+                        onClick={step === 1 || steps === 1 ? () => handleRedirect(link ? link : '/') : prev}>
                         <ArrowBackIosIcon fontSize="large" />
                     </IconButton>
                 </Box>

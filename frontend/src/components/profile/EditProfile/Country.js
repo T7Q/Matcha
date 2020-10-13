@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField, FormControl, FormHelperText, Button } from '@material-ui/core';
+import { TextField, Box } from '@material-ui/core';
 import { getCountries } from 'countries-cities';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
-import Input from '../../common/Input';
 
 const Country = ({ countryProp }) => {
     const [formData, setFormData] = useState({ country: countryProp });
@@ -43,25 +41,33 @@ const Country = ({ countryProp }) => {
     };
 
     return (
-        <WizardForm header="Edit country" formData={formData} setFormData={setFormData} onSubmit={handleSubmit}>
-            <Autocomplete
-                onChange={(e, val) => setData(val)}
-                options={countries}
-                getOptionLabel={option => option}
-                getOptionSelected={option => option}
-                value={country}
-                renderInput={params => (
-                    <TextField
-                        autoFocus
-                        {...params}
-                        className={classes.customInput}
-                        error={countryError ? true : false}
-                        helperText={countryError}
-                        variant="outlined"
-                        placeholder="Country"
-                    />
-                )}
-            />
+        <WizardForm
+            link="/profile/me"
+            header="Edit country"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}>
+            <>
+                <Box width={{ md: '300px' }} py={2}></Box>
+                <Autocomplete
+                    onChange={(e, val) => setData(val)}
+                    options={countries}
+                    getOptionLabel={option => option}
+                    getOptionSelected={option => option}
+                    value={country}
+                    renderInput={params => (
+                        <TextField
+                            autoFocus
+                            {...params}
+                            className={classes.customInput}
+                            error={countryError ? true : false}
+                            helperText={countryError}
+                            variant="outlined"
+                            placeholder="Country"
+                        />
+                    )}
+                />
+            </>
         </WizardForm>
     );
 };

@@ -38,7 +38,7 @@ const UserCard = ({ card }) => {
                     <CardMedia
                         component="img"
                         alt="Contemplative Reptile"
-                        image={"/" + card.profile_pic_path}
+                        image={card.profile_pic_path}
                         title="Contemplative Reptile"
                     />
 

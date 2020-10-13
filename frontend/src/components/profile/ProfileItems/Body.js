@@ -32,17 +32,17 @@ const Body = ({ profile }) => {
         },
         {
             icon: <MailOutline />,
-            text: `${profile.username}, ${profile.email}`,
+            text: `${profile.username}`,
             link: "/messages",
         },
         {
             icon: <Timeline />,
-            text: `${profile.chinese_horo}, ${profile.western_horo}`,
+            text: `${profile.chinese_horo}, ${profile.western_horo}, ${date}`,
             link: "/likes",
         },
         {
             icon: <VpnKey />,
-            text: `${profile.gender} interested in ${profile.sex_preference}, ${date}`,
+            text: `${profile.gender} interested in ${profile.sex_preference}`,
             link: "/matches",
         },
         {

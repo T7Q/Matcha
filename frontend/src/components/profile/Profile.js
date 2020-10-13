@@ -21,7 +21,7 @@ const Profile = ({
             ? authUserId
             : props.match.params.user_id;
     // to prevent error if auth user enteres its user id in params
-    type = otherUserId === authUserId ? "/profile/me" : type;
+    type = otherUserId === authUserId ? "myProfile" : type;
 
     useEffect(() => {
         getProfile(type, otherUserId);

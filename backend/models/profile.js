@@ -236,6 +236,68 @@ const getBlockedUsers = async (authUserId) => {
     return res.rows;
 };
 
+const insertFakeUsers = async () => {
+    var faker = require("faker");
+    console.log("got to insertfake");
+    const createFakeUser = () => {
+    return [
+        faker.internet.userName(),
+        faker.name.firstName(),
+        faker.name.lastName(),
+        faker.internet.email(),
+        "2",
+        faker.internet.password(),
+        faker.date.between("1960-01-01", "2002-01-01"),
+        faker.random.arrayElement(["man", "woman"]),
+        faker.random.arrayElement(["man", "woman", "both"]),
+        false,
+        faker.random.number(1),
+        faker.address.latitude(),
+        faker.address.longitude(),
+        faker.address.country(),
+        false,
+        faker.random.float({ min: 0, max: 5, precision: 0.1 }),
+        faker.lorem.sentences(),
+        faker.date.between("2018-01-01", Date()),
+        faker.date.between("2018-01-01", Date()),
+        faker.image.avatar(),
+        faker.random.number(30)
+    ]}
+
+    let fakeUsers = [];
+    const desiredFakeUsers = 100;
+    for (let i = 0; i < desiredFakeUsers; i++) {
+        
+        let temp = createFakeUser();
+        fakeUsers = fakeUsers.concat(temp);
+    }
+    // console.log("fakeUSERS", fakeUsers);
+
+    let str = "";
+    let params = 22;
+    let j = 1;
+    for (let k = 0; k < desiredFakeUsers; k++) {
+        str = str.concat("(");
+        for (let i = 1; i < params; i++) {
+            str = i === params - 1 ? str.concat(`$${j}`) : str.concat(`$${j},`);
+            j++
+        }
+        str = k === desiredFakeUsers - 1 ? str.concat(")") : str.concat("),");
+    }
+
+    console.log("..writing data to the database");
+
+    await db.query(
+        `INSERT INTO users (username, first_name, last_name, email, status, 
+            password, birth_date, gender, sex_preference, email_notification,
+            online, latitude, longitude, country, real_time_notification,
+            fame_rating, bio, created_at, last_seen, profile_pic_path, fame_14_days)
+            VALUES ${str}`,
+        [...fakeUsers]
+    );
+    console.log(desiredFakeUsers, "more users");
+};
+
 module.exports = {
     getTags,
     addPhotoToDb,
@@ -258,4 +320,5 @@ module.exports = {
     getUserPhotos,
     getBlockedUsers,
     getBlockedValue,
+    insertFakeUsers,
 };

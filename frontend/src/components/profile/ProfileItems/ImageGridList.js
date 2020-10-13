@@ -27,13 +27,13 @@ const tileData = [
     },
     {
         key: 2,
-        img: "/Photo_1601037282389_683.png",
+        img: "http://placeimg.com/640/480/people",
         title: "Image",
         author: "author",
     },
     {
         key: 3,
-        img: "/Photo_1601037282389_683.png",
+        img: "https://s3.amazonaws.com/uifaces/faces/twitter/arpitnj/128.jpg",
         title: "Image",
         author: "author",
     },

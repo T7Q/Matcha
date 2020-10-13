@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -126,6 +126,8 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
                     return true;
                 }
                 return false;
+            default:
+                return false;
         }
     };
 
@@ -212,6 +214,7 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
                     setErrors({ ...errors, passwordError: passwordError, confirmPasswordError: '' });
                 }
                 break;
+            default:
         }
     };
 

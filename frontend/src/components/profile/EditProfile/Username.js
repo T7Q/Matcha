@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
 import Input from '../../common/Input';
 
@@ -15,7 +13,6 @@ const Username = ({ usernameProp }) => {
     });
     const { username } = formData;
     const { usernameError } = errors;
-    const classes = useStyles();
 
     const onChange = async e => {
         setFormData({ username: e.target.value });

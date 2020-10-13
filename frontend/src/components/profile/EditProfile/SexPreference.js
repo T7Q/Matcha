@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import LuxonUtils from '@date-io/luxon';
-import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
-import { ToggleButton, ToggleButtonGroup, Autocomplete } from '@material-ui/lab';
-import { Box, Typography, TextField, Button } from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
+import { Box, Typography, TextField } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
-import Input from '../../common/Input';
 
 const SexPreference = ({ genderProp, sexPreferenceProp }) => {
     const [formData, setFormData] = useState({ gender: genderProp, sexPreference: sexPreferenceProp });
@@ -42,8 +38,6 @@ const SexPreference = ({ genderProp, sexPreferenceProp }) => {
             setErrors({ ...errors, [errorType]: '' });
         }
     };
-    console.log('gender ', gender);
-    console.log('sexPreference ', sexPreference);
 
     return (
         <WizardForm

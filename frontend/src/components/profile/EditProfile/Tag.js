@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField, FormControl, FormHelperText, Button } from '@material-ui/core';
-import { getCountries } from 'countries-cities';
-import { useStyles } from '../../../styles/custom';
+import { TextField } from '@material-ui/core';
 import WizardForm from '../../common/WizardForm';
-import Input from '../../common/Input';
 
 const Tag = () => {
     const [formData, setFormData] = useState([]);
@@ -30,7 +27,6 @@ const Tag = () => {
     }, []);
 
     const { tagsError } = errors;
-    const classes = useStyles();
 
     const setData = val => {
         setFormData(val);

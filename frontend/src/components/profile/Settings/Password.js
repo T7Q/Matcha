@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 // import { editProfile } from '../../../actions/profile';

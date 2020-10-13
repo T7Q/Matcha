@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import LuxonUtils from '@date-io/luxon';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
-import { TextareaAutosize, FormControl, FormHelperText, Button } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
-import Input from '../../common/Input';
 
 const Birthdate = ({ birthdateProp }) => {
     const [formData, setFormData] = useState({ birth_date: birthdateProp });

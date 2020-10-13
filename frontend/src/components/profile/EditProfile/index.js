@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Box, Typography, Grid, Tab, Tabs, useMediaQuery, Container } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
-import { NotificationsActive, Lock, Email, Block, Delete } from '@material-ui/icons';
+import { Box, Grid } from '@material-ui/core';
 import { getProfile } from '../../../actions/profile';
 import Spinner from '../../layout/Spinner';
 import Bio from './Bio';
@@ -12,20 +10,12 @@ import Name from './Name';
 import Tag from './Tag';
 import Username from './Username';
 import SexPreference from './SexPreference';
-import Photos from './Photos';
+// import Photos from './Photos';
 import Country from './Country';
 import Header from '../ProfileItems/Header';
 
 const Edit = ({ getProfile, profile: { profile, loading }, ...props }) => {
-    const [tab, setTab] = useState(0);
-
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
     let type = props.match.params.type;
-
-    const handleChange = (event, newTab) => {
-        setTab(newTab);
-    };
 
     useEffect(() => {
         getProfile('myProfile');

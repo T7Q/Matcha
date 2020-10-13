@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField, FormControl, FormHelperText, Button, Box } from '@material-ui/core';
+import { TextField, Box } from '@material-ui/core';
 import { getCountries } from 'countries-cities';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
-import Input from '../../common/Input';
 
 const Country = ({ countryProp }) => {
     const [formData, setFormData] = useState({ country: countryProp });

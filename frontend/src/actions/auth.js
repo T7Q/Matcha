@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
 import { LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT, MESSAGE } from './types';
 

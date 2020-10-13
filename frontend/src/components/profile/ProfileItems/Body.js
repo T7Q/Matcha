@@ -45,6 +45,11 @@ const Body = ({ profile }) => {
             text: `${profile.gender} interested in ${profile.sex_preference}, ${date}`,
             link: "/matches",
         },
+        {
+            icon: <VpnKey />,
+            text: `${profile.country}`,
+            link: "/matches",
+        },
     ];
     return (
         <Grid container spacing={3}>

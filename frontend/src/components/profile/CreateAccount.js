@@ -54,8 +54,8 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
                     return false;
                 } else {
                     const res = await axios.post('/account/validateData', { key: 'email', value: value });
-                    if (res.data.error) {
-                        setErrors({ ...errors, emailError: res.data.error });
+                    if (res.data.error && Object.keys(res.data.error).length > 0) {
+                        setErrors({ ...errors, ...res.data.error });
                         return false;
                     }
                     return true;
@@ -66,8 +66,8 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
                     return false;
                 } else {
                     const res = await axios.post('/account/validateData', { key: 'username', value: value });
-                    if (res.data.error) {
-                        setErrors({ ...errors, usernameError: res.data.error });
+                    if (res.data.error && Object.keys(res.data.error).length > 0) {
+                        setErrors({ ...errors, ...res.data.error });
                         return false;
                     }
                     return true;

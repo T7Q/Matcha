@@ -24,8 +24,7 @@ const Username = ({ usernameProp }) => {
 
     const handleSubmit = async event => {
         try {
-            console.log(username);
-            const isValid = validate(username);
+            const isValid = await validate(username);
             if (isValid) {
                 console.log('no errors');
             }
@@ -45,7 +44,7 @@ const Username = ({ usernameProp }) => {
                 setErrors({ usernameError: 'Name must include letters and numbers only' });
             } else {
                 const res = await axios.post('/account/validateData', { key: 'username', value: value });
-                if (res.data.error) {
+                if (res.data.error && Object.keys(res.data.error).length > 0) {
                     setErrors(res.data.error);
                 } else {
                     setErrors({ usernameError: '' });

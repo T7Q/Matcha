@@ -48,6 +48,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <PrivateRoute path="/settings" component={Settings} />
                     <Redirect exact from="/matches" to="/matches/recommend" />
                     <PrivateRoute exact path="/matches/:page?" component={Matches} />
+                    <Redirect exact from="/visits" to="/visits/newvisits" />
                     <PrivateRoute exact path="/visits/:page?" component={Visits} />
                     <PrivateRoute path="profile/edit" component={EditProfile} />
                     {/* <Route component={NotFound} /> */}

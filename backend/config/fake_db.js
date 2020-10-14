@@ -4,7 +4,7 @@ const { Pool } = require("pg");
 const { database } = require("./index");
 
 // number of generated fake accounts
-const desiredFakeUsers = 2;
+const desiredFakeUsers = 10;
 
 // statement to insert 21 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
@@ -82,7 +82,7 @@ const insertFakeUsers = async () => {
         .then((res) => {
             console.log(
                 "\x1b[32m" +
-                    "Inserted 500+ fake accounts to the database" +
+                    `Inserted ${desiredFakeUsers} fake accounts to the database` +
                     "\x1b[0m"
             );
         })

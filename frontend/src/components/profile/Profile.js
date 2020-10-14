@@ -13,7 +13,9 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...pro
     // map other user id from url param
     const otherUserId = props.match.path === '/profile/me' ? authUserId : props.match.params.user_id;
     // to prevent error if auth user enteres its user id in params
-    type = otherUserId === authUserId ? '/profile/me' : type;
+
+    type = otherUserId === authUserId ? "myProfile" : type;
+
 
     useEffect(() => {
         getProfile(type, otherUserId);

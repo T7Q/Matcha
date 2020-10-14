@@ -1,6 +1,7 @@
 const { Pool } = require('pg');
 const fs = require('fs');
 const { database } = require('./index');
+const { constants } = require('buffer');
 // queries to create all tables
 const tables = fs.readFileSync('config/tables.sql', 'utf8');
 const data = fs.readFileSync('config/data.sql', 'utf8');

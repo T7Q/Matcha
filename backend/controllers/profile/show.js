@@ -62,7 +62,7 @@ const myProfile = async (req, res) => {
     const userId = req.user.userId;
     try {
         // add function here ****
-        await profileModel.insertFakeUsers();
+        // await profileModel.insertFakeUsers();
         // ****** 
 
 

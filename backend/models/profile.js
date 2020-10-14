@@ -239,8 +239,6 @@ const getBlockedUsers = async (authUserId) => {
 // ********* 
 const faker = require("faker");
 
-// number of generated fake accounts
-const desiredFakeUsers = 2;
 
 // statement to insert 21 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
@@ -299,82 +297,57 @@ const generateFakeUsers = (desiredFakeUsers) => {
     return fakeUsers;
 };
 
+
+
+// ******** 
+// const tagsUnshuffled = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+//     11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+//     21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+//     31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+//     41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+//     51, 52, 53, 54, 55, 56];
+
+
+let  tagsUnshuffled = [];
+const tagsArray = (maxTags) => {
+    for (let i = 1; i <= maxTags; i++) {
+        tagsUnshuffled.push(i);
+    }
+}
+
+        const shuffleTags = () => {
+            return(tagsUnshuffled
+            .map((a) => ({sort: Math.random(), value: a}))
+            .sort((a, b) => a.sort - b.sort)
+            .map((a) => a.value))
+        };
+
+        const prepareTagsStmt = (idMin) => {
+            let str = "";
+            for (let k = idMin; k < (desiredFakeUsers + idMin); k++) {
+                let shuffled = shuffleTags();
+                for (let i = 0; i < 6; i++) {
+                    str = ((desiredFakeUsers + idMin - 1 === k && i === 5) ? 
+                        str.concat("(" + `${k},` + `${shuffled[i]}` + "" + ")") :
+                        str.concat("(" + `${k},` + `${shuffled[i]}` + "" + "),"));
+                }
+            }
+            return (`INSERT INTO user_tags (user_id, tag_id) VALUES ${str}`);
+        }
+
 // insert fake users to the database
-const insertFakeUsers = async () => {
-    const fakeUsers = generateFakeUsers(desiredFakeUsers);
-    const stmt = prepareStmt(desiredFakeUsers);
-    console.log('\x1b[32m' + 'Generated 500+ fake users data' + '\x1b[0m');
+const insertFakeUsersTags = async () => {
+    tagsArray(56);
+    let idMin = 2;
+    const stmt = prepareTagsStmt(idMin);
     try {
-        await db.query(stmt, [...fakeUsers]);
-        console.log('\x1b[32m' + 'Inserted 500+ fake accounts to the database' + '\x1b[0m');
+        await db.query(stmt);
+        console.log('\x1b[32m' + `Inserted fake users tags` + '\x1b[0m');
     } catch (err){
         console.log("ERR", err);
         
     }
 };
-
-
-
-// const insertFakeUsers = async () => {
-//     var faker = require("faker");
-//     console.log("got to insertfake");
-//     const createFakeUser = () => {
-//     return [
-//         faker.internet.userName(),
-//         faker.name.firstName(),
-//         faker.name.lastName(),
-//         faker.internet.email(),
-//         "2",
-//         faker.internet.password(),
-//         faker.date.between("1960-01-01", "2002-01-01"),
-//         faker.random.arrayElement(["man", "woman"]),
-//         faker.random.arrayElement(["man", "woman", "both"]),
-//         false,
-//         faker.random.number(1),
-//         faker.address.latitude(),
-//         faker.address.longitude(),
-//         faker.address.country(),
-//         false,
-//         faker.random.float({ min: 0, max: 5, precision: 0.1 }),
-//         faker.lorem.sentences(),
-//         faker.date.between("2018-01-01", Date()),
-//         faker.date.between("2018-01-01", Date()),
-//         faker.image.avatar(),
-//         faker.random.number(30)
-//     ]}
-
-//     let fakeUsers = [];
-//     const desiredFakeUsers = 2;
-//     for (let i = 0; i < desiredFakeUsers; i++) {
-        
-//         let temp = createFakeUser();
-//         fakeUsers = fakeUsers.concat(temp);
-//     }
-//     // console.log("fakeUSERS", fakeUsers);
-
-//     let str = "";
-//     let params = 22;
-//     let j = 1;
-//     for (let k = 0; k < desiredFakeUsers; k++) {
-//         str = str.concat("(");
-//         for (let i = 1; i < params; i++) {
-//             str = i === params - 1 ? str.concat(`$${j}`) : str.concat(`$${j},`);
-//             j++
-//         }
-//         str = k === desiredFakeUsers - 1 ? str.concat(")") : str.concat("),");
-//     }
-
-   
-//     await db.query(
-//         `INSERT INTO users (username, first_name, last_name, email, status, 
-//             password, birth_date, gender, sex_preference, email_notification,
-//             online, latitude, longitude, country, real_time_notification,
-//             fame_rating, bio, created_at, last_seen, profile_pic_path, fame_14_days)
-//             VALUES ${str}`,
-//         [...fakeUsers]
-//     );
-//     console.log(desiredFakeUsers, "more users");
-// };
 
 module.exports = {
     getTags,
@@ -398,5 +371,5 @@ module.exports = {
     getUserPhotos,
     getBlockedUsers,
     getBlockedValue,
-    insertFakeUsers,
+    insertFakeUsersTags,
 };

@@ -55,3 +55,20 @@ INSERT INTO western_horo_compatibility (sign_1, sign_2, compatibility_value)
  ('Virgo', 'Aries', 7), ('Virgo', 'Cancer', 8), ('Virgo', 'Capricorn', 9), ('Virgo', 'Gemini', 8),
  ('Virgo', 'Leo', 5), ('Virgo', 'Libra', 6), ('Virgo', 'Pisces', 9), ('Virgo', 'Sagittarius', 7),
  ('Virgo', 'Scorpio', 9), ('Virgo', 'Taurus', 9), ('Virgo', 'Virgo', 9);
+
+ INSERT INTO users (username, first_name, last_name, email, status,
+    password, birth_date, gender, sex_preference, email_notification,
+    online, latitude, longitude, country, real_time_notification,
+    fame_rating, bio, created_at, last_seen, profile_pic_path, fame_14_days)
+    VALUES ('Astro1ove', 'Love', 'Demo', 'demo@gmail.com', 2,
+		'$2b$10$FOHKA4htx6iIAYHSEbX1hOnKtwk7Bur7eWl354I/mqs4KCt9cZAGi', '2000-02-20', 'woman','both', false,
+		0, '61.92', '25.74', 'Finland', false,
+		4, 'I’m A fun-loving girl. I do a lot on the weekend. I like to work on cars, BBQ with my friends, catch a local band.',
+		'2020-10-10', '2020-10-10', '/demoprofile.jpg', 20);
+
+INSERT INTO user_tags(user_id, tag_id)
+	VALUES (1, 2), (1, 7), (1, 9), (1, 20), (1, 11), (1, 13), (1, 34), (1, 36), (1, 49), (1, 55);
+
+INSERT INTO images(user_id, image_path)
+    VALUES (1,'/demoprofile.jpg'),(1,'/demo1.jpg'), (1,'/demo2.jpg'),(1,'/demo3.jpg'),(1,'/demo4.jpg');
+

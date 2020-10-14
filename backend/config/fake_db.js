@@ -63,6 +63,34 @@ const generateFakeUsers = (desiredFakeUsers) => {
     return fakeUsers;
 };
 
+let tagsUnshuffled = [];
+const tagsArray = (maxTags) => {
+    for (let i = 1; i <= maxTags; i++) {
+        tagsUnshuffled.push(i);
+    }
+};
+
+const shuffleTags = () => {
+    return tagsUnshuffled
+        .map((a) => ({ sort: Math.random(), value: a }))
+        .sort((a, b) => a.sort - b.sort)
+        .map((a) => a.value);
+};
+
+const prepareTagsStmt = (idMin) => {
+    let str = "";
+    for (let k = idMin; k < desiredFakeUsers + idMin; k++) {
+        let shuffled = shuffleTags();
+        for (let i = 0; i < 6; i++) {
+            str =
+                desiredFakeUsers + idMin - 1 === k && i === 5
+                    ? str.concat("(" + `${k},` + `${shuffled[i]}` + "" + ")")
+                    : str.concat("(" + `${k},` + `${shuffled[i]}` + "" + "),");
+        }
+    }
+    return `INSERT INTO user_tags (user_id, tag_id) VALUES ${str}`;
+};
+
 const pool = new Pool(database);
 pool.on("connect", () => {
     console.log(`Connected to the database  ${database.database}`);
@@ -76,7 +104,9 @@ const insertFakeUsers = async () => {
     const fakeUsers = generateFakeUsers(desiredFakeUsers);
     const stmt = prepareStmt(desiredFakeUsers);
     console.log("\x1b[34m" + "Generating fake users" + "\x1b[0m");
-
+    tagsArray(56);
+    let idMin = 2;
+    const tagsStmt = prepareTagsStmt(idMin);
     await pool
         .query(stmt, [...fakeUsers])
         .then((res) => {
@@ -85,6 +115,14 @@ const insertFakeUsers = async () => {
                     `Inserted ${desiredFakeUsers} fake accounts to the database` +
                     "\x1b[0m"
             );
+        })
+        .catch((err) => {
+            console.log("\x1b[31m" + err + "\x1b[0m");
+        })
+    await pool
+        .query(tagsStmt)
+        .then((res) => {
+            console.log('\x1b[32m' + `Inserted fake users tags` + '\x1b[0m');
         })
         .catch((err) => {
             console.log("\x1b[31m" + err + "\x1b[0m");

@@ -13,8 +13,9 @@ import SexPreference from './SexPreference';
 // import Photos from './Photos';
 import Country from './Country';
 import Header from '../ProfileItems/Header';
+import { setSnackbar } from '../../../actions/setsnackbar';
 
-const Edit = ({ getProfile, profile: { profile, loading }, ...props }) => {
+const Edit = ({ setSnackbar, getProfile, profile: { profile, loading }, ...props }) => {
     let type = props.match.params.type;
 
     useEffect(() => {
@@ -33,24 +34,31 @@ const Edit = ({ getProfile, profile: { profile, loading }, ...props }) => {
                     {(() => {
                         switch (type) {
                             case 'bio':
-                                return <Bio bioProp={profile.bio} />;
+                                return <Bio bioProp={profile.bio} setSnackbar={setSnackbar} />;
                             case 'tags':
-                                return <Tag />;
+                                return <Tag setSnackbar={setSnackbar} />;
                             case 'name':
-                                return <Name firstName={profile.first_name} lastName={profile.last_name} />;
+                                return (
+                                    <Name
+                                        firstName={profile.first_name}
+                                        lastName={profile.last_name}
+                                        setSnackbar={setSnackbar}
+                                    />
+                                );
                             case 'username':
-                                return <Username usernameProp={profile.username} />;
+                                return <Username setSnackbar={setSnackbar} />;
                             case 'birthdate':
-                                return <Birthdate birthdateProp={profile.birth_date} />;
+                                return <Birthdate birthdateProp={profile.birth_date} setSnackbar={setSnackbar} />;
                             case 'sexPreference':
                                 return (
                                     <SexPreference
                                         genderProp={profile.gender}
                                         sexPreferenceProp={profile.sex_preference}
+                                        setSnackbar={setSnackbar}
                                     />
                                 );
                             case 'country':
-                                return <Country countryProp={profile.country} />;
+                                return <Country countryProp={profile.country} setSnackbar={setSnackbar} />;
                             default:
                                 return <>Page not found</>;
                         }
@@ -64,10 +72,11 @@ const Edit = ({ getProfile, profile: { profile, loading }, ...props }) => {
 Edit.propTypes = {
     getProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
+    setSnackbar: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
     profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getProfile })(Edit);
+export default connect(mapStateToProps, { getProfile, setSnackbar })(Edit);

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import WizardForm from '../../common/WizardForm';
 import Input from '../../common/Input';
 
-const Name = ({ firstName, lastName }) => {
+const Name = ({ setSnackbar, firstName, lastName }) => {
     const [formData, setFormData] = useState({
         firstname: firstName,
         lastname: lastName,
@@ -21,16 +22,17 @@ const Name = ({ firstName, lastName }) => {
     };
 
     const handleSubmit = async event => {
-        try {
-            console.log(lastname, firstname);
-            const isValid = validate();
-            if (isValid) {
-                console.log('no errors');
+        if (validate()) {
+            try {
+                const res = await axios.post('/profile/edit', { key: 'name', value: formData });
+                if (res.data.error) {
+                    setErrors(res.data.error);
+                } else {
+                    setSnackbar(true, 'success', res.data.msg);
+                }
+            } catch (err) {
+                console.log(err);
             }
-            // const res = await axios.post('/profile/edit', { key: 'name', value: formData });
-            // console.log('edit profile actions', res.data);
-        } catch (error) {
-            console.log(error);
         }
     };
 
@@ -43,7 +45,7 @@ const Name = ({ firstName, lastName }) => {
             if (!re.test(value)) {
                 setErrors({
                     ...errors,
-                    [errorType]: 'Name must include letters and numbers only',
+                    [errorType]: 'must include letters and numbers only',
                 });
             } else {
                 setErrors({ ...errors, [errorType]: '' });
@@ -53,13 +55,12 @@ const Name = ({ firstName, lastName }) => {
 
     const validate = () => {
         let errorName = '';
-        console.log('in validate ', 'first: ', firstname, 'last: ', lastname);
         if (!firstname) {
             errorName = 'required field';
         } else {
             const re = /^[A-Za-z0-9]{0,}$/;
             if (!re.test(firstname)) {
-                errorName = 'Name must include letters and numbers only';
+                errorName = 'must include letters and numbers only';
             }
         }
         if (!lastname) {
@@ -70,7 +71,7 @@ const Name = ({ firstName, lastName }) => {
                 setErrors({
                     ...errors,
                     firstnameError: errorName,
-                    lastnameError: 'Name must include letters and numbers only',
+                    lastnameError: 'must include letters and numbers only',
                 });
             } else if (errorName) {
                 setErrors({ ...errors, firstnameError: errorName });

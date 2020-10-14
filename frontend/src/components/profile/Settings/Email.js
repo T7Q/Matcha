@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
-import { setSnackbar } from '../../../actions/setsnackbar';
 import { editProfile } from '../../../actions/profile';
 
 const Email = ({ setSnackbar, editProfile, user }) => {
@@ -53,7 +52,6 @@ const Email = ({ setSnackbar, editProfile, user }) => {
                 user.email = email;
                 editProfile(user);
                 setSnackbar(true, 'success', res.data.msg);
-                setErrors({ emailError: '', passwordError: '' });
                 setFormData({ email: email, password: '' });
             }
         } catch (error) {
@@ -106,7 +104,6 @@ const Email = ({ setSnackbar, editProfile, user }) => {
 };
 
 Email.propTypes = {
-    setSnackbar: PropTypes.func.isRequired,
     editProfile: PropTypes.func.isRequired,
 };
 
@@ -114,4 +111,4 @@ const mapStateToProps = state => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { setSnackbar, editProfile })(Email);
+export default connect(mapStateToProps, { editProfile })(Email);

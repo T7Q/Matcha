@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import WizardForm from '../../common/WizardForm';
 import Input from '../../common/Input';
+import { editProfile } from '../../../actions/profile';
 
-const Username = ({ usernameProp }) => {
+const Username = ({ setSnackbar, editProfile, user }) => {
     const [formData, setFormData] = useState({
-        username: usernameProp,
+        username: user.username,
     });
 
     const [errors, setErrors] = useState({
@@ -20,15 +23,19 @@ const Username = ({ usernameProp }) => {
     };
 
     const handleSubmit = async event => {
-        try {
-            const isValid = await validate(username);
-            if (isValid) {
-                console.log('no errors');
+        if (validate(username)) {
+            try {
+                const res = await axios.post('/profile/edit', { key: 'username', value: username });
+                if (res.data.error) {
+                    setErrors(res.data.error);
+                } else {
+                    user.username = username;
+                    editProfile(user);
+                    setSnackbar(true, 'success', res.data.msg);
+                }
+            } catch (err) {
+                console.log(err);
             }
-            // const res = await axios.post('/profile/edit', { key: 'name', value: formData });
-            // console.log('edit profile actions', res.data);
-        } catch (error) {
-            console.log(error);
         }
     };
 
@@ -70,4 +77,12 @@ const Username = ({ usernameProp }) => {
     );
 };
 
-export default Username;
+Username.propTypes = {
+    editProfile: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+    user: state.auth.user,
+});
+
+export default connect(mapStateToProps, { editProfile })(Username);

@@ -69,7 +69,7 @@ const Body = ({ profile }) => {
                         </ListItemSecondaryAction>
                     </ListItem>
                     <ListItem>
-                        <ListItemText primary={profile.tags.join(', ')} />
+                        <ListItemText primary={profile.tags ? profile.tags.join(', ') : ''} />
                     </ListItem>
                 </List>
             </Grid>

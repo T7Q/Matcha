@@ -35,7 +35,7 @@ const general = async (req, res) => {
                 error = await accountHelper.validateEmail(value.email);
                 value = value.email;
             } else {
-                error = { error: 'wrong password' };
+                error = { passwordError: 'wrong password' };
             }
             break;
         case 'password':
@@ -43,7 +43,7 @@ const general = async (req, res) => {
                 error = await accountHelper.validatePassword(value.newPassword, value.confirmPassword);
                 value = await bcrypt.hash(value.newPassword, 10);
             } else {
-                error = { error: 'wrong password' };
+                error = { passwordError: 'wrong password' };
             }
             break;
         case 'country':
@@ -53,7 +53,7 @@ const general = async (req, res) => {
     }
     // Check for validation errors
     if (Object.keys(error).length !== 0) {
-        return res.json(error);
+        return res.json({ error: error });
     }
     // console.log('error', error);
     // Update profile parameter

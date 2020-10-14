@@ -4,7 +4,7 @@ const { Pool } = require("pg");
 const { database } = require("./index");
 
 // number of generated fake accounts
-const desiredFakeUsers = 10;
+const desiredFakeUsers = 5;
 
 // statement to insert 21 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
@@ -77,9 +77,23 @@ const shuffleTags = () => {
         .map((a) => a.value);
 };
 
+let visits = parseInt(desiredFakeUsers * 0.3);
+let likes = parseInt(visits * 0.7);
+let connected = parseInt(likes * 0.5);
+console.log(desiredFakeUsers, visits, visits + visits, likes, connected);
+
 const prepareTagsStmt = (idMin) => {
     let str = "";
+    let allVisits = "";
+    let allLikes = "";
+    let myVisits = "";
+    let myLikes = "";
+    let images = "";
+
+    const img = ['/demo1.jpg', '/demo2.jpg', '/demo3.jpg', '/demo4.jpg', '/demo5.jpg'];
+    console.log(idMin);
     for (let k = idMin; k < desiredFakeUsers + idMin; k++) {
+        console.log(k);
         let shuffled = shuffleTags();
         for (let i = 0; i < 6; i++) {
             str =
@@ -87,8 +101,60 @@ const prepareTagsStmt = (idMin) => {
                     ? str.concat("(" + `${k},` + `${shuffled[i]}` + "" + ")")
                     : str.concat("(" + `${k},` + `${shuffled[i]}` + "" + "),");
         }
+        
+        for (let i = 0; i < 5; i++) {
+            images =
+                desiredFakeUsers + idMin - 1 === k && i === 4
+                    ? images.concat(`(${k}, '${img[i]}')`)
+                    : images.concat(`(${k}, '${img[i]}'),`)
+        }
+        
+        if (k < visits + idMin) {
+            console.log("allvisits", visits + idMin);
+            allVisits = k === visits + idMin - 1 ?
+            allVisits.concat("(" + `${k},`+ "1)") :
+            allVisits.concat("(" + `${k},`+ "1), "); 
+
+        }
+        if (k < visits + visits + idMin) {
+            console.log("my visits", visits + visits + idMin);
+            myVisits = k === visits + visits + idMin - 1 ?
+            myVisits.concat("(1, " + `${k}`+ ")") :
+            myVisits.concat("(1, " + `${k}`+ "), "); 
+
+        }
+        if (k < likes + idMin) {
+            console.log("all likes", likes + idMin);
+            allLikes = k === likes + idMin - 1 ?
+            allLikes.concat("(" + `${k},`+ "1)") :
+            allLikes.concat("(" + `${k},`+ "1), "); 
+
+        }
+        if (k < connected + idMin) {
+            console.log("my likes", connected + idMin);
+            myLikes = k === connected + idMin - 1 ?
+            myLikes.concat("(" + `${k},`+ "1)") :
+            myLikes.concat("(" + `${k},`+ "1), "); 
+
+        }
     }
-    return `INSERT INTO user_tags (user_id, tag_id) VALUES ${str}`;
+
+    const tagsQuery = `INSERT INTO user_tags (user_id, tag_id) VALUES ${str};`
+    const imgQuery = `INSERT INTO images(user_id, image_path) VALUES ${images};`;
+    const allVisitsQuery = visits > 0 ? `INSERT INTO views (from_user_id, to_user_id) VALUES ${allVisits};` : '';
+    const myVisitsQuery = visits + visits > 0 ? `INSERT INTO views (from_user_id, to_user_id) VALUES ${myVisits};` : '';
+    const allLikesQuery =  likes > 0 ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${allLikes};` : '';
+    const myLikesQuery = connected > 0 ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${myLikes};` : '';
+
+    return (tagsQuery + allVisitsQuery + myVisitsQuery + allLikesQuery + myLikesQuery + imgQuery);
+
+    // return `INSERT INTO user_tags (user_id, tag_id) VALUES ${str};
+    // INSERT INTO likes (from_user_id, to_user_id) VALUES ${myLikes};
+    // INSERT INTO likes (from_user_id, to_user_id) VALUES ${allLikes};
+    // INSERT INTO views (from_user_id, to_user_id) VALUES ${myVisits};
+    // INSERT INTO views (from_user_id, to_user_id) VALUES ${allVisits};
+    // INSERT INTO images(user_id, image_path) VALUES ${images};
+    // `;
 };
 
 const pool = new Pool(database);
@@ -105,8 +171,17 @@ const insertFakeUsers = async () => {
     const stmt = prepareStmt(desiredFakeUsers);
     console.log("\x1b[34m" + "Generating fake users" + "\x1b[0m");
     tagsArray(56);
-    let idMin = 2;
-    const tagsStmt = prepareTagsStmt(idMin);
+    let idMin = 479;
+    // let res = await pool
+    //     .query(`SELECT max(user_id) from users`)
+    //     .then((res) => {
+    //         console.log("res", res.rows);
+    //     })
+    //     .catch((err) => {
+    //         console.log("\x1b[31m" + err + "\x1b[0m");
+    //     });
+
+    // add fake users to the database
     await pool
         .query(stmt, [...fakeUsers])
         .then((res) => {
@@ -118,11 +193,14 @@ const insertFakeUsers = async () => {
         })
         .catch((err) => {
             console.log("\x1b[31m" + err + "\x1b[0m");
-        })
+        });
+
+    const tagsStmt = prepareTagsStmt(idMin);
+
     await pool
         .query(tagsStmt)
         .then((res) => {
-            console.log('\x1b[32m' + `Inserted fake users tags` + '\x1b[0m');
+            console.log("\x1b[32m" + `Inserted fake users tags, likes, views` + "\x1b[0m");
         })
         .catch((err) => {
             console.log("\x1b[31m" + err + "\x1b[0m");

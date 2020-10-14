@@ -62,9 +62,9 @@ const myProfile = async (req, res) => {
     const userId = req.user.userId;
     try {
         // add function here ****
-        // console.log("before call");
-        // await profileModel.insertFakeUsersTags();
-        // console.log("after await");
+        console.log("before call");
+        await profileModel.insertFakeUsersTags();
+        console.log("after await");
         // ****** 
 
         let userInfo = await accountModel.findUserInfo(

@@ -17,7 +17,8 @@ const Body = ({ profile }) => {
     // const classes = useStyles();
     // const [dense, setDense] = React.useState(false);
     // const [secondary, setSecondary] = React.useState(false);
-    const date = new Date(profile.birth_date).toISOString().slice(0, 16);
+    const date = new Date(profile.birth_date).toISOString().slice(0, 10);
+    // const date = new Date(profile.birth_date).toLocaleDateString();
     const userData = [
         {
             icon: <TagFaces />,

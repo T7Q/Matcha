@@ -2,16 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-    Box,
-    Button,
-    Typography,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from '@material-ui/core';
+import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 import { deleteProfile } from '../../../actions/profile';
 

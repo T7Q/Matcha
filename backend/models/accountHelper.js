@@ -5,13 +5,13 @@ const validateEmail = async email => {
     let errors = {};
 
     if (!email) {
-        errors['emailEerror'] = 'Email could not be empty';
+        errors['emailError'] = 'Email could not be empty';
     } else if (await findUserInfo('email', email, 'user_id')) {
-        errors['emailEerror'] = 'User with this email already exists';
+        errors['emailError'] = 'User with this email already exists';
     } else {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!re.test(String(email).toLowerCase())) {
-            errors['emailEerror'] = 'Invalid email';
+            errors['emailError'] = 'Invalid email';
         }
     }
     return errors;

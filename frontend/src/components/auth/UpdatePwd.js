@@ -28,9 +28,10 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
         //     return;
         // }
         const res = await updatePwd({ password, confirmPassword, history });
-        // if (res && res.error) {
-        //     setErrors({})
-        // }
+        if (res && res.error) {
+            console.log(res);
+            // setErrors({})
+        }
     };
 
     if (isAuthenticated && user.status === 2) {

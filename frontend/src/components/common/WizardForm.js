@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../styles/custom';
 
-const WizardForm = ({ header, children, formData, setFormData, onSubmit, history, validate }) => {
+const WizardForm = ({ header, children, formData, setFormData, onSubmit, history, validate, link }) => {
     let step = formData.currentStep;
     let steps = 1;
     if (children) {
@@ -46,15 +46,27 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
     return (
         <Box width="auto" pt="100px" mb={{ xs: '80px' }}>
             <form onSubmit={formSubmit}>
-                <Box>
-                    <IconButton onClick={step === 1 ? () => handleRedirect('/') : prev}>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                    <IconButton
+                        onClick={step === 1 || steps === 1 ? () => handleRedirect(link ? link : '/') : prev}>
                         <ArrowBackIosIcon fontSize="large" />
                     </IconButton>
+                    {steps === 1 && <Typography variant="h6">{header}</Typography>}
                 </Box>
                 <Box display="flex" flexDirection="column" textAlign="center">
                     <Box display="flex" my={5} maxWidth="300px">
-                        <Typography variant="h6">{header}</Typography>
-                        <LinearProgress className={classes.root} variant="determinate" value={normalise(step)} />
+                        {steps === 1 ? (
+                            <></>
+                        ) : (
+                            <>
+                                <Typography variant="h6">{header}</Typography>
+                                <LinearProgress
+                                    className={classes.root}
+                                    variant="determinate"
+                                    value={normalise(step)}
+                                />
+                            </>
+                        )}
                     </Box>
                     {steps === 1 ? children : children[step - 1]}
                     <Box mt={5}>

@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
 import Input from '../../common/Input';
 
@@ -15,7 +13,6 @@ const Username = ({ usernameProp }) => {
     });
     const { username } = formData;
     const { usernameError } = errors;
-    const classes = useStyles();
 
     const onChange = async e => {
         setFormData({ username: e.target.value });
@@ -24,8 +21,7 @@ const Username = ({ usernameProp }) => {
 
     const handleSubmit = async event => {
         try {
-            console.log(username);
-            const isValid = validate(username);
+            const isValid = await validate(username);
             if (isValid) {
                 console.log('no errors');
             }
@@ -45,7 +41,7 @@ const Username = ({ usernameProp }) => {
                 setErrors({ usernameError: 'Name must include letters and numbers only' });
             } else {
                 const res = await axios.post('/account/validateData', { key: 'username', value: value });
-                if (res.data.error) {
+                if (res.data.error && Object.keys(res.data.error).length > 0) {
                     setErrors(res.data.error);
                 } else {
                     setErrors({ usernameError: '' });
@@ -57,11 +53,15 @@ const Username = ({ usernameProp }) => {
     };
 
     return (
-        <WizardForm header="Edit username" formData={formData} setFormData={setFormData} onSubmit={handleSubmit}>
+        <WizardForm
+            link="/profile/me"
+            header="Edit username"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}>
             <Input
                 name="username"
                 type="username"
-                header="Create a username"
                 value={username}
                 handleChange={onChange}
                 helperText={usernameError}

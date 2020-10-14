@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { TextareaAutosize, FormControl, FormHelperText, Button } from '@material-ui/core';
+import { TextareaAutosize, FormControl, FormHelperText } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
-import Input from '../../common/Input';
 
 const Bio = ({ bioProp }) => {
     const [formData, setFormData] = useState({ bio: bioProp });
@@ -42,7 +40,12 @@ const Bio = ({ bioProp }) => {
     };
 
     return (
-        <WizardForm header="Edit bio" formData={formData} setFormData={setFormData} onSubmit={handleSubmit}>
+        <WizardForm
+            link="/profile/me"
+            header="Edit bio"
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}>
             <>
                 <TextareaAutosize
                     name="bio"

@@ -29,9 +29,9 @@ const Email = ({ setSnackbar, editProfile, user }) => {
             errorPassword = 'required field';
         }
         if (!email) {
-            setErrors({ ...errors, passwordErrod: errorPassword, emailError: 'required field' });
+            setErrors({ ...errors, passwordError: errorPassword, emailError: 'required field' });
         } else if (errorPassword) {
-            setErrors({ ...errors, passwordErrod: errorPassword, emailError: '' });
+            setErrors({ ...errors, passwordError: errorPassword, emailError: '' });
         } else {
             setErrors({ passwordError: '', emailError: '' });
             return true;

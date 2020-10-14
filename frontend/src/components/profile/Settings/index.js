@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Box, Typography, Grid, Tab, Tabs, useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { NotificationsActive, Lock, Email, Block, Delete } from '@material-ui/icons';
@@ -7,8 +9,9 @@ import PasswordTab from './Password';
 import EmailTab from './Email';
 import BlockedUsersTab from './BlockedUsers';
 import DeleteAccountTab from './DeleteAccount';
+import { setSnackbar } from '../../../actions/setsnackbar';
 
-const Settings = () => {
+const Settings = ({ setSnackbar }) => {
     const [tab, setTab] = useState(0);
 
     const theme = useTheme();
@@ -52,11 +55,11 @@ const Settings = () => {
                     <Grid container justify={isMobile ? 'center' : 'flex-start'} item sm={6} xs={12}>
                         <Box pt={3} m={3}>
                             {tab === 0 && <></>}
-                            {tab === 1 && <NotificationsTab />}
-                            {tab === 2 && <PasswordTab />}
-                            {tab === 3 && <EmailTab />}
-                            {tab === 4 && <BlockedUsersTab />}
-                            {tab === 5 && <DeleteAccountTab />}
+                            {tab === 1 && <NotificationsTab setSnackbar={setSnackbar} />}
+                            {tab === 2 && <PasswordTab setSnackbar={setSnackbar} />}
+                            {tab === 3 && <EmailTab setSnackbar={setSnackbar} />}
+                            {tab === 4 && <BlockedUsersTab setSnackbar={setSnackbar} />}
+                            {tab === 5 && <DeleteAccountTab setSnackbar={setSnackbar} />}
                         </Box>
                     </Grid>
                 </Grid>
@@ -65,4 +68,8 @@ const Settings = () => {
     );
 };
 
-export default Settings;
+Settings.propTypes = {
+    setSnackbar: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setSnackbar })(Settings);

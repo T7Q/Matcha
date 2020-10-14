@@ -12,17 +12,13 @@ const general = async (req, res) => {
 
     // Validate new profile info
     switch (key) {
-        case 'first_name':
-            error = profileHelper.validateName(value);
-            break;
-        case 'last_name':
-            error = profileHelper.validateName(value);
-            break;
-        case 'gender':
-            error = profileHelper.validateGender(value);
+        case 'name':
+            error = profileHelper.validateName(value.firstname, 'firstname');
+            error = { ...error, ...profileHelper.validateName(value.lastname, 'lastname') };
             break;
         case 'sex_preference':
-            error = profileHelper.validateSexPreferences(value);
+            error = profileHelper.validateSexPreferences(value.sexPreference);
+            error = { ...error, ...profileHelper.validateGender(value.gender) };
             break;
         case 'bio':
             error = profileHelper.validateBio(value);
@@ -30,12 +26,15 @@ const general = async (req, res) => {
         case 'birth_date':
             error = profileHelper.validateBirthdate(value);
             break;
+        case 'username':
+            error = accountHelper.validateUsername(value);
+            break;
         case 'email':
             if (await accountHelper.checkPassword(userId, value.password)) {
                 error = await accountHelper.validateEmail(value.email);
                 value = value.email;
             } else {
-                error = { error: 'wrong password' };
+                error = { passwordError: 'wrong password' };
             }
             break;
         case 'password':
@@ -43,7 +42,7 @@ const general = async (req, res) => {
                 error = await accountHelper.validatePassword(value.newPassword, value.confirmPassword);
                 value = await bcrypt.hash(value.newPassword, 10);
             } else {
-                error = { error: 'wrong password' };
+                error = { oldPasswordError: 'wrong password' };
             }
             break;
         case 'country':
@@ -53,12 +52,20 @@ const general = async (req, res) => {
     }
     // Check for validation errors
     if (Object.keys(error).length !== 0) {
-        return res.json(error);
+        return res.json({ error: error });
     }
     // console.log('error', error);
     // Update profile parameter
     try {
-        await profileModel.editProfile(userId, key, value);
+        if (key === 'name') {
+            await profileModel.editProfile(userId, 'first_name', value.firstname);
+            await profileModel.editProfile(userId, 'last_name', value.lastname);
+        } else if (key === 'sex_preference') {
+            await profileModel.editProfile(userId, 'sex_preference', value.sexPreference);
+            await profileModel.editProfile(userId, 'gender', value.gender);
+        } else {
+            const r = await profileModel.editProfile(userId, key, value);
+        }
         return res.json({ msg: 'Your profile was successfully updated' });
     } catch (e) {
         return res.json({ error: 'Something went wrong adding Profile info' });

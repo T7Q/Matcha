@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import LuxonUtils from '@date-io/luxon';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
 
-const Birthdate = ({ birthdateProp }) => {
-    const [formData, setFormData] = useState({ birth_date: birthdateProp });
+const Birthdate = ({ setSnackbar, birthdateProp }) => {
+    const [formData, setFormData] = useState({ birthDate: birthdateProp });
 
     const [errors, setErrors] = useState({ birthdateError: '' });
-    const { birth_date } = formData;
+    const { birthDate } = formData;
     const { birthdateError } = errors;
     const classes = useStyles();
 
     const handleDate = date => {
-        setFormData({ ...formData, birth_date: date });
+        setFormData({ ...formData, birthDate: date });
     };
 
     const handleSubmit = async event => {
-        try {
-            console.log(birth_date);
-            if (validate(birth_date)) {
-                console.log('no error');
+        if (validate(birthDate)) {
+            try {
+                const res = await axios.post('/profile/edit', { key: 'birth_date', value: birthDate });
+                if (res.data.error) {
+                    setErrors(res.data.error);
+                } else {
+                    setSnackbar(true, 'success', res.data.msg);
+                }
+            } catch (err) {
+                console.log(err);
             }
-            // const res = await axios.post('/profile/edit', { key: 'name', value: formData });
-            // console.log('edit profile actions', res.data);
-        } catch (error) {
-            console.log(error);
         }
     };
 
@@ -71,7 +74,7 @@ const Birthdate = ({ birthdateProp }) => {
                     minDate="1902/01/01"
                     openTo="year"
                     format="yyyy/MM/dd"
-                    value={birth_date}
+                    value={birthDate}
                     onChange={handleDate}
                     className={classes.customInput}
                     error={birthdateError ? true : false}

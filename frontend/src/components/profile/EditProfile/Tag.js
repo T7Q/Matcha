@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
 import WizardForm from '../../common/WizardForm';
 
-const Tag = () => {
+const Tag = ({ setSnackbar }) => {
     const [formData, setFormData] = useState([]);
     const [realTags, setRealTags] = useState([]);
     const [errors, setErrors] = useState({ tagsError: '' });
@@ -33,15 +33,17 @@ const Tag = () => {
     };
 
     const handleSubmit = async event => {
-        try {
-            console.log(formData);
-            if (validate(formData)) {
-                console.log('no error');
+        if (validate(formData)) {
+            try {
+                const res = await axios.post('/profile/editTags', { key: 'tags', value: formData });
+                if (res.data.error) {
+                    setErrors(res.data.error);
+                } else {
+                    setSnackbar(true, 'success', res.data.msg);
+                }
+            } catch (err) {
+                console.log(err);
             }
-            // const res = await axios.post('/profile/edit', { key: 'name', value: formData });
-            // console.log('edit profile actions', res.data);
-        } catch (error) {
-            console.log(error);
         }
     };
 

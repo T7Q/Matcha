@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { TextareaAutosize, FormControl, FormHelperText } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
 
-const Bio = ({ bioProp }) => {
+const Bio = ({ setSnackbar, bioProp }) => {
     const [formData, setFormData] = useState({ bio: bioProp });
 
     const [errors, setErrors] = useState({ bioError: '' });
@@ -17,15 +18,17 @@ const Bio = ({ bioProp }) => {
     };
 
     const handleSubmit = async event => {
-        try {
-            console.log(bio);
-            if (validate(bio)) {
-                console.log('no error');
+        if (validate(bio)) {
+            try {
+                const res = await axios.post('/profile/edit', { key: 'bio', value: bio });
+                if (res.data.error) {
+                    setErrors(res.data.error);
+                } else {
+                    setSnackbar(true, 'success', res.data.msg);
+                }
+            } catch (err) {
+                console.log(err);
             }
-            // const res = await axios.post('/profile/edit', { key: 'name', value: formData });
-            // console.log('edit profile actions', res.data);
-        } catch (error) {
-            console.log(error);
         }
     };
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Checkbox, FormGroup, FormControlLabel, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 
-const Notifications = () => {
+const Notifications = ({ setSnackbar }) => {
     const [notifications, setNotifications] = useState({
         email: false,
         push: false,
@@ -28,8 +28,8 @@ const Notifications = () => {
         event.preventDefault();
         try {
             const res = await axios.post('/profile/notifications', notifications);
-            if (res && res.data.error) {
-                console.log(res);
+            if (res && res.data.msg) {
+                setSnackbar(true, 'success', res.data.msg);
             }
         } catch (error) {
             // console.log(error);

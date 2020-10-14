@@ -4,4 +4,14 @@
 *package-lock.json
 backend/images/*
 !backend/images/Photo_1601037282389_683.png
+!backend/images/demo1.png
+!backend/images/demo2.png
+!backend/images/demo3.png
+!backend/images/demo4.png
+!backend/images/demo5.png
+!backend/images/demo6.png
+!backend/images/demo7.png
+!backend/images/demo8.png
+!backend/images/demo9.png
+!backend/images/demo10.png
 

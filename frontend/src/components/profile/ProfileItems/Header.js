@@ -16,7 +16,7 @@ const Header = ({ profile, type }) => {
     return (
         <Box bgcolor="secondary.main">
             <Typography variant="h6">user id: {profile.user_id}</Typography>
-            <Avatar alt={avatarAlt} src={'/' + profile.profile_pic_path} />
+            <Avatar alt={avatarAlt} src={profile.profile_pic_path} />
             <Button variant="outlined" color="primary" onClick={handleClickOpen}>
                 Open Images
             </Button>

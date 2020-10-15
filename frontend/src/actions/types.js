@@ -12,6 +12,7 @@ export const LOGOUT = 'LOGOUT';
 // Profile
 export const CREATE_PROFILE = 'CREATE_PROFILE';
 export const GET_PROFILE = 'GET_PROFILE';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const MESSAGE = 'MESSAGE';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
@@ -24,6 +25,5 @@ export const FILTER_RESET = 'FILTER_RESET';
 export const FILTER_UPDATE = 'FILTER_UPDATE';
 export const UPDATE_LIKES = 'UPDATE_LIKES';
 export const UPDATE_ERROR = 'UPDATE_ERROR';
-// Alert 
+// Alert
 export const SET_SNACKBAR = 'SET_SNACKBAR';
-

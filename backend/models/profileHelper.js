@@ -14,9 +14,9 @@ const validateGender = gender => {
 const validateSexPreferences = sexPreference => {
     let errors = {};
     if (!sexPreference) {
-        errors['sex_preferenceError'] = 'Sex preference is missing';
+        errors['sexPreferenceError'] = 'Sex preference is missing';
     } else if (!['man', 'woman', 'both'].includes(sexPreference)) {
-        errors['sex_preferenceError'] = 'Sex preference should be man, woman or both';
+        errors['sexPreferenceError'] = 'Sex preference should be man, woman or both';
     }
     return errors;
 };
@@ -32,13 +32,18 @@ const validateBio = bio => {
     return errors;
 };
 
-const validateName = name => {
+const validateName = (name, type = 'name') => {
     let errors = {};
+    const error = [type] + 'Error';
     if (!name) {
-        errors['nameError'] = 'Name is missing';
-    }
-    if (name.length > 25) {
-        errors['nameError'] = 'Should be between 1 to 25 characthers';
+        errors[[error]] = 'required field';
+    } else if (name.length > 25) {
+        errors[[error]] = 'Should be between 1 to 25 characthers';
+    } else {
+        const re = /^[A-Za-z0-9]{0,}$/;
+        if (!re.test(name)) {
+            errors[[error]] = 'must include letters and numbers only';
+        }
     }
     return errors;
 };

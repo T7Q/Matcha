@@ -17,8 +17,9 @@ const Body = ({ profile }) => {
     // const classes = useStyles();
     // const [dense, setDense] = React.useState(false);
     // const [secondary, setSecondary] = React.useState(false);
-    const date = new Date(profile.birth_date).toISOString().slice(0, 10);
-    // const date = new Date(profile.birth_date).toLocaleDateString();
+
+    const date = new Date(profile.birth_date).toLocaleDateString();
+
     const userData = [
         {
             icon: <TagFaces />,
@@ -32,12 +33,12 @@ const Body = ({ profile }) => {
         },
         {
             icon: <Timeline />,
-            text: `${profile.chinese_horo}, ${profile.western_horo}`,
+            text: `${profile.chinese_horo}, ${profile.western_horo}, ${date}`,
             link: '/profile/me/edit/birthdate',
         },
         {
             icon: <VpnKey />,
-            text: `${profile.gender} interested in ${profile.sex_preference}, ${date}`,
+            text: `${profile.gender} interested in ${profile.sex_preference}`,
             link: '/profile/me/edit/sexPreference',
         },
         {
@@ -70,7 +71,7 @@ const Body = ({ profile }) => {
                         </ListItemSecondaryAction>
                     </ListItem>
                     <ListItem>
-                        <ListItemText primary={profile.tags.join(', ')} />
+                        <ListItemText primary={profile.tags ? profile.tags.join(', ') : ''} />
                     </ListItem>
                 </List>
             </Grid>

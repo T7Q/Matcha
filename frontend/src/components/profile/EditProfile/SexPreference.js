@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Autocomplete } from '@material-ui/lab';
 import { Box, Typography, TextField } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
 
-const SexPreference = ({ genderProp, sexPreferenceProp }) => {
+const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
     const [formData, setFormData] = useState({ gender: genderProp, sexPreference: sexPreferenceProp });
 
     const [errors, setErrors] = useState({ genderError: '', sexPreferenceError: '' });
@@ -18,15 +19,17 @@ const SexPreference = ({ genderProp, sexPreferenceProp }) => {
     };
 
     const handleSubmit = async event => {
-        try {
-            console.log(gender, sexPreference);
-            if (gender && sexPreference) {
-                console.log('no error');
+        if (gender && sexPreference) {
+            try {
+                const res = await axios.post('/profile/edit', { key: 'sex_preference', value: formData });
+                if (res.data.error) {
+                    setErrors(res.data.error);
+                } else {
+                    setSnackbar(true, 'success', res.data.msg);
+                }
+            } catch (err) {
+                console.log(err);
             }
-            // const res = await axios.post('/profile/edit', { key: 'name', value: formData });
-            // console.log('edit profile actions', res.data);
-        } catch (error) {
-            console.log(error);
         }
     };
 

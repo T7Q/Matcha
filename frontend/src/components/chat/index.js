@@ -10,7 +10,7 @@ import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
 
 const Chat = ({ setSnackbar, getConversations, chat: { conversations } }) => {
-    const [currentConversation, setCurrentConversation] = useState({ id: 0 });
+    const [currentConversation, setCurrentConversation] = useState(0);
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -19,8 +19,8 @@ const Chat = ({ setSnackbar, getConversations, chat: { conversations } }) => {
         getConversations();
     }, []);
 
-    const handleChange = (event, newConversation) => {
-        setCurrentConversation(newConversation);
+    const handleChange = (event, chatId) => {
+        setCurrentConversation(chatId);
     };
 
     return (
@@ -35,17 +35,14 @@ const Chat = ({ setSnackbar, getConversations, chat: { conversations } }) => {
                 <Typography variant="h5">Messages</Typography>
                 <Typography variant="h6">Recent conversations</Typography>
             </Box>
-            <Box alignItems="center" flexGrow={1} display="flex">
+            <Box flexGrow={1} display="flex">
                 <Container>
                     <Grid container>
                         <Grid style={{ backgroundColor: 'green' }} container item sm={6} xs={12} justify="center">
-                            <Conversations
-                                conversations={conversations}
-                                currentConversation={currentConversation}
-                            />
+                            <Conversations conversations={conversations} onClick={handleChange} />
                         </Grid>
                         <Grid style={{ backgroundColor: 'blue' }} container justify="center" item sm={6} xs={12}>
-                            <PrivateChat />
+                            <PrivateChat currentConversation={currentConversation} />
                         </Grid>
                     </Grid>
                 </Container>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Box, Fab, Typography, Link, Button } from '@material-ui/core';
+import { Box, Fab, Typography, Link, Button, TextField } from '@material-ui/core';
 import { getMessages } from '../../actions/chat';
 import Messages from './Messages';
 import { Avatar } from '@material-ui/core';
@@ -42,7 +42,13 @@ const PrivateChat = ({
     return (
         <>
             {messages && messages.length > 0 && currentConversation > 0 ? (
-                <Box bgcolor="secondary.light" display="flex" flexDirection="column" p="5px" minWidth="100%">
+                <Box
+                    position="relative"
+                    bgcolor="secondary.light"
+                    display="flex"
+                    flexDirection="column"
+                    p="5px"
+                    minWidth="100%">
                     <Box borderBottom={1} display="flex" alignItems="center">
                         <Box flexGrow={1} textAlign="center">
                             <Link
@@ -71,24 +77,29 @@ const PrivateChat = ({
                             </div>
                         );
                     })}
-                    <form>
-                        <input
-                            type="text"
-                            placeholder="type a message"
-                            value={textMessage}
-                            onChange={e => {
-                                setTextMessage(e.target.value);
-                            }}
-                        />
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            type="submit"
-                            size="small"
-                            disabled={disableButton}>
-                            Send
-                        </Button>
-                    </form>
+                    <Box position="absolute" bottom={2} width="95%" m="5px">
+                        <form
+                            onSubmit={e => {
+                                e.preventDefault();
+                            }}>
+                            <Box display="flex">
+                                <Box flexGrow={1}>
+                                    <TextField
+                                        style={{ width: '100%' }}
+                                        variant="outlined"
+                                        type="text"
+                                        value={textMessage}
+                                        onChange={e => {
+                                            setTextMessage(e.target.value);
+                                        }}
+                                    />
+                                </Box>
+                                <Button variant="contained" color="primary" type="submit">
+                                    Send
+                                </Button>
+                            </Box>
+                        </form>
+                    </Box>
                 </Box>
             ) : (
                 <></>

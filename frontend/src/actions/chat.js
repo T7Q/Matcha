@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CONVERSATIONS, GET_MESSAGES } from './types';
+import { GET_CONVERSATIONS, GET_MESSAGES, CLEAR_MESSAGES } from './types';
 
 // Get user conversations
 export const getConversations = () => async dispatch => {
@@ -18,12 +18,16 @@ export const getConversations = () => async dispatch => {
 // Get messages
 export const getMessages = chatId => async dispatch => {
     try {
-        const res = await axios.get(`/chat/${chatId}`);
+        if (chatId === 0) {
+            dispatch({ type: CLEAR_MESSAGES });
+        } else {
+            const res = await axios.get(`/chat/${chatId}`);
 
-        dispatch({
-            type: GET_MESSAGES,
-            payload: res.data,
-        });
+            dispatch({
+                type: GET_MESSAGES,
+                payload: res.data,
+            });
+        }
     } catch (err) {
         console.log('some error in get messages action ', err);
     }

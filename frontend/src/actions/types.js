@@ -20,6 +20,7 @@ export const UPDATE_BlOCKED = 'UPDATE_BlOCKED';
 // Chat
 export const GET_CONVERSATIONS = 'GET_CONVERSATIONS';
 export const GET_MESSAGES = 'GET_MESSAGES';
+export const CLEAR_MESSAGES = 'CLEAR_MESSAGES';
 // Match
 export const GET_MATCH = 'GET_MATCH';
 export const FETCH_MORE_MATCH = 'FETCH_MORE_MATCH';

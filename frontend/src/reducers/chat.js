@@ -1,4 +1,4 @@
-import { GET_CONVERSATIONS, GET_MESSAGES } from '../actions/types';
+import { GET_CONVERSATIONS, GET_MESSAGES, CLEAR_MESSAGES } from '../actions/types';
 
 const initialState = {
     conversations: [],
@@ -18,6 +18,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 messages: payload,
+            };
+        case CLEAR_MESSAGES:
+            return {
+                ...state,
+                messages: null,
             };
         default:
             return state;

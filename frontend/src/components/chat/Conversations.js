@@ -16,35 +16,7 @@ const Conversations = ({ conversations, currentConversation, onClick }) => {
         );
     });
 
-    return <List>{conversationItems}</List>;
+    return <List style={{ backgroundColor: 'green' }}>{conversationItems}</List>;
 };
 
 export default Conversations;
-{
-    /* <div id="sidepanel">
-    <div id="contacts">
-        <ul>
-            {selected &&
-                conversations.map(item => (
-                    <li
-                        onClick={() => handleSelectConversation(item.id)}
-                        key={item.id}
-                        className={selected.id === item.id ? 'contact active' : 'contact'}>
-                        <div className="wrap">
-                            <span
-                                className={
-                                    item.isOnline === 1 ? 'contact-status online' : 'contact-status offline'
-                                }></span>
-                            <img src={`http://localhost:5000/images/${item.path}`} alt={item.lastname} />
-                            <div className="meta">
-                                <p className="name">
-                                    {item.firstname} {item.lastname}
-                                </p>
-                            </div>
-                        </div>
-                    </li>
-                ))}
-        </ul>
-    </div>
-</div>; */
-}

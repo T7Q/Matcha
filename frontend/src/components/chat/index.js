@@ -6,28 +6,21 @@ import { useTheme } from '@material-ui/core/styles';
 import { NotificationsActive, Lock, Email, Block, Delete } from '@material-ui/icons';
 import { setSnackbar } from '../../actions/setsnackbar';
 import { getConversations } from '../../actions/chat';
+import Conversations from './Conversations';
+import PrivateChat from './PrivateChat';
 
 const Chat = ({ setSnackbar, getConversations, chat: { conversations } }) => {
-    const [currentConversation, setCurrentConversation] = useState(0);
+    const [currentConversation, setCurrentConversation] = useState({ id: 0 });
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
     useEffect(() => {
         getConversations();
-    }, [getConversations]);
+    }, []);
 
     const handleChange = (event, newConversation) => {
         setCurrentConversation(newConversation);
-    };
-
-    const Conversations = () => {
-        switch (currentConversation) {
-            case 0:
-                return <></>;
-            default:
-                return <>default</>;
-        }
     };
 
     return (
@@ -45,27 +38,14 @@ const Chat = ({ setSnackbar, getConversations, chat: { conversations } }) => {
             <Box alignItems="center" flexGrow={1} display="flex">
                 <Container>
                     <Grid container>
-                        <Grid style={{ backgroundColor: 'white' }} container item sm={6} xs={12} justify="center">
-                            {conversations.map(item => (
-                                <Tab key={item.chat_id} label={item.partner_username} />
-                            ))}
-                            <Tab label="&emsp;Delete account &nbsp; &nbsp;&emsp;&#8811;" icon={<Delete />} />
+                        <Grid style={{ backgroundColor: 'green' }} container item sm={6} xs={12} justify="center">
+                            <Conversations
+                                conversations={conversations}
+                                currentConversation={currentConversation}
+                            />
                         </Grid>
-                        <Grid
-                            style={{ backgroundColor: 'blue' }}
-                            container
-                            justify={isMobile ? 'center' : 'flex-start'}
-                            item
-                            sm={6}
-                            xs={12}>
-                            <Box pt={3} m={3}>
-                                {currentConversation === 0 && <></>}
-                                {currentConversation === 1 && <div>message</div>}
-                                {currentConversation === 2 && <div>message</div>}
-                                {currentConversation === 3 && <div>message</div>}
-                                {currentConversation === 4 && <div>message</div>}
-                                {currentConversation === 5 && <div>message</div>}
-                            </Box>
+                        <Grid style={{ backgroundColor: 'blue' }} container justify="center" item sm={6} xs={12}>
+                            <PrivateChat />
                         </Grid>
                     </Grid>
                 </Container>

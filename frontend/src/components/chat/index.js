@@ -9,7 +9,7 @@ import { getConversations } from '../../actions/chat';
 import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
 
-const Chat = ({ setSnackbar, getConversations, chat: { conversations } }) => {
+const Chat = ({ setSnackbar, getConversations, chat: { conversations }, history }) => {
     const [currentConversation, setCurrentConversation] = useState(0);
 
     const theme = useTheme();
@@ -41,7 +41,10 @@ const Chat = ({ setSnackbar, getConversations, chat: { conversations } }) => {
                         <Conversations conversations={conversations} onClick={handleChange} />
                     </Grid>
                     <Grid container justify="center" item sm={6} xs={12}>
-                        <PrivateChat currentConversation={currentConversation} />
+                        <PrivateChat
+                            setCurrentConversation={setCurrentConversation}
+                            currentConversation={currentConversation}
+                        />
                     </Grid>
                 </Grid>
             </Box>

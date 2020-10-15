@@ -16,7 +16,7 @@ const Conversations = ({ conversations, currentConversation, onClick }) => {
         );
     });
 
-    return <List style={{ backgroundColor: 'green' }}>{conversationItems}</List>;
+    return <List style={{ backgroundColor: 'rgb(52, 55, 77)', minWidth: '80%' }}>{conversationItems}</List>;
 };
 
 export default Conversations;

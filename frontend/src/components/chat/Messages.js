@@ -16,7 +16,7 @@ const Messages = ({ messages }) => {
         });
     }
 
-    return <div id="chat-message-list">{messageItems}</div>;
+    return <>{messageItems}</>;
 };
 
 export default Messages;

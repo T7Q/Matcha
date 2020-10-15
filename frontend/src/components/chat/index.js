@@ -35,17 +35,15 @@ const Chat = ({ setSnackbar, getConversations, chat: { conversations } }) => {
                 <Typography variant="h5">Messages</Typography>
                 <Typography variant="h6">Recent conversations</Typography>
             </Box>
-            <Box flexGrow={1} display="flex">
-                <Container>
-                    <Grid container>
-                        <Grid style={{ backgroundColor: 'green' }} container item sm={6} xs={12} justify="center">
-                            <Conversations conversations={conversations} onClick={handleChange} />
-                        </Grid>
-                        <Grid style={{ backgroundColor: 'blue' }} container justify="center" item sm={6} xs={12}>
-                            <PrivateChat currentConversation={currentConversation} />
-                        </Grid>
+            <Box flexGrow={1} display="flex" p={5}>
+                <Grid container>
+                    <Grid container item sm={6} xs={12} justify="center">
+                        <Conversations conversations={conversations} onClick={handleChange} />
                     </Grid>
-                </Container>
+                    <Grid container justify="center" item sm={6} xs={12}>
+                        <PrivateChat currentConversation={currentConversation} />
+                    </Grid>
+                </Grid>
             </Box>
         </Box>
     );

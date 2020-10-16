@@ -50,6 +50,7 @@ const PrivateChat = ({
                 content: textMessage,
             });
             console.log('result from api ', result.data);
+            setTextMessage('');
         }
     };
 
@@ -83,7 +84,7 @@ const PrivateChat = ({
                             <HighlightOffIcon fontSize="large" />
                         </Button>
                     </Box>
-                    <Box mb={5}>
+                    <Box mb={6}>
                         {messages.map(message => {
                             const options = { month: 'short', day: 'numeric' };
                             const date = new Date(message.time_sent).toLocaleDateString('en-US', options);

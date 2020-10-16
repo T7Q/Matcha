@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@material-ui/core';
+import React from 'react';
+import { ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 
 const ConversationBox = ({ conversation, isActive, onClick }) => {
-    const date = new Date(conversation.time_sent).toLocaleDateString();
     return (
         <ListItem
             style={{ borderBottom: '1px solid #003781' }}

@@ -18,7 +18,6 @@ const getUserConversations = async userId => {
         WHERE (user_1 = $1 OR user_2 = $1) AND active = TRUE`,
         [userId]
     );
-    console.log('in chat model', result);
     return result.rows;
 };
 

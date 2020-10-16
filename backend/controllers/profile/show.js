@@ -1,6 +1,7 @@
 const profileModel = require("../../models/profile");
 const profileHelper = require("../../models/profileHelper");
 const accountModel = require("../../models/account");
+const matchModel = require("../../models/match");
 
 const userProfile = async (req, res) => {
     const userId = req.params.user_id;
@@ -23,7 +24,8 @@ const userProfile = async (req, res) => {
             "sex_preference",
             "birth_date",
             "profile_pic_path",
-            "last_seen"
+            "last_seen",
+            "online"
         );
         let tags = await profileModel.getUserTags(userId);
         if (tags.rowCount > 0) {
@@ -52,6 +54,17 @@ const userProfile = async (req, res) => {
             authUserId,
             userId
         );
+        const weight = { tag: 0.1, cn: 0.45, west: 0.45 };
+        let authUserInfo = await accountModel.findUserInfo(
+                "user_id",
+                authUserId,
+                "user_id",
+                "chinese_horo",
+                "western_horo",
+            );
+        authUserInfo['hasTags'] = await profileModel.userHasTags(authUserId);
+        userInfo["compatibility"] = await matchModel.getCompatibility(authUserInfo, userInfo, weight);
+        
         return res.json(userInfo);
     } catch (e) {
         return res.json({ error: "Error getting profile info" });

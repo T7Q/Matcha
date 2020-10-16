@@ -24,22 +24,31 @@ const useStyles = makeStyles((theme) => ({
 const ImageGridList = ({ profile: { profile} }) => {
   const classes = useStyles();
 
+  if (profile['photos'].length === 0) {
+    return (
+      <div>
+        No images in this account
+      </div>
+    )
+  }
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={1}>
         {profile['photos'].map((tile, index) => (
           <GridListTile key={index} cols={1}>
-            <img src={tile.image_path} />
+            <img src={tile.image_path}  alt={tile.image_path}/>
           </GridListTile>
         ))}
       </GridList>
     </div>
   );
 }
+ImageGridList.propTypes = {
+  profile: PropTypes.object.isRequired,
+};
 
 const mapStateToProps = state => ({
   profile: state.profile,
 });
 
 export default connect(mapStateToProps, {  })(ImageGridList);
-// export default ImageGridList

@@ -9,7 +9,7 @@ const ConversationBox = ({ conversation, isActive, onClick }) => {
             onClick={e => onClick(e, conversation.chat_id)}
             alignItems="flex-start">
             <ListItemAvatar>
-                <Avatar alt={conversation.partner_username} src="/images/Photo_1601037282389_683.png" />
+                <Avatar alt={conversation.partner_username} src={conversation.avatar} />
             </ListItemAvatar>
             <ListItemText
                 primary={

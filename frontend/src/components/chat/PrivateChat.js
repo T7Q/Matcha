@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+import io from 'socket.io-client';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -12,6 +13,8 @@ import Dropdown from '../common/Dropdown';
 import { getProfile } from '../../actions/profile';
 // import { useStyles } from '../../styles/custom';
 
+const socket = io.connect('/');
+
 const PrivateChat = ({
     getProfile,
     getMessages,
@@ -23,11 +26,17 @@ const PrivateChat = ({
     setCurrentConversation,
 }) => {
     const [textMessage, setTextMessage] = useState('');
-    const partnerId =
-        currentConversation > 0
-            ? conversations.filter(chat => chat.chat_id === currentConversation)[0].partner_id
-            : 0;
+    const chat =
+        currentConversation > 0 ? conversations.filter(chat => chat.chat_id === currentConversation)[0] : false;
+
+    const partnerId = chat ? chat.partner_id : 0;
     // const classes = useStyles();
+
+    // useEffect(() => {
+    //     if (chat) {
+    //         socket.emit('JOIN_CHAT', chat.chat_id);
+    //     }
+    // }, [chat]);
 
     useEffect(() => {
         getMessages(currentConversation);
@@ -42,6 +51,17 @@ const PrivateChat = ({
         history.push(newRoute);
     };
 
+    // socket.on('MESSAGE', chatId => {
+    //     console.log('message client', chatId);
+    //     if (chatId === chat.chat_id) {
+    //         getMessages(currentConversation);
+    //     }
+    // });
+
+    socket.on('chat', some => {
+        console.log('here chat');
+    });
+
     const postMessage = async e => {
         e.preventDefault();
         // console.log('here');
@@ -51,6 +71,7 @@ const PrivateChat = ({
                 receiverId: partnerId,
                 content: textMessage,
             });
+            socket.emit('SEND_MESSAGE', chat.chat_id);
             console.log('result from api ', result.data);
             setTextMessage('');
         }
@@ -75,7 +96,7 @@ const PrivateChat = ({
                         component="button"
                         underline="none"
                         color="secondary">
-                        <Avatar style={{ margin: 'auto' }} alt="N" />
+                        <Avatar style={{ margin: 'auto' }} alt="N" src={profile.profile_pic_path} />
                         <Typography variant="h6">
                             {profile.first_name} {profile.last_name}
                         </Typography>

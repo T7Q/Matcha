@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Box, Fab, Typography, Link, Button, TextField } from '@material-ui/core';
@@ -10,6 +11,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Dropdown from '../common/Dropdown';
 import { getProfile } from '../../actions/profile';
 import { useStyles } from '../../styles/custom';
+import { validate } from 'uuid';
 
 const PrivateChat = ({
     getProfile,
@@ -17,6 +19,7 @@ const PrivateChat = ({
     currentConversation,
     chat: { messages, conversations },
     profile: { profile },
+    auth: { user },
     history,
     setCurrentConversation,
 }) => {
@@ -35,6 +38,19 @@ const PrivateChat = ({
 
     const goTo = newRoute => {
         history.push(newRoute);
+    };
+
+    const postMessage = async e => {
+        e.preventDefault();
+        console.log('here');
+        if (textMessage) {
+            const result = await axios.post('/chat/message', {
+                senderId: user.userId,
+                receiverId: partnerId,
+                content: textMessage,
+            });
+            console.log('result from api ', result.data);
+        }
     };
 
     const disableButton = isMessageEmpty(textMessage);
@@ -67,27 +83,35 @@ const PrivateChat = ({
                             <HighlightOffIcon fontSize="large" />
                         </Button>
                     </Box>
-                    {messages.map((message, index) => {
-                        const imageThumbnail = message.mine ? null : <Avatar src={message.imageUrl} alt="N" />;
-                        return (
-                            <div key={message.id}>
-                                {imageThumbnail}
-                                <div>{message.message}</div>
-                                <div>{message.time_sent}</div>
-                            </div>
-                        );
-                    })}
+                    <Box mb={5}>
+                        {messages.map(message => {
+                            const options = { month: 'short', day: 'numeric' };
+                            const date = new Date(message.time_sent).toLocaleDateString('en-US', options);
+                            return (
+                                <Box p={1} key={message.id} textAlign={message.mine ? 'right' : 'left'}>
+                                    <Box
+                                        borderRadius={message.mine ? '14px 14px 0 14px' : '14px 14px 14px 0'}
+                                        bgcolor={message.mine ? 'primary.light' : 'primary.main'}
+                                        m={1}
+                                        mr={message.mine ? 0 : 10}
+                                        ml={message.mine ? 10 : 0}
+                                        p={2}>
+                                        <Typography>{message.message}</Typography>
+                                    </Box>
+                                    <Typography style={{ color: '#b5bad3' }}>{date}</Typography>
+                                </Box>
+                            );
+                        })}
+                    </Box>
                     <Box position="absolute" bottom={2} width="95%" m="5px">
-                        <form
-                            onSubmit={e => {
-                                e.preventDefault();
-                            }}>
+                        <form onSubmit={postMessage}>
                             <Box display="flex">
                                 <Box flexGrow={1}>
                                     <TextField
                                         style={{ width: '100%' }}
                                         variant="outlined"
                                         type="text"
+                                        name="textMessage"
                                         value={textMessage}
                                         onChange={e => {
                                             setTextMessage(e.target.value);
@@ -113,11 +137,13 @@ PrivateChat.propTypes = {
     profile: PropTypes.object.isRequired,
     getMessages: PropTypes.func.isRequired,
     chat: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
     profile: state.profile,
     chat: state.chat,
+    auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getMessages, getProfile })(withRouter(PrivateChat));

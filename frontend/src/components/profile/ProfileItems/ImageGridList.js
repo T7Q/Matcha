@@ -3,6 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 // import tileData from './tileData';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,68 +21,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tileData = [
-    {
-        key: 1,
-        img: "/cat.jpg",
-        title: "Image",
-        author: "author",
-    },
-    {
-        key: 2,
-        img: "http://placeimg.com/640/480/people",
-        title: "Image",
-        author: "author",
-    },
-    {
-        key: 3,
-        img: "https://s3.amazonaws.com/uifaces/faces/twitter/arpitnj/128.jpg",
-        title: "Image",
-        author: "author",
-    },
-    {
-        key: 4,
-        img: "/cat.jpg",
-        title: "Image",
-        author: "author",
-    },
-    {
-        key: 5,
-        img: "/Photo_1601037282389_683.png",
-        title: "Image",
-        author: "author",
-    },
-];
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *     cols: 2,
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
-export default function ImageGridList() {
+const ImageGridList = ({ profile: { profile} }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={1}>
-        {tileData.map((tile) => (
-          <GridListTile key={tile.key} cols={tile.cols || 1}>
-            <img src={tile.img} alt={tile.title} />
+        {profile['photos'].map((tile, index) => (
+          <GridListTile key={index} cols={1}>
+            <img src={tile.image_path} />
           </GridListTile>
         ))}
       </GridList>
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, {  })(ImageGridList);
+// export default ImageGridList

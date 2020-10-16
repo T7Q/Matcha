@@ -236,76 +236,6 @@ const getBlockedUsers = async (authUserId) => {
     return res.rows;
 };
 
-// *********
-const faker = require("faker");
-
-const desiredFakeUsers = 5;
-let visits = desiredFakeUsers * 0.3;
-let likes = visits * 0.6;
-let connected = likes * 0.5;
-
-let tagsUnshuffled = [];
-const tagsArray = (maxTags) => {
-    for (let i = 1; i <= maxTags; i++) {
-        tagsUnshuffled.push(i);
-    }
-};
-
-const shuffleTags = () => {
-    return tagsUnshuffled
-        .map((a) => ({ sort: Math.random(), value: a }))
-        .sort((a, b) => a.sort - b.sort)
-        .map((a) => a.value);
-};
-
-let stmtTemp = {
-    allVisits: "",
-    allLikes: "",
-    allConnected: "",
-    myVisits: "",
-}
-
-
-const prepareTagsStmt = (idMin) => {
-    let str = "";
-    for (let k = idMin; k < desiredFakeUsers + idMin; k++) {
-        let shuffled = shuffleTags();
-        for (let i = 0; i < 6; i++) {
-            str =
-                desiredFakeUsers + idMin - 1 === k && i === 5
-                    ? str.concat("(" + `${k},` + `${shuffled[i]}` + "" + ")")
-                    : str.concat("(" + `${k},` + `${shuffled[i]}` + "" + "),");
-        }
-        // while (k < idMin + visits) {
-        //     stmtTemp.allVisits =
-        //         idMin + visits - 1 === k
-        //             ? stmtTemp['allVisits'].concat("(1, " + `${k}` + ")")
-        //             : stmtTemp['allVisits'].concat("(1, " + `${k},` + "),");
-        // }
-    }
-
-    // let temp1 = `INSERT INTO likes(from_user_id, to_user_id) VALUES ${stmtTemp.allVisits}`;
-    // console.log("visits", temp1);
-    return `INSERT INTO user_tags (user_id, tag_id) VALUES ${str}`;
-};
-
-// insert fake users to the database
-const insertFakeUsersTags = async () => {
-    tagsArray(56);
-    // SELECT max(user_id) from users
-    try {
-        let res = await db.query(`SELECT max(user_id) from users`);
-        let idMin = res.rows[0].max + 1;
-        console.log("idMin");
-        const stmt = prepareTagsStmt(idMin);
-        console.log("id", idM);
-        await db.query(stmt);
-        console.log("\x1b[32m" + `Inserted fake users tags` + "\x1b[0m");
-    } catch (err) {
-        console.log("ERR", err);
-    }
-};
-
 module.exports = {
     getTags,
     addPhotoToDb,
@@ -328,5 +258,4 @@ module.exports = {
     getUserPhotos,
     getBlockedUsers,
     getBlockedValue,
-    insertFakeUsersTags,
 };

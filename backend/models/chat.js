@@ -1,6 +1,6 @@
 const db = require('./db');
 
-const getUserConversations = async (userId) => {
+const getUserConversations = async userId => {
     const result = await db.query(
         `SELECT chats.chat_id,
         CASE WHEN user_1 = $1 THEN user_2
@@ -18,16 +18,16 @@ const getUserConversations = async (userId) => {
         WHERE (user_1 = $1 OR user_2 = $1) AND active = TRUE`,
         [userId]
     );
-    return result.rows[0];
-}
+    return result.rows;
+};
 
-const isChatExists = async (chatId) => {
+const isChatExists = async chatId => {
     return await db.query(
         `SELECT count(chat_id) FROM chats
             WHERE chat_id = $1`,
         [chatId]
     );
-}
+};
 
 const searchChat = async (senderId, receiverId) => {
     let result = await db.query(
@@ -37,7 +37,7 @@ const searchChat = async (senderId, receiverId) => {
         [senderId, receiverId]
     );
     return result.rows[0];
-}
+};
 
 const createChat = async (senderId, receiverId) => {
     const result = await db.query(
@@ -46,7 +46,7 @@ const createChat = async (senderId, receiverId) => {
         [senderId, receiverId]
     );
     return result.rows[0].chat_id;
-}
+};
 
 const addMessage = async (chatId, senderId, content) => {
     const result = await db.query(
@@ -55,21 +55,23 @@ const addMessage = async (chatId, senderId, content) => {
         [chatId, senderId, content]
     );
     return result.rows[0].message_id;
-}
+};
 
-const getChatMessages = async (chatId) => {
+const getChatMessages = async (chatId, userId) => {
     const result = await db.query(
-        `SELECT message, time_sent, sender_id,
+        `SELECT message_id AS id, message, time_sent, sender_id,
         CASE WHEN sender_id = user_1 THEN user_2
-        ELSE user_1 END AS receiver_id
+        ELSE user_1 END AS receiver_id,
+        CASE WHEN sender_id = $2 THEN true
+        ELSE false END AS mine
         FROM messages
         JOIN chats ON chats.chat_id = messages.chat_id
         WHERE chats.chat_id = $1
         ORDER BY time_sent`,
-        [chatId]
-    )
+        [chatId, userId]
+    );
     return result.rows;
-}
+};
 
 module.exports = {
     getUserConversations,
@@ -77,5 +79,5 @@ module.exports = {
     addMessage,
     createChat,
     getChatMessages,
-    searchChat
+    searchChat,
 };

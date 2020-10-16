@@ -16,7 +16,7 @@ import ProfileCreation from '../profile/CreateProfile/';
 import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 // import NotFound from '../layout/NotFound';
-import Chat from '../chat/Chat';
+import Chat from '../chat/';
 import Settings from '../profile/Settings';
 import Visits from '../visits/Visits';
 import EditProfile from '../profile/EditProfile/';

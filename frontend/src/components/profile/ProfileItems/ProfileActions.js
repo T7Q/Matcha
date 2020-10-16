@@ -6,11 +6,9 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const ProfileActions = () => {
     return (
-        <>
-            <IconButton>
-                <ArrowForwardIosIcon />
-            </IconButton>
-        </>
+        <IconButton>
+            <ArrowForwardIosIcon />
+        </IconButton>
     );
 };
 

@@ -6,13 +6,13 @@ module.exports = async (req, res) => {
     const userId = req.user.userId;
 
     try {
-        const result = await chatModel.getChatMessages(chatId);
-        if (result.sender_id !== userId || result.receiver_id !== userId) {
-            return res.status(401).json({ 'error': 'You do not have permissions' });
+        const result = await chatModel.getChatMessages(chatId, userId);
+        if (result[0].sender_id !== userId && result[0].receiver_id !== userId) {
+            return res.json({ error: 'You do not have permissions' });
         }
         return res.json(result);
     } catch (e) {
         console.log(e);
-        return res.status(400).json();
+        return res.json();
     }
-}
+};

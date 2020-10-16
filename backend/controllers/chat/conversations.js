@@ -10,4 +10,4 @@ module.exports = async (req, res) => {
         console.log(e);
         return res.status(400).json();
     }
-}
+};

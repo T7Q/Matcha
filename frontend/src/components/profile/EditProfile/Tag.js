@@ -49,7 +49,7 @@ const Tag = ({ setSnackbar }) => {
 
     const validate = value => {
         if (formData.length < 5) {
-            setErrors({ agsError: 'Choose minimum 5 tags' });
+            setErrors({ tagsError: 'Choose minimum 5 tags' });
             return false;
         }
         setErrors({ tagsError: '' });

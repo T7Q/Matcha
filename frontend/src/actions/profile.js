@@ -28,14 +28,7 @@ export const getProfile = (type, userId) => async dispatch => {
                 type: GET_PROFILE,
                 payload: null,
             });
-            dispatch({
-                type: SET_SNACKBAR,
-                payload: {
-                    snackbarOpen: true,
-                    snackbarType: 'error',
-                    snackbarMessage: res.data.error,
-                },
-            });
+            dispatch(setSnackbar(true, 'error', res.data.error));
         } else {
             // send data to reducer
             dispatch({

@@ -20,7 +20,28 @@ const Password = ({ setSnackbar }) => {
     const { oldPasswordError, passwordError, confirmPasswordError } = errors;
     const classes = useStyles();
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = e => {
+        const changedValue = e.target.value;
+        const typeError = e.target.name === 'newPassword' ? 'passwordError' : [e.target.name] + 'Error';
+        if (!changedValue) {
+            setErrors({ ...errors, [typeError]: 'required field' });
+        } else if (changedValue.length < 6) {
+            setErrors({ ...errors, [typeError]: 'Password must be at least 6 characters' });
+        } else {
+            const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
+            if (!re.test(changedValue) && [typeError] !== 'oldPassword') {
+                setErrors({
+                    ...errors,
+                    [typeError]: 'At least 1 uppercase, 1 lowercase letter and 1 number required',
+                });
+            } else if ([typeError] === 'confirmPassword' && changedValue !== newPassword) {
+                setErrors({ ...errors, confirmPasswordError: 'Passwords do not match' });
+            } else {
+                setErrors({ ...errors, [typeError]: '' });
+            }
+        }
+        setFormData({ ...formData, [e.target.name]: changedValue });
+    };
 
     const handleSubmit = async event => {
         event.preventDefault();

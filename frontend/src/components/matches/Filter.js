@@ -64,12 +64,12 @@ const Filter = ({
     const [filterIsOn, setFilter] = React.useState(0);
 
     const orientation = [
-        { label: "man interested in man", db: "gay" },
-        { label: "woman interested in woman", db: "lesbian" },
-        { label: "woman interested in man", db: "straight_woman" },
-        { label: "man interested in woman", db: "straight_man" },
-        { label: "woman interested in woman and man", db: "bi" },
-        { label: "man interested in woman and man", db: "bi" },
+        { label: "men interested in man", db: "gay" },
+        { label: "women interested in woman", db: "lesbian" },
+        { label: "women interested in man", db: "straight_woman" },
+        { label: "men interested in woman", db: "straight_man" },
+        { label: "women interested in woman and man", db: "bi_woman" },
+        { label: "men interested in woman and man", db: "bi_man" },
     ];
 
     const sort = [
@@ -82,7 +82,6 @@ const Filter = ({
         { label: "Most interest in common", db: "commonTag_desc" },
         { label: "Least interest in common", db: "commonTag_asc" },
     ];
-    // console.log("FILTER component");
 
     const countries = getCountries();
 
@@ -293,7 +292,7 @@ const Filter = ({
                             getOptionLabel={(option) => option.label}
                             getOptionSelected={(option) => option}
                             renderInput={(params) => (
-                                <TextField {...params} label="I'm a ..." />
+                                <TextField {...params} label="I'm looking for ..." />
                             )}
                         />
                         <Autocomplete

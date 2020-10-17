@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { ArrowForwardIos, Timeline, VpnKey, TagFaces, MailOutline } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 
-const Body = ({ profile }) => {
+const Body = ({ profile, type }) => {
     // const classes = useStyles();
     // const [dense, setDense] = React.useState(false);
     // const [secondary, setSecondary] = React.useState(false);

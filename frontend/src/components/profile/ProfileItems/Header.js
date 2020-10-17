@@ -36,12 +36,14 @@ const Header = ({ profile, type }) => {
     const handleClickOpen = () => {
         setOpen(true);
     };
+    console.log("type", type);
     return (
         <Box bgcolor="secondary.main">
             <Typography variant="h6">user id: {profile.user_id}</Typography>
+            { type === "otherUser" ? 
             <Typography variant="h6">
                 match: {profile.compatibility}%
-            </Typography>
+            </Typography> : ''}
             <Avatar alt={avatarAlt} src={profile.profile_pic_path} />
             <Button
                 variant="outlined"

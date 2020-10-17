@@ -13,10 +13,10 @@ export default function (state = initialState, action) {
         case SET_SNACKBAR:
             return {
                 ...state,
-                test: payload.test,
                 snackbarOpen: payload.snackbarOpen,
                 snackbarType: payload.snackbarType,
                 snackbarMessage: payload.snackbarMessage,
+
             };
         default:
             return state;

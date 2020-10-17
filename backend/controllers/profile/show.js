@@ -6,7 +6,13 @@ const matchModel = require("../../models/match");
 const userProfile = async (req, res) => {
     const userId = req.params.user_id;
     const authUserId = req.user.userId;
+
     try {
+        const userExists = await profileModel.userExists(userId);
+        if (userExists === "0") {
+            return res.json({ error: "This profile does not exist" });
+        }
+
         let userInfo = await accountModel.findUserInfo(
             "user_id",
             userId,

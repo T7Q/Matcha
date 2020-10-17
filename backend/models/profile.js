@@ -236,6 +236,15 @@ const getBlockedUsers = async (authUserId) => {
     return res.rows;
 };
 
+const userExists = async (userId) => {
+    const res = await db.query(
+        `SELECT count(user_id)
+        FROM users WHERE user_id=$1`,
+        [userId]
+    );
+    return res.rows[0].count;
+};
+
 module.exports = {
     getTags,
     addPhotoToDb,
@@ -258,4 +267,5 @@ module.exports = {
     getUserPhotos,
     getBlockedUsers,
     getBlockedValue,
+    userExists,
 };

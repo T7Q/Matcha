@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Avatar, Badge, Box, Grid } from "@material-ui/core";
-import { ListItem, IconButton, Link, Button } from "@material-ui/core";
-import { Favorite, Chat, Close } from "@material-ui/icons";
+import { ListItem, IconButton, Link, Button, Container } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
 import LikeButton from "../../common/matchGallery/LikeButton";
 import UserRating from "./UserRating";
 import Dropdown from "./Dropdown";
@@ -61,11 +61,12 @@ const Header = ({ profile, type }) => {
     if (type === "otherUser") {
         description = `${profile.age} * ${
             profile.country
-        } * ${profile.compatibility.toFixed(0)}% match`;
+        } * ${profile.compatibility}% match`;
     };
 
     return (
         <Box bgcolor="secondary.main">
+            <Container>
             <Grid container spacing={3}>
                 <Grid item xs={6} sm={3}>
                     {type === "otherUser" ? (
@@ -129,6 +130,7 @@ const Header = ({ profile, type }) => {
                 setOpen={setOpen}
                 profile={profile}
             />
+            </Container>
         </Box>
     );
 };

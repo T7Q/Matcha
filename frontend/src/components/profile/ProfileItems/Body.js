@@ -1,6 +1,7 @@
 import React from "react";
 import { Typography, Grid, IconButton, Divider } from "@material-ui/core";
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 import { Timeline, AssignmentInd, TagFaces, Favorite } from "@material-ui/icons";
@@ -92,6 +93,9 @@ const Body = ({ profile, type }) => {
         },
     ];
     return (
+        <Container>
+
+        
         <Grid container justify="center">
             <Grid container item xs={10} sm={6} justify="center">
                 <List key="desc1">
@@ -154,6 +158,7 @@ const Body = ({ profile, type }) => {
                 </List>
             </Grid>
         </Grid>
+        </Container>
     );
 };
 

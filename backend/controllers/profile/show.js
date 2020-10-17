@@ -28,6 +28,7 @@ const userProfile = async (req, res) => {
             "gender",
             "country",
             "sex_preference",
+            "sex_orientation",
             "birth_date",
             "profile_pic_path",
             "last_seen",
@@ -95,6 +96,7 @@ const myProfile = async (req, res) => {
             "western_horo",
             "gender",
             "sex_preference",
+            "sex_orientation",
             "birth_date",
             "profile_pic_path"
         );

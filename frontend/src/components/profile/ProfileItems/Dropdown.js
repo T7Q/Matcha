@@ -42,38 +42,36 @@ const Dropdown = ({
                 aria-haspopup="true"
                 onClick={handleClick}
             >
-                <MoreHorizIcon style={{ fill: "white" }} />
+                <MoreHorizIcon style={{ fill: "white" }} fontSize="small"/>
             </IconButton>
-            <Menu
+            <Menu 
                 id="actions-menu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem
-                    style={{ color: "blue" }}
+                <MenuItem style={{ backgroundColor: "grey"}}
                     onClick={handleClickInteraction("reported")}
                 >
                     REPORT
                 </MenuItem>
                 {blocked === "1" ? (
-                    <MenuItem
+                    <MenuItem style={{ backgroundColor: "grey"}}
                         onClick={handleClickUnblock}
-                        style={{ color: "blue" }}
                     >
                         UNBLOCK
                     </MenuItem>
                 ) : (
-                    <MenuItem
-                        style={{ color: "red" }}
+                    <MenuItem style={{ backgroundColor: "grey"}}
                         onClick={handleClickInteraction("blocked")}
                     >
                         BLOCK
                     </MenuItem>
                 )}
 
-                <MenuItem onClick={handleClose} style={{ color: "blue" }}>
+                <MenuItem style={{ backgroundColor: "grey"}}
+                onClick={handleClose}>
                     x
                 </MenuItem>
             </Menu>

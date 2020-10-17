@@ -311,20 +311,46 @@ $BODY$;
 
 CREATE TRIGGER notify_on_like2 AFTER INSERT ON likes FOR EACH ROW EXECUTE PROCEDURE notify_on_like2();
 
-    -- CREATE TRIGGER notify_on_like AFTER INSERT ON likes FOR EACH ROW BEGIN
-    --     DELETE FROM notifications WHERE to_user_id = new.to_user_id AND "type" = 'like' AND from_user_id = new.from_user_id;
-    --     INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (new.to_user_id, new.from_user_id, 'like');
-    -- END;
+CREATE FUNCTION add_notification()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE
+    arg_type varchar;
+BEGIN
+    arg_type := TG_ARGV[0];
+    DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND "type" = arg_type AND from_user_id = NEW.from_user_id);
+    INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, 'like');
+RETURN NEW;
+END;
+$BODY$;
 
--- CREATE TRIGGER notify_on_unlike AFTER DELETE ON likes FOR EACH ROW BEGIN
---     DELETE FROM notifications WHERE user = new.unlikee AND reason = 'unlike' AND causer = new.unliker;
---     INSERT INTO notifications (user, reason, causer, \`time\`) VALUES (new.unlikee, 'unlike', new.unliker, new.timestamp);
--- END;
+CREATE TRIGGER notify_on_visit AFTER INSERT ON views FOR EACH ROW EXECUTE PROCEDURE add_notification('visit');
 
--- CREATE TRIGGER notify_on_visit AFTER INSERT ON views FOR EACH ROW BEGIN
---     DELETE FROM notifications WHERE to_user_id = new.to_user_id AND "type" = 'visit' AND from_user_id = new.from_user_id;
---     INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (new.to_user_id, new.from_user_id, 'like');
--- END;
+
+CREATE FUNCTION add_notification_on_unlike()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+    BEGIN
+    IF EXISTS (SELECT from_user_id FROM likes
+        WHERE to_user_id = OLD.from_user_id
+        AND from_user_id = OLD.to_user_id)
+    THEN
+        DELETE FROM notifications WHERE (to_user_id = OLD.to_user_id AND "type" = 'unlike' AND from_user_id = OLD.from_user_id);
+        INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (OLD.to_user_id, OLD.from_user_id, 'unlike');
+    END IF;
+    END;
+RETURN OLD;
+END;
+$BODY$;
+
+CREATE TRIGGER notify_on_unlike AFTER DELETE ON likes FOR EACH ROW EXECUTE PROCEDURE add_notification_on_unlike()
 
 -- CREATE TRIGGER notify_on_message AFTER INSERT ON messages FOR EACH ROW BEGIN
 --     DELETE FROM notifications WHERE to_user_id = new.to_user_id AND "type" = 'visit' AND from_user_id = new.from_user_id;

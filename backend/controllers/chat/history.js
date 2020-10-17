@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
     try {
         const result = await chatModel.getChatMessages(chatId, userId);
-        if (result[0].sender_id !== userId && result[0].receiver_id !== userId) {
+        if (result.length > 0 && result[0].sender_id !== userId && result[0].receiver_id !== userId) {
             return res.json({ error: 'You do not have permissions' });
         }
         return res.json(result);

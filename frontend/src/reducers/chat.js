@@ -2,7 +2,7 @@ import { GET_CONVERSATIONS, GET_MESSAGES, CLEAR_MESSAGES } from '../actions/type
 
 const initialState = {
     conversations: [],
-    messages: null,
+    messages: [],
 };
 
 export default function (state = initialState, action) {
@@ -22,7 +22,7 @@ export default function (state = initialState, action) {
         case CLEAR_MESSAGES:
             return {
                 ...state,
-                messages: null,
+                messages: [],
             };
         default:
             return state;

@@ -6,10 +6,11 @@ const getUserConversations = async userId => {
         CASE WHEN user_1 = $1 THEN user_2
         ELSE user_1 END AS partner_id,
         users.username AS partner_username,
+        users.profile_pic_path AS avatar,
         m1.message AS last_message, m1.time_sent, m1.sender_id
         FROM chats JOIN users ON users.user_id = CASE
         WHEN user_1 = $1 THEN user_2 ELSE user_1 END
-        JOIN messages m1 ON chats.chat_id = m1.chat_id
+        LEFT JOIN messages m1 ON chats.chat_id = m1.chat_id
         AND m1.message_id = (
             SELECT MAX(m2.message_id)
             FROM messages m2

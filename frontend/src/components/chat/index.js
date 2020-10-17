@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Box, Typography, Grid, Tab, Tabs, useMediaQuery, Container } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
-import { NotificationsActive, Lock, Email, Block, Delete } from '@material-ui/icons';
+import { Box, Typography, Grid } from '@material-ui/core';
+// import { useTheme } from '@material-ui/core/styles';
 import { setSnackbar } from '../../actions/setsnackbar';
 import { getConversations } from '../../actions/chat';
 import Conversations from './Conversations';
@@ -12,12 +11,11 @@ import PrivateChat from './PrivateChat';
 const Chat = ({ setSnackbar, getConversations, chat: { conversations }, history }) => {
     const [currentConversation, setCurrentConversation] = useState(0);
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+    // const theme = useTheme();
 
     useEffect(() => {
         getConversations();
-    }, []);
+    }, [getConversations]);
 
     const handleChange = (event, chatId) => {
         setCurrentConversation(chatId);

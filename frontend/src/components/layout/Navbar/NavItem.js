@@ -21,7 +21,7 @@ const menuItems = [
     },
 ];
 
-const NavItem = ({ isAuthenticated, user, isMobile, handleNavigation }) => {
+const NavItem = ({ auth: { isAuthenticated, user }, isMobile, handleNavigation }) => {
     const classes = useStyles();
 
     return (

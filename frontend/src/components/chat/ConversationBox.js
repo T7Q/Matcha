@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@material-ui/core';
+import React from 'react';
+import { ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 
 const ConversationBox = ({ conversation, isActive, onClick }) => {
-    const date = new Date(conversation.time_sent).toLocaleDateString();
     return (
         <ListItem
             style={{ borderBottom: '1px solid #003781' }}
@@ -10,7 +9,7 @@ const ConversationBox = ({ conversation, isActive, onClick }) => {
             onClick={e => onClick(e, conversation.chat_id)}
             alignItems="flex-start">
             <ListItemAvatar>
-                <Avatar alt={conversation.partner_username} src="/images/Photo_1601037282389_683.png" />
+                <Avatar alt={conversation.partner_username} src={conversation.avatar} />
             </ListItemAvatar>
             <ListItemText
                 primary={

@@ -8,12 +8,14 @@ import {
     AUTH_FAIL,
     LOGOUT,
     MESSAGE,
+    LOAD_SOCKET,
 } from '../actions/types';
 
 const initialState = {
     isAuthenticated: false,
     loading: true,
     user: { userId: 0, status: -1 },
+    socket: null,
 };
 
 export default (state = initialState, action) => {
@@ -50,6 +52,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 user: payload.user,
+            };
+        case LOAD_SOCKET:
+            return {
+                ...state,
+                socket: payload,
             };
         case REGISTER_FAIL:
         case AUTH_FAIL:

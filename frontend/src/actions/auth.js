@@ -1,6 +1,15 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
-import { LOGIN_SUCCESS, AUTH_SUCCESS, AUTH_FAIL, REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT, MESSAGE } from './types';
+import {
+    LOGIN_SUCCESS,
+    AUTH_SUCCESS,
+    AUTH_FAIL,
+    REGISTER_FAIL,
+    REGISTER_SUCCESS,
+    LOGOUT,
+    MESSAGE,
+    LOAD_SOCKET,
+} from './types';
 
 export const loadUser = () => async dispatch => {
     // console.log('in load user');
@@ -128,4 +137,12 @@ export const updatePwd = ({ password, confirmPassword, history }) => async dispa
     } catch (error) {
         console.log(error);
     }
+};
+
+// Load socket
+export const loadSocket = socket => async dispatch => {
+    dispatch({
+        type: LOAD_SOCKET,
+        payload: socket,
+    });
 };

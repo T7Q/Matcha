@@ -1,15 +1,22 @@
-const socket = require('socket.io');
-const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('./config');
+module.exports = server => {
+    const io = require('socket.io')(server);
 
-module.exports = socket => {
-    console.log('user connected');
-    socket.on('addMessage', (data) => {
-        console.log('add data');
-        console.log(data);
+    io.on('connection', socket => {
+        console.log('user connected in socket');
+
+        socket.on('SEND_MESSAGE', chatId => {
+            console.log('send message to chat', chatId);
+            io.to(chatId).emit('MESSAGE', chatId);
+        });
+
+        socket.on('getMessages', data => {
+            console.log('get data');
+            console.log(data);
+        });
+
+        socket.on('JOIN_CHAT', chatId => {
+            console.log('joined chat', chatId);
+            socket.join(chatId);
+        });
     });
-    socket.on('getMessages', (data) => {
-        console.log('get data');
-        console.log(data);
-    });
-}
+};

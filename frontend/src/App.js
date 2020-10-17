@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import io from 'socket.io-client';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Grid, Box } from '@material-ui/core';
 import Navbar from './components/layout/Navbar/';
 import Footer from './components/layout/Footer';
 import CustomRouter from './components/routing/CustomRouter';
 import setAuthToken from './utils/setAuthToken';
-import { loadUser } from './actions/auth';
+import { loadUser, loadSocket } from './actions/auth';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
@@ -24,12 +25,15 @@ import Circle from './components/layout/Circle';
 //     },
 // };
 
-import CustomizedSnackbars  from './components/common/CustomizedSnackbars';
+import CustomizedSnackbars from './components/common/CustomizedSnackbars';
+
+const socket = io('http://localhost:5000');
 
 const App = () => {
     useEffect(() => {
         setAuthToken(localStorage.getItem('token'));
         store.dispatch(loadUser());
+        store.dispatch(loadSocket(socket));
     }, []);
 
     return (
@@ -39,7 +43,7 @@ const App = () => {
                     <CssBaseline />
                     <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
                         <Navbar />
-                        <CustomizedSnackbars/>
+                        <CustomizedSnackbars />
                         {/* <Box p={5} m={{ xs: 'auto', lg: '50px' }} flexGrow={1}> */}
                         <Box flexGrow={1}>
                             <Grid style={{ minHeight: '80vh' }} container>

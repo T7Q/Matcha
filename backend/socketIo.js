@@ -5,7 +5,8 @@ module.exports = server => {
         console.log('user connected in socket');
 
         socket.on('SEND_MESSAGE', chatId => {
-            io.emit('MESSAGE', chatId);
+            console.log('send message to chat', chatId);
+            io.to(chatId).emit('MESSAGE', chatId);
         });
 
         socket.on('getMessages', data => {
@@ -14,6 +15,7 @@ module.exports = server => {
         });
 
         socket.on('JOIN_CHAT', chatId => {
+            console.log('joined chat', chatId);
             socket.join(chatId);
         });
     });

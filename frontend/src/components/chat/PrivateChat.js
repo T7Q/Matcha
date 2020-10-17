@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import io from 'socket.io-client';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,67 +12,49 @@ import Dropdown from '../common/Dropdown';
 import { getProfile } from '../../actions/profile';
 // import { useStyles } from '../../styles/custom';
 
-const socket = io.connect('/');
-
 const PrivateChat = ({
     getProfile,
     getMessages,
     currentConversation,
     chat: { messages, conversations },
     profile: { profile },
-    auth: { user },
+    auth: { user, socket },
     history,
     setCurrentConversation,
 }) => {
     const [textMessage, setTextMessage] = useState('');
+    // const [messages, setMessages] = useState([]);
     const chat =
         currentConversation > 0 ? conversations.filter(chat => chat.chat_id === currentConversation)[0] : false;
 
     const partnerId = chat ? chat.partner_id : 0;
     // const classes = useStyles();
 
-    // useEffect(() => {
-    //     if (chat) {
-    //         socket.emit('JOIN_CHAT', chat.chat_id);
-    //     }
-    // }, [chat]);
-
     useEffect(() => {
         getMessages(currentConversation);
         getProfile('otherUser', partnerId);
-    }, [currentConversation, getMessages, partnerId, getProfile]);
-
-    // const isMessageEmpty = () => {
-    //     return textMessage.trim().length === 0;
-    // };
+        if (partnerId !== 0) {
+            socket.emit('JOIN_CHAT', chat.chat_id);
+            socket.on('MESSAGE', chatId => {
+                getMessages(currentConversation);
+            });
+        }
+    }, [currentConversation, getMessages, partnerId, getProfile, socket]);
 
     const goTo = newRoute => {
         history.push(newRoute);
     };
 
-    // socket.on('MESSAGE', chatId => {
-    //     console.log('message client', chatId);
-    //     if (chatId === chat.chat_id) {
-    //         getMessages(currentConversation);
-    //     }
-    // });
-
-    socket.on('chat', some => {
-        console.log('here chat');
-    });
-
     const postMessage = async e => {
         e.preventDefault();
-        // console.log('here');
         if (textMessage) {
             const result = await axios.post('/chat/message', {
                 senderId: user.userId,
                 receiverId: partnerId,
                 content: textMessage,
             });
-            socket.emit('SEND_MESSAGE', chat.chat_id);
-            console.log('result from api ', result.data);
             setTextMessage('');
+            socket.emit('SEND_MESSAGE', chat.chat_id);
         }
     };
 

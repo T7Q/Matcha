@@ -59,12 +59,12 @@ export const theme = createMuiTheme({
                 color: '#fff',
             },
         },
-        MuiTab: {
-            wrapper: {
-                flexDirection: 'row',
-                justifyContent: 'start',
-            },
-        },
+        // MuiTab: {
+        //     wrapper: {
+        //         flexDirection: 'row',
+        //         justifyContent: 'start',
+        //     },
+        // },
         MuiDialog: {
             paper: {
                 backgroundColor: '#34374d',

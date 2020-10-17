@@ -23,7 +23,7 @@ const Username = ({ setSnackbar, editProfile, user }) => {
     };
 
     const handleSubmit = async event => {
-        if (validate(username)) {
+        if (await validate(username)) {
             try {
                 const res = await axios.post('/profile/edit', { key: 'username', value: username });
                 if (res.data.error) {
@@ -42,6 +42,8 @@ const Username = ({ setSnackbar, editProfile, user }) => {
     const validate = async value => {
         if (!value) {
             setErrors({ usernameError: 'required field' });
+        } else if (username === user.username) {
+            setSnackbar(true, 'warning', 'No changes applied');
         } else {
             const re = /^[A-Za-z0-9]{0,}$/;
             if (!re.test(value)) {

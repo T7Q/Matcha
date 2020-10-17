@@ -39,7 +39,7 @@ const PrivateChat = ({
                 getMessages(currentConversation);
             });
         }
-    }, [currentConversation, getMessages, partnerId, getProfile, socket]);
+    }, [currentConversation, getMessages, partnerId, getProfile, socket, chat]);
 
     const goTo = newRoute => {
         history.push(newRoute);
@@ -48,7 +48,7 @@ const PrivateChat = ({
     const postMessage = async e => {
         e.preventDefault();
         if (textMessage) {
-            const result = await axios.post('/chat/message', {
+            await axios.post('/chat/message', {
                 senderId: user.userId,
                 receiverId: partnerId,
                 content: textMessage,

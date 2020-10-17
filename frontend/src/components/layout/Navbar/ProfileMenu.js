@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Badge, Typography, IconButton, MenuItem, Menu } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
 import { useStyles } from '../../../styles/custom';
@@ -18,7 +18,13 @@ const profileMenu = [
     },
 ];
 
-const ProfileMenu = ({ isMobile, user, profileSettings, setProfileSettings, handleNavigation }) => {
+const ProfileMenu = ({
+    isMobile,
+    auth: { user, socket },
+    profileSettings,
+    setProfileSettings,
+    handleNavigation,
+}) => {
     const classes = useStyles();
 
     const handleClose = () => {

@@ -10,8 +10,9 @@ import { logout } from '../../../actions/auth';
 import ProfileMenu from './ProfileMenu';
 import NavItem from './NavItem';
 
-const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
+const Navbar = ({ logout, auth, history }) => {
     const [profileSettings, setProfileSettings] = useState(null);
+    const { isAuthenticated, user } = auth;
     const theme = useTheme();
     const classes = useStyles();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -33,18 +34,13 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
                             </Typography>
                         </IconButton>
                     )}
-                    <NavItem
-                        isMobile={isMobile}
-                        isAuthenticated={isAuthenticated}
-                        user={user}
-                        handleNavigation={handleNavigation}
-                    />
+                    <NavItem isMobile={isMobile} auth={auth} handleNavigation={handleNavigation} />
                 </Box>
                 {isAuthenticated && (
                     <Box display="flex">
                         {user.status === 2 && (
                             <ProfileMenu
-                                user={user}
+                                auth={auth}
                                 profileSettings={profileSettings}
                                 setProfileSettings={setProfileSettings}
                                 handleNavigation={handleNavigation}

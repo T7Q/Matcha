@@ -43,6 +43,9 @@ const Email = ({ setSnackbar, editProfile, user }) => {
         event.preventDefault();
         if (!validate()) {
             return;
+        } else if (user.email === email) {
+            setSnackbar(true, 'warning', 'No changes applied');
+            return;
         }
         try {
             const res = await axios.post('/profile/edit', { key: 'email', value: formData });

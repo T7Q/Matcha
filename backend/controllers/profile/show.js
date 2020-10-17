@@ -1,29 +1,40 @@
-const profileModel = require('../../models/profile');
-const profileHelper = require('../../models/profileHelper');
-const accountModel = require('../../models/account');
+
+const profileModel = require("../../models/profile");
+const profileHelper = require("../../models/profileHelper");
+const accountModel = require("../../models/account");
+const matchModel = require("../../models/match");
+
 
 const userProfile = async (req, res) => {
     const userId = req.params.user_id;
     const authUserId = req.user.userId;
+
     try {
+        const userExists = await profileModel.userExists(userId);
+        if (userExists === "0") {
+            return res.json({ error: "This profile does not exist" });
+        }
+
         let userInfo = await accountModel.findUserInfo(
             'user_id',
             userId,
-            'user_id',
-            'fame_rating',
-            'bio',
-            'first_name',
-            'last_name',
-            'email',
-            'username',
-            'chinese_horo',
-            'western_horo',
-            'gender',
-            'country',
-            'sex_preference',
-            'birth_date',
-            'profile_pic_path',
-            'last_seen'
+            "user_id",
+            "fame_rating",
+            "bio",
+            "first_name",
+            "last_name",
+            "email",
+            "username",
+            "chinese_horo",
+            "western_horo",
+            "gender",
+            "country",
+            "sex_preference",
+            "sex_orientation",
+            "birth_date",
+            "profile_pic_path",
+            "last_seen",
+            "online"
         );
         let tags = await profileModel.getUserTags(userId);
         if (tags.rowCount > 0) {
@@ -32,12 +43,38 @@ const userProfile = async (req, res) => {
                 userInfo['tags'].push(value.tag_name);
             });
         }
-        let photos = await profileModel.getDataOneCondition('images', 'image_path', 'user_id', userId);
-        userInfo['photos'] = photos.length > 0 ? photos : [];
-        userInfo['connected'] = await profileModel.usersConnected(authUserId, userId);
-        userInfo['age'] = await profileModel.getUserAge(userId);
-        userInfo['distance'] = await profileModel.getDistance(authUserId, userId);
-        userInfo['blocked'] = await profileModel.getBlockedValue(authUserId, userId);
+
+        let photos = await profileModel.getDataOneCondition(
+            "images",
+            "image_path",
+            "user_id",
+            userId
+        );
+        userInfo["photos"] = photos.length > 0 ? photos : [];
+        userInfo["connected"] = await profileModel.usersConnected(
+            authUserId,
+            userId
+        );
+        userInfo["age"] = await profileModel.getUserAge(userId);
+        userInfo["distance"] = await profileModel.getDistance(
+            authUserId,
+            userId
+        );
+        userInfo["blocked"] = await profileModel.getBlockedValue(
+            authUserId,
+            userId
+        );
+        const weight = { tag: 0.1, cn: 0.45, west: 0.45 };
+        let authUserInfo = await accountModel.findUserInfo(
+                "user_id",
+                authUserId,
+                "user_id",
+                "chinese_horo",
+                "western_horo",
+            );
+        authUserInfo['hasTags'] = await profileModel.userHasTags(authUserId);
+        userInfo["compatibility"] = await matchModel.getCompatibility(authUserInfo, userInfo, weight);
+        
         return res.json(userInfo);
     } catch (e) {
         return res.json({ error: 'Error getting profile info' });
@@ -47,28 +84,25 @@ const userProfile = async (req, res) => {
 const myProfile = async (req, res) => {
     const userId = req.user.userId;
     try {
-        // add function here ****
-        // console.log('before call');
-        // await profileModel.insertFakeUsersTags();
-        // console.log('after await');
-        // ******
+
 
         let userInfo = await accountModel.findUserInfo(
             'user_id',
             userId,
-            'user_id',
-            'fame_rating',
-            'bio',
-            'first_name',
-            'last_name',
-            'country',
-            'username',
-            'chinese_horo',
-            'western_horo',
-            'gender',
-            'sex_preference',
-            'birth_date',
-            'profile_pic_path'
+            "user_id",
+            "fame_rating",
+            "bio",
+            "first_name",
+            "last_name",
+            "country",
+            "username",
+            "chinese_horo",
+            "western_horo",
+            "gender",
+            "sex_preference",
+            "sex_orientation",
+            "birth_date",
+            "profile_pic_path"
         );
         let tags = await profileModel.getUserTags(userId);
         if (tags.rowCount > 0) {

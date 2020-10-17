@@ -163,6 +163,67 @@ const getMatch = async (user, settings) => {
     return res.rows;
 };
 
+const numberOfCommonTags2 = () => {
+    let query = `
+        (
+            select count(*)::float as commonTag from
+            (
+                select tag_id from user_tags
+                where user_tags.user_id = users.user_id
+                intersect 
+                select tag_id from user_tags
+                where user_tags.user_id = $1
+            ) as temp
+        )
+    `;
+    return query;
+};
+
+const getCompatibility = async (authUser, otherUser, weight) => {
+    const commonTags = `
+    (
+        select count(*)::float as commonTag from
+        (
+            select tag_id from user_tags
+            where user_tags.user_id = $2
+            intersect 
+            select tag_id from user_tags
+            where user_tags.user_id = $1
+        ) as temp
+    )`;
+
+    const tagsCompValue = authUser.hasTags
+        ? `${commonTags} / ${totalUserTags} * 100`
+        : 0;
+
+    const cnHoroscopeCompValue = getCompatibilityValue(
+        authUser.chinese_horo,
+        otherUser.chinese_horo,
+        "chinese"
+    );
+    const westHoroscopeCompValue = getCompatibilityValue(
+        authUser.western_horo,
+        otherUser.western_horo,
+        "western"
+    );
+
+    const res = await db.query(
+        `
+        SELECT
+            users.user_id,
+            (
+                ${tagsCompValue} * ${weight.tag} +
+                ${cnHoroscopeCompValue} * ${weight.cn} +
+                ${westHoroscopeCompValue} * ${weight.west}
+            ) as match
+        FROM public.users
+        WHERE user_id = $2`,
+        [authUser.user_id, otherUser.user_id]
+    );
+    return res.rows[0].match;
+};
+
 module.exports = {
     getMatch,
+    getCompatibility,
 };

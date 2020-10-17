@@ -5,8 +5,7 @@ const accountModel = require("../../models/account");
 
 /* 
     req data = {
-        user_id: value (mandatory!)
-        type: "recommended" "mandatory"
+        type: "recommended" (options: recommended, online, nearby)
         min_age: values ("", 24), default 18
         max_age: values ("", 50), default 120
         min_distance: values ("", 0), default 0
@@ -14,8 +13,8 @@ const accountModel = require("../../models/account");
         tags: values ("", ["Art", "Foodie"....)
         country: values ("", ["Finland", "Belgium"....)
         sort: values ("", ["filter_asc", "filter_desc"....)
-        believe_cn: values (options "", 0, 1)
-        believe_west: values (options "", 0, 1)
+        believe_cn: values (options "", false, true)
+        believe_west: values (options "", false, true)
     }
 */
 

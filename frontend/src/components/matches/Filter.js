@@ -64,12 +64,12 @@ const Filter = ({
     const [filterIsOn, setFilter] = React.useState(0);
 
     const orientation = [
-        { label: "man interested in man", db: "gay" },
-        { label: "woman interested in woman", db: "lesbian" },
-        { label: "woman interested in man", db: "straight_woman" },
-        { label: "man interested in woman", db: "straight_man" },
-        { label: "woman interested in woman and man", db: "bi" },
-        { label: "man interested in woman and man", db: "bi" },
+        { label: "men interested in man", db: "gay" },
+        { label: "women interested in woman", db: "lesbian" },
+        { label: "women interested in man", db: "straight_woman" },
+        { label: "men interested in woman", db: "straight_man" },
+        { label: "women interested in woman and man", db: "bi_woman" },
+        { label: "men interested in woman and man", db: "bi_man" },
     ];
 
     const sort = [
@@ -82,7 +82,6 @@ const Filter = ({
         { label: "Most interest in common", db: "commonTag_desc" },
         { label: "Least interest in common", db: "commonTag_asc" },
     ];
-    // console.log("FILTER component");
 
     const countries = getCountries();
 
@@ -223,15 +222,9 @@ const Filter = ({
             </Grid>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <Grid container spacing={3}>
-                    <Grid item xs={6}>
-                        I believe in Western Astrology
-                        <Switch
-                            checked={filter.believe_west}
-                            onChange={handleChange}
-                            color="primary"
-                            name="believe_west"
-                            inputProps={{ "aria-label": "secondary checkbox" }}
-                        />
+                    <Grid item xs={12} sm={6}>
+                        <Toggle name="believe_west" labelText="Western" updateFilter={updateFilter} filter={filter} />
+                        <Toggle name="believe_cn" labelText="Chinese" updateFilter={updateFilter} filter={filter} />
                         <Typography id="range-slider" gutterBottom>
                             Age 18 - 120
                         </Typography>
@@ -275,17 +268,7 @@ const Filter = ({
                             getAriaValueText={valuetext}
                         />
                     </Grid>
-                    <Grid item xs={6}>
-                        New Switch
-                        <Toggle name="believe_cn" updateFilter={updateFilter} filter={filter} />
-                        {/* I believe in Chinese Astrology */}
-                        {/* <Switch
-                            checked={filter.believe_cn}
-                            onChange={handleChange}
-                            color="primary"
-                            name="believe_cn"
-                            inputProps={{ "aria-label": "secondary checkbox" }}
-                        /> */}
+                    <Grid item xs={12} sm={6}>
                         <Autocomplete
                             id="combo-box-demo"
                             onChange={handleOrientationChange}
@@ -293,7 +276,7 @@ const Filter = ({
                             getOptionLabel={(option) => option.label}
                             getOptionSelected={(option) => option}
                             renderInput={(params) => (
-                                <TextField {...params} label="I'm a ..." />
+                                <TextField {...params} label="I'm looking for ..." />
                             )}
                         />
                         <Autocomplete
@@ -329,10 +312,6 @@ const Filter = ({
                                 />
                             )}
                         />
-                    </Grid>
-                </Grid>
-                <Grid container>
-                    <Grid item xs={12}>
                         <Button
                             id="filterBtn"
                             variant="contained"
@@ -354,6 +333,29 @@ const Filter = ({
                         </Button>
                     </Grid>
                 </Grid>
+                {/* <Grid container>
+                    <Grid item xs={12}>
+                        <Button
+                            id="filterBtn"
+                            variant="contained"
+                            color="primary"
+                            onClick={(e) => {
+                                setFilter(filterIsOn + 1);
+                            }}
+                        >
+                            See results
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                handleClickReset();
+                            }}
+                        >
+                            Reset
+                        </Button>
+                    </Grid>
+                </Grid> */}
             </Collapse>
             {filterIsOn === 0 && route.split("/")[2] === "recommend" ? (
                 <Match route={route} filterIsOn={0} />

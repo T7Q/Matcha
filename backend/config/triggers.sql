@@ -134,11 +134,13 @@ BEGIN
     SET sex_orientation=(
         CASE
             WHEN gender = 'man' and sex_preference = 'man' THEN 'gay'
-            WHEN gender = 'man' and sex_preference = 'woman' THEN 'straight_man'
-            WHEN gender = 'man' and sex_preference = 'both' THEN 'bi'
-            WHEN gender = 'woman' and sex_preference = 'man' THEN 'straight_woman'
-            WHEN gender = 'woman' and sex_preference = 'woman' THEN 'lesbian'
-            WHEN gender = 'woman' and sex_preference = 'both' THEN 'bi'
+
+			WHEN gender = 'man' and sex_preference = 'woman' THEN 'straight_man'
+			WHEN gender = 'man' and sex_preference = 'both' THEN 'bi_man'
+			WHEN gender = 'woman' and sex_preference = 'man' THEN 'straight_woman'
+			WHEN gender = 'woman' and sex_preference = 'woman' THEN 'lesbian'
+			WHEN gender = 'woman' and sex_preference = 'both' THEN 'bi_woman'
+
         END
     )
     WHERE user_id = NEW.user_id;

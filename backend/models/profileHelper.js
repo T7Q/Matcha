@@ -107,9 +107,10 @@ const saveToFile = baseImage => {
 const deleteFromFile = filename => {
     const uploadPath = `${process.cwd()}/images/`;
     let files = fs.readdirSync(uploadPath);
+    let imgToRemove = filename.split('/');
     for (let i = 0; i < files.length; i++) {
-        if (files[i] === filename) {
-            fs.unlinkSync(uploadPath + filename);
+        if (files[i] === imgToRemove[1]) {
+            fs.unlinkSync(uploadPath + imgToRemove[1]);
             break;
         }
     }

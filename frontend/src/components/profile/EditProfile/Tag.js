@@ -49,7 +49,10 @@ const Tag = ({ setSnackbar }) => {
 
     const validate = value => {
         if (formData.length < 5) {
-            setErrors({ tagsError: 'Choose minimum 5 tags' });
+            setErrors({ tagsError: 'Choose minimum 5 passions' });
+            return false;
+        } else if (formData.length > 10) {
+            setErrors({ tagsError: 'Maximum 10 passions' });
             return false;
         }
         setErrors({ tagsError: '' });

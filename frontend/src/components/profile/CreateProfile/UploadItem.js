@@ -36,7 +36,7 @@ const ImageItem = ({ images, setImages }) => {
                     onChange={upload => handleUpload(upload, 1, 'base1')}
                     showFileNames
                     initialFiles={images[1]}
-                    dropzoneText="Add photo here"
+                    dropzoneText="Add profile photo"
                     showAlerts={false}
                     filesLimit={1}
                 />

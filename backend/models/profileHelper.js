@@ -51,7 +51,9 @@ const validateName = (name, type = 'name') => {
 const validateTags = async tags => {
     let errors = {};
     if (!tags || tags.length < 5) {
-        errors['tagsError'] = 'You should pick at least 5 interest';
+        errors['tagsError'] = 'You should pick at least 5 passions';
+    } else if (tags.length > 10) {
+        errors['tagsError'] = 'You should pick no more than 10 passions';
     } else if (!(await validateTagsInDb(tags))) {
         errors['tagsError'] = 'Invalid tags, some of them dont exist';
     }

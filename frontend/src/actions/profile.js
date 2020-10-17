@@ -39,9 +39,11 @@ export const getProfile = (type, userId) => async dispatch => {
 const convertImages = images => {
     const data = {
         key: 'photo',
-        value: Object.values(images)
-            .filter(value => !Array.isArray(value) && value !== '')
-            .map(value => ({ type: 'profile', data: value })),
+        value: Object.entries(images)
+            .filter(value => value[0].includes('base') && value[1])
+            .map(value =>
+                value[0] === 'base1' ? { type: 'profile', data: value[1] } : { type: 'photo', data: value[1] }
+            ),
     };
     return data;
 };

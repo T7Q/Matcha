@@ -1,13 +1,11 @@
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
-    // LOGIN_FAIL,
     UPDATE_PROFILE,
     LOGIN_SUCCESS,
     AUTH_SUCCESS,
     AUTH_FAIL,
     LOGOUT,
-    MESSAGE,
     LOAD_SOCKET,
 } from '../actions/types';
 
@@ -42,11 +40,6 @@ export default (state = initialState, action) => {
                 ...payload,
                 loading: false,
                 isAuthenticated: false,
-            };
-        case MESSAGE:
-            return {
-                ...state,
-                message: payload,
             };
         case UPDATE_PROFILE:
             return {

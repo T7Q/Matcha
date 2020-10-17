@@ -4,12 +4,11 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { Redirect, withRouter } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
-import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 
-const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
+const Register = ({ register, isAuthenticated, user, history }) => {
     const [formData, setFormData] = useState({
         currentStep: 1,
         username: '',
@@ -304,7 +303,6 @@ const Register = ({ setAlert, register, isAuthenticated, user, history }) => {
 };
 
 Register.propTypes = {
-    setAlert: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
     user: PropTypes.object,
@@ -315,4 +313,4 @@ const mapStateToProps = state => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { setAlert, register })(withRouter(Register));
+export default connect(mapStateToProps, { register })(withRouter(Register));

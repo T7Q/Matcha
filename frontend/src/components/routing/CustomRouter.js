@@ -8,7 +8,6 @@ import Login from '../auth/Login';
 import ForgotPwd from '../auth/ForgotPwd';
 import UpdatePwd from '../auth/UpdatePwd';
 import Landing from '../layout/Landing';
-import Alert from '../layout/Alert';
 import Message from '../layout/Message';
 import Register from '../profile/CreateAccount';
 import Profile from '../profile/Profile';
@@ -30,7 +29,6 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                 mb={{ xs: '100px', sm: '0' }}
                 // textAlign="center"
                 width={isAuthenticated && user.status !== 1 ? '100%' : 'auto'}>
-                <Alert />
                 <Switch>
                     {/* <Route exact path="/" component={Landing} /> */}
                     <Route exact path="/login" component={Login} />

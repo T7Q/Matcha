@@ -1,5 +1,6 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
+import { setSnackbar } from './setsnackbar';
 import {
     LOGIN_SUCCESS,
     AUTH_SUCCESS,
@@ -7,26 +8,19 @@ import {
     REGISTER_FAIL,
     REGISTER_SUCCESS,
     LOGOUT,
-    MESSAGE,
     LOAD_SOCKET,
 } from './types';
 
 export const loadUser = () => async dispatch => {
-    // console.log('in load user');
     setAuthToken(localStorage.getItem('token'));
 
     try {
         const res = await axios.get('/account/auth');
-        // console.log(res.data);
+
         if (res.data.error) {
-            dispatch({
-                type: AUTH_FAIL,
-            });
+            dispatch({ type: AUTH_FAIL });
         } else {
-            dispatch({
-                type: AUTH_SUCCESS,
-                payload: res.data,
-            });
+            dispatch({ type: AUTH_SUCCESS, payload: res.data });
         }
     } catch (error) {
         console.log(error);
@@ -34,32 +28,20 @@ export const loadUser = () => async dispatch => {
 };
 
 export const register = (formData, history) => async dispatch => {
-    const config = {
-        headers: { 'Content-Type': 'application/json' },
-    };
-
+    const config = { headers: { 'Content-Type': 'application/json' } };
     const body = JSON.stringify(formData);
-    // console.log(body);
 
     try {
         const res = await axios.post('/account/register', body, config);
+
         if (res.data.error) {
             const errors = res.data.error;
-            dispatch({
-                type: REGISTER_FAIL,
-            });
+            dispatch({ type: REGISTER_FAIL });
             return errors;
         } else {
-            dispatch({
-                type: REGISTER_SUCCESS,
-                payload: 'here',
-            });
-            dispatch({
-                type: MESSAGE,
-                payload: 'Verify your email to secure your account',
-            });
-            history.push('/message');
-            setTimeout(() => history.push('/login'), 5000);
+            dispatch({ type: REGISTER_SUCCESS, payload: 'here' });
+            dispatch(setSnackbar(true, 'warning', 'Please, verify your account.'));
+            setTimeout(() => history.push('/'), 1000);
         }
     } catch (error) {
         console.log(error);
@@ -67,28 +49,18 @@ export const register = (formData, history) => async dispatch => {
 };
 
 export const login = ({ username, password }) => async dispatch => {
-    const config = {
-        headers: { 'Content-Type': 'application/json' },
-    };
-
+    const config = { headers: { 'Content-Type': 'application/json' } };
     const body = JSON.stringify({ username, password });
 
     try {
-        // console.log(body);
         const res = await axios.post('/account/login', body, config);
-        // console.log(res.data);
+
         if (res.data.error) {
             const error = res.data.error;
             dispatch({ type: AUTH_FAIL });
             return { error: error };
-            // dispatch(setAlert(error, 'danger'));
         } else {
-            // console.log('in login before success');
-            dispatch({
-                type: LOGIN_SUCCESS,
-                payload: res.data,
-            });
-            // console.log('in login before loaduser');
+            dispatch({ type: LOGIN_SUCCESS, payload: res.data });
             dispatch(loadUser());
         }
     } catch (error) {
@@ -96,7 +68,6 @@ export const login = ({ username, password }) => async dispatch => {
     }
 };
 
-// LOGOUT / Clear profile
 export const logout = history => async dispatch => {
     try {
         await axios.post('/account/logout');
@@ -107,19 +78,15 @@ export const logout = history => async dispatch => {
     history.push('/');
 };
 
-// Forgot password
 export const forgetPwd = ({ email, history }) => async dispatch => {
     try {
         const res = await axios.post('/account/pwdReset', { email });
+
         if (res.data.error) {
             return res.data.error;
         } else {
-            dispatch({
-                type: MESSAGE,
-                payload: "We've send you an email to reset your password",
-            });
-            history.push('/message');
-            setTimeout(() => history.push('/'), 5000);
+            dispatch(setSnackbar(true, 'success', "We've send you an email to reset your password"));
+            setTimeout(() => history.push('/'), 1000);
         }
     } catch (error) {
         console.log(error);
@@ -129,6 +96,7 @@ export const forgetPwd = ({ email, history }) => async dispatch => {
 export const updatePwd = ({ password, confirmPassword, history }) => async dispatch => {
     try {
         const res = await axios.post('/account/pwdUpdate', { password, confirmPassword });
+
         if (res.data.error) {
             return res.data.error;
         } else {
@@ -139,10 +107,6 @@ export const updatePwd = ({ password, confirmPassword, history }) => async dispa
     }
 };
 
-// Load socket
 export const loadSocket = socket => async dispatch => {
-    dispatch({
-        type: LOAD_SOCKET,
-        payload: socket,
-    });
+    dispatch({ type: LOAD_SOCKET, payload: socket });
 };

@@ -6,11 +6,10 @@ import {
     PROFILE_ERROR,
     UPDATE_LIKES,
     UPDATE_ERROR,
-    SET_SNACKBAR,
     LOGOUT,
     UPDATE_BlOCKED,
 } from './types';
-import { setAlert } from './alert';
+import { setSnackbar } from './setsnackbar';
 import { loadUser } from './auth';
 
 // Get user profile
@@ -24,15 +23,9 @@ export const getProfile = (type, userId) => async dispatch => {
             type === 'myProfile' ? await axios.get('/profile/me') : await axios.get(`/profile/user/${userId}`);
 
         // send data to reducer
-        dispatch({
-            type: GET_PROFILE,
-            payload: res.data,
-        });
+        dispatch({ type: GET_PROFILE, payload: res.data });
     } catch (err) {
-        dispatch({
-            type: PROFILE_ERROR,
-            payload: { status: err },
-        });
+        dispatch({ type: PROFILE_ERROR, payload: { status: err } });
     }
 };
 
@@ -48,40 +41,18 @@ const convertImages = images => {
     return data;
 };
 
-// Create or update profile
 export const createProfile = (formData, images, history) => async dispatch => {
     try {
-        // console.log('create profile');
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
         const imagesToSubmit = convertImages(images);
-        // console.log(imagesToSubmit);
-        const res = await axios.post('profile/create', formData, config);
-        // console.log('res', res);
+        const res = await axios.post('profile/create', formData);
+
         if (res.data.error) {
             const errors = res.data.error;
-            errors.forEach(error => dispatch(setAlert(error.error, 'danger')));
-            console.log('error in createprofile', errors);
-            dispatch({
-                type: PROFILE_ERROR,
-                payload: res.data.error,
-            });
+            dispatch(setSnackbar(true, 'error', 'Check all your data again'));
             return errors;
         } else {
-            dispatch({
-                type: CREATE_PROFILE,
-                payload: res.data,
-            });
-            const imagesRes = await axios.post('/profile/uploadphoto', imagesToSubmit, config);
-            // console.log(imagesRes);
-            if (imagesRes.data.error) {
-                console.log(imagesRes.data.error);
-            } else {
-                // console.log('success', imagesRes);
-            }
+            dispatch({ type: CREATE_PROFILE, payload: res.data });
+            await axios.post('/profile/uploadphoto', imagesToSubmit);
             dispatch(loadUser());
             history.push('/Profile');
         }
@@ -104,9 +75,7 @@ export const addLike = (location, toUserId, match, profile) => async dispatch =>
         } else if (location === 'profile') {
             profile.connected = result.data.msg;
         }
-        dispatch({
-            type: UPDATE_LIKES,
-        });
+        dispatch({ type: UPDATE_LIKES });
     } catch (err) {
         dispatch({
             type: UPDATE_ERROR,
@@ -129,14 +98,9 @@ export const removeLike = (location, toUserId, match, profile) => async dispatch
         } else if (location === 'profile') {
             profile.connected = result.data.msg;
         }
-        dispatch({
-            type: UPDATE_LIKES,
-        });
+        dispatch({ type: UPDATE_LIKES });
     } catch (err) {
-        dispatch({
-            type: UPDATE_ERROR,
-            payload: { status: err },
-        });
+        dispatch({ type: UPDATE_ERROR, payload: { status: err } });
     }
 };
 
@@ -145,31 +109,15 @@ export const addInteraction = (type, toUserId) => async dispatch => {
     try {
         const result = await axios.post(`/profile/addinteraction/${type}/${toUserId}`, {});
         if (type === 'blocked') {
-            dispatch({
-                type: UPDATE_BlOCKED,
-                payload: '1',
-            });
+            dispatch({ type: UPDATE_BlOCKED, payload: '1' });
         } else {
-            dispatch({
-                type: SET_SNACKBAR,
-                payload: {
-                    snackbarOpen: true,
-                    snackbarType: 'success',
-                    snackbarMessage: result.data.msg,
-                },
-            });
+            dispatch(setSnackbar(true, 'success', result.data.msg));
         }
     } catch (err) {
-        dispatch({
-            type: SET_SNACKBAR,
-            payload: {
-                snackbarOpen: true,
-                snackbarType: 'error',
-                snackbarMessage: 'Something went wrong saving your preference. Try again.',
-            },
-        });
+        dispatch(setSnackbar(true, 'error', 'Something went wrong saving your preference. Try again.'));
     }
 };
+
 // Add like, update connection level
 export const unblockUser = (location, unblockList) => async dispatch => {
     try {
@@ -177,14 +125,7 @@ export const unblockUser = (location, unblockList) => async dispatch => {
             await axios.post(`/profile/removeinteraction/blocked/${e.user_id}`, {});
         }
         if (location === 'settings') {
-            dispatch({
-                type: SET_SNACKBAR,
-                payload: {
-                    snackbarOpen: true,
-                    snackbarType: 'success',
-                    snackbarMessage: 'Successfully updated',
-                },
-            });
+            dispatch(setSnackbar(true, 'success', 'Successfully updated'));
         } else if (location === 'profile') {
             dispatch({
                 type: UPDATE_BlOCKED,
@@ -192,23 +133,15 @@ export const unblockUser = (location, unblockList) => async dispatch => {
             });
         }
     } catch (err) {
-        dispatch({
-            type: SET_SNACKBAR,
-            payload: {
-                snackbarOpen: true,
-                snackbarType: 'error',
-                snackbarMessage: 'Something went wrong unblocking users. Try again.',
-            },
-        });
+        dispatch(setSnackbar(true, 'error', 'Something went wrong unblocking users. Try again.'));
     }
 };
 
 export const deleteProfile = history => async dispatch => {
     try {
-        const res = await axios.post('/profile/delete', { key: 'delete' });
+        const res = await axios.post('/profile/delete/', { key: 'delete1' });
         if (res.data.error) {
-            const error = res.data.error;
-            dispatch(setAlert(error, 'danger'));
+            dispatch(setSnackbar(true, 'error', 'Something went wrong. Try again later or contact with us.'));
         } else {
             dispatch({ type: LOGOUT });
             history.push('/');
@@ -221,8 +154,6 @@ export const deleteProfile = history => async dispatch => {
 export const editProfile = user => async dispatch => {
     dispatch({
         type: UPDATE_PROFILE,
-        payload: {
-            user: user,
-        },
+        payload: { user: user },
     });
 };

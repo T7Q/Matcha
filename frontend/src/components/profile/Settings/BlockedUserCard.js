@@ -26,7 +26,7 @@ const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) =>
             <ListItemAvatar>
                 <Avatar
                     alt={`Avatar n°${value.profile_pic_path + 1}`}
-                    src={`/${value.profile_pic_path}`}
+                    src={`${value.profile_pic_path}`}
                 />
             </ListItemAvatar>
             <ListItemText

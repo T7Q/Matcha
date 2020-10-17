@@ -33,7 +33,7 @@ const upload = async (req, res) => {
             // save new photo to the images folder on the server
             let uploadPath = profileHelper.saveToFile(element.data);
             let getPhotoId;
-            getPhotoId = await profileModel.addPhotoToDb(userId, uploadPath);
+            getPhotoId = await profileModel.addPhotoToDb(userId, `/${uploadPath}`);
 
             // for each image return upload path, image id, type and message
             result[i] = {
@@ -45,7 +45,7 @@ const upload = async (req, res) => {
 
             // for profile image, save image path to users table
             if (element.type === 'profile') {
-                await profileModel.editProfile(userId, 'profile_pic_path', uploadPath);
+                await profileModel.editProfile(userId, 'profile_pic_path', `/${uploadPath}`);
                 result[i]['msg'] = 'Your profile photo was succesfully saved';
                 result[i]['type'] = 'profile';
             }

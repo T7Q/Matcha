@@ -23,11 +23,29 @@ export const getProfile = (type, userId) => async dispatch => {
         const res =
             type === 'myProfile' ? await axios.get('/profile/me') : await axios.get(`/profile/user/${userId}`);
 
-        // send data to reducer
-        dispatch({
-            type: GET_PROFILE,
-            payload: res.data,
-        });
+        if (res.data.error) {
+            console.log("response DATA", res.data);
+            dispatch({
+                type: GET_PROFILE,
+                payload: null,
+            });
+            dispatch({
+                type: SET_SNACKBAR,
+                payload: {
+                    snackbarOpen: true,
+                    snackbarType: 'error',
+                    snackbarMessage: res.data.error,
+                },
+            });
+
+        } else {
+            // send data to reducer
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data,
+            });
+        }
+        
     } catch (err) {
         dispatch({
             type: PROFILE_ERROR,

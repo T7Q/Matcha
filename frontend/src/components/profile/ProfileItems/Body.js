@@ -1,91 +1,156 @@
-import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import React from "react";
+import { Typography, Grid, IconButton, Divider } from "@material-ui/core";
+import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import { Container } from "@material-ui/core";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
-// import { makeStyles } from "@material-ui/core/styles";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-// import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-// import FormGroup from "@material-ui/core/FormGroup";
-import { ArrowForwardIos, Timeline, VpnKey, TagFaces, MailOutline } from '@material-ui/icons';
-import { Link } from 'react-router-dom';
+import { Timeline, AssignmentInd, TagFaces, Favorite } from "@material-ui/icons";
+import { ArrowForwardIos, LocationOn, Group, Chat } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
-const Body = ({ profile }) => {
+// calcuate number of days until now
+const days = (lastSeen) => {
+    const today = new Date();
+    const date = new Date(lastSeen);
+    let differenceInTime = today.getTime() - date.getTime();
+    let differenceInDays = parseInt(differenceInTime / (1000 * 3600 * 24));
+    const str =
+        differenceInDays > 365
+            ? "more than a year ago"
+            : differenceInDays > 365
+            ? "6 months ago"
+            : differenceInDays > 91
+            ? "3 months ago"
+            : differenceInDays > 31
+            ? "a months ago"
+            : (differenceInDays = 0
+                  ? "today"
+                  : (differenceInDays = 1
+                        ? "yesterday"
+                        : `a ${differenceInDays} day(s) ago`));
+    return str;
+};
+
+// last seen {days(profile.last_seen)}
+
+const Body = ({ profile, type }) => {
     // const classes = useStyles();
     // const [dense, setDense] = React.useState(false);
     // const [secondary, setSecondary] = React.useState(false);
 
-    const date = new Date(profile.birth_date).toLocaleDateString();
+    const userDescription = [
+        {
+            key: `desc1`,
+            title: "My self-summary",
+            text: profile.bio,
+            link: "/profile/me/edit/bio",
+        },
+        {
+            key: `desc2`,
+            title: "My passions",
+            text: profile.tags ? profile.tags.join(", ") : "",
+            link: "/profile/me/edit/tags",
+        },
+    ];
 
+    const date = new Date(profile.birth_date).toLocaleDateString();
+    // const preference = profile.sex_preference === "both" ? "men and women" : profile.sex_preference;
+    let orientation = "";
+    if (profile.sex_orientation === "straight_man" || profile.sex_orientation === "straight_woman"){
+        orientation = "straight";
+    } else if (profile.sex_orientation === "bi_man" || profile.sex_orientation === "bi_woman") {
+        orientation = "bisexual";
+    } else {
+        orientation = profile.sex_orientation;
+
+    }
+    const gender = profile['gender'].charAt(0).toUpperCase() + profile['gender'].slice(1);
     const userData = [
         {
             icon: <TagFaces />,
             text: `${profile.first_name} ${profile.last_name}`,
-            link: '/profile/me/edit/name',
+            link: "/profile/me/edit/name",
         },
         {
-            icon: <MailOutline />,
+            icon: <AssignmentInd />,
             text: profile.username,
-            link: '/profile/me/edit/username',
+            link: "/profile/me/edit/username",
         },
         {
             icon: <Timeline />,
             text: `${profile.chinese_horo}, ${profile.western_horo}, ${date}`,
-            link: '/profile/me/edit/birthdate',
+            link: "/profile/me/edit/birthdate",
         },
         {
-            icon: <VpnKey />,
-            text: `${profile.gender} interested in ${profile.sex_preference}`,
-            link: '/profile/me/edit/sexPreference',
+            icon: <Group />,
+            text: `${gender}, ${orientation}`,
+            link: "/profile/me/edit/sexPreference",
         },
         {
-            icon: <VpnKey />,
-            text: `${profile.country}`,
-            link: '/profile/me/edit/country',
+            icon: <LocationOn />,
+            text: type === "myProfile" ? `${profile.country}` : `${profile.distance} km away, last seen ${days(profile.last_seen)}`,
+            link: "/profile/me/edit/country",
         },
     ];
     return (
+        <Container>
+
+        
         <Grid container justify="center">
             <Grid container item xs={10} sm={6} justify="center">
-                <List>
-                    <ListItem>
-                        <Typography> My self-summary</Typography>
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" component={Link} to="/profile/me/edit/bio">
-                                <ArrowForwardIos />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary={profile.bio} />
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary="My passions" />
-                        <ListItemSecondaryAction>
-                            <IconButton edge="end" component={Link} to="/profile/me/edit/tags">
-                                <ArrowForwardIos />
-                            </IconButton>
-                        </ListItemSecondaryAction>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText primary={profile.tags ? profile.tags.join(', ') : ''} />
-                    </ListItem>
+                <List key="desc1">
+                    {userDescription.map((value, index) => {
+                        return (
+                            <>
+                                <Divider light />
+                                <ListItem key={"title" + index}>
+                                    <Typography>{value.title}</Typography>
+                                        <ListItemSecondaryAction>
+                                    {type === "myProfile" ? (
+                                            <IconButton
+                                                edge="end"
+                                                component={Link}
+                                                to={value.link}
+                                            >
+                                                <ArrowForwardIos fontSize="small"/>
+                                            </IconButton>
+                                    ) : (
+                                        ""
+                                    )}
+                                        </ListItemSecondaryAction>
+                                </ListItem>
+                                <ListItem key={"text" + index}>
+                                    <ListItemText primary={value.text} />
+                                </ListItem>
+                            </>
+                        );
+                    })}
                 </List>
             </Grid>
             <Grid container item xs={10} sm={6} justify="center">
-                <List style={{ backgroundColor: 'grey', overflow: 'hidden' }}>
+                    {/* {type === "myProfile" && profile.connected === 1 ? <> <Favorite/><Typography style={{ display: "flex" }}>You like them!<Typography/> </>: ''} */}
+                    {/* {type === "otherUser" && profile.connected === 2 ? <Chat/><Typography style={{ display: "flex" }}>You are connected!<Typography/>: ''} */}
+                <List key="desc2" style={{ backgroundColor: "grey", overflow: "hidden" }}>
                     {userData.map((value, index) => {
                         return (
-                            <ListItem key={index}>
+                            <ListItem key={"info" + index}>
                                 <ListItemIcon>{value.icon}</ListItemIcon>
-                                <ListItemText style={{ fill: 'blue' }} primary={value.text} />
-                                <ListItemSecondaryAction>
-                                    <IconButton edge="end" component={Link} to={value.link}>
-                                        <ArrowForwardIos />
-                                    </IconButton>
+                                <ListItemText
+                                    style={{ fill: "blue" }}
+                                    primary={value.text}
+                                />
+                                    <ListItemSecondaryAction>
+                                {type === "myProfile" ? (
+                                        <IconButton 
+                                            edge="end"
+                                            component={Link}
+                                            to={value.link}
+                                        >
+                                            <ArrowForwardIos fontSize="small"/>
+                                        </IconButton>
+                                ) : (
+                                    ""
+                                )}
                                 </ListItemSecondaryAction>
                             </ListItem>
                         );
@@ -93,6 +158,7 @@ const Body = ({ profile }) => {
                 </List>
             </Grid>
         </Grid>
+        </Container>
     );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Button } from "@material-ui/core";
 import { Favorite, Chat, Block } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -20,12 +20,17 @@ const LikeButton = ({
 }) => {
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
+            color = card.connected > 0 ? { fill: "red" } : { fill: "white" };
             let toUserId = card.user_id;
             if (card.connected === 0)
                 addLike(location, toUserId, match.match, profile.profile);
             else removeLike(location, toUserId, match.match, profile.profile);
         } else {
-            setSnackbar(true, "error", "Add at least 1 photo to enable like functionality")
+            setSnackbar(
+                true,
+                "error",
+                "Add at least 1 photo to enable like functionality"
+            );
         }
     };
     const handleUnblock = () => {
@@ -38,27 +43,56 @@ const LikeButton = ({
             </IconButton>
         );
     }
-    return (
-        <>
-            <IconButton aria-label="like" onClick={handleLike}>
-                <Favorite style={{ fill: "green" }} />
-            </IconButton>
-            {card.connected === 1 || card.connected === 2 ? (
-                <IconButton aria-label="chat" component={Link} to="/messages">
-                    <Favorite style={{ fill: "red" }} />
+    let color = card.connected > 0 ? { fill: "red" } : { fill: "white" };
+    if (location === "profile") {
+        return (
+            <>
+                <Button
+                    onClick={handleLike}
+                    variant="outlined"
+                    variant="contained"
+                    color="primary"
+                    startIcon={<Favorite style={color} />}
+                >
+                    {card.connected > 0 ? "UNMATCH" : "LIKE"}
+                </Button>
+
+                {card.connected === 2 ? (
+                    <Button
+                        variant="outlined"
+                        variant="contained"
+                        color="primary"
+                        component={Link}
+                        to="/messages"
+                        startIcon={<Chat style={color} />}
+                    >
+                        "CHAT"
+                    </Button>
+                ) : (
+                    ""
+                )}
+            </>
+        );
+    } else {
+        return (
+            <>
+                <IconButton aria-label="like" onClick={handleLike}>
+                    <Favorite style={color} />
                 </IconButton>
-            ) : (
-                ""
-            )}
-            {card.connected === 2 ? (
-                <IconButton aria-label="chat" component={Link} to="/messages">
-                    <Chat style={{ fill: "blue" }} />
-                </IconButton>
-            ) : (
-                ""
-            )}
-        </>
-    );
+                {card.connected === 2 && location !== "profile" ? (
+                    <IconButton
+                        aria-label="chat"
+                        component={Link}
+                        to="/messages"
+                    >
+                        <Chat style={{ fill: "blue" }} />
+                    </IconButton>
+                ) : (
+                    ""
+                )}
+            </>
+        );
+    }
 };
 
 LikeButton.propTypes = {

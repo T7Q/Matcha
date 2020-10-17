@@ -1,8 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-// import tileData from './tileData';
+import { GridList, Button, GridListTile, GridListTileBar } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
+import { DeleteForever } from "@material-ui/icons";
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,68 +21,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tileData = [
-    {
-        key: 1,
-        img: "/cat.jpg",
-        title: "Image",
-        author: "author",
-    },
-    {
-        key: 2,
-        img: "http://placeimg.com/640/480/people",
-        title: "Image",
-        author: "author",
-    },
-    {
-        key: 3,
-        img: "https://s3.amazonaws.com/uifaces/faces/twitter/arpitnj/128.jpg",
-        title: "Image",
-        author: "author",
-    },
-    {
-        key: 4,
-        img: "/cat.jpg",
-        title: "Image",
-        author: "author",
-    },
-    {
-        key: 5,
-        img: "/Photo_1601037282389_683.png",
-        title: "Image",
-        author: "author",
-    },
-];
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *     cols: 2,
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
-export default function ImageGridList() {
+const ImageGridList = ({ profile: { profile}, authId }) => {
   const classes = useStyles();
+  console.log("userid auth", authId);
 
+  if (profile['photos'].length === 0) {
+    return (
+      <div>
+        No images in this account
+      </div>
+    )
+  }
+  console.log("profile", profile.user_id, "auth", authId);
   return (
-    <div className={classes.root}>
+    <div>
+      { profile.user_id === authId ? <Button color="primary">Edit images</Button> : ''}
       <GridList className={classes.gridList} cols={1}>
-        {tileData.map((tile) => (
-          <GridListTile key={tile.key} cols={tile.cols || 1}>
-            <img src={tile.img} alt={tile.title} />
+        {profile['photos'].map((tile, index) => (
+          <GridListTile key={index} cols={1}>
+            <img src={tile.image_path}  alt={tile.image_path}/>
+            <GridListTileBar
+              title={tile.title}
+              titlePosition="top"
+              actionIcon={
+                <IconButton aria-label={`star ${tile.title}`} className={classes.icon}>
+                  <DeleteForever />
+                </IconButton>
+              }
+              actionPosition="left"
+              className={classes.titleBar}
+            />
           </GridListTile>
         ))}
       </GridList>
     </div>
   );
 }
+ImageGridList.propTypes = {
+  profile: PropTypes.object.isRequired,
+  authId: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = state => ({
+  profile: state.profile,
+  authId: state.auth.user.userId,
+});
+
+export default connect(mapStateToProps, {  })(ImageGridList);

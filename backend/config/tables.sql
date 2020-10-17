@@ -1,5 +1,6 @@
 DO $$ BEGIN
     CREATE TYPE gender AS ENUM ('man', 'woman');
+    CREATE TYPE notification_type AS ENUM ('message', 'like', 'unlike', 'visit');
     CREATE TYPE sex_preference AS ENUM ('man', 'woman', 'both');
 EXCEPTION
     WHEN duplicate_object THEN null;
@@ -12,9 +13,9 @@ CREATE EXTENSION postgis_topology;
 CREATE TABLE IF NOT EXISTS "notifications"
 (
  "notification_id" serial NOT NULL PRIMARY KEY,
- "likes"           int NOT NULL DEFAULT 0 ,
- "messages"        int NOT NULL DEFAULT 0 ,
- "visits"          int NOT NULL DEFAULT 0
+ "to_user_id"      bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
+ "from_user_id"    bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
+ "type"            notification_type NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "users"

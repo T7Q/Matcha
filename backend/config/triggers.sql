@@ -292,3 +292,43 @@ CREATE TRIGGER unblock_user
 AFTER DELETE
 ON blocked FOR EACH ROW
 EXECUTE PROCEDURE unblock_chat();
+
+-- Triggers: notifications
+
+
+CREATE FUNCTION notify_on_like2()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+    DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND "type" = 'like' AND from_user_id = NEW.from_user_id);
+    INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, 'like');
+RETURN NEW;
+END;
+$BODY$;
+
+CREATE TRIGGER notify_on_like2 AFTER INSERT ON likes FOR EACH ROW EXECUTE PROCEDURE notify_on_like2();
+
+    -- CREATE TRIGGER notify_on_like AFTER INSERT ON likes FOR EACH ROW BEGIN
+    --     DELETE FROM notifications WHERE to_user_id = new.to_user_id AND "type" = 'like' AND from_user_id = new.from_user_id;
+    --     INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (new.to_user_id, new.from_user_id, 'like');
+    -- END;
+
+-- CREATE TRIGGER notify_on_unlike AFTER DELETE ON likes FOR EACH ROW BEGIN
+--     DELETE FROM notifications WHERE user = new.unlikee AND reason = 'unlike' AND causer = new.unliker;
+--     INSERT INTO notifications (user, reason, causer, \`time\`) VALUES (new.unlikee, 'unlike', new.unliker, new.timestamp);
+-- END;
+
+-- CREATE TRIGGER notify_on_visit AFTER INSERT ON views FOR EACH ROW BEGIN
+--     DELETE FROM notifications WHERE to_user_id = new.to_user_id AND "type" = 'visit' AND from_user_id = new.from_user_id;
+--     INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (new.to_user_id, new.from_user_id, 'like');
+-- END;
+
+-- CREATE TRIGGER notify_on_message AFTER INSERT ON messages FOR EACH ROW BEGIN
+--     DELETE FROM notifications WHERE to_user_id = new.to_user_id AND "type" = 'visit' AND from_user_id = new.from_user_id;
+--     INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (new.to_user_id, new.from_user_id, 'like');
+--     DELETE FROM notifications WHERE \`user\` = new.recipient AND reason = 'msg' AND causer = new.sender;
+--     INSERT INTO notifications (user, reason, causer, \`time\`) VALUES (new.recipient, 'msg', new.sender, new.timestamp);
+-- END;

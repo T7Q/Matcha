@@ -12,16 +12,18 @@ const menuItems = [
     {
         title: 'Messages',
         pageUrl: '/messages',
+        amount: 5,
         icon: <MessageOutlined />,
     },
     {
         title: 'Likes',
         pageUrl: '/likes',
+        amount: 3,
         icon: <FavoriteBorder />,
     },
 ];
 
-const NavItem = ({ isAuthenticated, user, isMobile, handleNavigation }) => {
+const NavItem = ({ auth: { isAuthenticated, user, socket }, isMobile, handleNavigation }) => {
     const classes = useStyles();
 
     return (
@@ -37,7 +39,10 @@ const NavItem = ({ isAuthenticated, user, isMobile, handleNavigation }) => {
                             color="textSecondary"
                             className={isMobile ? classes.text : ''}
                             variant="button">
-                            <Badge className={classes.pr}>{menu.icon}</Badge> {menu.title}
+                            <Badge badgeContent={menu.amount} className={classes.pr} color="primary">
+                                {menu.icon}
+                            </Badge>{' '}
+                            {menu.title}
                         </Typography>
                     </IconButton>
                 ))}

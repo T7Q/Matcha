@@ -15,7 +15,7 @@ const Notifications = ({ setSnackbar }) => {
     useEffect(() => {
         let isMounted = true;
         async function getNotifications() {
-            const res = await axios.get('profile/notifications');
+            const res = await axios.get('account/notifications');
             isMounted && setNotifications(res.data);
         }
         getNotifications();
@@ -27,7 +27,7 @@ const Notifications = ({ setSnackbar }) => {
     const handleSubmit = async event => {
         event.preventDefault();
         try {
-            const res = await axios.post('/profile/notifications', notifications);
+            const res = await axios.post('account/notifications', notifications);
             if (res && res.data.msg) {
                 setSnackbar(true, 'success', res.data.msg);
             }

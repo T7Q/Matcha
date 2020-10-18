@@ -43,10 +43,15 @@ router.post('/activate', authorization.forbidden, account.activate);
 // @access  Public
 router.post('/validateData', account.validateData);
 
-// @route   GET /account/facebook
-// @desc    Login via facebook
+// @route   GET /profile/notifications
+// @desc    Get all tags
 // @access  Public
-// router.post('/facebook', account.facebook);
+router.get('/notifications', authorization.required, account.getNotifications);
+
+// @route   POST /profile/editnotification
+// @desc    Edit notification settings: email, push
+// @access  Private
+router.post('/notifications', authorization.required, account.editNotifications);
 
 // @route   GET /account/auth/google/login
 // @desc    Login via google

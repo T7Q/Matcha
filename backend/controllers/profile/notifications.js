@@ -1,5 +1,16 @@
 const profileModel = require('../../models/profile');
 
+const get = async (req, res) => {
+    const userId = req.user.userId;
+
+    try {
+        const result = await profileModel.getNotifications(userId);
+        return res.json(result.reduce((obj, item) => ((obj[item.type] = item.count), obj), {}));
+    } catch (e) {
+        return res.json({ error: 'Something went wrong getting notification' });
+    }
+};
+
 const edit = async (req, res) => {
     const { email, push } = req.body;
     const userId = req.user.userId;
@@ -15,4 +26,5 @@ const edit = async (req, res) => {
 
 module.exports = {
     edit,
+    get,
 };

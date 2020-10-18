@@ -231,15 +231,48 @@ CREATE TRIGGER unblock_user
 
 -- Triggers: notifications
 
-CREATE FUNCTION add_notification()
-    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
+-- CREATE FUNCTION add_notification()
+--     RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
+-- AS $BODY$
+-- DECLARE
+--     arg_type varchar;
+-- BEGIN
+--     arg_type := TG_ARGV[0];
+--     IF (arg_type = 'like') THEN
+--         DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND "type" = 'unlike' AND from_user_id = NEW.from_user_id);
+--     END IF;
+--     DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND "type" = arg_type AND from_user_id = NEW.from_user_id);
+--     INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, arg_type);
+-- RETURN NEW;
+-- END;
+-- $BODY$;
+
+CREATE FUNCTION add_notification_on_like()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
 AS $BODY$
-DECLARE
-    arg_type varchar;
 BEGIN
-    arg_type := TG_ARGV[0];
-    DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND "type" = arg_type AND from_user_id = NEW.from_user_id);
-    INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, 'like');
+    BEGIN
+        DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND ("type" = 'unlike' OR "type" = 'like') AND from_user_id = NEW.from_user_id);
+        INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, 'like');
+    END;
+RETURN NEW;
+END;
+$BODY$;
+
+CREATE FUNCTION add_notification_on_visit()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+    BEGIN
+        DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND ("type" = 'unlike' OR "type" = 'like') AND from_user_id = NEW.from_user_id);
+        INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, 'like');
+    END;
 RETURN NEW;
 END;
 $BODY$;
@@ -247,12 +280,12 @@ $BODY$;
 CREATE TRIGGER notify_on_like
     AFTER INSERT
     ON likes FOR EACH ROW
-    EXECUTE PROCEDURE add_notification('like');
+    EXECUTE PROCEDURE add_notification_on_like();
 
 CREATE TRIGGER notify_on_visit
     AFTER INSERT
     ON views FOR EACH ROW
-    EXECUTE PROCEDURE add_notification('visit');
+    EXECUTE PROCEDURE add_notification_on_visit();
 
 CREATE FUNCTION add_notification_on_unlike()
     RETURNS trigger
@@ -265,7 +298,7 @@ BEGIN
     IF EXISTS (SELECT from_user_id FROM likes
         WHERE to_user_id = OLD.from_user_id AND from_user_id = OLD.to_user_id)
     THEN
-        DELETE FROM notifications WHERE (to_user_id = OLD.to_user_id AND "type" = 'unlike' AND from_user_id = OLD.from_user_id);
+        DELETE FROM notifications WHERE (to_user_id = OLD.to_user_id AND ("type" = 'unlike' OR "type" = 'like') AND from_user_id = OLD.from_user_id);
         INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (OLD.to_user_id, OLD.from_user_id, 'unlike');
     END IF;
     END;

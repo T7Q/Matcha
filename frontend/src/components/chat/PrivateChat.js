@@ -88,7 +88,7 @@ const PrivateChat = ({
                     <HighlightOffIcon fontSize="large" />
                 </Button>
             </Box>
-            <Box mb={6}>
+            <Box mb={8} maxHeight="60vh" style={{ overflowY: 'auto' }}>
                 {messages.length > 0 &&
                     messages.map(message => {
                         const options = { month: 'short', day: 'numeric' };

@@ -49,7 +49,12 @@ const createChat = async (senderId, receiverId) => {
     return result.rows[0].chat_id;
 };
 
-const addMessage = async (chatId, senderId, content) => {
+const addMessage = async (chatId, senderId, content, receiverId) => {
+    await db.query(
+        `INSERT INTO notifications (to_user_id, from_user_id, type)
+        VALUES($1, $2, $3);`,
+        [receiverId, senderId, 'message']
+    );
     const result = await db.query(
         `INSERT INTO messages (chat_id, sender_id, message)
         VALUES($1, $2, $3) RETURNING *;`,

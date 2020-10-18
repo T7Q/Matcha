@@ -1,26 +1,16 @@
 -- Triggers: update fame_rating
 
 CREATE FUNCTION public.fame_increase_fnc()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-    UPDATE users
-    SET fame_14_days =(
-    SELECT count(to_user_id) AS rating
-    FROM likes
-    WHERE to_user_id = NEW.to_user_id
-    AND DATE_PART('day', NOW() - date_created) < 14
-    )
+    UPDATE users SET fame_14_days =(SELECT count(to_user_id) AS rating FROM likes
+        WHERE to_user_id = NEW.to_user_id AND DATE_PART('day', NOW() - date_created) < 14)
     WHERE user_id = NEW.to_user_id;
-    UPDATE users
-    SET fame_rating = (
-    (SELECT users.fame_14_days from users WHERE users.user_id = NEW.to_user_id)
-    /
-    (SELECT (max(users.fame_14_days))::float / 5 from users)
-    )
+    UPDATE users SET fame_rating = (
+        (SELECT users.fame_14_days from users WHERE users.user_id = NEW.to_user_id)
+        /
+        (SELECT (max(users.fame_14_days))::float / 5 from users))
     WHERE user_id = NEW.to_user_id;
 RETURN NEW;
 END;
@@ -33,31 +23,20 @@ CREATE TRIGGER increase_fame
     EXECUTE PROCEDURE fame_increase_fnc();
 
 CREATE FUNCTION public.fame_decrease_fnc()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-    UPDATE users
-    SET fame_14_days =(
-    SELECT count(to_user_id) AS rating
-    FROM likes
-    WHERE to_user_id = OLD.to_user_id
-    AND DATE_PART('day', CURRENT_DATE - date_created) < 14
-    )
+    UPDATE users SET fame_14_days =(SELECT count(to_user_id) AS rating FROM likes
+        WHERE to_user_id = OLD.to_user_id AND DATE_PART('day', CURRENT_DATE - date_created) < 14)
     WHERE user_id = OLD.to_user_id;
-    UPDATE users
-    SET fame_rating = (
-    (SELECT users.fame_14_days from users WHERE users.user_id = NEW.to_user_id)
-    /
-    (SELECT (max(users.fame_14_days))::float / 5 from users)
-    )
+    UPDATE users SET fame_rating = (
+        (SELECT users.fame_14_days from users WHERE users.user_id = NEW.to_user_id)
+        /
+        (SELECT (max(users.fame_14_days))::float / 5 from users))
     WHERE user_id = NEW.to_user_id;
 RETURN OLD;
 END;
 $BODY$;
-
 
 CREATE TRIGGER reduce_fame
     AFTER DELETE
@@ -69,10 +48,7 @@ CREATE TRIGGER reduce_fame
 -- Triggers: update age, chinese and western horoscope based on birth date
 
 CREATE FUNCTION public.horoscope_calc_fnc()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
     UPDATE users
@@ -92,8 +68,7 @@ BEGIN
             WHEN MOD(CAST (extract(year from birth_date) AS INTEGER), 12) = 11 THEN 'Goat'
         END
     ),
-    western_horo=
-    (
+    western_horo=(
     CASE
     WHEN (cast (extract(month from birth_date) as integer) = 3 AND cast (extract(day from birth_date) as integer) >= 21) OR (cast (extract(month from birth_date) as integer) = 4 AND cast (extract(day from birth_date) as integer) <= 19) THEN 'Aries'
     WHEN (cast (extract(month from birth_date) as integer) = 4 AND cast (extract(day from birth_date) as integer) >= 20) OR (cast (extract(month from birth_date) as integer) = 5 AND cast (extract(day from birth_date) as integer) <= 20) THEN 'Taurus'
@@ -124,14 +99,10 @@ CREATE TRIGGER horscope_update
 -- Triggers: update sexual orientation
 
 CREATE FUNCTION public.sex_orientation_update_fnc()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-    UPDATE users
-    SET sex_orientation=(
+    UPDATE users SET sex_orientation=(
         CASE
             WHEN gender = 'man' and sex_preference = 'man' THEN 'gay'
             WHEN gender = 'man' and sex_preference = 'woman' THEN 'straight_man'
@@ -157,14 +128,10 @@ CREATE CONSTRAINT TRIGGER sex_orientation_update
 -- Triggers: update geolocation cell
 
 CREATE FUNCTION public."geolocation_fnc()"()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-    UPDATE users
-    SET geolocation=ST_point(users.latitude, users.longitude);
+    UPDATE users SET geolocation=ST_point(users.latitude, users.longitude);
 RETURN NEW;
 END;
 $BODY$;
@@ -175,147 +142,97 @@ CREATE TRIGGER geolocation_update
     FOR EACH ROW
     EXECUTE PROCEDURE public."geolocation_fnc()"();
 
--- Triggers: create_chat
+
+-- Triggers: create/activate/deactivate chat
 
 CREATE FUNCTION create_chat()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
     BEGIN
-    IF EXISTS (
-        SELECT from_user_id FROM likes
-        WHERE to_user_id = NEW.from_user_id
-        AND from_user_id = NEW.to_user_id
-    ) AND NOT EXISTS (SELECT block_id FROM blocked
-            WHERE (from_user_id = NEW.from_user_id
-            AND to_user_id = NEW.to_user_id) OR (to_user_id = NEW.from_user_id
-            AND from_user_id = NEW.to_user_id))
-    THEN
-        IF NOT EXISTS (
-            SELECT chat_id FROM chats
-            WHERE (user_1 = NEW.from_user_id
-            AND user_2 = NEW.to_user_id) OR (user_2 = NEW.from_user_id
-            AND user_1 = NEW.to_user_id))
+        IF EXISTS (SELECT from_user_id FROM likes
+            WHERE to_user_id = NEW.from_user_id AND from_user_id = NEW.to_user_id
+        ) AND NOT EXISTS (SELECT block_id FROM blocked WHERE (from_user_id = NEW.from_user_id
+                AND to_user_id = NEW.to_user_id) OR (to_user_id = NEW.from_user_id
+                AND from_user_id = NEW.to_user_id))
         THEN
-            INSERT INTO chats (user_1, user_2)
-            VALUES (NEW.from_user_id, NEW.to_user_id);
-        ELSE
-            UPDATE chats
-            SET active = TRUE
-            WHERE (chats.user_1 = NEW.from_user_id
-                AND chats.user_2 = NEW.to_user_id)
-                OR (chats.user_2 = NEW.from_user_id
-                AND chats.user_1 = NEW.to_user_id);
+            IF NOT EXISTS (SELECT chat_id FROM chats WHERE (user_1 = NEW.from_user_id
+                AND user_2 = NEW.to_user_id) OR (user_2 = NEW.from_user_id
+                AND user_1 = NEW.to_user_id))
+            THEN
+                INSERT INTO chats (user_1, user_2) VALUES (NEW.from_user_id, NEW.to_user_id);
+            ELSE
+                UPDATE chats SET active = TRUE
+                WHERE (chats.user_1 = NEW.from_user_id AND chats.user_2 = NEW.to_user_id)
+                    OR (chats.user_2 = NEW.from_user_id AND chats.user_1 = NEW.to_user_id);
+            END IF;
         END IF;
-    END IF;
     END;
 RETURN NEW;
 END;
 $BODY$;
 
 CREATE TRIGGER create_chat
-AFTER INSERT
-ON likes FOR EACH ROW
-EXECUTE PROCEDURE create_chat();
+    AFTER INSERT
+    ON likes FOR EACH ROW
+    EXECUTE PROCEDURE create_chat();
 
--- Triggers: block_chat
 
-CREATE FUNCTION block_chat()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+CREATE FUNCTION deactivate_chat_on_block_user()
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-    UPDATE chats
-    SET active = FALSE
-    WHERE (chats.user_1 = NEW.from_user_id
-    AND chats.user_2 = NEW.to_user_id)
-    OR (chats.user_2 = NEW.from_user_id
-    AND chats.user_1 = NEW.to_user_id);
+    UPDATE chats SET active = FALSE
+    WHERE (chats.user_1 = NEW.from_user_id AND chats.user_2 = NEW.to_user_id)
+        OR (chats.user_2 = NEW.from_user_id AND chats.user_1 = NEW.to_user_id);
 RETURN NEW;
 END;
 $BODY$;
 
 CREATE TRIGGER block_user
-AFTER INSERT
-ON blocked FOR EACH ROW
-EXECUTE PROCEDURE block_chat();
+    AFTER INSERT
+    ON blocked FOR EACH ROW
+    EXECUTE PROCEDURE deactivate_chat_on_block_user();
 
--- Triggers: unlike_user
 
-CREATE FUNCTION unlike_user()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+CREATE FUNCTION deactivate_chat_on_unlike_user()
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-    UPDATE chats
-    SET active = FALSE
-    WHERE (chats.user_1 = OLD.from_user_id
-    AND chats.user_2 = OLD.to_user_id)
-    OR (chats.user_2 = OLD.from_user_id
-    AND chats.user_1 = OLD.to_user_id);
+    UPDATE chats SET active = FALSE
+    WHERE (chats.user_1 = OLD.from_user_id AND chats.user_2 = OLD.to_user_id)
+        OR (chats.user_2 = OLD.from_user_id AND chats.user_1 = OLD.to_user_id);
 RETURN OLD;
 END;
 $BODY$;
 
 CREATE TRIGGER unlike_user
-AFTER DELETE
-ON likes FOR EACH ROW
-EXECUTE PROCEDURE unlike_user();
+    AFTER DELETE
+    ON likes FOR EACH ROW
+    EXECUTE PROCEDURE deactivate_chat_on_unlike_user();
 
--- Triggers: block_chat
 
-CREATE FUNCTION unblock_chat()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+CREATE FUNCTION activate_chat_on_unblock_user()
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-    UPDATE chats
-    SET active = TRUE
-    WHERE (chats.user_1 = OLD.from_user_id
-    AND chats.user_2 = OLD.to_user_id)
-    OR (chats.user_2 = OLD.from_user_id
-    AND chats.user_1 = OLD.to_user_id);
+    UPDATE chats SET active = TRUE
+    WHERE (chats.user_1 = OLD.from_user_id AND chats.user_2 = OLD.to_user_id)
+        OR (chats.user_2 = OLD.from_user_id AND chats.user_1 = OLD.to_user_id);
 RETURN OLD;
 END;
 $BODY$;
 
 CREATE TRIGGER unblock_user
-AFTER DELETE
-ON blocked FOR EACH ROW
-EXECUTE PROCEDURE unblock_chat();
+    AFTER DELETE
+    ON blocked FOR EACH ROW
+    EXECUTE PROCEDURE activate_chat_on_unblock_user();
+
 
 -- Triggers: notifications
 
-
-CREATE FUNCTION notify_on_like2()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
-AS $BODY$
-BEGIN
-    DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND "type" = 'like' AND from_user_id = NEW.from_user_id);
-    INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, 'like');
-RETURN NEW;
-END;
-$BODY$;
-
-CREATE TRIGGER notify_on_like2 AFTER INSERT ON likes FOR EACH ROW EXECUTE PROCEDURE notify_on_like2();
-
 CREATE FUNCTION add_notification()
-    RETURNS trigger
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE NOT LEAKPROOF
+    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 DECLARE
     arg_type varchar;
@@ -327,8 +244,15 @@ RETURN NEW;
 END;
 $BODY$;
 
-CREATE TRIGGER notify_on_visit AFTER INSERT ON views FOR EACH ROW EXECUTE PROCEDURE add_notification('visit');
+CREATE TRIGGER notify_on_like
+    AFTER INSERT
+    ON likes FOR EACH ROW
+    EXECUTE PROCEDURE add_notification('like');
 
+CREATE TRIGGER notify_on_visit
+    AFTER INSERT
+    ON views FOR EACH ROW
+    EXECUTE PROCEDURE add_notification('visit');
 
 CREATE FUNCTION add_notification_on_unlike()
     RETURNS trigger
@@ -339,8 +263,7 @@ AS $BODY$
 BEGIN
     BEGIN
     IF EXISTS (SELECT from_user_id FROM likes
-        WHERE to_user_id = OLD.from_user_id
-        AND from_user_id = OLD.to_user_id)
+        WHERE to_user_id = OLD.from_user_id AND from_user_id = OLD.to_user_id)
     THEN
         DELETE FROM notifications WHERE (to_user_id = OLD.to_user_id AND "type" = 'unlike' AND from_user_id = OLD.from_user_id);
         INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (OLD.to_user_id, OLD.from_user_id, 'unlike');
@@ -350,11 +273,7 @@ RETURN OLD;
 END;
 $BODY$;
 
-CREATE TRIGGER notify_on_unlike AFTER DELETE ON likes FOR EACH ROW EXECUTE PROCEDURE add_notification_on_unlike()
-
--- CREATE TRIGGER notify_on_message AFTER INSERT ON messages FOR EACH ROW BEGIN
---     DELETE FROM notifications WHERE to_user_id = new.to_user_id AND "type" = 'visit' AND from_user_id = new.from_user_id;
---     INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (new.to_user_id, new.from_user_id, 'like');
---     DELETE FROM notifications WHERE \`user\` = new.recipient AND reason = 'msg' AND causer = new.sender;
---     INSERT INTO notifications (user, reason, causer, \`time\`) VALUES (new.recipient, 'msg', new.sender, new.timestamp);
--- END;
+CREATE TRIGGER notify_on_unlike
+    AFTER DELETE
+    ON likes FOR EACH ROW
+    EXECUTE PROCEDURE add_notification_on_unlike()

@@ -32,8 +32,8 @@ const PrivateChat = ({
 
     useEffect(() => {
         getMessages(currentConversation);
-        getProfile('otherUser', partnerId);
         if (partnerId !== 0) {
+            getProfile('otherUser', partnerId);
             socket.emit('JOIN_CHAT', chat.chat_id);
             socket.on('MESSAGE', chatId => {
                 getMessages(currentConversation);
@@ -58,7 +58,7 @@ const PrivateChat = ({
         }
     };
 
-    if (currentConversation === 0) {
+    if (currentConversation === 0 || !profile) {
         return <></>;
     }
 

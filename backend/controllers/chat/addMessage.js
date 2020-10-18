@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
     let { chatId, senderId, receiverId, content } = req.body;
 
     if (!senderId || !receiverId || !content) {
-        return res.status(400).json({ 'error': 'not full information' });
+        return res.json({ error: 'not full information' });
     }
 
     // if (senderId === receiverId || (req.user && req.user.userId != senderId)) {
@@ -22,10 +22,10 @@ module.exports = async (req, res) => {
             }
         }
 
-        await chatModel.addMessage(chatId, senderId, content);
-        return res.json({ 'msg': 'message sent' });
+        await chatModel.addMessage(chatId, senderId, content, receiverId);
+        return res.json({ msg: 'message sent' });
     } catch (e) {
         console.log(e);
-        return res.status(400).json();
+        return res.json({ error: e });
     }
-}
+};

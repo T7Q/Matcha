@@ -4,7 +4,7 @@ import { MessageOutlined, PeopleOutline, FavoriteBorder } from '@material-ui/ico
 import { useStyles } from '../../../styles/custom';
 
 const NavItem = ({
-    auth: { isAuthenticated, user, socket },
+    auth: { isAuthenticated, user, socket, loading },
     isMobile,
     handleNavigation,
     notifications,
@@ -13,10 +13,12 @@ const NavItem = ({
     const classes = useStyles();
 
     useEffect(() => {
+        console.log('in use effect');
         if (isAuthenticated) {
+            socket.emit('LOGIN', user.userId);
             getNotifications();
         }
-    }, [isAuthenticated, getNotifications]);
+    }, [isAuthenticated, getNotifications, socket, user.userId]);
 
     const menuItems = [
         {
@@ -39,7 +41,6 @@ const NavItem = ({
             color: notifications.unlike ? 'error' : 'primary',
         },
     ];
-    console.log('notif in navitem', notifications);
 
     return (
         <>

@@ -18,5 +18,10 @@ module.exports = server => {
             console.log('joined chat', chatId);
             socket.join(chatId);
         });
+
+        socket.on('LOGIN', userId => {
+            console.log('loged in', userId);
+            socket.join('user' + userId);
+        });
     });
 };

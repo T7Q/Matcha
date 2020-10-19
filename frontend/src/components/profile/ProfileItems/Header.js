@@ -1,13 +1,12 @@
 import React from "react";
 import { Typography, Avatar, Badge, Box, Grid } from "@material-ui/core";
-import { ListItem, IconButton, Link, Button, Container } from "@material-ui/core";
+import { Button, Container } from "@material-ui/core";
 import { Close } from "@material-ui/icons";
 import LikeButton from "../../common/matchGallery/LikeButton";
 import UserRating from "./UserRating";
 import Dropdown from "./Dropdown";
-import Moment from "react-moment";
 import CustomizedDialogs from "./CustomizedDialogs";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -38,14 +37,14 @@ const StyledBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-        "& > *": {
-            margin: theme.spacing(1),
-        },
-    },
-}));
+// const useStyles = makeStyles((theme) => ({
+//     root: {
+//         display: "flex",
+//         "& > *": {
+//             margin: theme.spacing(1),
+//         },
+//     },
+// }));
 
 
 
@@ -113,7 +112,7 @@ const Header = ({ profile, type }) => {
                     <Grid item xs={6} sm={6}>
                         <Button
                             variant="outlined"
-                            variant="contained"
+                            // variant="contained"
                             color="primary"
                             startIcon={<Close />}
                         >

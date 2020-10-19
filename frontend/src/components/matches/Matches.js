@@ -14,7 +14,7 @@ import {
 } from "@material-ui/icons";
 
 import Match from "../common/matchGallery/GetMatches";
-import Filter from "./Filter";
+import Filter from "./filter/Index";
 import { resetFilter } from "../../actions/match";
 
 function TabPanel(props) {

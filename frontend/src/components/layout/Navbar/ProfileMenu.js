@@ -42,7 +42,7 @@ const ProfileMenu = ({
             title: 'Visit history',
             pageUrl: '/visits/newvisits',
             notification: notifications.visit > 0 && notifications.visit,
-            color: notifications.visit > 0 ? 'primary.main' : 'secondary.main',
+            color: notifications.visit > 0 ? 'primary.main' : 'transparent',
         },
     ];
 

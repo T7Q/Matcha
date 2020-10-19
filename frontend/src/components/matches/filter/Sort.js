@@ -27,6 +27,17 @@ const Sort = ({ updateFilter, setFilter, filterIsOn, filter }) => {
         setFilter(filterIsOn + 1);
     };
 
+    const findValue = () => {
+        if ( filter.order === "") {
+           return "";
+        } else {
+            return sort.filter(element =>{
+                if (element.db === filter.order)
+                    return element.label;
+            })
+        }
+    }
+
     return (
         <Autocomplete
             id="combo-sort"
@@ -34,7 +45,7 @@ const Sort = ({ updateFilter, setFilter, filterIsOn, filter }) => {
             options={sort}
             getOptionLabel={(option) => option.label}
             getOptionSelected={(option) => option}
-            renderInput={(params) => <TextField {...params} label="Sort" />}
+            renderInput={(params) => <TextField {...params} value={findValue} label="Sort" />}
         />
     );
 };

@@ -49,7 +49,7 @@ const Filter = ({
     route,
     setting,
 }) => {
-    const [filterIsOn, setFilter] = React.useState(0);
+    const [filterIsOn, setFilter] = React.useState(1);
 
     useEffect(() => {
         updateFilter(filter);
@@ -80,7 +80,7 @@ const Filter = ({
                 </Grid>
                 <Grid item xs={3}>
                     Filter
-                    {filterIsOn > 0 ? (
+                    {filterIsOn > 1 ? (
                         <IconButton
                             onClick={() => {
                                 handleClickReset();
@@ -171,16 +171,16 @@ const Filter = ({
                     </Button>
                 </Grid>
             </Collapse>
-            {filterIsOn === 0 && route.split("/")[2] === "recommend" ? (
+            {/* {filterIsOn === 0 && route.split("/")[2] === "recommend" ? (
                 <Match route={route} filterIsOn={0} />
             ) : (
                 ""
             )}
-            {filterIsOn > 0 ? (
+            {filterIsOn > 0 ? ( */}
                 <Match route="/match/filter" filterIsOn={filterIsOn} />
-            ) : (
+            {/* ) : (
                 ""
-            )}
+            )} */}
         </>
     );
 };

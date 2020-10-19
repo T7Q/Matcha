@@ -23,6 +23,9 @@ const NavItem = ({
             socket.on('UPDATE_NOTIFICATIONS', data => {
                 getNotifications();
             });
+            socket.on('MESSAGE_NOTIFICATION', data => {
+                getNotifications();
+            });
         }
     }, [isAuthenticated, getNotifications, socket, user.userId]);
 

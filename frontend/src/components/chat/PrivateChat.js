@@ -54,7 +54,7 @@ const PrivateChat = ({
                 content: textMessage,
             });
             setTextMessage('');
-            socket.emit('SEND_MESSAGE', chat.chat_id);
+            socket.emit('SEND_MESSAGE', chat.chat_id, partnerId);
         }
     };
 

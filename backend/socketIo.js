@@ -4,9 +4,10 @@ module.exports = server => {
     io.on('connection', socket => {
         console.log('user connected in socket');
 
-        socket.on('SEND_MESSAGE', chatId => {
+        socket.on('SEND_MESSAGE', (chatId, partnerId) => {
             console.log('send message to chat', chatId);
             io.to(chatId).emit('MESSAGE', chatId);
+            io.to('user' + partnerId).emit('MESSAGE_NOTIFICATION');
         });
 
         socket.on('IN_MESSAGES', userId => {

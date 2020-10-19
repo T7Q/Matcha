@@ -270,8 +270,8 @@ CREATE FUNCTION add_notification_on_visit()
 AS $BODY$
 BEGIN
     BEGIN
-        DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND ("type" = 'unlike' OR "type" = 'like') AND from_user_id = NEW.from_user_id);
-        INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, 'like');
+        DELETE FROM notifications WHERE (to_user_id = NEW.to_user_id AND "type" = 'visit' AND from_user_id = NEW.from_user_id);
+        INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (NEW.to_user_id, NEW.from_user_id, 'visit');
     END;
 RETURN NEW;
 END;

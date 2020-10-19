@@ -7,18 +7,21 @@ import Spinner from '../layout/Spinner';
 import Header from './ProfileItems/Header';
 import Body from './ProfileItems/Body';
 
-const Profile = ({ getProfile, profile: { profile, loading }, authUserId, ...props }) => {
+const Profile = ({ getProfile, profile: { profile, loading }, authUserId, socket, ...props }) => {
     // get the type the profile (my or other user) based on url param
     let type = props.match.path === '/profile/me' ? 'myProfile' : 'otherUser';
     // map other user id from url param
     const otherUserId = props.match.path === '/profile/me' ? authUserId : props.match.params.user_id;
     // to prevent error if auth user enteres its user id in params
 
-    type = otherUserId === authUserId ? "myProfile" : type;
-
+    type = otherUserId === authUserId ? 'myProfile' : type;
 
     useEffect(() => {
         getProfile(type, otherUserId);
+        if (type !== 'myProfile') {
+            console.log('not my profile');
+            socket.emit('UPDATE_NOTIFICATIONS', otherUserId, 'visit');
+        }
     }, [getProfile, type, otherUserId]);
 
     return loading ? (

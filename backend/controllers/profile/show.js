@@ -38,6 +38,8 @@ const userProfile = async (req, res) => {
         userInfo['age'] = await profileModel.getUserAge(userId);
         userInfo['distance'] = await profileModel.getDistance(authUserId, userId);
         userInfo['blocked'] = await profileModel.getBlockedValue(authUserId, userId);
+        await profileModel.deleteRow('views', authUserId, userId);
+        await profileModel.insertRow('views', authUserId, userId);
         return res.json(userInfo);
     } catch (e) {
         return res.json({ error: 'Error getting profile info' });

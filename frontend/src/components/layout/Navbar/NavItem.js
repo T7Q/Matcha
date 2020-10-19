@@ -21,10 +21,7 @@ const NavItem = ({
                 updateNotifications('message', senderId);
                 getNotifications();
             });
-            socket.on('UPDATE_NOTIFICATIONS', data => {
-                getNotifications();
-            });
-            socket.on('MESSAGE_NOTIFICATION', data => {
+            socket.on('UPDATE_NOTIFICATIONS', () => {
                 getNotifications();
             });
         }

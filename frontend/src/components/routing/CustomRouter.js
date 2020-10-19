@@ -20,7 +20,7 @@ import Settings from '../profile/Settings';
 import Visits from '../visits/Visits';
 import EditProfile from '../profile/EditProfile/';
 
-const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
+const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
     return (
         <Grid justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
             <Route exact path="/" component={Landing} />
@@ -41,13 +41,13 @@ const CustomRouter = ({ auth: { isAuthenticated, user } }) => {
                     <PrivateRoute exact path="/likes/:page?" component={Likes} />
                     <Redirect exact from="/profile" to="/profile/me" />
                     <PrivateRoute exact path="/profile/me" component={Profile} />
-                    <PrivateRoute exact path="/profile/:user_id?" component={Profile} />
+                    <PrivateRoute socket={socket} exact path="/profile/:user_id?" component={Profile} />
                     <Route exact path="/complete" component={ProfileCreation} />
                     <PrivateRoute exact path="/settings" component={Settings} />
                     <Redirect exact from="/matches" to="/matches/recommend" />
                     <PrivateRoute exact path="/matches/:page?" component={Matches} />
                     <Redirect exact from="/visits" to="/visits/newvisits" />
-                    <PrivateRoute exact path="/visits/:page?" component={Visits} />
+                    <PrivateRoute exact path="/visits/:page?" socket={socket} component={Visits} />
                     <PrivateRoute exact path="/profile/me/edit/:type?" component={EditProfile} />
                     {/* <Route component={NotFound} /> */}
                 </Switch>

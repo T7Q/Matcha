@@ -4,8 +4,8 @@ import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { Container } from "@material-ui/core";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
-import { Timeline, AssignmentInd, TagFaces, Favorite } from "@material-ui/icons";
-import { ArrowForwardIos, LocationOn, Group, Chat } from "@material-ui/icons";
+import { Timeline, AssignmentIndOutlined, VpnKeyOutlined } from "@material-ui/icons";
+import { ArrowForwardIos, BubbleChartOutlined, LocationOnOutlined } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 // calcuate number of days until now
@@ -67,12 +67,12 @@ const Body = ({ profile, type }) => {
     const gender = profile['gender'].charAt(0).toUpperCase() + profile['gender'].slice(1);
     const userData = [
         {
-            icon: <TagFaces />,
+            icon: <AssignmentIndOutlined />,
             text: `${profile.first_name} ${profile.last_name}`,
             link: "/profile/me/edit/name",
         },
         {
-            icon: <AssignmentInd />,
+            icon: <VpnKeyOutlined />,
             text: profile.username,
             link: "/profile/me/edit/username",
         },
@@ -82,12 +82,12 @@ const Body = ({ profile, type }) => {
             link: "/profile/me/edit/birthdate",
         },
         {
-            icon: <Group />,
+            icon: <BubbleChartOutlined />,
             text: `${gender}, ${orientation}`,
             link: "/profile/me/edit/sexPreference",
         },
         {
-            icon: <LocationOn />,
+            icon: <LocationOnOutlined />,
             text: type === "myProfile" ? `${profile.country}` : `${profile.distance} km away, last seen ${days(profile.last_seen)}`,
             link: "/profile/me/edit/country",
         },

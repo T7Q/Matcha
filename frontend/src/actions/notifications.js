@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { GET_NOTIFICATIONS, GET_MESSAGE_NOTIFICATIONS, UPDATE_NOTIFICATIONS } from './types';
+import {
+    GET_NOTIFICATIONS,
+    GET_MESSAGE_NOTIFICATIONS,
+    UPDATE_NOTIFICATIONS,
+    UPDATE_MESSAGE_NOTIFICATIONS,
+} from './types';
 
 export const getNotifications = () => async dispatch => {
     try {
@@ -12,19 +17,24 @@ export const getNotifications = () => async dispatch => {
 
 export const getMessageNotifications = () => async dispatch => {
     try {
-        console.log('in message');
         const res = await axios.get('/profile/notifications/messages');
-        console.log('in message', res);
         dispatch({ type: GET_MESSAGE_NOTIFICATIONS, payload: res.data });
     } catch (err) {
         console.log('some error in get notifications action ', err);
     }
 };
 
-export const updateNotifications = type => async dispatch => {
+export const updateNotifications = (type, senderId = 0) => async dispatch => {
     try {
-        await axios.delete(`/profile/notifications/${type}`);
-        dispatch({ type: UPDATE_NOTIFICATIONS, payload: { [type]: 0 } });
+        const res = await axios.delete(`/profile/notifications/${type}/${senderId}`);
+        if (type === 'message') {
+            dispatch({
+                type: UPDATE_MESSAGE_NOTIFICATIONS,
+                payload: { data: { [senderId]: 0 }, amount: res.data },
+            });
+        } else {
+            dispatch({ type: UPDATE_NOTIFICATIONS, payload: { [type]: 0 } });
+        }
     } catch (err) {
         console.log('some error in get messages action ', err);
     }

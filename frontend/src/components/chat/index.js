@@ -16,11 +16,13 @@ const Chat = ({ auth, notifications, getMessageNotifications, getConversations, 
     useEffect(() => {
         getConversations();
         getMessageNotifications();
-        auth.socket.emit('IN_MESSAGES', auth.user.userId);
     }, [getConversations, getMessageNotifications]);
 
-    const handleChange = (event, chatId) => {
+    const handleChange = (event, chatId, senderId) => {
         setCurrentConversation(chatId);
+        if (notifications.message > 0) {
+            auth.socket.emit('SEE_CONVERSATION', auth.user.userId, senderId);
+        }
     };
 
     return (
@@ -41,7 +43,7 @@ const Chat = ({ auth, notifications, getMessageNotifications, getConversations, 
                         <Conversations
                             messageNotifications={notifications.messages}
                             conversations={conversations}
-                            onClick={handleChange}
+                            handleChange={handleChange}
                         />
                     </Grid>
                     <Grid container justify="center" item sm={6} xs={12}>

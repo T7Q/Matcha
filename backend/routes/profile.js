@@ -32,7 +32,7 @@ router.get('/notifications/:type', authorization.required, notifications.get);
 // @route   POST /profile/editnotification
 // @desc    Edit notification settings: email, push
 // @access  Private
-router.delete('/notifications/:type', authorization.required, notifications.remove);
+router.delete('/notifications/:type/:id', authorization.required, notifications.remove);
 
 // @route   POST /
 // @desc    Show other user profile

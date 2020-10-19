@@ -1,12 +1,12 @@
 import React from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 
-const ConversationBox = ({ unread, conversation, isActive, onClick }) => {
+const ConversationBox = ({ unread, conversation, isActive, handleChange }) => {
     return (
         <ListItem
             style={{ borderBottom: '1px solid #003781' }}
             button
-            onClick={e => onClick(e, conversation.chat_id)}
+            onClick={e => handleChange(e, conversation.chat_id, conversation.sender_id)}
             alignItems="flex-start">
             <ListItemAvatar>
                 <Avatar alt={conversation.partner_username} src={conversation.avatar} />

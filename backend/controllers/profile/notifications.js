@@ -19,11 +19,17 @@ const get = async (req, res) => {
 
 const remove = async (req, res) => {
     const type = req.params.type;
+    const id = req.params.id;
     const userId = req.user.userId;
 
     try {
-        const r = await profileModel.deleteNotifications(userId, type);
-        return res.end();
+        if (type === 'message' && id > 0) {
+            const rows = await profileModel.deleteMessageNotifications(userId, id);
+            return res.json(rows);
+        } else {
+            const rows = await profileModel.deleteNotifications(userId, type);
+            return res.json(rows);
+        }
     } catch (e) {
         console.log(e);
         return res.json({ error: 'Something went wrong adding Profile info' });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Badge, Typography, IconButton } from '@material-ui/core';
 import { MessageOutlined, PeopleOutline, FavoriteBorder } from '@material-ui/icons';
 import { useStyles } from '../../../styles/custom';
@@ -17,8 +17,9 @@ const NavItem = ({
         if (isAuthenticated) {
             socket.emit('LOGIN', user.userId);
             getNotifications();
-            socket.on('READ_MESSAGES', data => {
-                updateNotifications('message');
+            socket.on('READ_MESSAGES', senderId => {
+                updateNotifications('message', senderId);
+                getNotifications();
             });
             socket.on('UPDATE_NOTIFICATIONS', data => {
                 getNotifications();
@@ -27,7 +28,7 @@ const NavItem = ({
                 getNotifications();
             });
         }
-    }, [isAuthenticated, getNotifications, socket, user.userId]);
+    }, [isAuthenticated, getNotifications, socket, user.userId, updateNotifications]);
 
     const menuItems = [
         {

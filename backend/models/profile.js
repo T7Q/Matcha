@@ -160,6 +160,15 @@ const deleteNotifications = async (userId, type) => {
     );
 };
 
+const deleteMessageNotifications = async (userId, fromUserId) => {
+    const res = await db.query(
+        `DELETE FROM notifications
+        WHERE to_user_id = $1 AND "type" = 'message' AND from_user_id = $2`,
+        [userId, fromUserId]
+    );
+    return res.rowCount;
+};
+
 const getMessageNotifications = async userId => {
     try {
         const result = await db.query(
@@ -349,6 +358,7 @@ module.exports = {
     getDistance,
     getNotifications,
     getMessageNotifications,
+    deleteMessageNotifications,
     deleteNotifications,
     getUserPhotos,
     getBlockedUsers,

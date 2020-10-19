@@ -21,7 +21,7 @@ const PrivateRoute = ({
                 ) : !isAuthenticated ? (
                     <Redirect to="/" />
                 ) : user.status === 2 ? (
-                    <Component path={path} {...props} />
+                    <Component {...rest} path={path} {...props} />
                 ) : (
                     <Redirect to="/complete" />
                 )

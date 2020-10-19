@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { show, create, edit, deleteAccount, interaction, notification, photo } = require('../controllers/profile');
+const { show, create, edit, deleteAccount, interaction, notifications, photo } = require('../controllers/profile');
 const authorization = require('../middleware/authorization');
 const profileModel = require('../models/profile');
 
@@ -27,7 +27,12 @@ router.get('/me/tags', show.userTags);
 // @route   GET /profile/notifications
 // @desc    Get all tags
 // @access  Public
-router.get('/notifications', authorization.required, profileModel.getNotifications);
+router.get('/notifications/:type', authorization.required, notifications.get);
+
+// @route   POST /profile/editnotification
+// @desc    Edit notification settings: email, push
+// @access  Private
+router.delete('/notifications/:type/:id', authorization.required, notifications.remove);
 
 // @route   POST /
 // @desc    Show other user profile
@@ -63,11 +68,6 @@ router.post('/removeinteraction/:type/:user_id', authorization.required, interac
 // @desc    Delete account
 // @access  Private
 router.post('/delete', authorization.required, deleteAccount);
-
-// @route   POST /profile/editnotification
-// @desc    Edit notification settings: email, push
-// @access  Private
-router.post('/notifications', authorization.required, notification.edit);
 
 // @route   POST /profile/uploadphoto
 // @desc    Upload (profile) photo

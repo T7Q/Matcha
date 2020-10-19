@@ -1,16 +1,28 @@
-import React from "react";
-import { AppBar, Tabs, Tab, Typography } from "@material-ui/core";
-import Match from "../common/matchGallery/GetMatches";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { AppBar, Tabs, Tab, Typography, Box } from '@material-ui/core';
+import Match from '../common/matchGallery/GetMatches';
+import { getNotifications, updateNotifications } from '../../actions/notifications';
 
-const Visits = ({ match, history }) => {
+const Visits = ({ match, history, socket, getNotifications, updateNotifications, notifications }) => {
     const { page } = match.params;
-    console.log("page", page);
+    console.log('page', page);
 
-    const indexToTabName = ["newvisits", "allvisits", "myvisits"];
+    const indexToTabName = ['newvisits', 'allvisits', 'myvisits'];
 
-    const [selectedTab, setValue] = React.useState(
-        indexToTabName.indexOf(page)
-    );
+    const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
+
+    useEffect(() => {
+        // socket.on('UPDATE_NOTIFICATIONS', type => {
+        //     if (type === 'visit') {
+        //         console.log('clear visits');
+        //         updateNotifications('visit');
+        //     }
+        // });
+        console.log('in visits sizhu');
+        updateNotifications('visit');
+    }, [updateNotifications]);
 
     const handleChange = (event, newValue) => {
         console.log(newValue);
@@ -20,25 +32,31 @@ const Visits = ({ match, history }) => {
 
     return (
         <div>
-            <AppBar position="static">
-                <Typography variant="h6">Visit History</Typography>
+            <AppBar color="secondary" position="static">
+                <Box p={2} justifyContent="center">
+                    <Typography variant="h6">Visit History</Typography>
+                </Box>
                 <Tabs value={selectedTab} onChange={handleChange}>
                     <Tab label="New visits" />
                     <Tab label="All visits" />
                     <Tab label="My visits" />
                 </Tabs>
             </AppBar>
-            {selectedTab === 0 && (
-                <Match route="/match/visitedMe" filterIsOn={0} />
-            )}
-            {selectedTab === 1 && (
-                <Match route="/match/visitedMe" filterIsOn={0} />
-            )}
-            {selectedTab === 2 && (
-                <Match route="/match/visitedByMe" filterIsOn={0} />
-            )}
+            {selectedTab === 0 && <Match route="/match/visitedMe" filterIsOn={0} />}
+            {selectedTab === 1 && <Match route="/match/visitedMe" filterIsOn={0} />}
+            {selectedTab === 2 && <Match route="/match/visitedByMe" filterIsOn={0} />}
         </div>
     );
 };
 
-export default Visits;
+Visits.propTypes = {
+    getNotifications: PropTypes.func.isRequired,
+    updateNotifications: PropTypes.func.isRequired,
+    notifications: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+    notifications: state.notifications,
+});
+
+export default connect(mapStateToProps, { updateNotifications, getNotifications })(Visits);

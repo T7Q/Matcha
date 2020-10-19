@@ -16,7 +16,7 @@ module.exports = server => {
         });
 
         socket.on('UPDATE_NOTIFICATIONS', (userId, type) => {
-            console.log('update to ', userId);
+            // console.log('update to ', userId);
             socket.to('user' + userId).emit('UPDATE_NOTIFICATIONS', type);
         });
 
@@ -26,7 +26,7 @@ module.exports = server => {
         });
 
         socket.on('LOGIN', userId => {
-            console.log('loged in', userId);
+            // console.log('loged in', userId);
             socket.join('user' + userId);
         });
     });

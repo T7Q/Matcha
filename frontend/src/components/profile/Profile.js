@@ -19,10 +19,10 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, socket
     useEffect(() => {
         getProfile(type, otherUserId);
         if (type !== 'myProfile') {
-            console.log('not my profile');
+            // console.log('not my profile');
             socket.emit('UPDATE_NOTIFICATIONS', otherUserId, 'visit');
         }
-    }, [getProfile, type, otherUserId]);
+    }, [getProfile, type, otherUserId, socket]);
 
     return loading ? (
         <Spinner />

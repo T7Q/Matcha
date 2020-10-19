@@ -9,9 +9,9 @@ import { useStyles } from '../../../styles/custom';
 import { logout } from '../../../actions/auth';
 import ProfileMenu from './ProfileMenu';
 import NavItem from './NavItem';
-import { getNotifications } from '../../../actions/notifications';
+import { getNotifications, updateNotifications } from '../../../actions/notifications';
 
-const Navbar = ({ logout, auth, history, getNotifications, notifications }) => {
+const Navbar = ({ logout, auth, history, getNotifications, updateNotifications, notifications }) => {
     const [profileSettings, setProfileSettings] = useState(null);
     const { isAuthenticated, user } = auth;
     const theme = useTheme();
@@ -36,6 +36,7 @@ const Navbar = ({ logout, auth, history, getNotifications, notifications }) => {
                         </IconButton>
                     )}
                     <NavItem
+                        updateNotifications={updateNotifications}
                         notifications={notifications}
                         getNotifications={getNotifications}
                         isMobile={isMobile}
@@ -78,6 +79,7 @@ Navbar.propTypes = {
     logout: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     getNotifications: PropTypes.func.isRequired,
+    updateNotifications: PropTypes.func.isRequired,
     notifications: PropTypes.object.isRequired,
 };
 
@@ -86,4 +88,4 @@ const mapStateToProps = state => ({
     notifications: state.notifications,
 });
 
-export default connect(mapStateToProps, { getNotifications, logout })(withRouter(Navbar));
+export default connect(mapStateToProps, { updateNotifications, getNotifications, logout })(withRouter(Navbar));

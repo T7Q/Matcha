@@ -1,10 +1,11 @@
-import { GET_NOTIFICATIONS, UPDATE_NOTIFICATIONS } from '../actions/types';
+import { GET_NOTIFICATIONS, GET_MESSAGE_NOTIFICATIONS, UPDATE_NOTIFICATIONS } from '../actions/types';
 
 const initialState = {
     like: 0,
     unlike: 0,
     visit: 0,
     message: 0,
+    messages: {},
 };
 
 export default function (state = initialState, action) {
@@ -16,9 +17,15 @@ export default function (state = initialState, action) {
                 ...state,
                 ...payload,
             };
+        case GET_MESSAGE_NOTIFICATIONS:
+            return {
+                ...state,
+                messages: payload,
+            };
         case UPDATE_NOTIFICATIONS:
             return {
-                notifications: payload,
+                ...state,
+                ...payload,
             };
         default:
             return state;

@@ -9,6 +9,11 @@ module.exports = server => {
             io.to(chatId).emit('MESSAGE', chatId);
         });
 
+        socket.on('IN_MESSAGES', userId => {
+            console.log('in messages', userId);
+            io.to('user' + userId).emit('READ_MESSAGES', 'read');
+        });
+
         socket.on('getMessages', data => {
             console.log('get data');
             console.log(data);

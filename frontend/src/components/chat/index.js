@@ -3,19 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Box, Typography, Grid } from '@material-ui/core';
 // import { useTheme } from '@material-ui/core/styles';
-import { setSnackbar } from '../../actions/setsnackbar';
 import { getConversations } from '../../actions/chat';
+import { getMessageNotifications } from '../../actions/notifications';
 import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
 
-const Chat = ({ setSnackbar, getConversations, chat: { conversations }, history }) => {
+const Chat = ({ auth, notifications, getMessageNotifications, getConversations, chat: { conversations } }) => {
     const [currentConversation, setCurrentConversation] = useState(0);
 
     // const theme = useTheme();
 
     useEffect(() => {
         getConversations();
-    }, [getConversations]);
+        getMessageNotifications();
+        auth.socket.emit('IN_MESSAGES', auth.user.userId);
+    }, [getConversations, getMessageNotifications]);
 
     const handleChange = (event, chatId) => {
         setCurrentConversation(chatId);
@@ -36,7 +38,11 @@ const Chat = ({ setSnackbar, getConversations, chat: { conversations }, history 
             <Box flexGrow={1} display="flex" p={5}>
                 <Grid container>
                     <Grid container item sm={6} xs={12} justify="center">
-                        <Conversations conversations={conversations} onClick={handleChange} />
+                        <Conversations
+                            messageNotifications={notifications.messages}
+                            conversations={conversations}
+                            onClick={handleChange}
+                        />
                     </Grid>
                     <Grid container justify="center" item sm={6} xs={12}>
                         <PrivateChat
@@ -51,13 +57,16 @@ const Chat = ({ setSnackbar, getConversations, chat: { conversations }, history 
 };
 
 Chat.propTypes = {
-    setSnackbar: PropTypes.func.isRequired,
     getConversations: PropTypes.func.isRequired,
+    getMessageNotifications: PropTypes.func.isRequired,
     chat: PropTypes.object.isRequired,
+    notifications: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
     chat: state.chat,
+    notifications: state.notifications,
+    auth: state.auth,
 });
 
-export default connect(mapStateToProps, { setSnackbar, getConversations })(Chat);
+export default connect(mapStateToProps, { getMessageNotifications, getConversations })(Chat);

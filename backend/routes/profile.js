@@ -27,12 +27,12 @@ router.get('/me/tags', show.userTags);
 // @route   GET /profile/notifications
 // @desc    Get all tags
 // @access  Public
-router.get('/notifications', authorization.required, notifications.get);
+router.get('/notifications/:type', authorization.required, notifications.get);
 
 // @route   POST /profile/editnotification
 // @desc    Edit notification settings: email, push
 // @access  Private
-// router.post('/notifications', authorization.required, notifications.edit);
+router.delete('/notifications/:type', authorization.required, notifications.remove);
 
 // @route   POST /
 // @desc    Show other user profile

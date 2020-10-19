@@ -152,6 +152,29 @@ const getNotifications = async userId => {
     }
 };
 
+const deleteNotifications = async (userId, type) => {
+    await db.query(
+        `DELETE FROM notifications
+        WHERE to_user_id = $1 AND "type" = '${[type]}'`,
+        [userId]
+    );
+};
+
+const getMessageNotifications = async userId => {
+    try {
+        const result = await db.query(
+            `
+            SELECT count(from_user_id), from_user_id AS type
+            FROM notifications WHERE to_user_id = $1 AND "type" = 'message'
+            GROUP BY from_user_id`,
+            [userId]
+        );
+        return result.rows;
+    } catch (e) {
+        console.log(e);
+    }
+};
+
 const userHasPhotos = async user_id => {
     const res = await db.query(
         `SELECT count(image_id)
@@ -325,6 +348,8 @@ module.exports = {
     getUserAge,
     getDistance,
     getNotifications,
+    getMessageNotifications,
+    deleteNotifications,
     getUserPhotos,
     getBlockedUsers,
     getBlockedValue,

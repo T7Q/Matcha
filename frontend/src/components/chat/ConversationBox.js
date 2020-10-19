@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 
-const ConversationBox = ({ conversation, isActive, onClick }) => {
+const ConversationBox = ({ unread, conversation, isActive, onClick }) => {
     return (
         <ListItem
             style={{ borderBottom: '1px solid #003781' }}
@@ -20,7 +20,10 @@ const ConversationBox = ({ conversation, isActive, onClick }) => {
                 }
                 secondary={
                     <>
-                        {conversation.last_message} <span style={{ float: 'right' }}>5</span>
+                        {conversation.last_message}{' '}
+                        <span style={{ float: 'right', color: 'red', fontSize: '16px' }}>
+                            {unread ? unread : ''}
+                        </span>
                     </>
                 }
             />

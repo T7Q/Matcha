@@ -9,14 +9,20 @@ const NavItem = ({
     handleNavigation,
     notifications,
     getNotifications,
+    updateNotifications,
 }) => {
     const classes = useStyles();
 
     useEffect(() => {
-        console.log('in use effect');
         if (isAuthenticated) {
             socket.emit('LOGIN', user.userId);
             getNotifications();
+            socket.on('READ_MESSAGES', data => {
+                updateNotifications('message');
+            });
+            socket.on('UPDATE_NOTIFICATIONS', data => {
+                getNotifications();
+            });
         }
     }, [isAuthenticated, getNotifications, socket, user.userId]);
 

@@ -149,7 +149,7 @@ const Header = ({ profile, type }) => {
                         <Grid item xs={6} sm={4} md={6}>
                             <Buttons card={profile} />
                         </Grid>
-                    ) : (
+                    ) : ( 
                         ''
                     )}
                 </Grid>

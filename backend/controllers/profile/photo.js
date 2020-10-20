@@ -13,9 +13,10 @@ const upload = async (req, res) => {
     let i = 0;
     // for each image in the request
     for (const element of value) {
+        // console.log('element', element, 'index', i);
         try {
             // if old_photo id is present, remove it from database
-            if (value[i]['old_image_id']) {
+            if (value[i]['old_image_id'] && value[i]['old_image_id'] !== '') {
                 // get old image path form db and remove it
                 let filename = await profileModel.getDataOneCondition(
                     'images',
@@ -23,35 +24,43 @@ const upload = async (req, res) => {
                     'image_id',
                     value[i]['old_image_id']
                 );
-                profileHelper.deleteFromFile(filename[0].image_path);
+                // console.log('filename', filename);
+                if (filename.length > 0) {
+                    profileHelper.deleteFromFile(filename[0].image_path);
 
-                // delete old photo from db
-                await profileModel.deleteRowOneCondition('images', 'image_id', value[i]['old_image_id']);
+                    // delete old photo from db
+                    await profileModel.deleteRowOneCondition('images', 'image_id', value[i]['old_image_id']);
+                }
             }
-
             result[i] = {};
-            // save new photo to the images folder on the server
-            let uploadPath = profileHelper.saveToFile(element.data);
-            let getPhotoId;
-            getPhotoId = await profileModel.addPhotoToDb(userId, `/${uploadPath}`);
+            if (value[i]['data'] !== '') {
+                // save new photo to the images folder on the server
+                let uploadPath = profileHelper.saveToFile(element.data);
+                let getPhotoId;
+                getPhotoId = await profileModel.addPhotoToDb(userId, `/${uploadPath}`);
 
-            // for each image return upload path, image id, type and message
-            result[i] = {
-                path: uploadPath,
-                image_id: getPhotoId,
-                msg: 'Your photo was succesfully saved',
-                type: 'photo',
-            };
-
-            // for profile image, save image path to users table
-            if (element.type === 'profile') {
-                await profileModel.editProfile(userId, 'profile_pic_path', `/${uploadPath}`);
+                // for each image return upload path, image id, type and message
+                result[i] = {
+                    path: uploadPath,
+                    image_id: getPhotoId,
+                    msg: 'Your photo was succesfully saved',
+                    type: 'photo',
+                };
+                // for profile image, save image path to users table
+                if (element.type === 'profile') {
+                    await profileModel.editProfile(userId, 'profile_pic_path', `/${uploadPath}`);
+                    result[i]['msg'] = 'Your profile photo was succesfully saved';
+                    result[i]['type'] = 'profile';
+                }
+            } else if (element.type === 'profile') {
+                await profileModel.editProfile(userId, 'profile_pic_path', '');
                 result[i]['msg'] = 'Your profile photo was succesfully saved';
                 result[i]['type'] = 'profile';
             }
 
             i++;
         } catch (e) {
+            console.log(e);
             return res.json({ error: 'Error saving photo' });
         }
     }

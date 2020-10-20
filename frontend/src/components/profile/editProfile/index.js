@@ -12,7 +12,7 @@ import Username from './Username';
 import SexPreference from './SexPreference';
 // import Photos from './Photos';
 import Country from './Country';
-import Header from '../ProfileItems/Header';
+import Header from '../viewProfile/Header';
 import { setSnackbar } from '../../../actions/setsnackbar';
 
 const Edit = ({ setSnackbar, getProfile, profile: { profile, loading }, ...props }) => {

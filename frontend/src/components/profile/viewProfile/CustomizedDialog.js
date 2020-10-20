@@ -1,16 +1,13 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-// import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import ImageGridList from "./ImageGridList";
-// import MuiDialogActions from '@material-ui/core/DialogActions';
-// import Carousel from "./Carousel";
-// import SingleLineGridList from "./SingleLineGridList";
+import ImageGridList from './ImageGridList';
+import ImageGridListOwn from './ImageGridListOwn';
 
 const styles = theme => ({
     root: {
@@ -45,14 +42,7 @@ const DialogContent = withStyles(theme => ({
     },
 }))(MuiDialogContent);
 
-// const DialogActions = withStyles((theme) => ({
-//   root: {
-//     margin: 0,
-//     padding: theme.spacing(1),
-//   },
-// }))(MuiDialogActions);
-
-export default function CustomizedDialogs({ open, setOpen, profile }) {
+export default function CustomizedDialog({ open, setOpen, profile, type }) {
     const handleClose = () => {
         setOpen(false);
     };
@@ -62,9 +52,11 @@ export default function CustomizedDialogs({ open, setOpen, profile }) {
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}></DialogTitle>
                 <DialogContent dividers>
-                    <ImageGridList />
-                    {/* <Carousel photos={profile.photos}/> */}
-                    {/* <SingleLineGridList/> */}
+                    {type === 'myProfile' ? (
+                        <ImageGridListOwn handleClose={handleClose} profile={profile} />
+                    ) : (
+                        <ImageGridList profile={profile} />
+                    )}
                 </DialogContent>
             </Dialog>
         </div>

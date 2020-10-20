@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Box } from "@material-ui/core";
-import { getProfile } from "../../actions/profile";
-import Spinner from "../layout/Spinner";
-import Header from "./ProfileItems/Header";
-import Body from "./ProfileItems/Body";
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Box } from '@material-ui/core';
+import { getProfile } from '../../../actions/profile';
+import Spinner from '../../layout/Spinner';
+import Header from './Header';
+import Body from './Body';
+import { useDispatch } from 'react-redux';
 
-const Profile = ({
-    getProfile, 
+const ProfileView = ({
+    getProfile,
     profile: { profile, loading },
     authUserId,
     previousPath,
@@ -17,7 +17,7 @@ const Profile = ({
     ...props
 }) => {
     const dispatch = useDispatch();
-    
+
     // get the type the profile (my or other user) based on url param
     let type = props.match.path === '/profile/me' ? 'myProfile' : 'otherUser';
     // map other user id from url param
@@ -46,14 +46,14 @@ const Profile = ({
     ) : (
         <>
             <Header profile={profile} type={type} />
-            <Box pt={8} >
+            <Box pt={8}>
                 <Body profile={profile} type={type} />
             </Box>
         </>
     );
 };
 
-Profile.propTypes = {
+ProfileView.propTypes = {
     getProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     authUserId: PropTypes.string.isRequired,
@@ -66,4 +66,4 @@ const mapStateToProps = state => ({
     previousPath: state.auth.previousPath,
 });
 
-export default connect(mapStateToProps, { getProfile })(Profile);
+export default connect(mapStateToProps, { getProfile })(ProfileView);

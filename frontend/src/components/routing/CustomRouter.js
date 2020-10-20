@@ -10,15 +10,15 @@ import UpdatePwd from '../auth/UpdatePwd';
 import Landing from '../layout/Landing';
 import Message from '../layout/Message';
 import Register from '../profile/CreateAccount';
-import Profile from '../profile/Profile';
-import ProfileCreation from '../profile/CreateProfile/';
+import ProfileView from '../profile/viewProfile/';
+import ProfileCreation from '../profile/createProfile';
 import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 // import NotFound from '../layout/NotFound';
 import Chat from '../chat/';
-import Settings from '../profile/Settings';
+import Settings from '../profile/profileSettings';
 import Visits from '../visits/Visits';
-import EditProfile from '../profile/EditProfile/';
+import EditProfile from '../profile/editProfile';
 
 const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
     return (
@@ -40,8 +40,8 @@ const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
                     <Redirect exact from="/likes" to="/likes/likesyou" />
                     <PrivateRoute exact path="/likes/:page?" component={Likes} />
                     <Redirect exact from="/profile" to="/profile/me" />
-                    <PrivateRoute exact path="/profile/me" component={Profile} />
-                    <PrivateRoute socket={socket} exact path="/profile/:user_id?" component={Profile} />
+                    <PrivateRoute exact path="/profile/me" component={ProfileView} />
+                    <PrivateRoute socket={socket} exact path="/profile/:user_id?" component={ProfileView} />
                     <Route exact path="/complete" component={ProfileCreation} />
                     <PrivateRoute exact path="/settings" component={Settings} />
                     <Redirect exact from="/matches" to="/matches/recommend" />

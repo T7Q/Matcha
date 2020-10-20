@@ -40,13 +40,13 @@ export const getProfile = (type, userId) => async dispatch => {
     }
 };
 
-const convertImages = images => {
+const convertImages = (images, profile = 'base1') => {
     const data = {
         key: 'photo',
         value: Object.entries(images)
             .filter(value => value[0].includes('base') && value[1])
             .map(value =>
-                value[0] === 'base1' ? { type: 'profile', data: value[1] } : { type: 'photo', data: value[1] }
+                value[0] === profile ? { type: 'profile', data: value[1] } : { type: 'photo', data: value[1] }
             ),
     };
     return data;
@@ -67,6 +67,19 @@ export const createProfile = (formData, images, history) => async dispatch => {
             dispatch(loadUser());
             history.push('/Profile');
         }
+    } catch (err) {
+        dispatch(setSnackbar(true, 'error', err));
+    }
+};
+
+export const uploadPhotos = (images, profile) => async dispatch => {
+    try {
+        const imagesToSubmit = convertImages(images, profile);
+        const result = await axios.post('/profile/uploadphoto', imagesToSubmit);
+        if (result.data.error) {
+            dispatch(setSnackbar(true, 'error', result.data.error));
+        }
+        dispatch(setSnackbar(true, 'success', result.data.msg));
     } catch (err) {
         dispatch(setSnackbar(true, 'error', err));
     }

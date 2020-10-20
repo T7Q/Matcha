@@ -93,7 +93,17 @@ const myProfile = async (req, res) => {
                 userInfo['tags'].push(value.tag_name);
             });
         }
-        let photos = await profileModel.getDataOneCondition('images', 'image_id, image_path', 'user_id', userId);
+        let photos = await profileModel.getDataOneCondition(
+            'images',
+            'image_id as old_image_id, image_path',
+            'user_id',
+            userId
+        );
+        photos.map(element => {
+            if (element.image_path === userInfo.profile_pic_path) element.type = 'profile';
+            else element.type = 'photo';
+            element.data = '';
+        });
         userInfo['photos'] = photos.length > 0 ? photos : [];
         return res.json(userInfo);
     } catch (e) {

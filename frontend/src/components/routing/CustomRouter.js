@@ -11,7 +11,7 @@ import Landing from '../layout/Landing';
 import Message from '../layout/Message';
 import Register from '../profile/CreateAccount';
 import ProfileView from '../profile/viewProfile/';
-import ProfileCreation from '../profile/createProfile';
+import ProfileCreation from '../profile/createProfile/';
 import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 // import NotFound from '../layout/NotFound';

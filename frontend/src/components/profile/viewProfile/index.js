@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Box, Typography } from "@material-ui/core";
-import { getProfile } from "../../actions/profile";
-import Spinner from "../layout/Spinner";
-import Header from "./ProfileItems/Header";
-import Body from "./ProfileItems/Body";
+import { getProfile } from "../../../actions/profile";
+import Spinner from "../../layout/Spinner";
+import Header from "./Header";
+import Body from "./Body";
 import { useDispatch } from 'react-redux'
 
 const ProfileView = ({

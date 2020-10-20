@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { Typography, Avatar, Badge, Box, Grid } from "@material-ui/core";
 import { Container } from "@material-ui/core";
 import UserRating from "./UserRating";
 import Buttons from "./Buttons";
-import Dropdown from "./Dropdown";
-import CustomizedDialogs from "./CustomizedDialogs";
+import Dropdown from "./DropdownItem";
+import CustomizedDialog from "./CustomizedDialog";
 import { withStyles } from "@material-ui/core/styles";
 import Tooltip from "@material-ui/core/Tooltip";
 import clsx from 'clsx';

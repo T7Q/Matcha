@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
     const userId = req.user.userId;
 
     try {
-        const result = await accountModel.findUserInfo('user_id', userId, 'status', 'username', 'email');
+        const result = await accountModel.findUserInfo('user_id', userId, 'status', 'username', 'email', 'latitude', 'longitude');
         result.userId = userId;
 
         const photos = await profileModel.userHasPhotos(userId);

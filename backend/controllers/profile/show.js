@@ -102,7 +102,7 @@ const myProfile = async (req, res) => {
             "sex_preference",
             "sex_orientation",
             "birth_date",
-            "profile_pic_path"
+            "profile_pic_path",
         );
         let tags = await profileModel.getUserTags(userId);
         if (tags.rowCount > 0) {

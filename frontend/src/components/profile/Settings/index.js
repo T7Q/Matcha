@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Box, Typography, Grid, Tab, Tabs, useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-import { NotificationsActive, Lock, Email, Block, Delete } from '@material-ui/icons';
+import { NotificationsActive, Lock, Email, Block, Delete, Public } from '@material-ui/icons';
 import NotificationsTab from './Notifications';
 import PasswordTab from './Password';
 import EmailTab from './Email';
+import GeolocationTab from './Geolocation';
 import BlockedUsersTab from './BlockedUsers';
 import DeleteAccountTab from './DeleteAccount';
 import { setSnackbar } from '../../../actions/setsnackbar';
@@ -48,6 +49,7 @@ const Settings = ({ setSnackbar }) => {
                             />
                             <Tab label="&emsp;Change password&emsp;&#8811;" icon={<Lock />} />
                             <Tab label="&emsp;Change email &emsp;&emsp;&emsp;&#8811;" icon={<Email />} />
+                            <Tab label="&emsp;Change geolocation &emsp;&emsp;&#8811;" icon={<Public />} />
                             <Tab label="&emsp;Blocked users &nbsp; &emsp;&emsp;&#8811;" icon={<Block />} />
                             <Tab label="&emsp;Delete account &nbsp; &nbsp;&emsp;&#8811;" icon={<Delete />} />
                         </Tabs>
@@ -58,8 +60,9 @@ const Settings = ({ setSnackbar }) => {
                             {tab === 1 && <NotificationsTab setSnackbar={setSnackbar} />}
                             {tab === 2 && <PasswordTab setSnackbar={setSnackbar} />}
                             {tab === 3 && <EmailTab setSnackbar={setSnackbar} />}
-                            {tab === 4 && <BlockedUsersTab setSnackbar={setSnackbar} />}
-                            {tab === 5 && <DeleteAccountTab setSnackbar={setSnackbar} />}
+                            {tab === 4 && <GeolocationTab setSnackbar={setSnackbar} />}
+                            {tab === 5 && <BlockedUsersTab setSnackbar={setSnackbar} />}
+                            {tab === 6 && <DeleteAccountTab setSnackbar={setSnackbar} />}
                         </Box>
                     </Grid>
                 </Grid>

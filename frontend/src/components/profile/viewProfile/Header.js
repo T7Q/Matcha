@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { Typography, Avatar, Badge, Box, Grid } from '@material-ui/core';
-import { Container } from '@material-ui/core';
-import UserRating from './UserRating';
-import Buttons from './Buttons';
-import CustomizedDialog from './CustomizedDialog';
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
-import Dropdown from './DropdownItem';
+import React from "react";
+import { Typography, Avatar, Badge, Box, Grid } from "@material-ui/core";
+import { Container } from "@material-ui/core";
+import UserRating from "./UserRating";
+import Buttons from "./Buttons";
+import Dropdown from "./Dropdown";
+import CustomizedDialogs from "./CustomizedDialogs";
+import { withStyles } from "@material-ui/core/styles";
+import Tooltip from "@material-ui/core/Tooltip";
+import clsx from 'clsx';
+import { useStyles } from '../../../styles/custom';
+import { profileStyles } from '../../../styles/profileStyles';
 
 // calcuate number of days until now
 const days = lastSeen => {
@@ -83,14 +86,21 @@ const Header = ({ profile, type }) => {
     const lastSeen = `last seen ${days(profile.last_seen)}`;
     // let color = profile.online === 1 ? { color: "#44b700", backgroundColor: "#44b700" } : { color: "grey", backgroundColor: "grey" };
 
+    const classes = useStyles();
+    const classesProf = profileStyles();
     return (
-        <Box bgcolor="secondary.main">
-            <Container>
+        <Box bgcolor="secondary.main" >
+            <Container >
                 <Grid container spacing={3}>
-                    <Grid item xs={6} sm={3}>
-                        {type === 'otherUser' ? (
-                            <Tooltip title={profile.online === 0 ? lastSeen : ''}>
+                    <Grid item xs={12} sm={4} md={3}
+                    
+                    
+                    className={classesProf.center}
+                    >
+                        {type === "otherUser" ? (
+                            <Tooltip title={profile.online === 0 ? lastSeen : ""} >
                                 <StyledBadge
+                                    className={classesProf.avatarImageStyle}
                                     overlap="circle"
                                     anchorOrigin={{
                                         vertical: 'bottom',
@@ -98,37 +108,45 @@ const Header = ({ profile, type }) => {
                                     }}
                                     variant="dot">
                                     <Avatar
+                                        className={classesProf.avatarImageStyle}
                                         onClick={handleClickOpen}
                                         alt="user profile"
                                         src={profile.profile_pic_path}
                                     />
                                 </StyledBadge>
                             </Tooltip>
-                        ) : (
-                            ''
-                        )}
-                        {type === 'myProfile' ? (
-                            <Avatar onClick={handleClickOpen} alt={avatarAlt} src={profile.profile_pic_path} />
-                        ) : (
-                            ''
-                        )}
+                        ) : ''}
+                        {type === "myProfile" ?
+                        (
+                            <Avatar
+                                className={classesProf.avatarImageStyle}
+                                onClick={handleClickOpen}
+                                alt={avatarAlt}
+                                src={profile.profile_pic_path}
+                            />
+                        ) : ''}
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <Typography variant="h3" noWrap>
+                    <Grid item xs={12} sm={4} md={3} >
+                        <Typography variant="h4" nowrap className={classesProf.h4}>
                             {profile.first_name} id:{profile.user_id}
                         </Typography>
-                        {type === 'otherUser' ? (
-                            <Typography variant="h6" style={{ display: 'flex' }}>
+                        {type === "otherUser" ? (
+                            <Typography
+                                variant="p"
+                                className={classesProf.p}
+                                style={{ display: "flex" }}
+                            >
                                 {description}
                                 <Dropdown userId={profile.user_id} blocked={profile.blocked} />
                             </Typography>
                         ) : (
                             ''
                         )}
-                        <UserRating profile={profile} />
+                        <UserRating
+                            profile={profile} />
                     </Grid>
-                    {type === 'otherUser' ? (
-                        <Grid item xs={6} sm={6}>
+                    {type === "otherUser" ? (
+                        <Grid item xs={6} sm={4} md={6}>
                             <Buttons card={profile} />
                         </Grid>
                     ) : (

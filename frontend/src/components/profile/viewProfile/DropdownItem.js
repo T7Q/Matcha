@@ -9,6 +9,8 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 import { addInteraction, unblockUser } from "../../../actions/profile";
 
+import { useStyles } from '../../../styles/custom';
+
 const Dropdown = ({
     addInteraction,
     unblockUser,
@@ -34,6 +36,7 @@ const Dropdown = ({
         addInteraction(type, userId);
     };
 
+    const classes = useStyles();
     return (
         <div>
             <IconButton

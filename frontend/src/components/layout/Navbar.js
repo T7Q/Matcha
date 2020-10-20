@@ -122,8 +122,8 @@ const Navbar = ({ logout, auth: { isAuthenticated, user }, history }) => {
                 <Box justifyContent="flex-start" display="flex" flexGrow={2}>
                     {((!isMobile && !isMedium) || !isAuthenticated) && (
                         <IconButton className={classes.customIconButton} onClick={() => handleNavigation('/')}>
-                            <Typography color="textSecondary" variant="h6">
-                                <i className="fas fa-moon" /> Astro Matcha
+                            <Typography color="textSecondary" variant="h4">
+                                Astro Matcha
                             </Typography>
                         </IconButton>
                     )}

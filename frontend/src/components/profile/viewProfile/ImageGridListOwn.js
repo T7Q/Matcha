@@ -1,87 +1,112 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Box } from '@material-ui/core';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import axios from 'axios';
+import { Button, Box, GridList, GridListTile } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
+import { setSnackbar } from '../../../actions/setsnackbar';
+import { getProfile } from '../../../actions/profile';
 
-const ImageGridListOwn = ({ profile }) => {
-    const [images, setImages] = useState({
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        profile: 0,
-    });
-    const photos = profile['photos'];
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+        width: 500,
+        // height: 450,
+    },
+}));
+const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => {
+    const temp = [...profile.photos];
+    const classes = useStyles();
 
-    const bases = {
-        base1: '',
-        base2: '',
-        base3: '',
-        base4: '',
-        base5: '',
-    };
+    let isProfileHere = false;
 
-    const profilePhoto = photos
-        .map((tile, index) => {
-            if (tile.image_path === profile.profile_pic_path) {
-                return index + 1;
-            }
-        })
-        .filter(el => el);
-    console.log('prof photo', profilePhoto);
-
-    while (photos.length < 5) {
-        photos.push({ image_path: '' });
+    for (let element of temp) {
+        if (element.type === 'profile') {
+            isProfileHere = true;
+        }
+    }
+    while (temp.length < 5) {
+        temp.push({ image_path: '', old_image_id: '', type: '', data: '' });
     }
 
-    useEffect(() => {}, []);
+    if (isProfileHere) {
+        temp.map(element => {
+            if (element.type === '') {
+                element.type = 'photo';
+            }
+            return element;
+        });
+    } else {
+        let i = 0;
+        temp.map((element, index) => {
+            if (element.type === '' && i === 0) {
+                element.type = 'profile';
+                i = 1;
+            } else if (element.type === '') {
+                element.type = 'photo';
+            }
+            return element;
+        });
+    }
 
-    const onFileToBase64 = (file, base) => {
+    const [images, setImages] = useState(temp);
+
+    const onFileToBase64 = (file, index) => {
         if (!file) {
             return;
         }
-        console.log('here');
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = event => {
-            bases[[base]] = event.target.result;
+            const copied = [...images];
+            copied[index].data = event.target.result;
+            setImages(copied);
         };
     };
 
-    const handleUpload = (upload, key, base, text) => {
-        console.log('upload key', key, 'base', base);
+    const handleUpload = (upload, index) => {
         if (upload.length > 0) {
-            if (text === 'Profile photo') {
-                setImages({ ...images, [key]: upload, profile: key });
-            } else {
-                setImages({ ...images, [key]: upload });
-            }
+            onFileToBase64(upload[0], index);
+        } else {
+            const copied = [...images];
+            copied[index].data = '';
+            setImages(copied);
         }
     };
 
-    const save = () => {
-        Object.entries(images).forEach(entry => onFileToBase64(entry[1][0], `base${entry[0]}`));
-        console.log('bases', bases);
-        console.log('photos', photos);
+    const save = async () => {
+        try {
+            const res = await axios.post('/profile/uploadphoto', { key: 'photo', value: images });
+            if (res.data.error) {
+                setSnackbar(true, 'error', 'Try again later');
+            } else {
+                setSnackbar(true, 'success', 'Successfully updated');
+                handleClose();
+                getProfile('myProfile', profile.user_id);
+            }
+        } catch (err) {
+            console.log(err);
+        }
     };
-
-    if (photos.length === 0) {
-        return <div>No images in this account</div>;
-    }
-    console.log('photos', photos);
-    console.log('images before render', images);
-    console.log('bases before render', bases);
 
     return (
         <Box textAlign="center">
-            {photos.map((tile, index) => {
-                const initial = tile.image_path !== '' ? [tile.image_path] : images[index + 1];
-                const text = tile.image_path === profile.profile_pic_path ? 'Profile photo' : '';
+            {/* <GridList className={classes.gridList} cols={2}> */}
+            {temp.map((tile, index) => {
+                const initial = tile.image_path !== '' ? [tile.image_path] : [];
+                const text = tile.type === 'profile' ? 'Profile photo' : '';
                 return (
                     <DropzoneArea
                         key={index}
                         acceptedFiles={['image/*']}
-                        onChange={upload => handleUpload(upload, index + 1, 'base' + (index + 1), text)}
+                        onChange={upload => handleUpload(upload, index)}
                         initialFiles={initial}
                         dropzoneText={text}
                         showAlerts={false}
@@ -89,6 +114,7 @@ const ImageGridListOwn = ({ profile }) => {
                     />
                 );
             })}
+            {/* </GridList> */}
             <Button variant="contained" color="primary" onClick={save}>
                 Save
             </Button>
@@ -96,4 +122,9 @@ const ImageGridListOwn = ({ profile }) => {
     );
 };
 
-export default ImageGridListOwn;
+ImageGridListOwn.propTypes = {
+    getProfile: PropTypes.func.isRequired,
+    setSnackbar: PropTypes.func.isRequired,
+};
+
+export default connect(null, { getProfile, setSnackbar })(ImageGridListOwn);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-// import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
@@ -9,9 +8,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import ImageGridList from './ImageGridList';
 import ImageGridListOwn from './ImageGridListOwn';
-// import MuiDialogActions from '@material-ui/core/DialogActions';
-// import Carousel from "./Carousel";
-// import SingleLineGridList from "./SingleLineGridList";
 
 const styles = theme => ({
     root: {
@@ -46,13 +42,6 @@ const DialogContent = withStyles(theme => ({
     },
 }))(MuiDialogContent);
 
-// const DialogActions = withStyles((theme) => ({
-//   root: {
-//     margin: 0,
-//     padding: theme.spacing(1),
-//   },
-// }))(MuiDialogActions);
-
 export default function CustomizedDialog({ open, setOpen, profile, type }) {
     const handleClose = () => {
         setOpen(false);
@@ -64,13 +53,10 @@ export default function CustomizedDialog({ open, setOpen, profile, type }) {
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}></DialogTitle>
                 <DialogContent dividers>
                     {type === 'myProfile' ? (
-                        <ImageGridListOwn profile={profile} />
+                        <ImageGridListOwn handleClose={handleClose} profile={profile} />
                     ) : (
                         <ImageGridList profile={profile} />
                     )}
-
-                    {/* <Carousel photos={profile.photos}/> */}
-                    {/* <SingleLineGridList/> */}
                 </DialogContent>
             </Dialog>
         </div>

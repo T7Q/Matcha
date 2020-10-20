@@ -23,7 +23,6 @@ export const getProfile = (type, userId) => async dispatch => {
             type === 'myProfile' ? await axios.get('/profile/me') : await axios.get(`/profile/user/${userId}`);
 
         if (res.data.error) {
-            console.log('response DATA', res.data);
             dispatch({
                 type: GET_PROFILE,
                 payload: null,
@@ -69,7 +68,7 @@ export const createProfile = (formData, images, history) => async dispatch => {
             history.push('/Profile');
         }
     } catch (err) {
-        console.log(err);
+        dispatch(setSnackbar(true, 'error', err));
     }
 };
 
@@ -159,7 +158,7 @@ export const deleteProfile = history => async dispatch => {
             history.push('/');
         }
     } catch (error) {
-        console.log(error);
+        dispatch(setSnackbar(true, 'error', error));
     }
 };
 

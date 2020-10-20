@@ -12,6 +12,7 @@ const PrivateRoute = ({
     url,
     ...rest
 }) => {
+    
     return (
         <Route
             {...rest}

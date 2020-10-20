@@ -40,6 +40,7 @@ const ImageGridList = ({ profile: { profile}, authId }) => {
         {profile['photos'].map((tile, index) => (
           <GridListTile key={index} cols={1}>
             <img src={tile.image_path}  alt={tile.image_path}/>
+            { profile.user_id === authId ?
             <GridListTileBar
               title={tile.title}
               titlePosition="top"
@@ -51,6 +52,7 @@ const ImageGridList = ({ profile: { profile}, authId }) => {
               actionPosition="left"
               className={classes.titleBar}
             />
+            : ''}
           </GridListTile>
         ))}
       </GridList>

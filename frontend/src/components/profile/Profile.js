@@ -1,13 +1,23 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Box } from '@material-ui/core';
-import { getProfile } from '../../actions/profile';
-import Spinner from '../layout/Spinner';
-import Header from './ProfileItems/Header';
-import Body from './ProfileItems/Body';
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Box } from "@material-ui/core";
+import { getProfile } from "../../actions/profile";
+import Spinner from "../layout/Spinner";
+import Header from "./ProfileItems/Header";
+import Body from "./ProfileItems/Body";
+import { useDispatch } from 'react-redux'
 
-const Profile = ({ getProfile, profile: { profile, loading }, authUserId, socket, ...props }) => {
+const Profile = ({
+    getProfile, 
+    profile: { profile, loading },
+    authUserId,
+    previousPath,
+    socket,
+    ...props
+}) => {
+    const dispatch = useDispatch();
+    
     // get the type the profile (my or other user) based on url param
     let type = props.match.path === '/profile/me' ? 'myProfile' : 'otherUser';
     // map other user id from url param
@@ -24,6 +34,7 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, socket
             // console.log('not my profile');
             socket.emit('UPDATE_NOTIFICATIONS', otherUserId, 'visit');
         }
+        dispatch({ type: 'UPDATE_PATH', payload: type });
     }, [getProfile, type, otherUserId, socket]);
 
     if (profile === null) {
@@ -35,7 +46,7 @@ const Profile = ({ getProfile, profile: { profile, loading }, authUserId, socket
     ) : (
         <>
             <Header profile={profile} type={type} />
-            <Box pt={8}>
+            <Box pt={8} >
                 <Body profile={profile} type={type} />
             </Box>
         </>
@@ -46,11 +57,13 @@ Profile.propTypes = {
     getProfile: PropTypes.func.isRequired,
     profile: PropTypes.object.isRequired,
     authUserId: PropTypes.string.isRequired,
+    previousPath: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
     profile: state.profile,
     authUserId: state.auth.user.userId,
+    previousPath: state.auth.previousPath,
 });
 
 export default connect(mapStateToProps, { getProfile })(Profile);

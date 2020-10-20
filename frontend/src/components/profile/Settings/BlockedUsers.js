@@ -52,6 +52,11 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
             setSnackbar(true, "warning", "No changes applied");
         }
     };
+    if (blockedList.length === 0) {
+        return (
+            <Typography>No blocked accounts in this profile</Typography>
+        )
+    }
 
     return (
         <FormGroup>

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+// import { browserHistory } from 'react-router';
 
 import { AppBar, Tabs, Tab, Container, Box } from "@material-ui/core";
 import {
@@ -10,16 +11,17 @@ import {
     PersonPin,
     Help,
     QueryBuilder,
-    WbIncandescent
+    WbIncandescent,
 } from "@material-ui/icons";
 
 import Match from "../common/matchGallery/GetMatches";
-import Filter from "./Filter";
+import Filter from "./filter/Index";
 import { resetFilter } from "../../actions/match";
+import { useDispatch } from 'react-redux'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
-
+    
     return (
         <div
             role="tabpanel"
@@ -50,7 +52,7 @@ function a11yProps(index) {
     };
 }
 
-const Matches = ({ resetFilter, match, history }) => {
+const Matches = ({ resetFilter, match, history, previousPath }) => {
     const { page } = match.params;
     const route = "/match/" + page;
     const indexToTabName = [
@@ -63,12 +65,35 @@ const Matches = ({ resetFilter, match, history }) => {
         "nearby",
     ];
     const [value, setValue] = React.useState(indexToTabName.indexOf(page));
+    // const [back, setBack] = React.useState(true);
 
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // console.log("use effect");
+        if( previousPath === ""){
+            // console.log("1", previousPath, back);
+            resetFilter();
+        } else if (previousPath === "otherUser"){
+            // console.log("2", previousPath, back);
+            dispatch({ type: 'UPDATE_PATH', payload: "" });
+        } 
+    }, []);
+    
+    
     const handleChange = (event, newValue) => {
         history.push(`/matches/${indexToTabName[newValue]}`);
         setValue(newValue);
         resetFilter();
     };
+
+    
+    // window.onpopstate = e => {
+    //     setBack(true);
+    //     console.log("back", e);
+    //     // console.log("previousPath", previousPath);
+    // }
+
 
     return (
         <Box>
@@ -131,8 +156,13 @@ const Matches = ({ resetFilter, match, history }) => {
 Matches.propTypes = {
     resetFilter: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
+    previousPath: PropTypes.string.isRequired,
 };
 
-export default connect(null, {
+const mapStateToProps = (state) => ({
+    previousPath: state.auth.previousPath,
+});
+
+export default connect(mapStateToProps, {
     resetFilter,
 })(Matches);

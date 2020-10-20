@@ -88,13 +88,17 @@ export const theme = createMuiTheme({
                 color: '#000',
             },
             icon: {
-                color: '#000',
+                color: '#134261',
             },
         },
         MuiAutocomplete: {
             option: {
                 color: '#0e1125',
             },
+        },
+        MuiDropzonePreviewList: {
+            image: { height: 'auto' },
+            removeButton: { position: 'relative' },
         },
     },
 });

@@ -10,13 +10,7 @@ CREATE EXTENSION postgis;
 
 CREATE EXTENSION postgis_topology;
 
-CREATE TABLE IF NOT EXISTS "notifications"
-(
- "notification_id" serial NOT NULL PRIMARY KEY,
- "to_user_id"      bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
- "from_user_id"    bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
- "type"            notification_type NOT NULL
-);
+
 
 CREATE TABLE IF NOT EXISTS "users"
 (
@@ -50,8 +44,15 @@ CREATE TABLE IF NOT EXISTS "users"
  "profile_pic_path"         varchar(255) NULL ,
  "real_time_notification"   boolean NOT NULL DEFAULT TRUE,
  "country"                  varchar(255) NULL ,
- "geolocation"              geography(Point,4326),
- "notification_id"          integer UNIQUE NULL REFERENCES "notifications" ON DELETE CASCADE
+ "geolocation"              geography(Point,4326)
+);
+
+CREATE TABLE IF NOT EXISTS "notifications"
+(
+ "notification_id" serial NOT NULL PRIMARY KEY,
+ "to_user_id"      bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
+ "from_user_id"    bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
+ "type"            notification_type NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "western_horo_compatibility"

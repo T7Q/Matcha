@@ -72,3 +72,19 @@ INSERT INTO user_tags(user_id, tag_id)
 INSERT INTO images(user_id, image_path)
     VALUES (1,'/demo1.jpg'),(1,'/demo2.jpg'), (1,'/demo3.jpg'),(1,'/demo4.jpg'),(1,'/demo5.jpg');
 
+ INSERT INTO users (username, first_name, last_name, email, status,
+    password, birth_date, gender, sex_preference, email_notification,
+    online, latitude, longitude, country, real_time_notification,
+    fame_rating, bio, created_at, last_seen, profile_pic_path, fame_14_days)
+    VALUES ('love2', 'Hive', 'TheSecond', 'demo1@gmail.com', 2,
+		'$2b$10$FOHKA4htx6iIAYHSEbX1hOnKtwk7Bur7eWl354I/mqs4KCt9cZAGi', '2000-02-20', 'woman','both', false,
+		0, '61.92', '25.74', 'Finland', false,
+		4, 'I’m A fun-loving girl. I do a lot on the weekend. I like to work on cars, BBQ with my friends, catch a local band.',
+		'2020-10-10', '2020-10-10', '/demo2.jpg', 20);
+
+INSERT INTO user_tags(user_id, tag_id)
+	VALUES (2, 2), (2, 7), (2, 9), (2, 20), (2, 21), (2, 13), (2, 34), (2, 36), (2, 49), (2, 55);
+
+INSERT INTO images(user_id, image_path)
+    VALUES (2,'/demo1.jpg'),(2,'/demo2.jpg'), (2,'/demo3.jpg'),(2,'/demo4.jpg'),(2,'/demo5.jpg');
+

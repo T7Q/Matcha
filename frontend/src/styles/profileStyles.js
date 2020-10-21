@@ -1,30 +1,32 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { theme } from "./custom";
 
-
 export const profileStyles = makeStyles((theme) => ({
-
     h4: {
-            color: '#219bf1',
-            paddingTop: '2rem',
-            align: 'center',
-            // [theme.breakpoints.down('sm')]: {
-            //     // align: 'left',
-            //     color: 'red',
-            // }
+        color: "#219bf1",
+        paddingTop: "2rem",
+        textAlign: "left",
+        [theme.breakpoints.down("xs")]: {
+            textAlign: "center",
+            color: "red",
         },
+    },
     p: {
-        alignItems: 'center',
+        alignItems: "center",
+        textAlign: "left",
+        [theme.breakpoints.down("xs")]: {
+            textAlign: "center",
+            color: "red",
+        },
     },
     avatarImageStyle: {
-        margin: 'auto',
+        margin: "auto",
         width: "160px",
         height: "160px",
-        display: 'flex',
-        
+        display: "flex",
     },
     center: {
-        alignItems: 'center',
+        alignItems: "center",
     },
     // bottom: {
     //     alignSelf: 'end',
@@ -38,12 +40,11 @@ export const profileStyles = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
     },
     buttonSize: {
-        marginRight: '10px',
-        size: 'large',
-        [theme.breakpoints.down('sm')]: {
-            size: 'small',
-            color: 'pink'
-        }
+        marginRight: "10px",
+        size: "large",
+        [theme.breakpoints.down("sm")]: {
+            size: "small",
+            // color: 'green'
+        },
     },
-
 }));

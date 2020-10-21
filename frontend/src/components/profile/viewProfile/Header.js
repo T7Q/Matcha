@@ -137,8 +137,6 @@ const Header = ({ profile, type }) => {
                     <Typography
                         variant="h4"
                         // nowrap
-                        // align= {isMobile ? 'center' : 'left'}
-                        
                         className={classesProf.h4}
                     >
                         {profile.first_name}

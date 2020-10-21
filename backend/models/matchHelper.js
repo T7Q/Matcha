@@ -32,7 +32,8 @@ const validateOrientation = (userSelectedOrientation) => {
 const buildBase = (req, settings) => {
     switch (req.body.type) {
         case "nearby":
-            settings.filter += setDistance(0, 10000);
+            settings.filter += setDistance(0, 5000);
+            settings.order = "distance asc";
             settings.limit = " LIMIT 100";
             break;
         case "popular":

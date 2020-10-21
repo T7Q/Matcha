@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Button, Box } from "@material-ui/core";
+import { IconButton, Button, Box, Tooltip } from "@material-ui/core";
 import { Favorite, Chat, Block } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { addLike, removeLike } from "../../../actions/profile";
 import { setSnackbar } from "../../../actions/setsnackbar";
 import { profileStyles } from "../../../styles/profileStyles";
+import { useTheme } from "@material-ui/core/styles";
 
 const Buttons = ({
     addLike,
@@ -18,6 +19,8 @@ const Buttons = ({
     card,
     profile,
 }) => {
+    const theme = useTheme();
+    const classesProf = profileStyles();
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
             let toUserId = card.user_id;
@@ -32,26 +35,26 @@ const Buttons = ({
             );
         }
     };
-    const handleUnblock = () => {
-        setSnackbar(true, "warning", "You have blocked this user.");
-    };
+
     if (card.blocked === "1") {
         return (
-            <IconButton aria-label="block" onClick={handleUnblock}>
-                <Block style={{ fill: "red" }} />
-            </IconButton>
+            <Box display="flex" alignItems="center" justifyContent="center">
+                <Tooltip title="You have blocked this user">
+                    <Block style={{ fill: theme.palette.info.main }} fontSize="large" />
+                </Tooltip>
+            </Box>
         );
     }
+    // console.log("theme.palette.info", theme.palette.info);
 
-    const classesProf = profileStyles();
     return (
         <Box display="flex" alignItems="center" justifyContent="center">
             <Button
                 onClick={handleLike}
                 variant="outlined"
+                // color={card.connected > 0 ? 'green' : "primary"}
                 color="primary"
                 className={classesProf.buttonSize}
-                // margin={10}
                 startIcon={<Favorite />}
             >
                 {card.connected > 0 ? "Unmatch" : "Like"}

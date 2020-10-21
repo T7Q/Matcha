@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Typography, Avatar, Badge, Box, Grid } from "@material-ui/core";
 import { Container, useMediaQuery } from "@material-ui/core";
 import UserRating from "./UserRating";
+import { Block } from "@material-ui/icons";
 import Buttons from "./Buttons";
 import Dropdown from "./DropdownItem";
 import CustomizedDialog from "./CustomizedDialog";
@@ -10,7 +11,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import clsx from "clsx";
 import { useStyles } from "../../../styles/custom";
 import { profileStyles } from "../../../styles/profileStyles";
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from "@material-ui/core/styles";
 
 // calcuate number of days until now
 const days = (lastSeen) => {
@@ -76,13 +77,10 @@ const StyledBadge = withStyles((theme) => ({
 const Header = ({ profile, type }) => {
     const [open, setOpen] = useState(false);
     const avatarAlt = profile.first_name + " " + profile.last_name;
-    // const lastSeen = days(profile.last_seen);
     const handleClickOpen = () => {
         setOpen(true);
     };
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-    const isMedium = useMediaQuery(theme.breakpoints.down('sm'));
 
     let description = "";
     if (type === "otherUser") {
@@ -90,14 +88,13 @@ const Header = ({ profile, type }) => {
     }
 
     const lastSeen = `last seen ${days(profile.last_seen)}`;
-    // let color = profile.online === 1 ? { color: "#44b700", backgroundColor: "#44b700" } : { color: "grey", backgroundColor: "grey" };
 
     const classes = useStyles();
     const classesProf = profileStyles();
     return (
         <Box bgcolor="secondary.main" pt={4}>
             <Grid container spacing={3} alignItems="flex-end">
-                <Grid item xs={12} sm={4} md={3} className={classesProf.center}>
+                <Grid item xs={12} sm={4} md={3}>
                     {type === "otherUser" ? (
                         <Tooltip title={profile.online === 0 ? lastSeen : ""}>
                             <StyledBadge
@@ -133,19 +130,18 @@ const Header = ({ profile, type }) => {
                     )}
                 </Grid>
 
-                <Grid item xs={12} sm={4} md={3} >
+                <Grid item xs={12} sm={4} md={3}>
                     <Typography
                         variant="h4"
                         // nowrap
-                        className={classesProf.h4}
+                        className={classesProf.name}
                     >
                         {profile.first_name}
                     </Typography>
                     {type === "otherUser" ? (
                         <Typography
                             variant="body1"
-                            className={classesProf.p}
-                            style={{ display: "flex" }}
+                            className={classesProf.description}
                         >
                             {description}
                             <Dropdown
@@ -156,11 +152,13 @@ const Header = ({ profile, type }) => {
                     ) : (
                         ""
                     )}
-                    <UserRating profile={profile} />
+                    <Box className={classesProf.ratingPosition}>
+                            <UserRating profile={profile} />
+                    </Box>
                 </Grid>
                 {type === "otherUser" ? (
-                    <Grid item xs={12} sm={4} md={6} >
-                            <Buttons card={profile} />
+                    <Grid item xs={12} sm={4} md={6}>
+                        <Buttons card={profile} />
                     </Grid>
                 ) : (
                     ""

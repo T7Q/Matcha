@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Tabs, Tab, Typography } from "@material-ui/core";
+import { AppBar, Box, Tabs, Tab, Typography } from "@material-ui/core";
 import Match from "../common/matchGallery/GetMatches";
 
 const Likes = ({ match, history }) => {
@@ -17,7 +17,7 @@ const Likes = ({ match, history }) => {
     };
 
     return (
-        <div>
+        <Box minHeight="80vh" display="flex" flexDirection="column">
             <AppBar position="static">
                 <Typography variant="h6">Likes</Typography>
                 <Tabs value={selectedTab} onChange={handleChange}>
@@ -31,7 +31,7 @@ const Likes = ({ match, history }) => {
             {selectedTab === 1 && (
                 <Match route="/match/connected" filterIsOn={0} />
             )}
-        </div>
+        </Box>
     );
 };
 

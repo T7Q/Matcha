@@ -1,4 +1,4 @@
-import { IconButton } from "@material-ui/core";
+import { IconButton, Box } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -9,13 +9,11 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 import { addInteraction, unblockUser } from "../../../actions/profile";
 
-import { useStyles } from '../../../styles/custom';
+import { useStyles } from "../../../styles/custom";
+import { profileStyles } from "../../../styles/profileStyles";
+import { useTheme } from "@material-ui/core/styles";
 
-const Dropdown = ({
-    addInteraction,
-    unblockUser,
-    profile: { profile },
-}) => {
+const Dropdown = ({ addInteraction, unblockUser, profile: { profile } }) => {
     const userId = profile.user_id;
     const blocked = profile.blocked;
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -35,48 +33,55 @@ const Dropdown = ({
         // unblockUser("profile", [{ user_id: userId }]);
         addInteraction(type, userId);
     };
-
     const classes = useStyles();
+    const classesProf = profileStyles();
+
+    const menu = [
+        {
+            title: "Report",
+            handleClick: handleClickInteraction("reported"),
+        },
+        {
+            title: blocked === "1" ? "Unblock" : "Block",
+            handleClick:
+                blocked === "1"
+                    ? handleClickUnblock
+                    : handleClickInteraction("blocked"),
+        },
+        {
+            title: "x",
+            handleClick: handleClose,
+        },
+    ];
+
     return (
         <>
             <IconButton
-                aria-label="more"
-                aria-controls="long-menu"
                 aria-haspopup="true"
                 onClick={handleClick}
             >
-                <MoreHorizIcon style={{ fill: "white" }} fontSize="small"/>
+                <MoreHorizIcon style={{ fill: "white" }} fontSize="small" />
             </IconButton>
-            <Menu 
+            <Menu
                 id="actions-menu"
                 anchorEl={anchorEl}
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                className={classesProf.menuBg}
+                
             >
-                <MenuItem style={{ backgroundColor: "grey"}}
-                    onClick={handleClickInteraction("reported")}
-                >
-                    REPORT
-                </MenuItem>
-                {blocked === "1" ? (
-                    <MenuItem style={{ backgroundColor: "grey"}}
-                        onClick={handleClickUnblock}
+                {menu.map((menuItem) => (
+                    <MenuItem
+                        style={{ background: 'grey' }}
+                        className={classes.menuItem}
+                        key={menuItem.title}
+                        onClick={menuItem.handleClick}
                     >
-                        UNBLOCK
+                        {menuItem.title}
+                        
                     </MenuItem>
-                ) : (
-                    <MenuItem style={{ backgroundColor: "grey"}}
-                        onClick={handleClickInteraction("blocked")}
-                    >
-                        BLOCK
-                    </MenuItem>
-                )}
-
-                <MenuItem style={{ backgroundColor: "grey"}}
-                onClick={handleClose}>
-                    x
-                </MenuItem>
+                ))}
             </Menu>
         </>
     );

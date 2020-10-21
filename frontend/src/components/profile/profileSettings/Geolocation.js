@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import { connect } from 'react-redux';
 import { FormGroup, Grid, Button } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
@@ -7,19 +8,30 @@ import { editProfile } from '../../../actions/profile'; /// update here function
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import mapStyles from './mapStyles';
 
-const Geolocation = ({ user }) => {
+const Geolocation = ({ user, editProfile, setSnackbar }) => {
+    const [marker, setMarker] = useState({
+        lat: user.latitude,
+        lng: user.longitude,
+    });
     const classes = useStyles();
 
     const handleSubmit = async event => {
         event.preventDefault();
         console.log('Coordinates', marker);
-        /// HERE ADD ACTION
+        try {
+            const res = await axios.post('/profile/edit', { key: 'location', value: marker });
+            if (res.data.error) {
+                setSnackbar(true, 'error', 'Could not update your location. Try later.');
+            } else {
+                user.latitude = marker.lat;
+                user.longitude = marker.lng;
+                editProfile(user);
+                setSnackbar(true, 'success', res.data.msg);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
-
-    const [marker, setMarker] = React.useState({
-        lat: user.latitude,
-        lng: user.longitude,
-    });
 
     const handleMapClick = event => {
         setMarker({
@@ -28,7 +40,6 @@ const Geolocation = ({ user }) => {
         });
     };
 
-    // const libraries = ["places"];
     const mapContainerStyle = {
         width: '30vw',
         height: '50vh',
@@ -80,8 +91,12 @@ const Geolocation = ({ user }) => {
     );
 };
 
+Geolocation.propTypes = {
+    editProfile: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, {})(Geolocation);
+export default connect(mapStateToProps, { editProfile })(Geolocation);

@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { jwtSecret } = require('../../config');
 const accountModel = require('../../models/account');
-const getLocation = require('../../utils/location');
+const { getLocation } = require('../../utils/location');
 
 module.exports = async (req, res) => {
     let { username, password } = req.body;

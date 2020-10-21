@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import axios from "axios";
-import { makeStyles } from "@material-ui/core/styles";
-import { List } from "@material-ui/core";
-import { FormGroup, Button, Typography } from "@material-ui/core";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import { List } from '@material-ui/core';
+import { FormGroup, Button, Typography } from '@material-ui/core';
 
-import BlockedUserCard from "./BlockedUserCard";
+import BlockedUserCard from './BlockedUserCard';
 
-import { unblockUser } from "../../../actions/profile";
-import { setSnackbar } from "../../../actions/setsnackbar";
+import { unblockUser } from '../../../actions/profile';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     root: {
-        width: "100%",
+        width: '100%',
         maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
     },
@@ -26,7 +25,7 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
     useEffect(() => {
         let isMounted = true;
         async function getBlockedUsers() {
-            const res = await axios.get("profile/blockedUsers");
+            const res = await axios.get('profile/blockedUsers');
             isMounted && setBlockedUsers(res.data);
         }
         getBlockedUsers();
@@ -35,37 +34,29 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
         };
     }, []);
 
-    const handleBlock = (index) => () => {
+    const handleBlock = index => () => {
         const newblockedList = [...blockedList];
         newblockedList[index].blocked = !newblockedList[index].blocked;
         setBlockedUsers(newblockedList);
     };
     const handleSave = () => {
-        const unblockList = blockedList.filter((e) => e.blocked === false);
+        const unblockList = blockedList.filter(e => e.blocked === false);
         if (unblockList.length > 0) {
-            unblockUser("settings", unblockList);
-            const newblockedList = blockedList.filter(
-                (e) => e.blocked === true
-            );
+            unblockUser('settings', unblockList);
+            const newblockedList = blockedList.filter(e => e.blocked === true);
             setBlockedUsers(newblockedList);
         } else {
-            setSnackbar(true, "warning", "No changes applied");
+            setSnackbar(true, 'warning', 'No changes applied');
         }
     };
     if (blockedList.length === 0) {
-        return (
-            <Typography>No blocked accounts in this profile</Typography>
-        )
+        return <Typography>No blocked accounts in this profile</Typography>;
     }
 
     return (
         <FormGroup>
             <Typography>Blocked Accounts</Typography>
-            <List
-                dense
-                className={classes.root}
-                style={{ backgroundColor: "grey" }}
-            >
+            <List dense className={classes.root} style={{ backgroundColor: 'grey' }}>
                 {blockedList.map((value, index) => {
                     const labelId = `checkbox-list-secondary-label-${value.user_id}`;
                     return (
@@ -80,12 +71,7 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
                     );
                 })}
             </List>
-            <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                onClick={handleSave}
-            >
+            <Button size="small" variant="contained" color="primary" onClick={handleSave}>
                 Save
             </Button>
         </FormGroup>
@@ -94,7 +80,6 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
 
 BlockedUsers.propTypes = {
     unblockUser: PropTypes.func.isRequired,
-    setSnackbar: PropTypes.func.isRequired,
 };
 
-export default connect(null, { unblockUser, setSnackbar })(BlockedUsers);
+export default connect(null, { unblockUser })(BlockedUsers);

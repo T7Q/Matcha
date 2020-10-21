@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -39,7 +40,7 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
         sendLogin(dataToSubmit);
     };
 
-    const errorInPosition = error => {
+    const errorInPosition = async error => {
         sendLogin(formData);
     };
 

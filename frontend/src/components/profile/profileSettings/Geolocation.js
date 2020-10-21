@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { FormGroup, Grid, Button } from "@material-ui/core";
-import { useStyles } from "../../../styles/custom";
-import { editProfile } from "../../../actions/profile"; /// update here function
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import mapStyles from "./mapStyles";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { FormGroup, Grid, Button } from '@material-ui/core';
+import { useStyles } from '../../../styles/custom';
+import { editProfile } from '../../../actions/profile'; /// update here function
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import mapStyles from './mapStyles';
 
 const Geolocation = ({ user }) => {
     const classes = useStyles();
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async event => {
         event.preventDefault();
-        console.log("Coordinates", marker);
+        console.log('Coordinates', marker);
         /// HERE ADD ACTION
     };
 
@@ -21,7 +21,7 @@ const Geolocation = ({ user }) => {
         lng: user.longitude,
     });
 
-    const handleMapClick = (event) => {
+    const handleMapClick = event => {
         setMarker({
             lat: event.latLng.lat(),
             lng: event.latLng.lng(),
@@ -30,8 +30,8 @@ const Geolocation = ({ user }) => {
 
     // const libraries = ["places"];
     const mapContainerStyle = {
-        width: "30vw",
-        height: "50vh",
+        width: '30vw',
+        height: '50vh',
     };
 
     const center = {
@@ -49,9 +49,9 @@ const Geolocation = ({ user }) => {
         zoomControl: true,
     };
 
-    if (loadError) return "Error loading maps";
-    if (!isLoaded) return "Loading Maps";
-    
+    if (loadError) return 'Error loading maps';
+    if (!isLoaded) return 'Loading Maps';
+    console.log('marker', marker);
     return (
         <form onSubmit={handleSubmit}>
             <FormGroup>
@@ -62,11 +62,8 @@ const Geolocation = ({ user }) => {
                             zoom={8}
                             center={center}
                             options={options}
-                            onClick={handleMapClick}
-                        >
-                            <Marker
-                                position={{ lat: marker.lat, lng: marker.lng }}
-                            />
+                            onClick={handleMapClick}>
+                            <Marker position={{ lat: marker.lat, lng: marker.lng }} />
                         </GoogleMap>
                     </Grid>
                 </Grid>
@@ -75,8 +72,7 @@ const Geolocation = ({ user }) => {
                     size="small"
                     variant="contained"
                     color="primary"
-                    className={`${classes.customButton} ${classes.p2}`}
-                >
+                    className={`${classes.customButton} ${classes.p2}`}>
                     Save
                 </Button>
             </FormGroup>
@@ -84,7 +80,7 @@ const Geolocation = ({ user }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     user: state.auth.user,
 });
 

@@ -1,26 +1,37 @@
 import React from "react";
+import { Box } from "@material-ui/core";
+import { StarBorder } from "@material-ui/icons";
 import Rating from "@material-ui/lab/Rating";
-import Box from "@material-ui/core/Box";
-
-import { profileStyles } from '../../../styles/profileStyles';
+import { useTheme } from "@material-ui/core/styles";
+import { useStyles } from "../../../styles/custom";
+import { profileStyles } from "../../../styles/profileStyles";
+import { withStyles } from "@material-ui/core/styles";
 
 const UserRating = ({ profile }) => {
     const classesProf = profileStyles();
+    const classes = useStyles();
+    const theme = useTheme();
+
+    const StyledRating = withStyles({
+        iconFilled: {
+            color: "#b5bad3",
+        },
+    })(Rating);
+
     return (
-        <>
-            {/* <Box component="fieldset" mb={3} borderColor="transparent"
-                className={classesProf.rating}
-            > */}
-                <Rating
-                    name="read-only"
-                    value={parseFloat(profile.fame_rating)}
-                    max={5}
-                    precision={0.1}
-                    readOnly
-                    styledrating={{ color: "white" }}
+        <StyledRating
+            name="rating"
+            value={parseFloat(profile.fame_rating)}
+            max={5}
+            precision={0.1}
+            readOnly
+            emptyIcon={
+                <StarBorder
+                    className={classesProf.ratingColor}
+                    fontSize="inherit"
                 />
-            {/* </Box> */}
-        </>
+            }
+        />
     );
 };
 

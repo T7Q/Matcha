@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Button } from "@material-ui/core";
+import { IconButton, Button, Box } from "@material-ui/core";
 import { Favorite, Chat, Block } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 
 import { addLike, removeLike } from "../../../actions/profile";
 import { setSnackbar } from "../../../actions/setsnackbar";
+import { profileStyles } from "../../../styles/profileStyles";
 
 const Buttons = ({
     addLike,
@@ -19,7 +20,6 @@ const Buttons = ({
 }) => {
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
-            // color = card.connected > 0 ? { fill: "red" } : { fill: "white" };
             let toUserId = card.user_id;
             if (card.connected === 0)
                 addLike("profile", toUserId, match.match, profile.profile);
@@ -42,43 +42,36 @@ const Buttons = ({
             </IconButton>
         );
     }
-    // let color = card.connected > 0 ? { fill: "red" } : { fill: "white" };
-   
+
+    const classesProf = profileStyles();
     return (
-        <>
-            {/* <Button
-                variant="outlined"
-                // variant="contained"
-                color="primary"
-                startIcon={<Close />}
-            >
-                CLOSE
-            </Button> */}
+        <Box display="flex" alignItems="center" justifyContent="center">
             <Button
                 onClick={handleLike}
                 variant="outlined"
-                // variant="contained"
                 color="primary"
-                startIcon={<Favorite  />}
+                className={classesProf.buttonSize}
+                // margin={10}
+                startIcon={<Favorite />}
             >
-                {card.connected > 0 ? "UNMATCH" : "LIKE"}
+                {card.connected > 0 ? "Unmatch" : "Like"}
             </Button>
 
             {card.connected === 2 ? (
                 <Button
                     variant="outlined"
-                    // variant="contained"
                     color="primary"
                     component={Link}
                     to="/messages"
-                    startIcon={<Chat  />}
+                    className={classesProf.buttonSize}
+                    startIcon={<Chat />}
                 >
                     "CHAT"
                 </Button>
             ) : (
                 ""
             )}
-        </>
+        </Box>
     );
 };
 

@@ -38,7 +38,7 @@ const Dropdown = ({
 
     const classes = useStyles();
     return (
-        <div>
+        <>
             <IconButton
                 aria-label="more"
                 aria-controls="long-menu"
@@ -78,7 +78,7 @@ const Dropdown = ({
                     x
                 </MenuItem>
             </Menu>
-        </div>
+        </>
     );
 };
 

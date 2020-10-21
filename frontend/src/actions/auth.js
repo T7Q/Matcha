@@ -48,9 +48,9 @@ export const register = (formData, history) => async dispatch => {
     }
 };
 
-export const login = ({ username, password }) => async dispatch => {
+export const login = props => async dispatch => {
     const config = { headers: { 'Content-Type': 'application/json' } };
-    const body = JSON.stringify({ username, password });
+    const body = JSON.stringify(props);
 
     try {
         const res = await axios.post('/account/login', body, config);

@@ -1,37 +1,48 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { FormGroup, Grid, Button } from "@material-ui/core";
-import { useStyles } from "../../../styles/custom";
-import { editProfile } from "../../../actions/profile"; /// update here function
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import mapStyles from "./mapStyles";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { FormGroup, Grid, Button } from '@material-ui/core';
+import { useStyles } from '../../../styles/custom';
+import { editProfile } from '../../../actions/profile'; /// update here function
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import mapStyles from './mapStyles';
 
-const Geolocation = ({ user }) => {
-    const classes = useStyles();
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        console.log("Coordinates", marker);
-        /// HERE ADD ACTION
-    };
-
-    const [marker, setMarker] = React.useState({
+const Geolocation = ({ user, editProfile, setSnackbar }) => {
+    const [marker, setMarker] = useState({
         lat: user.latitude,
         lng: user.longitude,
     });
+    const classes = useStyles();
 
-    const handleMapClick = (event) => {
+    const handleSubmit = async event => {
+        event.preventDefault();
+        console.log('Coordinates', marker);
+        try {
+            const res = await axios.post('/profile/edit', { key: 'location', value: marker });
+            if (res.data.error) {
+                setSnackbar(true, 'error', 'Could not update your location. Try later.');
+            } else {
+                user.latitude = marker.lat;
+                user.longitude = marker.lng;
+                editProfile(user);
+                setSnackbar(true, 'success', res.data.msg);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleMapClick = event => {
         setMarker({
             lat: event.latLng.lat(),
             lng: event.latLng.lng(),
         });
     };
 
-    // const libraries = ["places"];
     const mapContainerStyle = {
-        width: "30vw",
-        height: "50vh",
+        width: '30vw',
+        height: '50vh',
     };
 
     const center = {
@@ -49,9 +60,9 @@ const Geolocation = ({ user }) => {
         zoomControl: true,
     };
 
-    if (loadError) return "Error loading maps";
-    if (!isLoaded) return "Loading Maps";
-    
+    if (loadError) return 'Error loading maps';
+    if (!isLoaded) return 'Loading Maps';
+    console.log('marker', marker);
     return (
         <form onSubmit={handleSubmit}>
             <FormGroup>
@@ -62,11 +73,8 @@ const Geolocation = ({ user }) => {
                             zoom={8}
                             center={center}
                             options={options}
-                            onClick={handleMapClick}
-                        >
-                            <Marker
-                                position={{ lat: marker.lat, lng: marker.lng }}
-                            />
+                            onClick={handleMapClick}>
+                            <Marker position={{ lat: marker.lat, lng: marker.lng }} />
                         </GoogleMap>
                     </Grid>
                 </Grid>
@@ -75,8 +83,7 @@ const Geolocation = ({ user }) => {
                     size="small"
                     variant="contained"
                     color="primary"
-                    className={`${classes.customButton} ${classes.p2}`}
-                >
+                    className={`${classes.customButton} ${classes.p2}`}>
                     Save
                 </Button>
             </FormGroup>
@@ -84,8 +91,12 @@ const Geolocation = ({ user }) => {
     );
 };
 
-const mapStateToProps = (state) => ({
+Geolocation.propTypes = {
+    editProfile: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, {})(Geolocation);
+export default connect(mapStateToProps, { editProfile })(Geolocation);

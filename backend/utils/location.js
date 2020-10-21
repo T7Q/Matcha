@@ -1,6 +1,4 @@
-const axios = require("axios");
-const geoip = require('geoip-lite');
-const { ipstack } = require('../config');
+const axios = require('axios');
 
 const isValidLatitude = lat => {
     const latitude = parseFloat(lat);
@@ -12,21 +10,17 @@ const isValidLongitude = lon => {
     return !isNaN(longitude) && Math.abs(longitude) <= 180;
 };
 
-module.exports = async (req, user) => {
-    if (isValidLatitude(req.latitude) && isValidLongitude(req.longitude)) {
-        return { 'latitude': parseFloat(req.body.latitude), 'longitude': parseFloat(req.body.longitude) };
+const getLocation = async req => {
+    if (isValidLatitude(req.body.latitude) && isValidLongitude(req.body.longitude)) {
+        return { latitude: parseFloat(req.body.latitude), longitude: parseFloat(req.body.longitude) };
     }
-    let location = geoip.lookup(req.ip);
-
-    if (!location || !location.ll) {
-        // if (user.latitude && user.longitude) {
-        //     return { 'latitude': user.latitude, 'longitude': user.longitude };
-        // } else {
-            location = await axios({ url: `http://api.ipstack.com/check?access_key=${process.env.IPSTACK}` });
-            // console.log(location.data);
-            return { 'latitude': location.data.latitude, 'longitude': location.data.longitude };
-        // }
+    try {
+        const location = await axios('https://ipinfo.io/geo');
+        const locs = location.data.loc.split(',');
+        return { latitude: locs[0], longitude: locs[1] };
+    } catch {
+        return { latitude: 60.207, longitude: 24.86 };
     }
+};
 
-    return { 'latitude': location.ll[0], 'longitude': location.ll[1] };
-}
+module.exports = { getLocation, isValidLatitude, isValidLongitude };

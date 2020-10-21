@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const profileModel = require('../../models/profile');
 const profileHelper = require('../../models/profileHelper');
 const accountHelper = require('../../models/accountHelper');
+const { isValidLatitude, isValidLongitude } = require('../../utils/location');
 
 const general = async (req, res) => {
     let { key, value } = req.body;
@@ -25,6 +26,11 @@ const general = async (req, res) => {
             break;
         case 'birth_date':
             error = profileHelper.validateBirthdate(value);
+            break;
+        case 'location':
+            if (!isValidLatitude(value.lat) || !isValidLongitude(value.lng)) {
+                error = 'not valid location';
+            }
             break;
         case 'username':
             error = accountHelper.validateUsername(value);
@@ -63,6 +69,9 @@ const general = async (req, res) => {
         } else if (key === 'sex_preference') {
             await profileModel.editProfile(userId, 'sex_preference', value.sexPreference);
             await profileModel.editProfile(userId, 'gender', value.gender);
+        } else if (key === 'location') {
+            await profileModel.editProfile(userId, 'latitude', value.lat);
+            await profileModel.editProfile(userId, 'longitude', value.lng);
         } else {
             const r = await profileModel.editProfile(userId, key, value);
         }

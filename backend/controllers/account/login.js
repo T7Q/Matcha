@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
         }
 
         // get location
-        const data = await getLocation(req, user);
+        const data = await getLocation(req);
         // set user online
         data.online = 1;
         await accountModel.updateAccount(user.user_id, data);

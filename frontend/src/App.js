@@ -41,7 +41,7 @@ const App = () => {
             <Provider store={store}>
                 <Router>
                     <CssBaseline />
-                    <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
+                    <Box display="flex" flexDirection="column" minHeight="100vh" position="relative" >
                         <Navbar />
                         <CustomizedSnackbars />
                         <Box flexGrow={1}>

@@ -57,6 +57,7 @@ module.exports = async (req, res) => {
             dateColumn: ", users.created_at as date ",
             values: values
         };
+       
         matchHelper.buildBase(req, settings);
         settings.order = matchHelper.buildOrder(req.body.order, settings.order);
         settings.weight = matchHelper.setWeights(req.body.believe_cn, req.body.believe_west, userDbData.userHasTags);

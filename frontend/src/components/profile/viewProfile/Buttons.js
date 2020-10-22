@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Button } from "@material-ui/core";
+import { IconButton, Button, Box, Tooltip } from "@material-ui/core";
 import { Favorite, Chat, Block } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 
 import { addLike, removeLike } from "../../../actions/profile";
 import { setSnackbar } from "../../../actions/setsnackbar";
+import { profileStyles } from "../../../styles/profileStyles";
+import { useTheme } from "@material-ui/core/styles";
 
 const Buttons = ({
     addLike,
@@ -17,9 +19,10 @@ const Buttons = ({
     card,
     profile,
 }) => {
+    const theme = useTheme();
+    const classesProf = profileStyles();
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
-            // color = card.connected > 0 ? { fill: "red" } : { fill: "white" };
             let toUserId = card.user_id;
             if (card.connected === 0)
                 addLike("profile", toUserId, match.match, profile.profile);
@@ -32,53 +35,46 @@ const Buttons = ({
             );
         }
     };
-    const handleUnblock = () => {
-        setSnackbar(true, "warning", "You have blocked this user.");
-    };
+
     if (card.blocked === "1") {
         return (
-            <IconButton aria-label="block" onClick={handleUnblock}>
-                <Block style={{ fill: "red" }} />
-            </IconButton>
+            <Box display="flex" alignItems="center" justifyContent="center">
+                <Tooltip title="You have blocked this user">
+                    <Block style={{ fill: theme.palette.info.main }} fontSize="large" />
+                </Tooltip>
+            </Box>
         );
     }
-    // let color = card.connected > 0 ? { fill: "red" } : { fill: "white" };
-   
+    // console.log("theme.palette.info", theme.palette.info);
+
     return (
-        <>
-            {/* <Button
-                variant="outlined"
-                // variant="contained"
-                color="primary"
-                startIcon={<Close />}
-            >
-                CLOSE
-            </Button> */}
+        <Box display="flex" alignItems="center" justifyContent="center">
             <Button
                 onClick={handleLike}
                 variant="outlined"
-                // variant="contained"
+                // color={card.connected > 0 ? 'green' : "primary"}
                 color="primary"
-                startIcon={<Favorite  />}
+                className={classesProf.buttonSize}
+                startIcon={<Favorite />}
             >
-                {card.connected > 0 ? "UNMATCH" : "LIKE"}
+                {card.connected > 0 ? "Unmatch" : "Like"}
             </Button>
 
             {card.connected === 2 ? (
                 <Button
                     variant="outlined"
-                    // variant="contained"
                     color="primary"
                     component={Link}
                     to="/messages"
-                    startIcon={<Chat  />}
+                    className={classesProf.buttonSize}
+                    startIcon={<Chat />}
                 >
                     "CHAT"
                 </Button>
             ) : (
                 ""
             )}
-        </>
+        </Box>
     );
 };
 

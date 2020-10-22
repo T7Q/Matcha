@@ -1,24 +1,73 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { theme } from "./custom";
 
 export const profileStyles = makeStyles((theme) => ({
-    h4: {
-            color: '#219bf1',
-            paddingTop: '2rem',
+    name: {
+        // color: "#219bf1",
+        paddingTop: "2rem",
+        textAlign: "left",
+        [theme.breakpoints.down("xs")]: {
+            textAlign: "center",
         },
-    p: {
-        alignItems: 'center',
+    },
+    description: {
+        textAlign: "left",
+        [theme.breakpoints.down("xs")]: {
+            textAlign: "center",
+        },
+    },
+    ratingPosition: {
+        textAlign: "left",
+        [theme.breakpoints.down("xs")]: {
+            textAlign: "center",
+        },
     },
     avatarImageStyle: {
-        margin: 'auto',
+        alignItems: "center",
+        margin: "auto",
         width: "160px",
         height: "160px",
+        display: "flex",
+        marginBottom: '-15px',
+    },
+    ratingColor: {
+        color: theme.palette.text.secondary,
+    },
+    buttonSize: {
+        marginRight: "10px",
+        size: "large",
+        [theme.breakpoints.down("sm")]: {
+            size: "small",
+        },
+    },
+    connectionStyle: {
+        marginRight: "10px",
+        color: theme.palette.primary.light,
+    },
+    blocked: {
+        marginRight: "10px",
+        color: theme.palette.info.main,
+    },
+    listIconStyle: {
+        color: theme.palette.text.primary,
+        size: 'small',
+    },
+    listItem:{
+        paddingLeft: 0,
+        paddingTop: '10px',
+        paddingBottom: 0,
+    },
+    likeButton: {
+        color: 'green',
+        borderColor: 'green',
+        // borderColor: theme.palette.secondary.main,
+        // '&:hover': {
+        //     backgroundColor: 'blue',
+        // },
         
     },
-    center: {
-        alignItems: 'center',
+    editBtn: {
+        color: theme.palette.text.secondary,
     },
-    rating: {
-        padding: 0,
-        alignItems: 'center',
-    }
+
 }));

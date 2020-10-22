@@ -1,51 +1,29 @@
 import React from "react";
 import { Typography, Grid, IconButton, Divider } from "@material-ui/core";
 import { List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { Container } from "@material-ui/core";
+import { Container, Paper } from "@material-ui/core";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
-import {
-    Timeline,
-    AssignmentIndOutlined,
-    VpnKeyOutlined,
-    Chat,
-    Favorite,
-} from "@material-ui/icons";
-import {
-    ArrowForwardIos,
-    BubbleChartOutlined,
-    LocationOnOutlined,
-} from "@material-ui/icons";
+import { Timeline, AssignmentIndOutlined } from "@material-ui/icons";
+import { Chat, Favorite, VpnKeyOutlined, Block } from "@material-ui/icons";
+import { ArrowForwardIos, BubbleChartOutlined } from "@material-ui/icons";
+import { LocationOnOutlined } from "@material-ui/icons";
+
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-// // calcuate number of days until now
-// const days = (lastSeen) => {
-//     const today = new Date();
-//     const date = new Date(lastSeen);
-//     let differenceInTime = today.getTime() - date.getTime();
-//     let differenceInDays = parseInt(differenceInTime / (1000 * 3600 * 24));
-//     const str =
-//         differenceInDays > 365
-//             ? "more than a year ago"
-//             : differenceInDays > 365
-//             ? "6 months ago"
-//             : differenceInDays > 91
-//             ? "3 months ago"
-//             : differenceInDays > 31
-//             ? "a months ago"
-//             : (differenceInDays = 0
-//                   ? "today"
-//                   : (differenceInDays = 1
-//                         ? "yesterday"
-//                         : `a ${differenceInDays} day(s) ago`));
-//     return str;
-// };
+import { useStyles } from "../../../styles/custom";
+import { profileStyles } from "../../../styles/profileStyles";
+import { useTheme } from "@material-ui/core/styles";
 
 const Body = ({ profile: { profile, loading }, type }) => {
     // const classes = useStyles();
     // const [dense, setDense] = React.useState(false);
     // const [secondary, setSecondary] = React.useState(false);
+
+    const theme = useTheme();
+    const classes = useStyles();
+    const classesProf = profileStyles();
 
     const userDescription = [
         {
@@ -63,7 +41,6 @@ const Body = ({ profile: { profile, loading }, type }) => {
     ];
 
     const date = new Date(profile.birth_date).toLocaleDateString();
-    // const preference = profile.sex_preference === "both" ? "men and women" : profile.sex_preference;
     let orientation = "";
     if (
         profile.sex_orientation === "straight_man" ||
@@ -112,68 +89,95 @@ const Body = ({ profile: { profile, loading }, type }) => {
     ];
     return (
         <Container>
-            <Grid container justify="center">
-                <Grid container item xs={10} sm={6} justify="center">
+            <Grid container justify="center" spacing={6}>
+                <Grid container item xs={10} sm={8} justify="center">
                     <List key="desc1">
                         {userDescription.map((value, index) => {
                             return (
                                 <div key={"title" + index}>
                                     <Divider light />
-                                    <ListItem>
-                                        <Typography>{value.title}</Typography>
-                                        <ListItemSecondaryAction>
-                                            {type === "myProfile" ? (
-                                                <IconButton
-                                                    edge="end"
-                                                    component={Link}
-                                                    to={value.link}
-                                                >
-                                                    <ArrowForwardIos fontSize="small" />
-                                                </IconButton>
-                                            ) : (
-                                                ""
-                                            )}
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemText primary={value.text} />
-                                    </ListItem>
+                                    <Paper
+                                        style={{
+                                            background: "inherit",
+                                            color: theme.palette.text.secondary,
+                                            marginBottom: "20px",
+                                        }}
+                                        elevation={4}
+                                    >
+                                        <ListItem>
+                                            <Typography
+                                                variant="h6"
+                                                style={{ color: "white" }}
+                                            >
+                                                {value.title}
+                                            </Typography>
+                                            <ListItemSecondaryAction>
+                                                {type === "myProfile" ? (
+                                                    <IconButton
+                                                        edge="end"
+                                                        component={Link}
+                                                        to={value.link}
+                                                        className={classesProf.editBtn}
+                                                    >
+                                                        <ArrowForwardIos fontSize="small" />
+                                                    </IconButton>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                        <ListItem>
+                                            <ListItemText
+                                                primary={value.text}
+                                            />
+                                        </ListItem>
+                                    </Paper>
                                 </div>
                             );
                         })}
                     </List>
                 </Grid>
-                <Grid container item xs={10} sm={6} justify="center">
-                    {type === "otherUser" && profile.connected === 1 ? (
-                        <>
-                            <Favorite />
-                            <Typography style={{ display: "flex" }}>
-                                You like them!
-                            </Typography>
-                        </>
-                    ) : (
-                        ""
-                    )}
-                    {type === "otherUser" && profile.connected === 2 ? (
-                        <>
-                            <Chat />
-                            <Typography style={{ display: "flex" }}>
-                                You are connected!
-                            </Typography>
-                        </>
-                    ) : (
-                        ""
-                    )}
+                <Grid container item xs={10} sm={4} justify="center">
                     <List
                         key="desc2"
-                        style={{ backgroundColor: "grey", overflow: "hidden" }}
+                        style={{ backgroundColor: "inherit", overflow: "hidden" }}
                     >
+                        {type === "otherUser" && profile.connected === 1 && profile.blocked !== "1" ? (
+                            <>
+                                <ListItem style={{ justifyContent: "center"}} >
+                                    <Favorite className={classesProf.connectionStyle} />
+                                    {/* <Typography style={{ display: "flex", color: theme.palette.text.secondary }}> */}
+                                    <Typography style={{ display: "flex" }}>
+                                        You like them!
+                                    </Typography>
+                                </ListItem>
+                                <Divider style={{backgroundColor: theme.palette.primary.light}} />
+                            </>
+                        ) : (
+                            ""
+                        )}
+                        {type === "otherUser" && profile.connected === 2  && profile.blocked !== "1" ? (
+                            <>
+                                <ListItem style={{ justifyContent: "center"}} >
+                                    <Chat className={classesProf.connectionStyle} />
+                                    {/* <Typography style={{ display: "flex", color: theme.palette.text.secondary }}> */}
+                                    <Typography style={{ display: "flex" }}>
+                                        You are connected!
+                                    </Typography>
+                                </ListItem>
+                                <Divider style={{backgroundColor: theme.palette.primary.light}} />
+                            </>
+                        ) : (
+                            ""
+                        )}
                         {userData.map((value, index) => {
                             return (
-                                <ListItem key={"info" + index}>
-                                    <ListItemIcon>{value.icon}</ListItemIcon>
+                                <ListItem key={"info" + index} className={classesProf.listItem} >
+                                    <ListItemIcon className={classesProf.listIconStyle} 
+                                    >{value.icon}</ListItemIcon>
                                     <ListItemText
-                                        style={{ fill: "blue" }}
+                                        style={{ fontSize: '0.5em', margin: 0 }}
+                                        // style={{ color: theme.palette.text.secondary, fontSize: '0.5em', margin: 0 }}
                                         primary={value.text}
                                     />
                                     <ListItemSecondaryAction>
@@ -182,6 +186,7 @@ const Body = ({ profile: { profile, loading }, type }) => {
                                                 edge="end"
                                                 component={Link}
                                                 to={value.link}
+                                                className={classesProf.editBtn}
                                             >
                                                 <ArrowForwardIos fontSize="small" />
                                             </IconButton>

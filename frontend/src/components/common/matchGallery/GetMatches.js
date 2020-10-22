@@ -21,10 +21,10 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path,
     
 
     const handleScroll = () => {
-        const temp = window.innerHeight + window.scrollY;
-        const temp2 = document.body.offsetHeight;
-        // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        if (temp >= temp2) {
+        // const temp = window.innerHeight + window.scrollY;
+        // const temp2 = document.body.offsetHeight;
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        // if (temp >= temp2) {
             fetchMore();
         }
     }

@@ -2,6 +2,7 @@ import React from 'react';
 import { AppBar, Tabs, Tab, Typography, Box, Container } from '@material-ui/core';
 import Match from '../common/matchGallery/GetMatches';
 
+
 const Likes = ({ match, history }) => {
     const { page } = match.params;
 
@@ -15,6 +16,7 @@ const Likes = ({ match, history }) => {
     };
 
     return (
+
         <div>
             <AppBar color="secondary" position="static">
                 <Box p={2} justifyContent="center">
@@ -25,6 +27,7 @@ const Likes = ({ match, history }) => {
                     <Tab label="Connected" />
                 </Tabs>
             </AppBar>
+
             <Container>
                 {selectedTab === 0 && (
                     <Box p={3}>
@@ -38,6 +41,7 @@ const Likes = ({ match, history }) => {
                 )}
             </Container>
         </div>
+
     );
 };
 

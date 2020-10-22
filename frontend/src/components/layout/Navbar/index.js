@@ -31,7 +31,7 @@ const Navbar = ({ logout, auth, history, getNotifications, updateNotifications, 
                     {((!isMobile && !isMedium) || !isAuthenticated) && (
                         <IconButton className={classes.customIconButton} onClick={() => handleNavigation('/')}>
                             <Typography color="textPrimary" variant="h6">
-                                <i className="fas fa-moon" /> Astro Matcha
+                                Astro Matcha
                             </Typography>
                         </IconButton>
                     )}

@@ -20,6 +20,7 @@ const PrivateChat = ({
     auth: { user, socket },
     history,
     setCurrentConversation,
+    partnerTyping,
 }) => {
     const [textMessage, setTextMessage] = useState('');
     // const [messages, setMessages] = useState([]);
@@ -43,21 +44,28 @@ const PrivateChat = ({
             socket.emit('JOIN_CHAT', chat.chat_id);
             socket.on('MESSAGE', chatId => {
                 // console.log('on message in private chat');
-                getMessages(chatId);
                 // console.log('chat id in private chat', chat.chat_id, chatId);
                 if (chat.chat_id === chatId) {
-                    // console.log('inside');
+                    getMessages(chatId);
+                    // console.log('inside private chat go to see conversations');
                     socket.emit('SEE_CONVERSATION', user.userId, partnerId);
                 }
             });
         }
         return () => {
             socket.off('MESSAGE');
+            socket.emit('TYPING_NOTIFICATION', chat.chat_id, false, partnerId);
         };
     }, [currentConversation, getMessages, partnerId, getProfile, socket, chat, user.userId]);
 
     const goTo = newRoute => {
         history.push(newRoute);
+    };
+
+    const onChange = e => {
+        let typing = e.target.value !== '' ? true : false;
+        setTextMessage(e.target.value);
+        socket.emit('TYPING_NOTIFICATION', chat.chat_id, typing, partnerId);
     };
 
     const postMessage = async e => {
@@ -70,6 +78,7 @@ const PrivateChat = ({
             });
             setTextMessage('');
             socket.emit('SEND_MESSAGE', chat.chat_id, partnerId);
+            socket.emit('TYPING_NOTIFICATION', chat.chat_id, false, partnerId);
         }
     };
 
@@ -105,19 +114,19 @@ const PrivateChat = ({
             </Box>
             <Box ref={messageRef} mb={8} maxHeight="60vh" style={{ overflowY: 'auto' }}>
                 {messages.length > 0 &&
-                    messages.map(message => {
+                    messages.map(element => {
                         const options = { month: 'short', day: 'numeric' };
-                        const date = new Date(message.time_sent).toLocaleDateString('en-US', options);
+                        const date = new Date(element.time_sent).toLocaleDateString('en-US', options);
                         return (
-                            <Box p={1} key={message.id} textAlign={message.mine ? 'right' : 'left'}>
+                            <Box p={1} key={element.id} textAlign={element.mine ? 'right' : 'left'}>
                                 <Box
-                                    borderRadius={message.mine ? '14px 14px 0 14px' : '14px 14px 14px 0'}
-                                    bgcolor={message.mine ? 'primary.light' : 'primary.main'}
+                                    borderRadius={element.mine ? '14px 14px 0 14px' : '14px 14px 14px 0'}
+                                    bgcolor={element.mine ? 'primary.light' : 'primary.main'}
                                     m={1}
-                                    mr={message.mine ? 0 : 10}
-                                    ml={message.mine ? 10 : 0}
+                                    mr={element.mine ? 0 : 10}
+                                    ml={element.mine ? 10 : 0}
                                     p={2}>
-                                    <Typography>{message.message}</Typography>
+                                    <Typography>{element.message}</Typography>
                                 </Box>
                                 <Typography style={{ color: '#b5bad3' }}>{date}</Typography>
                             </Box>
@@ -134,9 +143,7 @@ const PrivateChat = ({
                                 type="text"
                                 name="textMessage"
                                 value={textMessage}
-                                onChange={e => {
-                                    setTextMessage(e.target.value);
-                                }}
+                                onChange={onChange}
                             />
                         </Box>
                         <Button variant="contained" color="primary" type="submit">

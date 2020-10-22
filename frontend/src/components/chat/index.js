@@ -18,6 +18,7 @@ const Chat = ({
     ...props
 }) => {
     const [currentConversation, setCurrentConversation] = useState(0);
+    const [partnerTyping, setPartnerTyping] = useState({ typing: false, chatId: 0 });
 
     // const theme = useTheme();
     let username = props.match.params.username;
@@ -34,13 +35,19 @@ const Chat = ({
         getMessageNotifications();
         auth.socket.on('UPDATE_NOTIFICATIONS', type => {
             if (type === 'message') {
-                console.log('on update notification in chat index');
+                // console.log('on update notification in chat index');
                 getMessageNotifications();
             }
         });
-    }, [getConversations, getMessageNotifications, auth.socket]);
 
-    useEffect(() => {});
+        auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
+            setPartnerTyping({ typing: typing, chatId: chatId });
+        });
+
+        return () => {
+            auth.socket.off('TYPING_NOTIFICATION');
+        };
+    }, [getConversations, getMessageNotifications, auth.socket]);
 
     const handleChange = (event, newUsername, senderId) => {
         setCurrentConversation(newUsername);
@@ -66,6 +73,7 @@ const Chat = ({
                 <Grid container>
                     <Grid container item sm={6} xs={12} justify="center">
                         <Conversations
+                            partnerTyping={partnerTyping}
                             messageNotifications={notifications.messages}
                             conversations={conversations}
                             handleChange={handleChange}
@@ -74,6 +82,8 @@ const Chat = ({
                     </Grid>
                     <Grid container justify="center" item sm={6} xs={12}>
                         <PrivateChat
+                            partnerTyping={partnerTyping}
+                            setPartnerTyping={setPartnerTyping}
                             notifications={notifications}
                             setCurrentConversation={setCurrentConversation}
                             currentConversation={currentConversation}

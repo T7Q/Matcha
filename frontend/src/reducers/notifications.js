@@ -33,9 +33,11 @@ export default function (state = initialState, action) {
                 ...payload,
             };
         case UPDATE_MESSAGE_NOTIFICATIONS:
+            let newAmount = state.message - payload.amount;
+            newAmount = newAmount <= 0 ? 0 : newAmount;
             return {
                 ...state,
-                message: state.message - payload.amount,
+                message: newAmount,
                 messages: { ...state.messages, ...payload.data },
             };
         default:

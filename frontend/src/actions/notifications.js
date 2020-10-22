@@ -8,6 +8,7 @@ import {
 
 export const getNotifications = () => async dispatch => {
     try {
+        // console.log('in get notifications');
         const res = await axios.get('/profile/notifications/all');
         dispatch({ type: GET_NOTIFICATIONS, payload: res.data });
     } catch (err) {

@@ -20,9 +20,9 @@ module.exports = server => {
             socket.to('user' + userId).emit('UPDATE_NOTIFICATIONS', type);
         });
 
-        socket.on('TYPING_NOTIFICATION', (partnerId, chatId) => {
+        socket.on('TYPING_NOTIFICATION', (chatId, typing, partnerId) => {
             // console.log('typing', partnerId);
-            socket.to('user' + partnerId).emit('TYPING_NOTIFICATION', chatId);
+            socket.broadcast.to('user' + partnerId).emit('TYPING_NOTIFICATION', chatId, typing);
         });
 
         socket.on('JOIN_CHAT', chatId => {

@@ -2,12 +2,19 @@ import React from 'react';
 import { List } from '@material-ui/core';
 import ConversationBox from './ConversationBox';
 
-const Conversations = ({ messageNotifications, conversations, currentConversation, handleChange }) => {
+const Conversations = ({
+    messageNotifications,
+    conversations,
+    currentConversation,
+    handleChange,
+    partnerTyping,
+}) => {
     const conversationItems = conversations.map(conversation => {
         const conversationIsActive = currentConversation && conversation.chat_id === currentConversation.id;
 
         return (
             <ConversationBox
+                partnerTyping={partnerTyping}
                 key={conversation.chat_id}
                 conversation={conversation}
                 unread={messageNotifications[conversation.partner_id]}

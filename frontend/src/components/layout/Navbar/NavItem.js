@@ -17,15 +17,15 @@ const NavItem = ({
         if (isAuthenticated) {
             socket.emit('LOGIN', user.userId);
             getNotifications();
-            socket.on('READ_MESSAGES', senderId => {
+            socket.on('READ_MESSAGES', async senderId => {
                 // console.log('on read messsages in navbar');
+                await updateNotifications('message', senderId);
                 getNotifications();
-                updateNotifications('message', senderId);
             });
-            socket.on('UPDATE_NOTIFICATIONS', () => {
+            socket.on('UPDATE_NOTIFICATIONS', type => {
+                getNotifications();
                 // updateNotifications('message', senderId);
                 // console.log('on update notifications in navbar');
-                getNotifications();
             });
         }
     }, [isAuthenticated, getNotifications, socket, user.userId, updateNotifications]);

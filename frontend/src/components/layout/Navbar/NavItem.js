@@ -18,12 +18,13 @@ const NavItem = ({
             socket.emit('LOGIN', user.userId);
             getNotifications();
             socket.on('READ_MESSAGES', senderId => {
-                console.log('on read messsages in navbar');
-                updateNotifications('message', senderId);
+                // console.log('on read messsages in navbar');
                 getNotifications();
+                updateNotifications('message', senderId);
             });
             socket.on('UPDATE_NOTIFICATIONS', () => {
-                console.log('on update notifications in navbar');
+                // updateNotifications('message', senderId);
+                // console.log('on update notifications in navbar');
                 getNotifications();
             });
         }

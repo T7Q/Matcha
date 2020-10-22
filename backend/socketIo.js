@@ -5,9 +5,9 @@ module.exports = server => {
         // console.log('user connected in socket');
 
         socket.on('SEND_MESSAGE', (chatId, partnerId) => {
-            // console.log('send message to chat', chatId);
+            // console.log('send message to chat', chatId, partnerId);
             io.to(chatId).emit('MESSAGE', chatId);
-            io.to('user' + partnerId).emit('UPDATE_NOTIFICATIONS', 'message');
+            io.to('user' + partnerId).emit('UPDATE_NOTIFICATIONS', 'message', chatId);
         });
 
         socket.on('SEE_CONVERSATION', (userId, senderId) => {
@@ -18,6 +18,11 @@ module.exports = server => {
         socket.on('UPDATE_NOTIFICATIONS', (userId, type) => {
             // console.log('update to ', userId);
             socket.to('user' + userId).emit('UPDATE_NOTIFICATIONS', type);
+        });
+
+        socket.on('TYPING_NOTIFICATION', (partnerId, chatId) => {
+            // console.log('typing', partnerId);
+            socket.to('user' + partnerId).emit('TYPING_NOTIFICATION', chatId);
         });
 
         socket.on('JOIN_CHAT', chatId => {

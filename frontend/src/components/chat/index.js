@@ -4,17 +4,32 @@ import { connect } from 'react-redux';
 import { Box, Typography, Grid } from '@material-ui/core';
 // import { useTheme } from '@material-ui/core/styles';
 import { getConversations } from '../../actions/chat';
-import { getMessageNotifications, getNotifications } from '../../actions/notifications';
+import { getMessageNotifications } from '../../actions/notifications';
 import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
 
-const Chat = ({ auth, notifications, getMessageNotifications, getConversations, chat: { conversations } }) => {
+const Chat = ({
+    auth,
+    notifications,
+    getMessageNotifications,
+    getConversations,
+    chat: { conversations },
+    history,
+    ...props
+}) => {
     const [currentConversation, setCurrentConversation] = useState(0);
 
     // const theme = useTheme();
+    let username = props.match.params.username;
 
     useEffect(() => {
-        console.log('get conversations');
+        if (username !== 0 && conversations.some(el => el.partner_username === username)) {
+            setCurrentConversation(username);
+        }
+    }, [username, conversations]);
+
+    useEffect(() => {
+        // console.log('get conversations in chat index');
         getConversations();
         getMessageNotifications();
         auth.socket.on('UPDATE_NOTIFICATIONS', type => {
@@ -23,15 +38,13 @@ const Chat = ({ auth, notifications, getMessageNotifications, getConversations, 
                 getMessageNotifications();
             }
         });
-    }, [getConversations, getMessageNotifications]);
+    }, [getConversations, getMessageNotifications, auth.socket]);
 
-    // useEffect(() => {
-    //     console.log('get notifications');
-    //     getMessageNotifications();
-    // }, [notifications, getMessageNotifications]);
+    useEffect(() => {});
 
-    const handleChange = (event, chatId, senderId) => {
-        setCurrentConversation(chatId);
+    const handleChange = (event, newUsername, senderId) => {
+        setCurrentConversation(newUsername);
+        history.push('/messages/' + newUsername);
         if (notifications.message > 0) {
             auth.socket.emit('SEE_CONVERSATION', auth.user.userId, senderId);
         }
@@ -61,6 +74,7 @@ const Chat = ({ auth, notifications, getMessageNotifications, getConversations, 
                     </Grid>
                     <Grid container justify="center" item sm={6} xs={12}>
                         <PrivateChat
+                            notifications={notifications}
                             setCurrentConversation={setCurrentConversation}
                             currentConversation={currentConversation}
                         />

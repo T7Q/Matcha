@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Box, Typography, Link, Button, TextField } from '@material-ui/core';
 import { getMessages } from '../../actions/chat';
-// import Messages from './Messages';
 import { Avatar } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Dropdown from '../common/Dropdown';
@@ -27,22 +26,35 @@ const PrivateChat = ({
     const chat = currentConversation
         ? conversations.filter(chat => chat.partner_username === currentConversation)[0]
         : false;
-
+    const messageRef = useRef();
     const partnerId = chat ? chat.partner_id : 0;
     // const classes = useStyles();
 
     useEffect(() => {
-        console.log('in private chat');
-        getMessages(currentConversation);
+        if (messageRef.current) {
+            messageRef.current.scrollTop = messageRef.current.scrollHeight;
+        }
+    }, [messages]);
+
+    useEffect(() => {
         if (partnerId !== 0) {
+            getMessages(chat.chat_id);
             getProfile('otherUser', partnerId);
             socket.emit('JOIN_CHAT', chat.chat_id);
             socket.on('MESSAGE', chatId => {
-                console.log('on message in private chat');
-                getMessages(currentConversation);
+                // console.log('on message in private chat');
+                getMessages(chatId);
+                // console.log('chat id in private chat', chat.chat_id, chatId);
+                if (chat.chat_id === chatId) {
+                    // console.log('inside');
+                    socket.emit('SEE_CONVERSATION', user.userId, partnerId);
+                }
             });
         }
-    }, [currentConversation, getMessages, partnerId, getProfile, socket, chat]);
+        return () => {
+            socket.off('MESSAGE');
+        };
+    }, [currentConversation, getMessages, partnerId, getProfile, socket, chat, user.userId]);
 
     const goTo = newRoute => {
         history.push(newRoute);
@@ -91,7 +103,7 @@ const PrivateChat = ({
                     <HighlightOffIcon fontSize="large" />
                 </Button>
             </Box>
-            <Box mb={8} maxHeight="60vh" style={{ overflowY: 'auto' }}>
+            <Box ref={messageRef} mb={8} maxHeight="60vh" style={{ overflowY: 'auto' }}>
                 {messages.length > 0 &&
                     messages.map(message => {
                         const options = { month: 'short', day: 'numeric' };

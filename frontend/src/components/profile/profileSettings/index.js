@@ -12,13 +12,20 @@ import BlockedUsersTab from './BlockedUsers';
 import DeleteAccountTab from './DeleteAccount';
 import { setSnackbar } from '../../../actions/setsnackbar';
 
-const Settings = ({ setSnackbar }) => {
-    const [tab, setTab] = useState(0);
+const Settings = ({ setSnackbar, history, ...props }) => {
+    let route = props.match.params.type;
+
+    const indexToTabName = ['', 'notifications', 'password', 'email', 'location', 'blocked', 'delete'];
+    if (!indexToTabName.includes(route)) {
+        route = '';
+    }
+    const [tab, setTab] = useState(indexToTabName.indexOf(route));
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
     const handleChange = (event, newTab) => {
+        history.push(`/settings/${indexToTabName[newTab]}`);
         setTab(newTab);
     };
 

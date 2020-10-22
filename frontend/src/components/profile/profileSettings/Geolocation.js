@@ -17,7 +17,7 @@ const Geolocation = ({ user, editProfile, setSnackbar }) => {
 
     const handleSubmit = async event => {
         event.preventDefault();
-        console.log('Coordinates', marker);
+        // console.log('Coordinates', marker);
         try {
             const res = await axios.post('/profile/edit', { key: 'location', value: marker });
             if (res.data.error) {
@@ -62,7 +62,7 @@ const Geolocation = ({ user, editProfile, setSnackbar }) => {
 
     if (loadError) return 'Error loading maps';
     if (!isLoaded) return 'Loading Maps';
-    console.log('marker', marker);
+    // console.log('marker', marker);
     return (
         <form onSubmit={handleSubmit}>
             <FormGroup>

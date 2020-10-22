@@ -25,7 +25,7 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
     useEffect(() => {
         let isMounted = true;
         async function getBlockedUsers() {
-            const res = await axios.get('profile/blockedUsers');
+            const res = await axios.get('/profile/blockedUsers');
             isMounted && setBlockedUsers(res.data);
         }
         getBlockedUsers();

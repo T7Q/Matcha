@@ -11,7 +11,21 @@ const get = async (req, res) => {
         } else if (type === 'messages') {
             result = await profileModel.getMessageNotifications(userId);
         }
-        return res.json(result.reduce((obj, item) => ((obj[item.type] = item.count), obj), {}));
+        result = result.reduce((obj, item) => ((obj[item.type] = item.count), obj), {});
+        if (!Object.keys(result).includes('message')) {
+            result.message = 0;
+        }
+        if (!Object.keys(result).includes('like')) {
+            result.like = 0;
+        }
+        if (!Object.keys(result).includes('unlike')) {
+            result.unlike = 0;
+        }
+        if (!Object.keys(result).includes('visit')) {
+            result.visit = 0;
+        }
+        console.log('in notifications ', result);
+        return res.json(result);
     } catch (e) {
         return res.json({ error: 'Something went wrong getting notification' });
     }

@@ -16,10 +16,7 @@ const ProfileMenu = ({
 
     useEffect(() => {
         socket.on('UPDATE_NOTIFICATIONS', type => {
-            if (type === 'visit') {
-                getNotifications();
-                console.log('here in profile menu');
-            }
+            getNotifications();
         });
     }, [getNotifications, socket]);
 

@@ -23,9 +23,9 @@ const NavItem = ({
                 getNotifications();
             });
             socket.on('UPDATE_NOTIFICATIONS', type => {
+                console.log('on update notifications in navbar', type);
                 getNotifications();
                 // updateNotifications('message', senderId);
-                // console.log('on update notifications in navbar');
             });
             return () => {
                 socket.off('READ_MESSAGES');

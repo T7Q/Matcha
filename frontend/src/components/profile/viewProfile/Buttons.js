@@ -20,6 +20,9 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
                 auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like');
                 addLike('profile', toUserId, match.match, profile.profile);
             } else {
+                if (card.connected === 2) {
+                    auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'unlike');
+                }
                 removeLike('profile', toUserId, match.match, profile.profile);
             }
         } else {

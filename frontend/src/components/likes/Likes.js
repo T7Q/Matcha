@@ -11,15 +11,19 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
     const indexToTabName = ['likesyou', 'connected', 'temp'];
 
     const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
+    const [newLikes, setNewLikes] = useState(false);
     useEffect(() => {
-        // socket.on('UPDATE_NOTIFICATIONS', type => {
-        //     if (type === 'visit') {
-        //         console.log('clear visits');
-        //         updateNotifications('visit');
-        //     }
-        // });
+        let isMounted = true;
+        socket.on('UPDATE_NOTIFICATIONS', type => {
+            if (isMounted && type === 'like') {
+                setNewLikes(true);
+            }
+        });
         console.log('in likes sizhu');
         updateNotifications('like');
+        return () => {
+            isMounted = false;
+        };
     }, [updateNotifications]);
 
     const handleChange = (event, newValue) => {
@@ -32,6 +36,7 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
             <AppBar color="secondary" position="static">
                 <Box p={2} justifyContent="center">
                     <Typography variant="h6">Likes</Typography>
+                    {newLikes && <Typography>You have new likes, refresh the page</Typography>}
                 </Box>
                 <Tabs value={selectedTab} onChange={handleChange}>
                     <Tab

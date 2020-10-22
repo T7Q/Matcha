@@ -17,7 +17,7 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
         if (auth.user.userHasPhotos > 0) {
             let toUserId = card.user_id;
             if (card.connected === 0) {
-                auth.socket.emit('UPDATE_NOTIFICATIONS', 'like');
+                auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like');
                 addLike('profile', toUserId, match.match, profile.profile);
             } else {
                 removeLike('profile', toUserId, match.match, profile.profile);

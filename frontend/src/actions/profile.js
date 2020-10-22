@@ -19,6 +19,7 @@ export const getProfile = (type, userId, otherProfile = true) => async dispatch 
 
     // send request to corresponding router depending on wheather profile is My or Other user
     try {
+        if (otherProfile) await axios.get(`/profile/visit/${userId}`);
         const res =
             type === 'myProfile' ? await axios.get('/profile/me') : await axios.get(`/profile/user/${userId}`);
 
@@ -29,7 +30,6 @@ export const getProfile = (type, userId, otherProfile = true) => async dispatch 
             });
             dispatch(setSnackbar(true, 'error', res.data.error));
         } else {
-            if (otherProfile) await axios.get(`/profile/visit/${userId}`);
             // send data to reducer
             dispatch({
                 type: GET_PROFILE,

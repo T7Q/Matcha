@@ -37,7 +37,11 @@ const UserCard = ({ card }) => {
 
     return (
         <Grid item xs={12} sm={4} md={3} lg={2}>
-            <Card className={classes.root + ' ' + classesGallery.card}>
+            <Card 
+            // lassName={classes.root} 
+            className={classesGallery.card}
+
+            >
                 <CardActionArea component={Link} to={linkToProfile}>
                     <CardMedia
                         className={classesGallery.cardMedia}
@@ -45,24 +49,20 @@ const UserCard = ({ card }) => {
                         alt="Contemplative Reptile"
                         image={card.profile_pic_path}
                         title="Contemplative Reptile"
+                        // style={{ backgroundColor: 'green' }}
                     />
-
-                    <CardContent
-                        className={classesGallery.cardContent}
-                        style={{ backgroundColor: theme.palette.secondary.main }}>
-                        {/* <Typography className={classes.title} gutterBottom>
-                            {card.user_id}
-                        </Typography> */}
+                </CardActionArea>
+                    <CardContent className={classesGallery.cardContent} style={{ backgroundColor: theme.palette.secondary.main }}>
                         <Typography variant="h6" className={classesGallery.title} component="h2">
                             {card.first_name}, {card.age}
                         </Typography>
-
                         <Typography variant="body2" className={classes.pos}>
                             {card.distance === null ? 0 : card.distance} km away
                         </Typography>
                     </CardContent>
-                </CardActionArea>
-                <CardActions style={{ backgroundColor: theme.palette.secondary.main }}>
+                <CardActions 
+                style={{ backgroundColor: theme.palette.background.secondary }}
+                >
                     <StarBorder label="10">10</StarBorder>
                     <Button size="small">{card.match.toFixed(0)}%</Button>
                     <Button size="small" component={Link} to={link}>

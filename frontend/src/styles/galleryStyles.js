@@ -12,15 +12,25 @@ export const galleryStyles = makeStyles((theme) => ({
     },
     title: {
         color: theme.palette.info.main,
+        '&:hover': {
+            color: theme.palette.text.primary,
+        },
     },
     card: {
         width: 200,
         margin: 'auto',
+        border: '1px',
+        borderColor: 'white',
     },
     cardMedia: {
         height: 200,
         width: '100%',
         objectFit: "cover",
+        focusHighlight: 'red',
+        '&:hover': {
+            // color: theme.palette.text.primary,
+            focusHighlight: 'red',
+        },
     },
     cardContent: {
         textAlign: "center",

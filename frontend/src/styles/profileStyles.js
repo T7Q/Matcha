@@ -2,8 +2,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { theme } from "./custom";
 
 export const profileStyles = makeStyles((theme) => ({
+    backgroundHeader: {
+        backgroundImage: `url('./milkyWay.jpg')`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+    },
     name: {
-        // color: "#219bf1",
+        color: "#219bf1",
         paddingTop: "2rem",
         textAlign: "left",
         [theme.breakpoints.down("xs")]: {
@@ -28,7 +33,7 @@ export const profileStyles = makeStyles((theme) => ({
         width: "160px",
         height: "160px",
         display: "flex",
-        marginBottom: '-15px',
+        marginBottom: '-20px',
     },
     ratingColor: {
         color: theme.palette.text.secondary,
@@ -42,7 +47,7 @@ export const profileStyles = makeStyles((theme) => ({
     },
     connectionStyle: {
         marginRight: "10px",
-        color: theme.palette.primary.light,
+        color: theme.palette.primary.main,
     },
     blocked: {
         marginRight: "10px",
@@ -58,12 +63,25 @@ export const profileStyles = makeStyles((theme) => ({
         paddingBottom: 0,
     },
     likeButton: {
-        color: 'green',
-        borderColor: 'green',
-        // borderColor: theme.palette.secondary.main,
-        // '&:hover': {
-        //     backgroundColor: 'blue',
-        // },
+        color: theme.palette.text.primary,
+        borderColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.secondary.main,
+        borderRadius: "30px",
+        '&:hover': {
+            backgroundColor: theme.palette.primary.main,
+        },
+        
+    },
+    chatButton: {
+        color: theme.palette.secondary.main,
+        borderColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.main,
+        borderRadius: "30px",
+        '&:hover': {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.text.primary,
+        },
+        marginLeft: "10px",
         
     },
     editBtn: {

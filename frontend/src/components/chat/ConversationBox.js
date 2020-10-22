@@ -1,7 +1,8 @@
 import React from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 
-const ConversationBox = ({ unread, conversation, isActive, handleChange, partnerTyping }) => {
+const ConversationBox = ({ unread, conversation, isActive, handleChange, partnerTyping, lastMessage }) => {
+    console.log('lastMessage', lastMessage);
     return (
         <ListItem
             style={{ borderBottom: '1px solid #003781' }}
@@ -22,6 +23,8 @@ const ConversationBox = ({ unread, conversation, isActive, handleChange, partner
                     <>
                         {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id
                             ? 'is typing'
+                            : lastMessage
+                            ? lastMessage
                             : conversation.last_message}{' '}
                         <span style={{ float: 'right', color: 'red', fontSize: '16px' }}>
                             {unread ? unread : ''}

@@ -19,6 +19,7 @@ const Chat = ({
 }) => {
     const [currentConversation, setCurrentConversation] = useState(0);
     const [partnerTyping, setPartnerTyping] = useState({ typing: false, chatId: 0 });
+    const [lastMessage, setLastMessage] = useState('');
 
     // const theme = useTheme();
     let username = props.match.params.username;
@@ -33,9 +34,10 @@ const Chat = ({
         // console.log('get conversations in chat index');
         getConversations();
         getMessageNotifications();
-        auth.socket.on('UPDATE_NOTIFICATIONS', type => {
+        auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
             if (type === 'message') {
-                // console.log('on update notification in chat index');
+                if (text) setLastMessage(text);
+                // console.log('on update notification in chat index', text);
                 getMessageNotifications();
             }
         });
@@ -78,6 +80,7 @@ const Chat = ({
                             conversations={conversations}
                             handleChange={handleChange}
                             socket={auth.socket}
+                            lastMessage={lastMessage}
                         />
                     </Grid>
                     <Grid container justify="center" item sm={6} xs={12}>

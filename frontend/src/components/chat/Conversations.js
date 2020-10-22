@@ -8,6 +8,7 @@ const Conversations = ({
     currentConversation,
     handleChange,
     partnerTyping,
+    lastMessage,
 }) => {
     const conversationItems = conversations.map(conversation => {
         const conversationIsActive = currentConversation && conversation.chat_id === currentConversation.id;
@@ -20,6 +21,7 @@ const Conversations = ({
                 unread={messageNotifications[conversation.partner_id]}
                 handleChange={handleChange}
                 isActive={conversationIsActive}
+                lastMessage={lastMessage}
             />
         );
     });

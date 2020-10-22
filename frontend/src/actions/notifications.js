@@ -34,6 +34,7 @@ export const updateNotifications = (type, senderId = 0) => async dispatch => {
                 type: UPDATE_MESSAGE_NOTIFICATIONS,
                 payload: { data: { [senderId]: 0 }, amount: res.data },
             });
+            dispatch(getNotifications());
         } else {
             dispatch({ type: UPDATE_NOTIFICATIONS, payload: { [type]: 0 } });
         }

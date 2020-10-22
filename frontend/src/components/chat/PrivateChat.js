@@ -76,9 +76,9 @@ const PrivateChat = ({
                 receiverId: partnerId,
                 content: textMessage,
             });
-            setTextMessage('');
-            socket.emit('SEND_MESSAGE', chat.chat_id, partnerId);
+            socket.emit('SEND_MESSAGE', chat.chat_id, partnerId, textMessage);
             socket.emit('TYPING_NOTIFICATION', chat.chat_id, false, partnerId);
+            setTextMessage('');
         }
     };
 

@@ -301,6 +301,8 @@ BEGIN
         WHERE to_user_id = OLD.from_user_id AND from_user_id = OLD.to_user_id)
     THEN
         DELETE FROM notifications WHERE (to_user_id = OLD.to_user_id AND ("type" = 'unlike' OR "type" = 'like') AND from_user_id = OLD.from_user_id);
+        DELETE FROM notifications WHERE (to_user_id = OLD.to_user_id AND "type" = 'message' AND from_user_id = OLD.from_user_id);
+        DELETE FROM notifications WHERE (from_user_id = OLD.to_user_id AND "type" = 'message' AND to_user_id = OLD.from_user_id);
         INSERT INTO notifications (to_user_id, from_user_id, "type") VALUES (OLD.to_user_id, OLD.from_user_id, 'unlike');
     END IF;
     END;

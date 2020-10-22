@@ -42,7 +42,7 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
         return () => {
             isMounted = false;
         };
-    }, [updateNotifications]);
+    }, [updateNotifications, socket]);
 
     const handleChange = (event, newValue) => {
         history.push(`/likes/${indexToTabName[newValue]}`);

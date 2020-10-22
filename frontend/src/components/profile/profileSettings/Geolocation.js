@@ -67,7 +67,7 @@ const Geolocation = ({ user, editProfile, setSnackbar }) => {
         <form onSubmit={handleSubmit}>
             <FormGroup>
                 <Grid>
-                    <Grid item xs={6} xs={6}>
+                    <Grid item xs={6}>
                         <GoogleMap
                             mapContainerStyle={mapContainerStyle}
                             zoom={8}

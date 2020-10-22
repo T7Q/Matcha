@@ -21,12 +21,15 @@ const Visits = ({ match, history, socket, getNotifications, updateNotifications,
                 setNewVisit(true);
             }
         });
+        if (page === 'newvisits' || 'allvisits') {
+            updateNotifications('visit');
+        }
         updateNotifications('visit');
         return () => {
             isMounted = false;
             // socket.off('UPDATE_NOTIFICATIONS');
         };
-    }, [updateNotifications, socket]);
+    }, [updateNotifications, socket, page]);
 
     const handleChange = (event, newValue) => {
         history.push(`/visits/${indexToTabName[newValue]}`);

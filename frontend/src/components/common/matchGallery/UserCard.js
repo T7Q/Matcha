@@ -1,17 +1,17 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import { CardActions, Button, CardContent } from "@material-ui/core";
-import { CardMedia, CardActionArea } from "@material-ui/core";
-import { Typography, Grid } from "@material-ui/core";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import { CardActions, Button, CardContent } from '@material-ui/core';
+import { CardMedia, CardActionArea } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 
-import { StarBorder } from "@material-ui/icons";
+import { StarBorder } from '@material-ui/icons';
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import LikeButton from './LikeButton';
 
-import { useTheme } from "@material-ui/core/styles";
-import { galleryStyles } from "../../../styles/galleryStyles";
+import { useTheme } from '@material-ui/core/styles';
+import { galleryStyles } from '../../../styles/galleryStyles';
 
 const useStyles = makeStyles({
     root: {
@@ -32,14 +32,12 @@ const UserCard = ({ card }) => {
 
     card.fame = parseFloat(card.fame);
 
-    const link = card.connected
-        ? "/messages"
-        : `/profile/${card.user_id}`;
+    const link = card.connected ? '/messages' : `/profile/${card.user_id}`;
     const linkToProfile = `/profile/${card.user_id}`;
 
     return (
         <Grid item xs={12} sm={4} md={3} lg={2}>
-            <Card className={classes.root} className={classesGallery.card}>
+            <Card className={classes.root + ' ' + classesGallery.card}>
                 <CardActionArea component={Link} to={linkToProfile}>
                     <CardMedia
                         className={classesGallery.cardMedia}
@@ -49,7 +47,9 @@ const UserCard = ({ card }) => {
                         title="Contemplative Reptile"
                     />
 
-                    <CardContent className={classesGallery.cardContent} style={{ backgroundColor: theme.palette.secondary.main }}>
+                    <CardContent
+                        className={classesGallery.cardContent}
+                        style={{ backgroundColor: theme.palette.secondary.main }}>
                         {/* <Typography className={classes.title} gutterBottom>
                             {card.user_id}
                         </Typography> */}
@@ -68,12 +68,12 @@ const UserCard = ({ card }) => {
                     <Button size="small" component={Link} to={link}>
                         {card.fame === null ? 0 : card.fame.toFixed(1)}
                     </Button>
-                    <LikeButton card={card} location={"userCard"} />
+                    <LikeButton card={card} location={'userCard'} />
                 </CardActions>
             </Card>
         </Grid>
     );
 };
-// {card.connected ? <Chat /> : 
+// {card.connected ? <Chat /> :
 
 export default UserCard;

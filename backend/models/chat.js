@@ -18,7 +18,7 @@ const getUserConversations = async userId => {
             WHERE m2.chat_id = chats.chat_id
         )
         WHERE (user_1 = $1 OR user_2 = $1) AND active = TRUE
-        ORDER BY time_sent`,
+        ORDER BY case when time_sent is null then 1 else 0 end, time_sent DESC`,
         [userId]
     );
     return result.rows;

@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Button, Box, GridList, GridListTile } from '@material-ui/core';
+import { Button, Box } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { setSnackbar } from '../../../actions/setsnackbar';
 import { getProfile } from '../../../actions/profile';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
-    },
-    gridList: {
-        width: 500,
-        // height: 450,
-    },
-}));
+// const useStyles = makeStyles(theme => ({
+//     root: {
+//         display: 'flex',
+//         flexWrap: 'wrap',
+//         justifyContent: 'space-around',
+//         overflow: 'hidden',
+//         backgroundColor: theme.palette.background.paper,
+//     },
+//     gridList: {
+//         width: 500,
+//         // height: 450,
+//     },
+// }));
 const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => {
     const temp = [...profile.photos];
-    const classes = useStyles();
+    // const classes = useStyles();
 
     let isProfileHere = false;
 

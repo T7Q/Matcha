@@ -38,7 +38,7 @@ const Chat = ({
         return () => {
             isMounted = false;
         };
-    }, [username, conversations]);
+    }, [username, conversations, auth.socket]);
 
     useEffect(() => {
         let isMounted = true;

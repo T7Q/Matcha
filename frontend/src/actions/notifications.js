@@ -7,13 +7,15 @@ import {
 } from './types';
 
 export const getNotifications = () => async dispatch => {
-    try {
-        // console.log('in get notifications');
-        const res = await axios.get('/profile/notifications/all');
-        dispatch({ type: GET_NOTIFICATIONS, payload: res.data });
-    } catch (err) {
-        console.log('some error in get notifications action ', err);
-    }
+    // console.log('in get notifications');
+    setTimeout(async () => {
+        try {
+            const res = await axios.get('/profile/notifications/all');
+            dispatch({ type: GET_NOTIFICATIONS, payload: res.data });
+        } catch (err) {
+            console.log('some error in get notifications action ', err);
+        }
+    }, 500);
 };
 
 export const getMessageNotifications = () => async dispatch => {

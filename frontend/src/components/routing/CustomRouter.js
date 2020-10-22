@@ -37,6 +37,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
                     <Route exact path="/updatePwd" component={UpdatePwd} />
                     <Route exact path="/message" component={Message} />
                     <PrivateRoute exact path="/messages" component={Chat} />
+                    <PrivateRoute exact path="/messages/:username" component={Chat} />
                     <Redirect exact from="/likes" to="/likes/likesyou" />
                     <PrivateRoute exact path="/likes/:page?" component={Likes} />
                     <Redirect exact from="/profile" to="/profile/me" />

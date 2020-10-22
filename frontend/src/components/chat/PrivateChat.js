@@ -24,18 +24,21 @@ const PrivateChat = ({
 }) => {
     const [textMessage, setTextMessage] = useState('');
     // const [messages, setMessages] = useState([]);
-    const chat =
-        currentConversation > 0 ? conversations.filter(chat => chat.chat_id === currentConversation)[0] : false;
+    const chat = currentConversation
+        ? conversations.filter(chat => chat.partner_username === currentConversation)[0]
+        : false;
 
     const partnerId = chat ? chat.partner_id : 0;
     // const classes = useStyles();
 
     useEffect(() => {
+        console.log('in private chat');
         getMessages(currentConversation);
         if (partnerId !== 0) {
             getProfile('otherUser', partnerId);
             socket.emit('JOIN_CHAT', chat.chat_id);
             socket.on('MESSAGE', chatId => {
+                console.log('on message in private chat');
                 getMessages(currentConversation);
             });
         }

@@ -6,7 +6,7 @@ const ConversationBox = ({ unread, conversation, isActive, handleChange }) => {
         <ListItem
             style={{ borderBottom: '1px solid #003781' }}
             button
-            onClick={e => handleChange(e, conversation.chat_id, conversation.sender_id)}
+            onClick={e => handleChange(e, conversation.partner_username, conversation.sender_id)}
             alignItems="flex-start">
             <ListItemAvatar>
                 <Avatar alt={conversation.partner_username} src={conversation.avatar} />

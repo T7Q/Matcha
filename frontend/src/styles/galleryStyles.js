@@ -17,13 +17,18 @@ export const galleryStyles = makeStyles((theme) => ({
         },
     },
     card: {
-        width: 200,
+        width: 250,
+        // [theme.breakpoints.down("xs")]: {
+        //     width: 250,
+        // },
         margin: 'auto',
-        border: '1px',
-        borderColor: 'white',
+        // borderColor: 'white',
     },
     cardMedia: {
-        height: 200,
+        height: 280,
+        // [theme.breakpoints.down("xs")]: {
+        //     height: 320,
+        // },
         width: '100%',
         objectFit: "cover",
         focusHighlight: 'red',
@@ -34,7 +39,54 @@ export const galleryStyles = makeStyles((theme) => ({
     },
     cardContent: {
         textAlign: "center",
-    }
-    
+    },
+    distance: {
+        marginBottom: 0,
+    },
+    cardActions: {
+        backgroundColor: theme.palette.background.default,
+        paddingTop: 0,
+        justifyContent: 'center',
+    },
+    fullLikeBtn: {
+        borderColor: theme.palette.primary.main,
+        fill: theme.palette.primary.main,
+        '&:hover': {
+            borderColor: theme.palette.text.primary,
+            fill: theme.palette.text.primary,
+        },
+    },
+    emptyLikeBtn: {
+        borderColor: 'blue',
+        fill: theme.palette.text.primary,
+        '&:hover': {
+            borderColor: theme.palette.primary.main,
+            fill: theme.palette.primary.main,
+        },
+    },
+    icon: {
+        padding: '5px',
+        alignSelf: "end",
+    },
+    bgIcon: {
+        padding: '5px',
+    },
+    textOverIcon: {
+        fill: theme.palette.text.secondary,
+        color: theme.palette.text.secondary,
+        fontSize: "large",
+    },
+    textOver: {
+        color: theme.palette.primary.main,
+        '&.MuiIconButton-root.Mui-disabled': {
+            color: theme.palette.primary.main,
+        },
+        fontSize: "8px",
+        fontWeight: "900",
+        position: "absolute",
+
+        padding: 0,
+    },
+
 
 }));

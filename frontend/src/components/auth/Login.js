@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -22,6 +23,27 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
         history.push(newRoute);
     };
 
+    const sendLogin = async data => {
+        const res = await login(data);
+        if (res && res.error) {
+            setErrors({
+                usernameError: res.error,
+                passwordError: res.error,
+            });
+        }
+    };
+
+    const getPosition = async position => {
+        const dataToSubmit = { ...formData };
+        dataToSubmit.longitude = position.coords.longitude;
+        dataToSubmit.latitude = position.coords.latitude;
+        sendLogin(dataToSubmit);
+    };
+
+    const errorInPosition = async error => {
+        sendLogin(formData);
+    };
+
     const onSubmit = async e => {
         e.preventDefault();
         if (!username || !password) {
@@ -31,12 +53,10 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
             });
             return;
         }
-        const res = await login(formData);
-        if (res && res.error) {
-            setErrors({
-                usernameError: res.error,
-                passwordError: res.error,
-            });
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(getPosition, errorInPosition);
+        } else {
+            sendLogin(formData);
         }
     };
 

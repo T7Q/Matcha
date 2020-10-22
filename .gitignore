@@ -1,5 +1,6 @@
 *node_modules/
 *.env
+frontend/.env.local
 .DS_Store
 *package-lock.json
 backend/images/*

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { AppBar, Tabs, Tab, Typography, Box } from '@material-ui/core';
+import { AppBar, Tabs, Tab, Typography, Box, Container } from '@material-ui/core';
 import Match from '../common/matchGallery/GetMatches';
 import { getNotifications, updateNotifications } from '../../actions/notifications';
 
@@ -42,9 +42,23 @@ const Visits = ({ match, history, socket, getNotifications, updateNotifications,
                     <Tab label="My visits" />
                 </Tabs>
             </AppBar>
-            {selectedTab === 0 && <Match route="/match/visitedMe" filterIsOn={0} />}
-            {selectedTab === 1 && <Match route="/match/visitedMe" filterIsOn={0} />}
-            {selectedTab === 2 && <Match route="/match/visitedByMe" filterIsOn={0} />}
+            <Container>
+                {selectedTab === 0 && (
+                    <Box p={3}>
+                        <Match route="/match/visitedMe" filterIsOn={0} />
+                    </Box>
+                )}
+                {selectedTab === 1 && (
+                    <Box p={3}>
+                        <Match route="/match/visitedMe" filterIsOn={0} />
+                    </Box>
+                )}
+                {selectedTab === 2 && (
+                    <Box p={3}>
+                        <Match route="/match/visitedByMe" filterIsOn={0} />
+                    </Box>
+                )}
+            </Container>
         </div>
     );
 };

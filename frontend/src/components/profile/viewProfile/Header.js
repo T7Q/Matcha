@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Typography, Avatar, Badge, Box, Grid } from "@material-ui/core";
 import { Container, useMediaQuery } from "@material-ui/core";
@@ -12,6 +13,7 @@ import clsx from "clsx";
 import { useStyles } from "../../../styles/custom";
 import { profileStyles } from "../../../styles/profileStyles";
 import { useTheme } from "@material-ui/core/styles";
+
 
 // calcuate number of days until now
 const days = (lastSeen) => {
@@ -92,6 +94,7 @@ const Header = ({ profile, type }) => {
     const classes = useStyles();
     const classesProf = profileStyles();
     return (
+
         <Box bgcolor="secondary.main" pt={4}>
             <Grid container spacing={3} alignItems="flex-end">
                 <Grid item xs={12} sm={4} md={3}>
@@ -151,6 +154,7 @@ const Header = ({ profile, type }) => {
                         </Typography>
                     ) : (
                         ""
+
                     )}
                     <Box className={classesProf.ratingPosition}>
                             <UserRating profile={profile} />

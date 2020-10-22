@@ -29,7 +29,7 @@ const NavItem = ({
             });
             return () => {
                 socket.off('READ_MESSAGES');
-                socket.off('UPDATE_NOTIFICATIONS');
+                // socket.off('UPDATE_NOTIFICATIONS');
             };
         }
     }, [isAuthenticated, getNotifications, socket, user.userId, updateNotifications]);

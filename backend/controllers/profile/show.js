@@ -57,8 +57,6 @@ const userProfile = async (req, res) => {
         );
         authUserInfo['hasTags'] = await profileModel.userHasTags(authUserId);
         userInfo['compatibility'] = await matchModel.getCompatibility(authUserInfo, userInfo, weight);
-        await profileModel.deleteRow('views', authUserId, userId);
-        await profileModel.insertRow('views', authUserId, userId);
         return res.json(userInfo);
     } catch (e) {
         return res.json({ error: 'Error getting profile info' });
@@ -132,9 +130,23 @@ const userTags = async (req, res) => {
     }
 };
 
+const visitOtherProfile = async (req, res) => {
+    const userId = req.params.user_id;
+    const authUserId = req.user.userId;
+    try {
+        await profileModel.deleteRow('views', authUserId, userId);
+        await profileModel.insertRow('views', authUserId, userId);
+        return res.json();
+    } catch (e) {
+        console.log(e);
+        return res.json({ error: 'Error updating profile visit' });
+    }
+};
+
 module.exports = {
     userProfile,
     myProfile,
     blockedUsers,
     userTags,
+    visitOtherProfile,
 };

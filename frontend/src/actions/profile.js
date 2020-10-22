@@ -13,7 +13,7 @@ import { setSnackbar } from './setsnackbar';
 import { loadUser } from './auth';
 
 // Get user profile
-export const getProfile = (type, userId) => async dispatch => {
+export const getProfile = (type, userId, otherProfile = true) => async dispatch => {
     // clear profile state to prevent blinking of old info on screen
     // dispatch({ type: CLEAR_PROFILE });
 
@@ -29,6 +29,7 @@ export const getProfile = (type, userId) => async dispatch => {
             });
             dispatch(setSnackbar(true, 'error', res.data.error));
         } else {
+            if (otherProfile) await axios.get(`/profile/visit/${userId}`);
             // send data to reducer
             dispatch({
                 type: GET_PROFILE,

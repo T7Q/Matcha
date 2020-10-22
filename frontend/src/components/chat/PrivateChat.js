@@ -38,14 +38,15 @@ const PrivateChat = ({
     }, [messages]);
 
     useEffect(() => {
+        let isMounted = true;
         if (partnerId !== 0) {
             getMessages(chat.chat_id);
-            getProfile('otherUser', partnerId);
+            getProfile('otherUser', partnerId, false);
             socket.emit('JOIN_CHAT', chat.chat_id);
             socket.on('MESSAGE', chatId => {
                 // console.log('on message in private chat');
                 // console.log('chat id in private chat', chat.chat_id, chatId);
-                if (chat.chat_id === chatId) {
+                if (isMounted && chat.chat_id === chatId) {
                     getMessages(chatId);
                     // console.log('inside private chat go to see conversations');
                     socket.emit('SEE_CONVERSATION', user.userId, partnerId);
@@ -53,6 +54,7 @@ const PrivateChat = ({
             });
         }
         return () => {
+            isMounted = false;
             socket.off('MESSAGE');
             socket.emit('TYPING_NOTIFICATION', chat.chat_id, false, partnerId);
         };

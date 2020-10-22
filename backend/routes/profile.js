@@ -4,15 +4,20 @@ const { show, create, edit, deleteAccount, interaction, notifications, photo } =
 const authorization = require('../middleware/authorization');
 const profileModel = require('../models/profile');
 
-// @route   GET /me
+// @route   GET /profile/me
 // @desc    Get my (logged in user) profile
 // @access  Private
 router.get('/me', authorization.required, show.myProfile);
 
-// @route   GET /user/:user_id
+// @route   GET /profile/user/:user_id
 // @desc    Get profile by user ID
 // @access  Private
 router.get('/user/:user_id', authorization.required, show.userProfile);
+
+// @route   GET /profile/visit/:user_id
+// @desc    Get profile by user ID
+// @access  Private
+router.get('/visit/:user_id', authorization.required, show.visitOtherProfile);
 
 // @route   GET /profile/tags
 // @desc    Get all tags

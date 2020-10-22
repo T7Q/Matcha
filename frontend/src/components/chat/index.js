@@ -31,22 +31,30 @@ const Chat = ({
     }, [username, conversations]);
 
     useEffect(() => {
+        let isMounted = true;
+        auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
+            isMounted && setPartnerTyping({ typing: typing, chatId: chatId });
+        });
+        return () => {
+            isMounted = false;
+        };
+    }, [username, conversations]);
+
+    useEffect(() => {
+        let isMounted = true;
         // console.log('get conversations in chat index');
         getConversations();
         getMessageNotifications();
         auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
-            if (type === 'message') {
+            if (isMounted && type === 'message') {
                 if (text) setLastMessage(text);
                 // console.log('on update notification in chat index', text);
                 getMessageNotifications();
             }
         });
 
-        auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
-            setPartnerTyping({ typing: typing, chatId: chatId });
-        });
-
         return () => {
+            isMounted = false;
             auth.socket.off('TYPING_NOTIFICATION');
         };
     }, [getConversations, getMessageNotifications, auth.socket]);

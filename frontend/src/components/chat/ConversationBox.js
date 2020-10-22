@@ -2,7 +2,7 @@ import React from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 
 const ConversationBox = ({ unread, conversation, isActive, handleChange, partnerTyping, lastMessage }) => {
-    console.log('lastMessage', lastMessage);
+    // console.log('lastMessage', lastMessage);
     return (
         <ListItem
             style={{ borderBottom: '1px solid #003781' }}

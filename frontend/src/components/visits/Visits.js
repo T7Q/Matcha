@@ -15,14 +15,16 @@ const Visits = ({ match, history, socket, getNotifications, updateNotifications,
     const [newVisit, setNewVisit] = useState(false);
 
     useEffect(() => {
+        let isMounted = true;
         socket.on('UPDATE_NOTIFICATIONS', type => {
-            if (type === 'visit') {
+            if (isMounted && type === 'visit') {
                 setNewVisit(true);
             }
         });
         updateNotifications('visit');
         return () => {
-            socket.off('UPDATE_NOTIFICATIONS');
+            isMounted = false;
+            // socket.off('UPDATE_NOTIFICATIONS');
         };
     }, [updateNotifications, socket]);
 

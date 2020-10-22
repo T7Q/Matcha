@@ -16,8 +16,12 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
             let toUserId = card.user_id;
-            if (card.connected === 0) addLike('profile', toUserId, match.match, profile.profile);
-            else removeLike('profile', toUserId, match.match, profile.profile);
+            if (card.connected === 0) {
+                auth.socket.emit('UPDATE_NOTIFICATIONS', 'like');
+                addLike('profile', toUserId, match.match, profile.profile);
+            } else {
+                removeLike('profile', toUserId, match.match, profile.profile);
+            }
         } else {
             setSnackbar(true, 'error', 'Add at least 1 photo to enable like functionality');
         }
@@ -51,7 +55,7 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
                     variant="outlined"
                     color="primary"
                     component={Link}
-                    to="/messages"
+                    to={`/messages/${profile.profile.username}`}
                     className={classesProf.buttonSize}
                     startIcon={<Chat />}>
                     "CHAT"

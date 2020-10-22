@@ -1,14 +1,26 @@
-import React from 'react';
-import { AppBar, Tabs, Tab, Typography, Box, Container } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { AppBar, Tabs, Tab, Typography, Box, Container, Badge } from '@material-ui/core';
 import Match from '../common/matchGallery/GetMatches';
+import { getNotifications, updateNotifications } from '../../actions/notifications';
 
-
-const Likes = ({ match, history }) => {
+const Likes = ({ match, history, socket, getNotifications, updateNotifications, notifications }) => {
     const { page } = match.params;
 
     const indexToTabName = ['likesyou', 'connected', 'temp'];
 
-    const [selectedTab, setValue] = React.useState(indexToTabName.indexOf(page));
+    const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
+    useEffect(() => {
+        // socket.on('UPDATE_NOTIFICATIONS', type => {
+        //     if (type === 'visit') {
+        //         console.log('clear visits');
+        //         updateNotifications('visit');
+        //     }
+        // });
+        console.log('in likes sizhu');
+        updateNotifications('like');
+    }, [updateNotifications]);
 
     const handleChange = (event, newValue) => {
         history.push(`/likes/${indexToTabName[newValue]}`);
@@ -16,15 +28,26 @@ const Likes = ({ match, history }) => {
     };
 
     return (
-
         <div>
             <AppBar color="secondary" position="static">
                 <Box p={2} justifyContent="center">
                     <Typography variant="h6">Likes</Typography>
                 </Box>
                 <Tabs value={selectedTab} onChange={handleChange}>
-                    <Tab label="Likes you" />
-                    <Tab label="Connected" />
+                    <Tab
+                        label={
+                            <Badge badgeContent={notifications.like} color="primary">
+                                Likes you
+                            </Badge>
+                        }
+                    />
+                    <Tab
+                        label={
+                            <Badge badgeContent={-notifications.unlike} color="error">
+                                Connected
+                            </Badge>
+                        }
+                    />
                 </Tabs>
             </AppBar>
 
@@ -41,8 +64,17 @@ const Likes = ({ match, history }) => {
                 )}
             </Container>
         </div>
-
     );
 };
 
-export default Likes;
+Likes.propTypes = {
+    getNotifications: PropTypes.func.isRequired,
+    updateNotifications: PropTypes.func.isRequired,
+    notifications: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+    notifications: state.notifications,
+});
+
+export default connect(mapStateToProps, { updateNotifications, getNotifications })(Likes);

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Box, Typography, Grid } from '@material-ui/core';
 // import { useTheme } from '@material-ui/core/styles';
 import { getConversations } from '../../actions/chat';
-import { getMessageNotifications } from '../../actions/notifications';
+import { getMessageNotifications, getNotifications } from '../../actions/notifications';
 import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
 
@@ -14,9 +14,21 @@ const Chat = ({ auth, notifications, getMessageNotifications, getConversations, 
     // const theme = useTheme();
 
     useEffect(() => {
+        console.log('get conversations');
         getConversations();
         getMessageNotifications();
+        auth.socket.on('UPDATE_NOTIFICATIONS', type => {
+            if (type === 'message') {
+                console.log('on update notification in chat index');
+                getMessageNotifications();
+            }
+        });
     }, [getConversations, getMessageNotifications]);
+
+    // useEffect(() => {
+    //     console.log('get notifications');
+    //     getMessageNotifications();
+    // }, [notifications, getMessageNotifications]);
 
     const handleChange = (event, chatId, senderId) => {
         setCurrentConversation(chatId);
@@ -44,6 +56,7 @@ const Chat = ({ auth, notifications, getMessageNotifications, getConversations, 
                             messageNotifications={notifications.messages}
                             conversations={conversations}
                             handleChange={handleChange}
+                            socket={auth.socket}
                         />
                     </Grid>
                     <Grid container justify="center" item sm={6} xs={12}>

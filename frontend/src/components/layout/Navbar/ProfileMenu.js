@@ -15,9 +15,11 @@ const ProfileMenu = ({
     const classes = useStyles();
 
     useEffect(() => {
-        socket.on('UPDATE_NOTIFICATIONS', () => {
-            console.log('here in profile menu');
-            getNotifications();
+        socket.on('UPDATE_NOTIFICATIONS', type => {
+            if (type === 'visit') {
+                getNotifications();
+                console.log('here in profile menu');
+            }
         });
     }, [getNotifications, socket]);
 

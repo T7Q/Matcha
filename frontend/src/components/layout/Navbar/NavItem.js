@@ -27,6 +27,10 @@ const NavItem = ({
                 // updateNotifications('message', senderId);
                 // console.log('on update notifications in navbar');
             });
+            return () => {
+                socket.off('READ_MESSAGES');
+                socket.off('UPDATE_NOTIFICATIONS');
+            };
         }
     }, [isAuthenticated, getNotifications, socket, user.userId, updateNotifications]);
 

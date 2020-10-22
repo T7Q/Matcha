@@ -7,25 +7,26 @@ import { getNotifications, updateNotifications } from '../../actions/notificatio
 
 const Visits = ({ match, history, socket, getNotifications, updateNotifications, notifications }) => {
     const { page } = match.params;
-    console.log('page', page);
+    // console.log('page', page);
 
     const indexToTabName = ['newvisits', 'allvisits', 'myvisits'];
 
     const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
+    const [newVisit, setNewVisit] = useState(false);
 
     useEffect(() => {
-        // socket.on('UPDATE_NOTIFICATIONS', type => {
-        //     if (type === 'visit') {
-        //         console.log('clear visits');
-        //         updateNotifications('visit');
-        //     }
-        // });
-        console.log('in visits sizhu');
+        socket.on('UPDATE_NOTIFICATIONS', type => {
+            if (type === 'visit') {
+                setNewVisit(true);
+            }
+        });
         updateNotifications('visit');
-    }, [updateNotifications]);
+        return () => {
+            socket.off('UPDATE_NOTIFICATIONS');
+        };
+    }, [updateNotifications, socket]);
 
     const handleChange = (event, newValue) => {
-        console.log(newValue);
         history.push(`/visits/${indexToTabName[newValue]}`);
         setValue(newValue);
     };
@@ -35,6 +36,7 @@ const Visits = ({ match, history, socket, getNotifications, updateNotifications,
             <AppBar color="secondary" position="static">
                 <Box p={2} justifyContent="center">
                     <Typography variant="h6">Visit History</Typography>
+                    {newVisit && <Typography>You have new visits, refresh the page</Typography>}
                 </Box>
                 <Tabs value={selectedTab} onChange={handleChange}>
                     <Tab label="New visits" />

@@ -1,24 +1,24 @@
-import { IconButton, Box } from "@material-ui/core";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { IconButton, Box } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import React from "react";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import React from 'react';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import { addInteraction, unblockUser } from "../../../actions/profile";
+import { addInteraction, unblockUser } from '../../../actions/profile';
 
-import { useStyles } from "../../../styles/custom";
-import { profileStyles } from "../../../styles/profileStyles";
-import { useTheme } from "@material-ui/core/styles";
+import { useStyles } from '../../../styles/custom';
+import { profileStyles } from '../../../styles/profileStyles';
+import { useTheme } from '@material-ui/core/styles';
 
 const Dropdown = ({ addInteraction, unblockUser, profile: { profile } }) => {
     const userId = profile.user_id;
     const blocked = profile.blocked;
     const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClick = (event) => {
+    const handleClick = event => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -27,9 +27,9 @@ const Dropdown = ({ addInteraction, unblockUser, profile: { profile } }) => {
     };
 
     const handleClickUnblock = () => {
-        unblockUser("profile", [{ user_id: userId }]);
+        unblockUser('profile', [{ user_id: userId }]);
     };
-    const handleClickInteraction = (type) => () => {
+    const handleClickInteraction = type => () => {
         // unblockUser("profile", [{ user_id: userId }]);
         addInteraction(type, userId);
     };
@@ -38,29 +38,23 @@ const Dropdown = ({ addInteraction, unblockUser, profile: { profile } }) => {
 
     const menu = [
         {
-            title: "Report",
-            handleClick: handleClickInteraction("reported"),
+            title: 'Report',
+            handleClick: handleClickInteraction('reported'),
         },
         {
-            title: blocked === "1" ? "Unblock" : "Block",
-            handleClick:
-                blocked === "1"
-                    ? handleClickUnblock
-                    : handleClickInteraction("blocked"),
+            title: blocked === '1' ? 'Unblock' : 'Block',
+            handleClick: blocked === '1' ? handleClickUnblock : handleClickInteraction('blocked'),
         },
         {
-            title: "x",
+            title: 'x',
             handleClick: handleClose,
         },
     ];
 
     return (
         <>
-            <IconButton
-                aria-haspopup="true"
-                onClick={handleClick}
-            >
-                <MoreHorizIcon style={{ fill: "white" }} fontSize="small" />
+            <IconButton aria-haspopup="true" onClick={handleClick}>
+                <MoreHorizIcon style={{ fill: 'white' }} fontSize="small" />
             </IconButton>
             <Menu
                 id="actions-menu"
@@ -68,18 +62,10 @@ const Dropdown = ({ addInteraction, unblockUser, profile: { profile } }) => {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
-                className={classesProf.menuBg}
-                
-            >
-                {menu.map((menuItem) => (
-                    <MenuItem
-                        style={{ background: 'grey' }}
-                        className={classes.menuItem}
-                        key={menuItem.title}
-                        onClick={menuItem.handleClick}
-                    >
+                className={classes.menu}>
+                {menu.map(menuItem => (
+                    <MenuItem className={classes.menuItem} key={menuItem.title} onClick={menuItem.handleClick}>
                         {menuItem.title}
-                        
                     </MenuItem>
                 ))}
             </Menu>
@@ -93,7 +79,7 @@ Dropdown.propTypes = {
     profile: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     profile: state.profile,
 });
 

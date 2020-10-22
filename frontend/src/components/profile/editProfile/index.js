@@ -27,7 +27,7 @@ const Edit = ({ setSnackbar, getProfile, profile: { profile, loading }, ...props
     ) : (
         <Box mb="-50px">
             <Box mb="-100px">
-                <Header profile={profile} type="me" />
+                <Header profile={profile} type="myProfile" />
             </Box>
             <Grid container justify="center">
                 <Grid container item xs={12} sm={6} justify="center">

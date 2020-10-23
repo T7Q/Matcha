@@ -15,7 +15,8 @@ const Circle = ({ auth: { isAuthenticated, loading } }) => {
         !isAuthenticated &&
         !loading && (
             <Grid container className={classes.circle} item md={6} xs={12}>
-                <Box pt="200px">
+                <Box >
+                {/* <Box pt="200px"> */}
                     <img className="circle" src={require('../../circle.png')} alt="circle" />
                 </Box>
             </Grid>

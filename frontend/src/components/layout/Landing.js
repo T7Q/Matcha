@@ -5,9 +5,12 @@ import PropTypes from 'prop-types';
 import { Box, Button, Typography, useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { useStyles } from '../../styles/custom';
+import { landingStyles } from "../../styles/landingStyles";
+
 
 const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
     const classes = useStyles();
+    const classesLanding = landingStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
@@ -23,8 +26,8 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
         <>Loading</>
     ) : (
         <Box pt="200px" display="flex" flexDirection="column" textAlign="center">
-            <Typography variant={isMobile ? 'h3' : 'h2'}>Your love Is</Typography>
-            <Typography className={classes.customHeader} variant={isMobile ? 'h3' : 'h2'}>
+            <Typography variant={isMobile ? 'h5' : 'h4'} className={classesLanding.title} >Your love Is Written</Typography>
+            <Typography mb={2} className={classes.customHeader} variant={isMobile ? 'h4' : 'h3'}>
                 In The Stars
             </Typography>
             <Button
@@ -34,13 +37,13 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
                 className={classes.customButton}>
                 Create Account
             </Button>
-            <Typography className={classes.customHeader} variant="h5">
+            <Typography className={classes.customHeader} variant="h6">
                 or
             </Typography>
             <Button
                 onClick={() => handleRedirect('/login')}
                 variant="contained"
-                className={classes.customButton + ' ' + classes.p2}>
+                className={classesLanding.googleBtn + ' ' + classes.p2}>
                 <img className={classes.img} alt="google" src={require('../../google.png')} />
                 Log in with Google
             </Button>

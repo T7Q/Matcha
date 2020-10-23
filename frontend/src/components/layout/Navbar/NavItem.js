@@ -53,7 +53,9 @@ const NavItem = ({
         {
             title: 'Likes',
             pageUrl: '/likes',
-            amount: amount(Number(notifications.like) + Number(notifications.unlike)),
+            amount: amount(
+                Number(notifications.like) + Number(notifications.unlike) + Number(notifications.match)
+            ),
             icon: <FavoriteBorder />,
             color: 'primary',
         },

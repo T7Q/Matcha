@@ -141,9 +141,8 @@ const getNotifications = async userId => {
     try {
         const result = await db.query(
             `
-            SELECT count(from_user_id), "type"
-            FROM notifications WHERE to_user_id = $1
-            GROUP BY "type"`,
+            SELECT from_user_id, type
+            FROM notifications WHERE to_user_id = $1`,
             [userId]
         );
         return result.rows;

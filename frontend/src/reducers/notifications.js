@@ -7,6 +7,7 @@ import {
 
 const initialState = {
     like: 0,
+    match: 0,
     unlike: 0,
     visit: 0,
     message: 0,

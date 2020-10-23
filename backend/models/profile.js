@@ -203,7 +203,6 @@ const otherUserLikesYou = async (fromUserId, toUserId) => {
 };
 
 const usersConnected = async (fromUserId, toUserId) => {
-    console.log('profile', fromUserId, toUserId);
     const res = await db.query(
         `SELECT
         (CASE
@@ -228,7 +227,6 @@ const usersConnected = async (fromUserId, toUserId) => {
     where user_id = $1`,
         [fromUserId, toUserId]
     );
-    console.log('connected', res.rows[0].connected);
     return res.rows[0].connected;
 };
 

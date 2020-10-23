@@ -1,36 +1,86 @@
 import React, { useState } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import axios from 'axios';
+import { Redirect, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Box } from '@material-ui/core';
-import { updatePwd } from '../../actions/auth';
 import Input from '../common/Input';
-import Form from '../common/IndividualForm';
-import { useStyles } from '../../styles/custom';
+import WizardForm from '../common/WizardForm';
+import { setSnackbar } from '../../actions/setsnackbar';
 
-const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
+const UpdatePwd = ({ isAuthenticated, user, location, setSnackbar }) => {
+    const history = useHistory();
     const [formData, setFormData] = useState({ password: '', confirmPassword: '' });
-    // const [errors, setErrors] = useState({ passwordError: '', confirmPasswordError: '' });
-    const token = props.location.search.split('=');
-    console.log(token);
-    const classes = useStyles();
+    const [errors, setErrors] = useState({ passwordError: '', confirmPasswordError: '' });
+    const searchParams = new URLSearchParams(location.search);
     const { password, confirmPassword } = formData;
+    const { passwordError, confirmPasswordError } = errors;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const validate = async (name, value) => {
+        switch (name) {
+            case 'password':
+                if (!value) {
+                    setErrors({ ...errors, passwordError: 'required field' });
+                } else if (value.length < 6) {
+                    setErrors({ ...errors, passwordError: 'Password must be at least 6 characters' });
+                } else {
+                    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
+                    if (!re.test(value)) {
+                        setErrors({
+                            ...errors,
+                            passwordError: 'At least 1 uppercase, 1 lowercase letter and 1 number required',
+                        });
+                    } else {
+                        setErrors({ ...errors, passwordError: '' });
+                    }
+                }
+                break;
+            case 'confirmPassword':
+                let passwordError = '';
+                if (!password) {
+                    passwordError = 'required field';
+                } else if (password.length < 6) {
+                    passwordError = 'Password must be at least 6 characters';
+                } else {
+                    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
+                    if (!re.test(password)) {
+                        passwordError = 'At least 1 uppercase, 1 lowercase letter and 1 number required';
+                    }
+                }
+                if (!value) {
+                    setErrors({ ...errors, passwordError: passwordError, confirmPasswordError: 'required field' });
+                } else if (password !== value) {
+                    setErrors({
+                        ...errors,
+                        passwordError: passwordError,
+                        confirmPasswordError: 'Passwords do not match',
+                    });
+                } else {
+                    setErrors({ ...errors, passwordError: passwordError, confirmPasswordError: '' });
+                }
+                break;
+            default:
+        }
+    };
+    const onChange = e => {
+        validate(e.target.name, e.target.value);
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
-    const onSubmit = async e => {
-        e.preventDefault();
-        // if (!password || !confirmPassword) {
-        //     setErrors({
-        //         passwordError: !password && 'required field',
-        //         confirmPasswordError: !confirmPassword && 'required field',
-        //     });
-        //     return;
-        // }
-        const res = await updatePwd({ password, confirmPassword, history });
-        if (res && res.error) {
-            console.log(res);
-            // setErrors({})
+    const onSubmit = async () => {
+        if (!passwordError && !confirmPasswordError) {
+            const dataToSubmit = { ...formData };
+            dataToSubmit.userId = searchParams.get('user');
+            dataToSubmit.token = searchParams.get('token');
+            const res = await axios.post('/account/updatePwd', dataToSubmit);
+            if (res.data.errors) {
+                setErrors(res.data.errors);
+            } else if (res.data.error) {
+                setSnackbar(true, 'error', res.data.error);
+                setErrors({ passwordError: '', confirmPasswordError: '' });
+            } else {
+                setSnackbar(true, 'success', res.data.msg);
+                history.push('/login');
+            }
         }
     };
 
@@ -41,22 +91,30 @@ const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
     }
 
     return (
-        <Box pt="150px">
-            <Form onSubmit={onSubmit}>
-                <Input header="Enter your new password" type="password" value={password} handleChange={onChange} />
-                <Input type="confirmPassword" value={confirmPassword} handleChange={onChange} />
-                <Button className={classes.customButton} type="submit" variant="contained" color="primary">
-                    Upload & log in
-                </Button>
-            </Form>
-        </Box>
+        <WizardForm formData={formData} setFormData={setFormData} onSubmit={onSubmit}>
+            <>
+                <Input
+                    header="Enter your new password"
+                    type="password"
+                    value={password}
+                    handleChange={onChange}
+                    helperText={passwordError}
+                />
+                <Input
+                    type="confirmPassword"
+                    value={confirmPassword}
+                    handleChange={onChange}
+                    helperText={confirmPasswordError}
+                />
+            </>
+        </WizardForm>
     );
 };
 
 UpdatePwd.propTypes = {
-    updatePwd: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
     user: PropTypes.object,
+    setSnackbar: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -64,4 +122,4 @@ const mapStateToProps = state => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { updatePwd })(withRouter(UpdatePwd));
+export default connect(mapStateToProps, { setSnackbar })(UpdatePwd);

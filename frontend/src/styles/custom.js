@@ -118,6 +118,11 @@ export const theme = createMuiTheme({
                 overflowWrap: 'anywhere',
             },
         },
+        MuiTooltip: {
+            tooltip: {
+              backgroundColor: primaryColor.main,
+            }
+          }
     },
 });
 

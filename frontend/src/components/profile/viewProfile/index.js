@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Box, Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { getProfile } from "../../../actions/profile";
 import Spinner from "../../layout/Spinner";
 import Header from "./Header";

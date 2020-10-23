@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "./custom";
 
 export const landingStyles = makeStyles((theme) => ({
     title: {
@@ -16,7 +15,6 @@ export const landingStyles = makeStyles((theme) => ({
         letterSpacing: "normal",
         minWidth: "170px",
         fontWeight: "700",
-        // border: `1px solid ${theme.palette.primary.main}`,
         color: theme.palette.text.primary,
         backgroundColor: theme.palette.background.secondary,
         "&:hover": {

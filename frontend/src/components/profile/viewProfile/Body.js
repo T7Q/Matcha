@@ -5,26 +5,20 @@ import { Container, Paper } from '@material-ui/core';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 import { Timeline, AssignmentIndOutlined } from '@material-ui/icons';
-import { Chat, Favorite, VpnKeyOutlined, Block } from '@material-ui/icons';
+import { Chat, Favorite, VpnKeyOutlined } from '@material-ui/icons';
 import { ArrowForwardIos, BubbleChartOutlined } from '@material-ui/icons';
 import { LocationOnOutlined } from '@material-ui/icons';
 
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { useStyles } from '../../../styles/custom';
 import { profileStyles } from '../../../styles/profileStyles';
 import { useTheme } from '@material-ui/core/styles';
 
-import { shadows } from '@material-ui/system';
 
 const Body = ({ profile: { profile, loading }, type }) => {
-    // const classes = useStyles();
-    // const [dense, setDense] = React.useState(false);
-    // const [secondary, setSecondary] = React.useState(false);
 
     const theme = useTheme();
-    const classes = useStyles();
     const classesProf = profileStyles();
 
     const userDescription = [

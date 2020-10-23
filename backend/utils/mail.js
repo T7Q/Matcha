@@ -1,4 +1,4 @@
-const { email } = require('../config');
+const { email, developmentUrl } = require('../config');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
@@ -13,7 +13,8 @@ const transporter = nodemailer.createTransport({
 // console.log(req.get('host'));
 
 const activateAccountEmail = (recipient, userId, username, token) => {
-    const link = 'http://localhost:5000/account/activate?user=' + userId + '&token=' + token;
+    console.log('email config', email);
+    const link = `${developmentUrl}/account/activate?user=${userId}&token=${token}`;
     const subject = 'Matcha: account activation';
     const content = `
         <div style="font-size:16px;">
@@ -27,7 +28,7 @@ const activateAccountEmail = (recipient, userId, username, token) => {
         </div>`;
 
     try {
-        // sendMail(recipient, subject, content);
+        sendMail(recipient, subject, content);
         return { msg: 'Activation link has been send to your email' };
     } catch {
         return { error: 'Could not sent an email' };
@@ -35,8 +36,7 @@ const activateAccountEmail = (recipient, userId, username, token) => {
 };
 
 const pwdResetEmail = (recipient, userId, username, token, req) => {
-    console.log('req', req.headers.host);
-    const link = 'http://localhost:5000/account/reset?user=' + userId + '&token=' + token;
+    const link = `${developmentUrl}/account/reset?user=${userId}&token=${token}`;
     const subject = 'Matcha: reset password';
     const content = `
         <div style="font-size:16px;">
@@ -54,7 +54,7 @@ const pwdResetEmail = (recipient, userId, username, token, req) => {
         </div>`;
 
     try {
-        // sendMail(recipient, subject, content);
+        sendMail(recipient, subject, content);
         return { msg: 'Password reset link has been sent to your email' };
     } catch {
         return { error: 'Could not sent an email' };

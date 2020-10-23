@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton, Button, Box, Tooltip } from '@material-ui/core';
+import { Button, Box, Tooltip } from '@material-ui/core';
 import { Favorite, Chat, Block } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -18,9 +18,10 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
             let toUserId = card.user_id;
             if (card.connected === 0 || card.connected === 3) {
                 if (card.connected === 3) {
-                    auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like', true);
+                    auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'match');
+                } else {
+                    auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like');
                 }
-                auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like', false);
                 addLike('profile', toUserId, match.match, profile.profile);
             } else {
                 if (card.connected === 2) {

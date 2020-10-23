@@ -13,7 +13,7 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
     const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
     const [newLikes, setNewLikes] = useState(false);
     const [newUnlikes, setNewUnlikes] = useState(false);
-    const [newConnected, setNewConnected] = useState(false);
+    const [newMatches, setNewMatches] = useState(false);
 
     const amount = amount => {
         return amount < 100 ? amount : '99+';
@@ -30,7 +30,7 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
         });
         if (page === 'connected') {
             setNewUnlikes(false);
-            setNewConnected(false);
+            setNewMatches(false);
             updateNotifications('unlike');
         } else if (page === 'likesyou') {
             setNewLikes(false);
@@ -66,6 +66,7 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
                     <Typography variant="h6">Likes</Typography>
                     {newLikes && <Typography>You have new likes, refresh the page</Typography>}
                     {newUnlikes && <Typography>You have new unlikes, refresh the page</Typography>}
+                    {newMatches && <Typography>You have new connections, refresh the page</Typography>}
                 </Box>
                 <Tabs value={selectedTab} onChange={handleChange}>
                     <Tab
@@ -78,11 +79,11 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
                     <Tab
                         label={
                             <Box>
-                                <Badge badgeContent={amount(notifications.unlike)} color="primary">
+                                <Badge badgeContent={amount(notifications.match)} color="primary">
                                     Connected
                                 </Badge>{' '}
                                 <Badge badgeContent={-amount(notifications.unlike)} color="error">
-                                    <Box color="transparent">------</Box>
+                                    {!notifications.match && <Box color="transparent">------</Box>}
                                 </Badge>
                             </Box>
                         }

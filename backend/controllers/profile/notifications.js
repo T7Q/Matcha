@@ -4,27 +4,30 @@ const get = async (req, res) => {
     const type = req.params.type;
     const userId = req.user.userId;
     let result = [];
+    let endResult = {
+        like: 0,
+        unlike: 0,
+        match: 0,
+        visit: 0,
+        message: 0,
+    };
 
     try {
         if (type === 'all') {
             result = await profileModel.getNotifications(userId);
+            for (const { from_user_id, type } of result) {
+                if (type !== 'like') {
+                    endResult[[type]]++;
+                } else {
+                    let isMatch = await profileModel.otherUserLikesYou(userId, from_user_id);
+                    isMatch ? endResult['match']++ : endResult['like']++;
+                }
+            }
+            return res.json(endResult);
         } else if (type === 'messages') {
             result = await profileModel.getMessageNotifications(userId);
+            return res.json(result.reduce((obj, item) => ((obj[item.type] = item.count), obj), {}));
         }
-        result = result.reduce((obj, item) => ((obj[item.type] = item.count), obj), {});
-        if (!Object.keys(result).includes('message')) {
-            result.message = 0;
-        }
-        if (!Object.keys(result).includes('like')) {
-            result.like = 0;
-        }
-        if (!Object.keys(result).includes('unlike')) {
-            result.unlike = 0;
-        }
-        if (!Object.keys(result).includes('visit')) {
-            result.visit = 0;
-        }
-        return res.json(result);
     } catch (e) {
         return res.json({ error: 'Something went wrong getting notification' });
     }

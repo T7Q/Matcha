@@ -13,16 +13,24 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
     const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
     const [newLikes, setNewLikes] = useState(false);
     const [newUnlikes, setNewUnlikes] = useState(false);
+    const [newConnected, setNewConnected] = useState(false);
+
+    const amount = amount => {
+        return amount < 100 ? amount : '99+';
+    };
 
     useEffect(() => {
         let isMounted = true;
         socket.on('UPDATE_NOTIFICATIONS', type => {
-            if (isMounted && type === 'unlike') {
-                setNewUnlikes(true);
+            if (isMounted) {
+                if (type === 'unlike') {
+                    setNewUnlikes(true);
+                }
             }
         });
         if (page === 'connected') {
             setNewUnlikes(false);
+            setNewConnected(false);
             updateNotifications('unlike');
         } else if (page === 'likesyou') {
             setNewLikes(false);
@@ -69,9 +77,14 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
                     />
                     <Tab
                         label={
-                            <Badge badgeContent={-notifications.unlike} color="error">
-                                Connected
-                            </Badge>
+                            <Box>
+                                <Badge badgeContent={amount(notifications.unlike)} color="primary">
+                                    Connected
+                                </Badge>{' '}
+                                <Badge badgeContent={-amount(notifications.unlike)} color="error">
+                                    <Box color="transparent">------</Box>
+                                </Badge>
+                            </Box>
                         }
                     />
                 </Tabs>

@@ -18,6 +18,10 @@ const ConversationBox = ({ unread, conversation, isActive, handleChange, partner
         };
     }, [partnerIsOnline, socket]);
 
+    const amount = amount => {
+        return amount < 100 ? amount : '99+';
+    };
+
     // calculate hours ago
     const hours = date => {
         const timeNow = new Date();
@@ -77,12 +81,12 @@ const ConversationBox = ({ unread, conversation, isActive, handleChange, partner
                 secondary={
                     <>
                         {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id
-                            ? 'is typing'
+                            ? 'is typing...'
                             : lastMessage.chatId === conversation.chat_id
                             ? lastMessage.text
                             : conversation.last_message}{' '}
                         <span style={{ float: 'right', color: 'red', fontSize: '16px' }}>
-                            {unread ? unread : ''}
+                            {unread ? amount(unread) : ''}
                         </span>
                     </>
                 }

@@ -16,8 +16,11 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
             let toUserId = card.user_id;
-            if (card.connected === 0) {
-                auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like');
+            if (card.connected === 0 || card.connected === 3) {
+                if (card.connected === 3) {
+                    auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like', true);
+                }
+                auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like', false);
                 addLike('profile', toUserId, match.match, profile.profile);
             } else {
                 if (card.connected === 2) {
@@ -50,7 +53,7 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
                 // className={classesProf.buttonSize + ' ' + classesProf.likeButton}
                 color="primary"
                 startIcon={<Favorite />}>
-                {card.connected > 0 ? 'Unmatch' : 'Like'}
+                {card.connected > 0 && card.connected < 3 ? 'Unmatch' : 'Like'}
             </Button>
 
             {card.connected === 2 ? (

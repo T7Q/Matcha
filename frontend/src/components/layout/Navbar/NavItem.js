@@ -33,6 +33,10 @@ const NavItem = ({
         }
     }, [isAuthenticated, getNotifications, socket, user.userId, updateNotifications]);
 
+    const amount = amount => {
+        return amount < 100 ? amount : '99+';
+    };
+
     const menuItems = [
         {
             title: 'Matches',
@@ -42,16 +46,16 @@ const NavItem = ({
         {
             title: 'Messages',
             pageUrl: '/messages',
-            amount: Number(notifications.message),
+            amount: amount(Number(notifications.message)),
             icon: <MessageOutlined />,
             color: 'primary',
         },
         {
             title: 'Likes',
             pageUrl: '/likes',
-            amount: Number(notifications.like) + Number(notifications.unlike),
+            amount: amount(Number(notifications.like) + Number(notifications.unlike)),
             icon: <FavoriteBorder />,
-            color: notifications.unlike ? 'error' : 'primary',
+            color: 'primary',
         },
     ];
 

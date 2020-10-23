@@ -24,6 +24,10 @@ const ProfileMenu = ({
         setProfileSettings(null);
     };
 
+    const amount = amount => {
+        return amount < 100 ? amount : '99+';
+    };
+
     const handleClick = event => {
         setProfileSettings(event.currentTarget);
     };
@@ -40,7 +44,7 @@ const ProfileMenu = ({
         {
             title: 'Visit history',
             pageUrl: '/visits/newvisits',
-            notification: notifications.visit > 0 && notifications.visit,
+            notification: notifications.visit ? amount(notifications.visit) : '',
             color: notifications.visit > 0 ? 'primary.main' : 'transparent',
         },
     ];
@@ -49,7 +53,7 @@ const ProfileMenu = ({
         <>
             <IconButton className={classes.customIconButton} onClick={handleClick}>
                 <Typography variant="button" className={isMobile ? classes.text : ''} color="textPrimary">
-                    <Badge className={classes.pr} badgeContent={notifications.visit} color="primary">
+                    <Badge className={classes.pr} badgeContent={amount(notifications.visit)} color="primary">
                         <AccountCircle />
                     </Badge>
                     {isMobile ? 'profile' : user.username}

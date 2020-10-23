@@ -203,6 +203,7 @@ const otherUserLikesYou = async (fromUserId, toUserId) => {
 };
 
 const usersConnected = async (fromUserId, toUserId) => {
+    console.log('profile', fromUserId, toUserId);
     const res = await db.query(
         `SELECT
         (CASE
@@ -214,8 +215,8 @@ const usersConnected = async (fromUserId, toUserId) => {
                     AND likes.to_user_id = $1 ) = 1)
             THEN 2
             WHEN ((SELECT count(likes.like_id) AS to_likes FROM likes
-                    WHERE likes.from_user_id = 2
-                    AND likes.to_user_id = 1) = 1)
+                    WHERE likes.from_user_id = $2
+                    AND likes.to_user_id = $1) = 1)
             THEN 3
             WHEN ((SELECT count(likes.like_id) AS to_likes FROM likes
                     WHERE likes.from_user_id = $1
@@ -227,6 +228,7 @@ const usersConnected = async (fromUserId, toUserId) => {
     where user_id = $1`,
         [fromUserId, toUserId]
     );
+    console.log('connected', res.rows[0].connected);
     return res.rows[0].connected;
 };
 

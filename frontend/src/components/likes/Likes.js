@@ -28,10 +28,13 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
                 }
             }
         });
+
+        console.log('page', page);
         if (page === 'connected') {
             setNewUnlikes(false);
             setNewMatches(false);
             updateNotifications('unlike');
+            updateNotifications('like');
         } else if (page === 'likesyou') {
             setNewLikes(false);
             updateNotifications('like');

@@ -1,11 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
+import { Card, Tooltip } from "@material-ui/core";
 import { CardActions, Button, CardContent, Box } from "@material-ui/core";
 import { CardMedia, CardActionArea, IconButton } from "@material-ui/core";
 import { Typography, Grid } from "@material-ui/core";
 
-import { RadioButtonUncheckedOutlined, StarOutlined, FiberManualRecord } from "@material-ui/icons";
+import { StarBorderOutlined, RadioButtonUncheckedOutlined } from "@material-ui/icons";
+// import StarOutlineOutlinedIcon from '@material-ui/icons/StarOutlineOutlined';
 
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
@@ -76,15 +77,18 @@ const UserCard = ({ card }) => {
                         justifyContent="center"
                         display="flex"
                     >
-                        <IconButton
-                        className={classesGallery.bgIcon}
-                        disabled
-                        >
-                            <RadioButtonUncheckedOutlined
-                                // fontSize="large"
-                                className={classesGallery.textOverIcon}
-                            />
-                        </IconButton>
+                        <Tooltip title="Your astro compatibility level" placement="top">
+                            <IconButton
+                                className={classesGallery.bgIcon}
+                            >
+                                <RadioButtonUncheckedOutlined
+                                    // color="primary"
+                                    style={{color: theme.palette.text.secondary}}
+                                    fontSize="large"
+                                    className={classesGallery.textOverIcon}
+                                />
+                            </IconButton>
+                        </Tooltip>
                         <IconButton
                             className={classesGallery.textOver}
                             disabled
@@ -98,15 +102,15 @@ const UserCard = ({ card }) => {
                         justifyContent="center"
                         display="flex"
                     >
-                        <IconButton
-                        className={classesGallery.bgIcon}
-                        disabled
-                        >
-                            <StarOutlined
+                        <Tooltip title="User fame rating" placement="top">                        
+                        <IconButton className={classesGallery.bgIcon} >
+                            <StarBorderOutlined
+                                style={{color: theme.palette.text.secondary}}
                                 fontSize="large"
                                 className={classesGallery.textOverIcon}
                             />
                         </IconButton>
+                        </Tooltip>
                         <IconButton
                             className={classesGallery.textOver}
                             disabled

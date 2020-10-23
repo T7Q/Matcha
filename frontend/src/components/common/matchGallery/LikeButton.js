@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton } from "@material-ui/core";
+import { IconButton,  } from "@material-ui/core";
 import { FavoriteOutlined, Chat } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -66,7 +66,8 @@ const LikeButton = ({
                 >
                     <Chat
                         fontSize="large"
-                        style={{ fill: theme.palette.text.primary }}
+                        className={classesGallery.fullChatBtn}
+                        // style={{ fill: theme.palette.text.primary }}
                     />
                 </IconButton>
             ) : (

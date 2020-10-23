@@ -56,6 +56,14 @@ export const galleryStyles = makeStyles((theme) => ({
             fill: theme.palette.text.primary,
         },
     },
+    fullChatBtn: {
+        borderColor: theme.palette.primary.light,
+        fill: theme.palette.primary.main,
+        '&:hover': {
+            borderColor: theme.palette.text.primary,
+            fill: theme.palette.text.primary,
+        },
+    },
     emptyLikeBtn: {
         borderColor: 'blue',
         fill: theme.palette.text.primary,
@@ -72,16 +80,18 @@ export const galleryStyles = makeStyles((theme) => ({
         padding: '5px',
     },
     textOverIcon: {
-        fill: theme.palette.text.secondary,
-        color: theme.palette.text.secondary,
-        fontSize: "large",
+        // fill: theme.palette.background.secodary,
+        // fill: 'transparent',
+        // border: 'red',
+        borderColor: 'red',
+        // color: theme.palette.background.secondary,
     },
     textOver: {
-        color: theme.palette.primary.main,
+        color: theme.palette.text.primary,
         '&.MuiIconButton-root.Mui-disabled': {
-            color: theme.palette.primary.main,
+            color: theme.palette.text.primary,
         },
-        fontSize: "8px",
+        fontSize: "10px",
         fontWeight: "900",
         position: "absolute",
 

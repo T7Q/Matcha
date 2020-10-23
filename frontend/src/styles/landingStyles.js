@@ -27,5 +27,52 @@ export const landingStyles = makeStyles((theme) => ({
             padding: "15px 5px",
         },
     },
+    outlinedBtn: {
+        margin: "10px",
+        fontSize: "16px",
+        textTransform: "capitalize",
+        padding: "21px 30px 17px",
+        borderRadius: "30px",
+        marginBottom: "4px",
+        lineHeight: "1.3",
+        letterSpacing: "normal",
+        minWidth: "170px",
+        fontWeight: "700",
+        border: `1px solid ${theme.palette.primary.main}`,
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.background.secondary,
+        "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+        },
+        flex: "0 1 auto",
+        [theme.breakpoints.down("xs")]: {
+            padding: "15px 5px",
+        },
+    },
+    fullBtn: {
+        margin: "10px",
+        fontSize: "16px",
+        textTransform: "capitalize",
+        padding: "21px 30px 17px",
+        borderRadius: "30px",
+        marginBottom: "4px",
+        lineHeight: "1.3",
+        letterSpacing: "normal",
+        minWidth: "170px",
+        fontWeight: "700",
+        border: `1px solid ${theme.palette.primary.main}`,
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.primary.main,
+        "&:hover": {
+            backgroundColor: theme.palette.background.default,
+        },
+        flex: "0 1 auto",
+        [theme.breakpoints.down("xs")]: {
+            padding: "15px 5px",
+        },
+    },
+    background: {
+        backgroundColor: 'blue',
+    },
 
 }));

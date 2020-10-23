@@ -13,7 +13,6 @@ const upload = async (req, res) => {
     let i = 0;
     // for each image in the request
     for (const element of value) {
-        // console.log('element', element, 'index', i);
         try {
             // if old_photo id is present, remove it from database
             if (value[i]['old_image_id'] && value[i]['old_image_id'] !== '') {

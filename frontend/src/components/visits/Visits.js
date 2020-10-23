@@ -7,7 +7,6 @@ import { getNotifications, updateNotifications } from '../../actions/notificatio
 
 const Visits = ({ match, history, socket, getNotifications, updateNotifications, notifications }) => {
     const { page } = match.params;
-    // console.log('page', page);
 
     const indexToTabName = ['newvisits', 'allvisits', 'myvisits'];
 
@@ -27,7 +26,6 @@ const Visits = ({ match, history, socket, getNotifications, updateNotifications,
         updateNotifications('visit');
         return () => {
             isMounted = false;
-            // socket.off('UPDATE_NOTIFICATIONS');
         };
     }, [updateNotifications, socket, page]);
 

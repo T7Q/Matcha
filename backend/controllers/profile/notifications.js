@@ -24,7 +24,6 @@ const get = async (req, res) => {
         if (!Object.keys(result).includes('visit')) {
             result.visit = 0;
         }
-        console.log('in notifications ', result);
         return res.json(result);
     } catch (e) {
         return res.json({ error: 'Something went wrong getting notification' });

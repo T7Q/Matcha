@@ -7,7 +7,6 @@ import {
 } from './types';
 
 export const getNotifications = () => async dispatch => {
-    // console.log('in get notifications');
     setTimeout(async () => {
         try {
             const res = await axios.get('/profile/notifications/all');

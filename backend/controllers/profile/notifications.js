@@ -14,15 +14,17 @@ const get = async (req, res) => {
 
     try {
         if (type === 'all') {
+            // console.log('');
             result = await profileModel.getNotifications(userId);
             for (const { from_user_id, type } of result) {
                 if (type !== 'like') {
                     endResult[[type]]++;
                 } else {
                     let isMatch = await profileModel.otherUserLikesYou(userId, from_user_id);
-                    isMatch ? endResult['match']++ : endResult['like']++;
+                    isMatch !== '0' ? endResult['match']++ : endResult['like']++;
                 }
             }
+            console.log('end result', endResult);
             return res.json(endResult);
         } else if (type === 'messages') {
             result = await profileModel.getMessageNotifications(userId);

@@ -13,26 +13,21 @@ module.exports = async (req, res) => {
     }
 
     let errors = [];
-    try {
-        errors.push(await helper.validateEmail(email));
-        errors.push(helper.validatePassword(password, confirmPassword));
-        errors.push(await helper.validateUsername(username));
-        errors.push(helper.validateName(firstname));
-        errors.push(helper.validateName(lastname));
+    errors.push(await helper.validateEmail(email));
+    errors.push(helper.validatePassword(password, confirmPassword));
+    errors.push(await helper.validateUsername(username));
+    errors.push(helper.validateName(firstname));
+    errors.push(helper.validateName(lastname));
 
-        // remove empty objects from errors
-        errors = errors.filter(error => Object.keys(error).length != 0);
-        errors = Object.assign({}, ...errors);
+    // remove empty objects from errors
+    errors = errors.filter(error => Object.keys(error).length != 0);
+    errors = Object.assign({}, ...errors);
 
-        if (Object.keys(errors).length !== 0) return res.json({ error: errors });
+    if (Object.keys(errors).length !== 0) return res.json({ error: errors });
 
-        req.body.password = await bcrypt.hash(password, 10);
-        req.body.token = crypto.randomBytes(42).toString('hex');
+    req.body.password = await bcrypt.hash(password, 10);
+    req.body.token = crypto.randomBytes(42).toString('hex');
 
-        const result = await accountModel.register(req.body);
-        return res.json(mail.activateAccountEmail(email, result.user_id, username, req.body.token));
-    } catch (e) {
-        console.log(e);
-        return res.json({ error: 'something went wrong' });
-    }
+    const result = await accountModel.register(req.body);
+    return res.json(mail.activateAccountEmail(email, result.user_id, username, req.body.token));
 };

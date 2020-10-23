@@ -1,12 +1,13 @@
+const config = require('./config');
 const express = require('express');
+require('express-async-errors');
 const cors = require('cors');
 const http = require('http');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 
-const config = require('./config');
 const socket = require('./socketIo');
-const authentication = require('./middleware/authentication');
+const middleware = require('./utils/middleware');
 
 const app = express();
 const server = http.createServer(app);
@@ -24,7 +25,7 @@ const limiter = new rateLimit({
  * Setup
  * ------------------------------------------------------------------------ */
 
-app.use(cors({ origin: 'http:localhost:3000' }));
+app.use(cors({ origin: config.developmentUrl }));
 // Accept the incoming JSON body in requests
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
@@ -33,8 +34,8 @@ app.use(helmet({ contentSecurityPolicy: false }));
 //  Apply rate limit to all requests
 app.use(limiter);
 // JWT setup
-app.use(authentication);
-
+app.use(middleware.authentication);
+// use static images
 app.use(express.static('images'));
 
 /* ------------------------------------------------------------------------
@@ -46,7 +47,8 @@ app.use('/profile', require('./routes/profile'));
 app.use('/chat', require('./routes/chat'));
 app.use('/match', require('./routes/match'));
 
-app.get('*', (req, res) => res.status(404).json());
+app.use(middleware.unknownEndpoint);
+app.use(middleware.errorHandler);
 
 server.listen(config.express.port, config.express.ip, error => {
     console.log(`Server is listening on http://${config.express.ip}:${config.express.port}`);

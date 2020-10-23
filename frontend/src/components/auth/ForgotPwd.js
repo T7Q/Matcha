@@ -1,29 +1,21 @@
 import React, { useState } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { forgetPwd } from '../../actions/auth';
-import { IconButton, Button, Box } from '@material-ui/core';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Input from '../common/Input';
-import Form from '../common/IndividualForm';
-import { useStyles } from '../../styles/custom';
+import WizardForm from '../common/WizardForm';
 
-const ForgetPwd = ({ forgetPwd, isAuthenticated, user, history }) => {
+const ForgetPwd = ({ forgetPwd, isAuthenticated, user }) => {
+    const history = useHistory();
     const [formData, setFormData] = useState({ email: '' });
     const [error, setError] = useState('');
 
-    const classes = useStyles();
     const { email } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const handleRedirect = newRoute => {
-        history.push(newRoute);
-    };
-
-    const onSubmit = async e => {
-        e.preventDefault();
+    const onSubmit = async () => {
         if (!email) {
             setError('required field');
             return;
@@ -39,25 +31,15 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user, history }) => {
     }
 
     return (
-        <Box pt="150px">
-            <Box>
-                <IconButton onClick={() => handleRedirect('/login')}>
-                    <ArrowBackIosIcon fontSize="large" />
-                </IconButton>
-            </Box>
-            <Form onSubmit={onSubmit}>
-                <Input
-                    header="Enter your email to reset your password"
-                    type="email"
-                    value={email}
-                    handleChange={onChange}
-                    helperText={error}
-                />
-                <Button className={classes.customButton} type="submit" variant="contained" color="primary">
-                    Next
-                </Button>
-            </Form>
-        </Box>
+        <WizardForm link="/login" formData={formData} setFormData={setFormData} onSubmit={onSubmit}>
+            <Input
+                header="Enter your email to reset your password"
+                type="email"
+                value={email}
+                handleChange={onChange}
+                helperText={error}
+            />
+        </WizardForm>
     );
 };
 
@@ -72,4 +54,4 @@ const mapStateToProps = state => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { forgetPwd })(withRouter(ForgetPwd));
+export default connect(mapStateToProps, { forgetPwd })(ForgetPwd);

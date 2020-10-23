@@ -24,7 +24,7 @@ const get = async (req, res) => {
                     isMatch !== '0' ? endResult['match']++ : endResult['like']++;
                 }
             }
-            console.log('end result', endResult);
+            // console.log('end result', endResult);
             return res.json(endResult);
         } else if (type === 'messages') {
             result = await profileModel.getMessageNotifications(userId);

@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "./custom";
 
 export const profileStyles = makeStyles((theme) => ({
     backgroundHeader: {
@@ -25,6 +24,11 @@ export const profileStyles = makeStyles((theme) => ({
         textAlign: "left",
         [theme.breakpoints.down("xs")]: {
             textAlign: "center",
+        },
+    },
+    ratingFill: {
+        "&.MuiRating-root": {
+            color: theme.palette.text.primary,
         },
     },
     avatarImageStyle: {
@@ -87,5 +91,6 @@ export const profileStyles = makeStyles((theme) => ({
     editBtn: {
         color: theme.palette.text.secondary,
     },
+   
 
 }));

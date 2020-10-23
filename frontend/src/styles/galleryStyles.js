@@ -1,102 +1,84 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { theme } from "./custom";
 
 export const galleryStyles = makeStyles((theme) => ({
-    name: {
-        // color: "#219bf1",
-        paddingTop: "2rem",
-        textAlign: "left",
-        [theme.breakpoints.down("xs")]: {
-            textAlign: "center",
-        },
-    },
-    title: {
-        color: theme.palette.info.main,
-        '&:hover': {
-            color: theme.palette.text.primary,
-        },
-    },
     card: {
         width: 250,
-        // [theme.breakpoints.down("xs")]: {
-        //     width: 250,
-        // },
-        margin: 'auto',
-        // borderColor: 'white',
+        margin: "auto",
+        border: `1px solid #10183c`,
+        "&.MuiPaper-elevation1": {
+            boxShadow: "0px 15px 13px 0px rgba(0,0,0,0.2)",
+        },
+        "&.MuiPaper-rounded": {
+            borderRadius: "0px",
+        },
     },
     cardMedia: {
         height: 280,
-        // [theme.breakpoints.down("xs")]: {
-        //     height: 320,
-        // },
-        width: '100%',
+        width: "100%",
         objectFit: "cover",
-        focusHighlight: 'red',
-        '&:hover': {
-            // color: theme.palette.text.primary,
-            focusHighlight: 'red',
-        },
     },
     cardContent: {
         textAlign: "center",
+        backgroundColor: theme.palette.background.default,
     },
-    distance: {
+    title: {
+        color: theme.palette.info.main,
+        "&:hover": {
+            color: theme.palette.text.primary,
+        },
         marginBottom: 0,
     },
     cardActions: {
         backgroundColor: theme.palette.background.default,
         paddingTop: 0,
-        justifyContent: 'center',
+        justifyContent: "center",
+    },
+    cardActionBox: {
+        alignItems: "center",
+        justifyContent: "center",
+        display: "flex",
+    },
+    bgIcon: {
+        padding: "5px",
+    },
+    textOverIcon: {
+        fill: theme.palette.text.primary,
+    },
+    textOver: {
+        color: theme.palette.background.default,
+        "&.MuiIconButton-root.Mui-disabled": {
+            color: theme.palette.background.default,
+        },
+        fontSize: "9px",
+        fontWeight: "900",
+        position: "absolute",
+        padding: 0,
+    },
+    rating: {
+        "&.MuiRating-root": {
+            color: theme.palette.primary.main,
+        },
     },
     fullLikeBtn: {
-        borderColor: theme.palette.primary.main,
         fill: theme.palette.primary.main,
-        '&:hover': {
-            borderColor: theme.palette.text.primary,
+        "&:hover": {
             fill: theme.palette.text.primary,
         },
     },
     fullChatBtn: {
-        borderColor: theme.palette.primary.light,
-        fill: theme.palette.primary.main,
-        '&:hover': {
-            borderColor: theme.palette.text.primary,
-            fill: theme.palette.text.primary,
+        fill: theme.palette.text.secondary,
+        "&:hover": {
+            fill: theme.palette.primary.main,
         },
     },
     emptyLikeBtn: {
-        borderColor: 'blue',
-        fill: theme.palette.text.primary,
-        '&:hover': {
-            borderColor: theme.palette.primary.main,
+        fill: theme.palette.text.secondary,
+        "&:hover": {
             fill: theme.palette.primary.main,
         },
     },
     icon: {
-        padding: '5px',
+        padding: "5px",
         alignSelf: "end",
     },
-    bgIcon: {
-        padding: '5px',
-    },
-    textOverIcon: {
-        // fill: theme.palette.background.secodary,
-        // fill: 'transparent',
-        // border: 'red',
-        borderColor: 'red',
-        // color: theme.palette.background.secondary,
-    },
-    textOver: {
-        color: theme.palette.text.primary,
-        '&.MuiIconButton-root.Mui-disabled': {
-            color: theme.palette.text.primary,
-        },
-        fontSize: "10px",
-        fontWeight: "900",
-        position: "absolute",
-
-        padding: 0,
-    },
-
-
 }));

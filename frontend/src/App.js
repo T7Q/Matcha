@@ -1,38 +1,37 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import io from 'socket.io-client';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { Grid, Box } from '@material-ui/core';
-import Navbar from './components/layout/Navbar/';
-import Footer from './components/layout/Footer';
-import CustomRouter from './components/routing/CustomRouter';
-import setAuthToken from './utils/setAuthToken';
-import { loadUser, loadSocket } from './actions/auth';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import io from "socket.io-client";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { Grid, Box } from "@material-ui/core";
+import Navbar from "./components/layout/Navbar/";
+import Footer from "./components/layout/Footer";
+import CustomRouter from "./components/routing/CustomRouter";
+import setAuthToken from "./utils/setAuthToken";
+import { loadUser, loadSocket } from "./actions/auth";
 // Redux
-import { Provider } from 'react-redux';
-import store from './store';
-import { theme } from './styles/custom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import './App.css';
-import Circle from './components/layout/Circle';
-import BackgroundImage from './background3.jpg';
+import { Provider } from "react-redux";
+import store from "./store";
+import { theme } from "./styles/custom";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import "./App.css";
+import Circle from "./components/layout/Circle";
+import BackgroundImage from "./background3.jpg";
 
-import CustomizedSnackbars from './components/common/CustomizedSnackbars';
+import CustomizedSnackbars from "./components/common/CustomizedSnackbars";
 
 const style = {
     background: {
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(${BackgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
     },
 };
 
-
-const socket = io('http://localhost:5000');
+const socket = io("http://localhost:5000");
 
 const App = () => {
     useEffect(() => {
-        setAuthToken(localStorage.getItem('token'));
+        setAuthToken(localStorage.getItem("token"));
         store.dispatch(loadUser());
         store.dispatch(loadSocket(socket));
     }, []);
@@ -42,11 +41,17 @@ const App = () => {
             <Provider store={store}>
                 <Router>
                     <CssBaseline />
-                    <Box display="flex" flexDirection="column" minHeight="100vh" position="relative" >
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        minHeight="100vh"
+                        position="relative"
+                    >
                         <Navbar />
                         <CustomizedSnackbars />
-                        <Box flexGrow={1} style={style.background}>
-                            <Grid style={{ minHeight: '80vh' }} container>
+                        <Box flexGrow={1}>
+                            {/* <Box flexGrow={1} style={style.background}> */}
+                            <Grid style={{ minHeight: "80vh" }} container>
                                 <CustomRouter />
                                 <Circle />
                             </Grid>

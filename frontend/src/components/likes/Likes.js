@@ -28,6 +28,8 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
                 }
             }
         });
+
+        console.log('page', page);
         if (page === 'connected') {
             setNewUnlikes(false);
             setNewMatches(false);
@@ -36,6 +38,7 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
             setNewLikes(false);
             updateNotifications('like');
         }
+        getNotifications();
         return () => {
             isMounted = false;
         };

@@ -214,8 +214,8 @@ const usersConnected = async (fromUserId, toUserId) => {
                     AND likes.to_user_id = $1 ) = 1)
             THEN 2
             WHEN ((SELECT count(likes.like_id) AS to_likes FROM likes
-                    WHERE likes.from_user_id = 2
-                    AND likes.to_user_id = 1) = 1)
+                    WHERE likes.from_user_id = $2
+                    AND likes.to_user_id = $1) = 1)
             THEN 3
             WHEN ((SELECT count(likes.like_id) AS to_likes FROM likes
                     WHERE likes.from_user_id = $1

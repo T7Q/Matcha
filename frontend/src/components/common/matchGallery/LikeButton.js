@@ -14,7 +14,7 @@ const LikeButton = ({ addLike, removeLike, setSnackbar, match, auth, card, profi
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
             let toUserId = card.user_id;
-            // console.log('card conn', card.connected);
+            console.log('card conn', card.connected);
             if (card.connected === 0 || card.connected === 3) {
                 if (card.connected === 3) {
                     auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'match');

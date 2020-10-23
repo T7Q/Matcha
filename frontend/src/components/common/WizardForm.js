@@ -4,7 +4,17 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../styles/custom';
 
-const WizardForm = ({ header, children, formData, setFormData, onSubmit, history, validate, link }) => {
+const WizardForm = ({
+    header,
+    children,
+    formData,
+    setFormData,
+    onSubmit,
+    history,
+    validate,
+    link,
+    hideButton,
+}) => {
     let step = formData.currentStep;
     let steps = 1;
     if (children) {
@@ -69,11 +79,11 @@ const WizardForm = ({ header, children, formData, setFormData, onSubmit, history
                         )}
                     </Box>
                     {steps === 1 ? children : children[step - 1]}
-                    <Box mt={5}>
+                    {!hideButton && (
                         <Button variant="contained" color="primary" type="submit" className={classes.customButton}>
                             {step < steps ? 'Next' : 'Done'}
                         </Button>
-                    </Box>
+                    )}
                 </Box>
             </form>
         </Box>

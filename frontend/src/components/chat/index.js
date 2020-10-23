@@ -85,7 +85,6 @@ const Chat = ({
                             messageNotifications={notifications.messages}
                             conversations={conversations}
                             handleChange={handleChange}
-                            socket={auth.socket}
                             lastMessage={lastMessage}
                         />
                     </Grid>

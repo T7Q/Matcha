@@ -3,11 +3,10 @@ import axios from 'axios';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { IconButton, Button, Box } from '@material-ui/core';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import { Button } from '@material-ui/core';
 import { login } from '../../actions/auth';
 import Input from '../common/Input';
-import Form from '../common/IndividualForm';
+import WizardForm from '../common/WizardForm';
 import { useStyles } from '../../styles/custom';
 import { setSnackbar } from '../../actions/setsnackbar';
 
@@ -69,7 +68,6 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
     };
 
     const onSubmit = async e => {
-        e.preventDefault();
         if (!username || !password) {
             setErrors({
                 usernameError: !username && 'username required',
@@ -92,13 +90,8 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
     }
 
     return (
-        <Box pt="150px">
-            <Box>
-                <IconButton onClick={() => handleRedirect('/')}>
-                    <ArrowBackIosIcon fontSize="large" />
-                </IconButton>
-            </Box>
-            <Form onSubmit={onSubmit}>
+        <WizardForm formData={formData} setFormData={setFormData} onSubmit={onSubmit} hideButton={true}>
+            <>
                 <Input
                     header="Enter username and password"
                     type="username"
@@ -121,8 +114,8 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
                     color="secondary">
                     Forgot password?
                 </Button>
-            </Form>
-        </Box>
+            </>
+        </WizardForm>
     );
 };
 

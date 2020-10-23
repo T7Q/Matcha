@@ -11,8 +11,8 @@ import { useStyles } from '../../styles/custom';
 const UpdatePwd = ({ updatePwd, isAuthenticated, user, history, ...props }) => {
     const [formData, setFormData] = useState({ password: '', confirmPassword: '' });
     // const [errors, setErrors] = useState({ passwordError: '', confirmPasswordError: '' });
-    // const token = props.location.search.split('=');
-    // console.log(token);
+    const token = props.location.search.split('=');
+    console.log(token);
     const classes = useStyles();
     const { password, confirmPassword } = formData;
 

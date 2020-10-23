@@ -33,6 +33,13 @@ module.exports = server => {
         socket.on('LOGIN', userId => {
             // console.log('loged in', userId);
             socket.join('user' + userId);
+            socket.broadcast.emit('ONLINE', userId, true);
+        });
+
+        socket.on('LOGOUT', userId => {
+            // console.log('logged out', userId);
+            socket.leave('user' + userId);
+            socket.broadcast.emit('ONLINE', userId, false);
         });
     });
 };

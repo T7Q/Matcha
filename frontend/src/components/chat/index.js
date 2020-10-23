@@ -19,7 +19,7 @@ const Chat = ({
 }) => {
     const [currentConversation, setCurrentConversation] = useState(0);
     const [partnerTyping, setPartnerTyping] = useState({ typing: false, chatId: 0 });
-    const [lastMessage, setLastMessage] = useState('');
+    const [lastMessage, setLastMessage] = useState({ text: '', chatId: 0 });
 
     // const theme = useTheme();
     let username = props.match.params.username;
@@ -35,9 +35,6 @@ const Chat = ({
         auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
             isMounted && setPartnerTyping({ typing: typing, chatId: chatId });
         });
-        return () => {
-            isMounted = false;
-        };
     }, [username, conversations, auth.socket]);
 
     useEffect(() => {
@@ -47,7 +44,7 @@ const Chat = ({
         getMessageNotifications();
         auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
             if (isMounted && type === 'message') {
-                if (text) setLastMessage(text);
+                if (text) setLastMessage({ text: text, chatId: chatId });
                 // console.log('on update notification in chat index', text);
                 getMessageNotifications();
             }
@@ -83,6 +80,7 @@ const Chat = ({
                 <Grid container>
                     <Grid container item sm={6} xs={12} justify="center">
                         <Conversations
+                            socket={auth.socket}
                             partnerTyping={partnerTyping}
                             messageNotifications={notifications.messages}
                             conversations={conversations}

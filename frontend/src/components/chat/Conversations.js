@@ -9,12 +9,14 @@ const Conversations = ({
     handleChange,
     partnerTyping,
     lastMessage,
+    socket,
 }) => {
     const conversationItems = conversations.map(conversation => {
         const conversationIsActive = currentConversation && conversation.chat_id === currentConversation.id;
 
         return (
             <ConversationBox
+                socket={socket}
                 partnerTyping={partnerTyping}
                 key={conversation.chat_id}
                 conversation={conversation}

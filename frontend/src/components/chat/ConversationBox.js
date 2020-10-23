@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 
-const ConversationBox = ({ unread, conversation, isActive, handleChange, partnerTyping, lastMessage }) => {
+const ConversationBox = ({ unread, conversation, isActive, handleChange, partnerTyping, lastMessage, socket }) => {
+    const [partnerIsOnline, setPartnerIsOnline] = useState({ online: false, partnerId: 0 });
+
     // console.log('lastMessage', lastMessage);
+    useEffect(() => {
+        let isMounted = true;
+        socket.on('ONLINE', (userId, online) => {
+            // console.log('in box on online', userId, online);
+            if (isMounted) {
+                setPartnerIsOnline({ online: online, partnerId: userId });
+            }
+        });
+        return () => {
+            isMounted = false;
+        };
+    }, [partnerIsOnline, socket]);
 
     // calculate hours ago
     const hours = date => {
@@ -10,11 +24,11 @@ const ConversationBox = ({ unread, conversation, isActive, handleChange, partner
         let differenceInTime = timeNow.getTime() - date.getTime();
         let differenceInMinutes = parseInt(differenceInTime / (1000 * 60));
         const str =
-            differenceInMinutes > 60
+            differenceInMinutes >= 60
                 ? 'more than an hour ago'
-                : differenceInMinutes < 2
-                ? 'online'
-                : 'less than an hour ago';
+                : differenceInTime <= 1000 * 60
+                ? 'less than a minute ago'
+                : `${differenceInMinutes} minutes ago`;
         return str;
     };
 
@@ -53,15 +67,19 @@ const ConversationBox = ({ unread, conversation, isActive, handleChange, partner
                 primary={
                     <>
                         {conversation.partner_username}{' '}
-                        <div style={{ float: 'right', color: '#b5bad3' }}>{days(conversation.last_seen)}</div>
+                        <div style={{ float: 'right', color: '#b5bad3' }}>
+                            {partnerIsOnline.partnerId === conversation.partner_id && partnerIsOnline.online
+                                ? 'online'
+                                : days(conversation.last_seen)}
+                        </div>
                     </>
                 }
                 secondary={
                     <>
                         {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id
                             ? 'is typing'
-                            : lastMessage
-                            ? lastMessage
+                            : lastMessage.chatId === conversation.chat_id
+                            ? lastMessage.text
                             : conversation.last_message}{' '}
                         <span style={{ float: 'right', color: 'red', fontSize: '16px' }}>
                             {unread ? unread : ''}

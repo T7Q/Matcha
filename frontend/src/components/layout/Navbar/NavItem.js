@@ -28,6 +28,7 @@ const NavItem = ({
             });
             return () => {
                 socket.off('READ_MESSAGES');
+                socket.emit('LOGOUT', user.userId);
             };
         }
     }, [isAuthenticated, getNotifications, socket, user.userId, updateNotifications]);

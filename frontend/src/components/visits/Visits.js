@@ -21,6 +21,7 @@ const Visits = ({ match, history, socket, getNotifications, updateNotifications,
             }
         });
         if (page === 'newvisits' || 'allvisits') {
+            setNewVisit(false);
             updateNotifications('visit');
         }
         updateNotifications('visit');

@@ -34,7 +34,8 @@ const activateAccountEmail = (recipient, userId, username, token) => {
     }
 };
 
-const pwdResetEmail = (recipient, userId, username, token) => {
+const pwdResetEmail = (recipient, userId, username, token, req) => {
+    console.log('req', req.headers.host);
     const link = 'http://localhost:5000/account/reset?user=' + userId + '&token=' + token;
     const subject = 'Matcha: reset password';
     const content = `

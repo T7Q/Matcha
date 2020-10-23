@@ -15,21 +15,16 @@ module.exports = async (req, res) => {
         return res.json({ error: errors });
     }
 
-    try {
-        let result = await accountModel.findUserInfo('user_id', user_id, 'token', 'status');
+    let result = await accountModel.findUserInfo('user_id', user_id, 'token', 'status');
 
-        if (!result || result.token !== token || result.status === 0) {
-            // if someone is trying to find valid token
-            if (result.status != 0) {
-                await accountModel.updateAccount(user_id, { token: null });
-            }
-            return res.json({ error: ['Token is not valid, please, resent the link'] });
+    if (!result || result.token !== token || result.status === 0) {
+        // if someone is trying to find valid token
+        if (result.status != 0) {
+            await accountModel.updateAccount(user_id, { token: null });
         }
-
-        await accountModel.updateAccount(user_id, { password: await bcrypt.hash(password, 10), token: null });
-        return res.json({ msg: 'Your password was updated' });
-    } catch (e) {
-        console.log(e);
-        return res.json({ error: 'something went wrong' });
+        return res.json({ error: ['Token is not valid, please, resent the link'] });
     }
+
+    await accountModel.updateAccount(user_id, { password: await bcrypt.hash(password, 10), token: null });
+    return res.json({ msg: 'Your password was updated' });
 };

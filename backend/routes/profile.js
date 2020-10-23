@@ -79,11 +79,6 @@ router.post('/delete', middleware.authRequired, deleteAccount);
 // @access  Private
 router.post('/uploadphoto', middleware.authRequired, photo.upload);
 
-// @route   POST /profile/deletephoto
-// @desc    Delete user photo
-// @access  Private
-router.post('/deletephoto', middleware.authRequired, photo.deletePhoto);
-
 // @route   POST /profile/connected
 // @desc    Check if users are connected
 // @access  Private

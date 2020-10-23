@@ -65,51 +65,46 @@ const getUserInfo = async code => {
 const googleLogin = async (req, res) => {
     // after frontend change code to req.body;
     const code = req.query.code;
-    try {
-        const userInfo = await getUserInfo(code);
-        const user = await accountModel.findUserInfo(
-            'email',
-            userInfo.email,
-            'user_id',
-            'username',
-            'status',
-            'longitude',
-            'latitude'
-        );
+    const userInfo = await getUserInfo(code);
+    const user = await accountModel.findUserInfo(
+        'email',
+        userInfo.email,
+        'user_id',
+        'username',
+        'status',
+        'longitude',
+        'latitude'
+    );
 
-        if (!user) {
-            return res.json({
-                msg: 'register',
-                google: jwt.sign(
-                    {
-                        email: userInfo.email,
-                        id: userInfo.id,
-                    },
-                    jwtSecret,
-                    { expiresIn: 60 * 60 }
-                ),
-            });
-        }
-
-        const location = await getLocation(req, user);
-
-        await accountModel.updateAccount(user.user_id, location);
+    if (!user) {
         return res.json({
-            status: user.status,
-            username: user.username,
-            tkn: jwt.sign(
+            msg: 'register',
+            google: jwt.sign(
                 {
-                    userId: user.user_id,
-                    status: user.status,
+                    email: userInfo.email,
+                    id: userInfo.id,
                 },
                 jwtSecret,
-                { expiresIn: 10 * 60 }
+                { expiresIn: 60 * 60 }
             ),
         });
-    } catch (e) {
-        console.log(e);
-        return res.status(400).json();
     }
+
+    const location = await getLocation(req, user);
+
+    await accountModel.updateAccount(user.user_id, location);
+    return res.json({
+        status: user.status,
+        username: user.username,
+        tkn: jwt.sign(
+            {
+                userId: user.user_id,
+                status: user.status,
+            },
+            jwtSecret,
+            { expiresIn: 10 * 60 }
+        ),
+    });
 };
 
 const registerGoogle = async (req, res) => {
@@ -120,46 +115,41 @@ const registerGoogle = async (req, res) => {
     });
 
     let errors = [];
-    try {
-        errors.push(await helper.validateEmail(userInfo.email));
-        errors.push(await helper.validateUsername(username));
-        errors.push(helper.validateName(firstname));
-        errors.push(helper.validateName(lastname));
+    errors.push(await helper.validateEmail(userInfo.email));
+    errors.push(await helper.validateUsername(username));
+    errors.push(helper.validateName(firstname));
+    errors.push(helper.validateName(lastname));
 
-        // remove empty objects from errors
-        errors = errors.filter(error => Object.keys(error).length != 0);
+    // remove empty objects from errors
+    errors = errors.filter(error => Object.keys(error).length != 0);
 
-        // check if we have errors
-        if (errors.length != 0) {
-            return res.status(400).json(errors);
-        }
-
-        req.body.password = await bcrypt.hash(userInfo.id, 10);
-        req.body.email = userInfo.email;
-
-        const result = await accountModel.register(req.body);
-        const data = await getLocation(req, result);
-        // set status and online
-        data.online = 1;
-        data.status = 1;
-
-        await accountModel.updateAccount(result.user_id, data);
-        return res.json({
-            status: 1,
-            username: result.username,
-            tkn: jwt.sign(
-                {
-                    userId: result.user_id,
-                    status: 1,
-                },
-                jwtSecret,
-                { expiresIn: 60 * 60 }
-            ),
-        });
-    } catch (e) {
-        console.log(e);
-        return res.status(400).json();
+    // check if we have errors
+    if (errors.length != 0) {
+        return res.status(400).json(errors);
     }
+
+    req.body.password = await bcrypt.hash(userInfo.id, 10);
+    req.body.email = userInfo.email;
+
+    const result = await accountModel.register(req.body);
+    const data = await getLocation(req, result);
+    // set status and online
+    data.online = 1;
+    data.status = 1;
+
+    await accountModel.updateAccount(result.user_id, data);
+    return res.json({
+        status: 1,
+        username: result.username,
+        tkn: jwt.sign(
+            {
+                userId: result.user_id,
+                status: 1,
+            },
+            jwtSecret,
+            { expiresIn: 60 * 60 }
+        ),
+    });
 };
 
 module.exports = {

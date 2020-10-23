@@ -62,50 +62,42 @@ const general = async (req, res) => {
     }
     // console.log('error', error);
     // Update profile parameter
-    try {
-        if (key === 'name') {
-            await profileModel.editProfile(userId, 'first_name', value.firstname);
-            await profileModel.editProfile(userId, 'last_name', value.lastname);
-        } else if (key === 'sex_preference') {
-            await profileModel.editProfile(userId, 'sex_preference', value.sexPreference);
-            await profileModel.editProfile(userId, 'gender', value.gender);
-        } else if (key === 'location') {
-            await profileModel.editProfile(userId, 'latitude', value.lat);
-            await profileModel.editProfile(userId, 'longitude', value.lng);
-        } else {
-            const r = await profileModel.editProfile(userId, key, value);
-        }
-        return res.json({ msg: 'Your profile was successfully updated' });
-    } catch (e) {
-        return res.json({ error: 'Something went wrong adding Profile info' });
+    if (key === 'name') {
+        await profileModel.editProfile(userId, 'first_name', value.firstname);
+        await profileModel.editProfile(userId, 'last_name', value.lastname);
+    } else if (key === 'sex_preference') {
+        await profileModel.editProfile(userId, 'sex_preference', value.sexPreference);
+        await profileModel.editProfile(userId, 'gender', value.gender);
+    } else if (key === 'location') {
+        await profileModel.editProfile(userId, 'latitude', value.lat);
+        await profileModel.editProfile(userId, 'longitude', value.lng);
+    } else {
+        const r = await profileModel.editProfile(userId, key, value);
     }
+    return res.json({ msg: 'Your profile was successfully updated' });
 };
 
 const tags = async (req, res) => {
     const { value } = req.body;
     let tagsError = profileHelper.validateTags(value);
     if (tagsError.error) return res.json(tagsError);
-    try {
-        // Crosscheck the list of new tags with default tags in the database
-        let validateTagsInDb = await profileModel.validateTagsInDb(value);
-        if (!validateTagsInDb) {
-            return res.json({ error: 'Invalid tags, some of them dont exist' });
-        }
-        // Remove old tags if user has any
-        const userTags = await profileModel.userHasTags(req.user.userId);
-        if (userTags) {
-            await profileModel.deleteRowOneCondition('user_tags', 'user_id', req.user.userId);
-        }
-        // Build query to insert tags into database
-        const query = profileHelper.buildQueryForSavingTags(value, req.user.userId);
-
-        // Insert tags to the database
-        await profileModel.saveTags(query);
-
-        return res.json({ msg: 'Tags were successfully updated' });
-    } catch (e) {
-        return res.json({ error: 'Something went wrong adding tags to the database' });
+    // Crosscheck the list of new tags with default tags in the database
+    let validateTagsInDb = await profileModel.validateTagsInDb(value);
+    if (!validateTagsInDb) {
+        return res.json({ error: 'Invalid tags, some of them dont exist' });
     }
+    // Remove old tags if user has any
+    const userTags = await profileModel.userHasTags(req.user.userId);
+    if (userTags) {
+        await profileModel.deleteRowOneCondition('user_tags', 'user_id', req.user.userId);
+    }
+    // Build query to insert tags into database
+    const query = profileHelper.buildQueryForSavingTags(value, req.user.userId);
+
+    // Insert tags to the database
+    await profileModel.saveTags(query);
+
+    return res.json({ msg: 'Tags were successfully updated' });
 };
 
 module.exports = {

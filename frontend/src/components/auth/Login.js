@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-// import axios from 'axios';
-import { Redirect, withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { IconButton, Button, Box } from '@material-ui/core';
@@ -9,8 +9,11 @@ import { login } from '../../actions/auth';
 import Input from '../common/Input';
 import Form from '../common/IndividualForm';
 import { useStyles } from '../../styles/custom';
+import { setSnackbar } from '../../actions/setsnackbar';
 
-const Login = ({ login, isAuthenticated, user, history }, path) => {
+const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
+    const location = useLocation();
+    const history = useHistory();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
 
@@ -18,6 +21,27 @@ const Login = ({ login, isAuthenticated, user, history }, path) => {
     const { username, password } = formData;
 
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    useEffect(() => {
+        let isMounted = true;
+        if (location.pathname === '/account/activate') {
+            const goToBackend = async () => {
+                const res = await axios.get(`/account/activate${location.search}`);
+                if (isMounted) {
+                    if (res.data.error) {
+                        setSnackbar(true, 'error', res.data.error);
+                    } else {
+                        setSnackbar(true, 'success', res.data.msg);
+                    }
+                    history.push('/login');
+                }
+            };
+            goToBackend();
+        }
+        return () => {
+            isMounted = false;
+        };
+    }, [location, history, setSnackbar]);
 
     const handleRedirect = newRoute => {
         history.push(newRoute);
@@ -106,6 +130,7 @@ Login.propTypes = {
     login: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
     user: PropTypes.object,
+    setSnackbar: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -113,4 +138,4 @@ const mapStateToProps = state => ({
     user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { login })(withRouter(Login));
+export default connect(mapStateToProps, { login, setSnackbar })(Login);

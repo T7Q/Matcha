@@ -13,7 +13,6 @@ const transporter = nodemailer.createTransport({
 // console.log(req.get('host'));
 
 const activateAccountEmail = (recipient, userId, username, token) => {
-    console.log('email config', email);
     const link = `${developmentUrl}/account/activate?user=${userId}&token=${token}`;
     const subject = 'Matcha: account activation';
     const content = `
@@ -36,7 +35,7 @@ const activateAccountEmail = (recipient, userId, username, token) => {
 };
 
 const pwdResetEmail = (recipient, userId, username, token, req) => {
-    const link = `${developmentUrl}/account/reset?user=${userId}&token=${token}`;
+    const link = `${developmentUrl}/updatePwd?user=${userId}&token=${token}`;
     const subject = 'Matcha: reset password';
     const content = `
         <div style="font-size:16px;">

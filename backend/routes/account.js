@@ -28,15 +28,15 @@ router.post('/login', middleware.authForbidden, account.login);
 // @access  Public
 router.post('/pwdReset', account.pwdReset);
 
-// @route   POST /account/pwdUpdate
+// @route   POST /account/updatePwd
 // @desc    Reset a password
 // @access  Public
-router.post('/pwdUpdate', account.pwdUpdate);
+router.post('/updatePwd', account.pwdUpdate);
 
-// @route   POST /account/activate
+// @route   GET /account/activate
 // @desc    Reset a password
 // @access  Public
-router.post('/activate', middleware.authForbidden, account.activate);
+router.get('/activate', middleware.authForbidden, account.activate);
 
 // @route   POST /account/validate
 // @desc    Reset a password

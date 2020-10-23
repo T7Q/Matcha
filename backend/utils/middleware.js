@@ -70,7 +70,7 @@ const authForbidden = async (req, res, next) => {
 };
 
 const unknownEndpoint = (req, res) => {
-    res.send({ error: 'unknown endpoint' });
+    res.json({ error: 'unknown endpoint' });
 };
 
 const errorHandler = (error, req, res) => {

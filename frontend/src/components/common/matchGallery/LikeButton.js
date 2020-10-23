@@ -57,7 +57,7 @@ const LikeButton = ({
                 className={classesGallery.icon}
             >
                 <FavoriteBorderRounded
-                    fontSize="medium"
+                    // fontSize="medium"
                     className={
                         card.connected > 0 && card.connected < 3
                             ? classesGallery.fullLikeBtn
@@ -73,7 +73,7 @@ const LikeButton = ({
                     to="/messages"
                 >
                     <ChatBubbleOutlineRounded
-                        fontSize="medium"
+                        // fontSize="medium"
                         className={classesGallery.fullChatBtn}
                     />
                 </IconButton>

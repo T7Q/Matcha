@@ -56,7 +56,7 @@ const UserCard = ({ card }) => {
                         >
                             <IconButton className={classesGallery.bgIcon}>
                                 <Brightness1
-                                    fontSize="medium"
+                                    // size="medium"
                                     className={classesGallery.textOverIcon}
                                 />
                             </IconButton>
@@ -64,7 +64,7 @@ const UserCard = ({ card }) => {
                         <IconButton
                             className={classesGallery.textOver}
                             disabled
-                            fontSize="medium"
+                            // size="medium"
                         >
                             {card.match.toFixed(0)}%
                         </IconButton>

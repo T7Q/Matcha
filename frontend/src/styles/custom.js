@@ -35,7 +35,9 @@ export const theme = createMuiTheme({
             secondary: '#b5bad3',
         },
         background: {
-            default: 'rgb(12, 16, 35, 0.95)',
+            // default: "rgb(12, 16, 35, 0.95)",
+            default: "#0c1023",
+            secondary: "#12172d",
         },
     },
     typography: {

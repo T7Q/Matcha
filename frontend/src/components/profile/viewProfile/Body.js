@@ -16,6 +16,8 @@ import { useStyles } from "../../../styles/custom";
 import { profileStyles } from "../../../styles/profileStyles";
 import { useTheme } from "@material-ui/core/styles";
 
+import { shadows } from '@material-ui/system';
+
 const Body = ({ profile: { profile, loading }, type }) => {
     // const classes = useStyles();
     // const [dense, setDense] = React.useState(false);
@@ -98,10 +100,12 @@ const Body = ({ profile: { profile, loading }, type }) => {
                                     <Divider light />
                                     <Paper
                                         style={{
-                                            background: "inherit",
+                                            // background: "#12172d",
+                                            background: theme.palette.background.secondary,
                                             color: theme.palette.text.secondary,
                                             marginBottom: "20px",
                                         }}
+                                        boxShadow={6}
                                         elevation={4}
                                     >
                                         <ListItem>
@@ -151,7 +155,7 @@ const Body = ({ profile: { profile, loading }, type }) => {
                                         You like them!
                                     </Typography>
                                 </ListItem>
-                                <Divider style={{backgroundColor: theme.palette.primary.light}} />
+                                <Divider style={{backgroundColor: theme.palette.primary.main}} />
                             </>
                         ) : (
                             ""
@@ -165,7 +169,7 @@ const Body = ({ profile: { profile, loading }, type }) => {
                                         You are connected!
                                     </Typography>
                                 </ListItem>
-                                <Divider style={{backgroundColor: theme.palette.primary.light}} />
+                                <Divider style={{backgroundColor: theme.palette.primary.main}} />
                             </>
                         ) : (
                             ""

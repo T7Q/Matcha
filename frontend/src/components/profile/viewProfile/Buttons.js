@@ -46,8 +46,8 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
             <Button
                 onClick={handleLike}
                 variant="outlined"
-                // color={card.connected > 0 ? 'green' : "primary"}
-                className={classesProf.buttonSize + ' ' + classesProf.likeButton}
+                className={classesProf.likeButton}
+                // className={classesProf.buttonSize + ' ' + classesProf.likeButton}
                 color="primary"
                 startIcon={<Favorite />}>
                 {card.connected > 0 ? 'Unmatch' : 'Like'}
@@ -58,10 +58,10 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
                     variant="outlined"
                     color="primary"
                     component={Link}
-                    to={`/messages/${profile.profile.username}`}
-                    className={classesProf.buttonSize}
+                    to="/messages"
+                    className={classesProf.chatButton}
                     startIcon={<Chat />}>
-                    "CHAT"
+                    Chat
                 </Button>
             ) : (
                 ''

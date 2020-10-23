@@ -12,6 +12,8 @@ import clsx from 'clsx';
 import { useStyles } from '../../../styles/custom';
 import { profileStyles } from '../../../styles/profileStyles';
 import { useTheme } from '@material-ui/core/styles';
+import { shadows } from '@material-ui/system';
+
 
 // calcuate number of days until now
 const days = lastSeen => {
@@ -90,7 +92,11 @@ const Header = ({ profile, type }) => {
     const classes = useStyles();
     const classesProf = profileStyles();
     return (
-        <Box bgcolor="secondary.main" pt={4}>
+        <Box 
+        bgcolor="secondary.main" 
+        boxShadow={6}
+        // className={classesProf.backgroundHeader}
+        pt={4} pb={2}>
             <Grid container alignItems="flex-end">
                 <Grid item xs={12} sm={4} md={3}>
                     {type === 'otherUser' ? (
@@ -142,7 +148,7 @@ const Header = ({ profile, type }) => {
                     ) : (
                         ''
                     )}
-                    <Box className={classesProf.ratingPosition}>
+                    <Box className={classesProf.ratingPosition} >
                         <UserRating profile={profile} />
                     </Box>
                 </Grid>

@@ -35,7 +35,7 @@ const ProfileView = ({
             socket.emit('UPDATE_NOTIFICATIONS', otherUserId, 'visit');
         }
         dispatch({ type: 'UPDATE_PATH', payload: type });
-    }, [getProfile, type, otherUserId, socket]);
+    }, [getProfile, type, otherUserId, socket, dispatch]);
 
     if (profile === null) {
         return loading ? <Spinner /> : <div>Page is not found</div>;

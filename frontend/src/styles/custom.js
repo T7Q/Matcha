@@ -36,8 +36,8 @@ export const theme = createMuiTheme({
         },
         background: {
             // default: "rgb(12, 16, 35, 0.95)",
-            default: "#0c1023",
-            secondary: "#12172d",
+            default: '#0c1023',
+            secondary: '#12172d',
         },
     },
     typography: {
@@ -120,9 +120,14 @@ export const theme = createMuiTheme({
         },
         MuiTooltip: {
             tooltip: {
-              backgroundColor: primaryColor.main,
-            }
-          }
+                backgroundColor: primaryColor.main,
+            },
+        },
+        MuiFormControlLabel: {
+            label: {
+                overflowWrap: 'normal',
+            },
+        },
     },
 });
 

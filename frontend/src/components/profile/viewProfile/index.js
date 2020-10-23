@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Box } from "@material-ui/core";
-import { getProfile } from "../../../actions/profile";
-import Spinner from "../../layout/Spinner";
-import Header from "./Header";
-import Body from "./Body";
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Box } from '@material-ui/core';
+import { getProfile } from '../../../actions/profile';
+import Spinner from '../../layout/Spinner';
+import Header from './Header';
+import Body from './Body';
+import { useDispatch } from 'react-redux';
 
 const ProfileView = ({
     getProfile,
@@ -29,13 +29,13 @@ const ProfileView = ({
     // console.log("profile component error", profile.error);
 
     useEffect(() => {
-        getProfile(type, otherUserId);
+        getProfile(type, otherUserId, type !== 'myProfile');
         if (type !== 'myProfile') {
             // console.log('not my profile');
             socket.emit('UPDATE_NOTIFICATIONS', otherUserId, 'visit');
         }
         dispatch({ type: 'UPDATE_PATH', payload: type });
-    }, [getProfile, type, otherUserId, socket]);
+    }, [getProfile, type, otherUserId, socket, dispatch]);
 
     if (profile === null) {
         return loading ? <Spinner /> : <div>Page is not found</div>;

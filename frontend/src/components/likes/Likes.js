@@ -42,7 +42,7 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
         return () => {
             isMounted = false;
         };
-    }, [page, socket, updateNotifications]);
+    }, [page, socket, updateNotifications, getNotifications]);
 
     useEffect(() => {
         let isMounted = true;

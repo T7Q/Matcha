@@ -1,23 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const { show, create, edit, deleteAccount, interaction, notifications, photo } = require('../controllers/profile');
-const authorization = require('../middleware/authorization');
+const middleware = require('../utils/middleware');
 const profileModel = require('../models/profile');
 
 // @route   GET /profile/me
 // @desc    Get my (logged in user) profile
 // @access  Private
-router.get('/me', authorization.required, show.myProfile);
+router.get('/me', middleware.authRequired, show.myProfile);
 
 // @route   GET /profile/user/:user_id
 // @desc    Get profile by user ID
 // @access  Private
-router.get('/user/:user_id', authorization.required, show.userProfile);
+router.get('/user/:user_id', middleware.authRequired, show.userProfile);
 
 // @route   GET /profile/visit/:user_id
 // @desc    Get profile by user ID
 // @access  Private
-router.get('/visit/:user_id', authorization.required, show.visitOtherProfile);
+router.get('/visit/:user_id', middleware.authRequired, show.visitOtherProfile);
 
 // @route   GET /profile/tags
 // @desc    Get all tags
@@ -26,72 +26,72 @@ router.get('/tags', profileModel.getTags);
 
 // @route   GET /profile/me/tags
 // @desc    Get all tags
-// @access  Public
-router.get('/me/tags', show.userTags);
+// @access  Private
+router.get('/me/tags', middleware.authRequired, show.userTags);
 
 // @route   GET /profile/notifications
 // @desc    Get all tags
 // @access  Public
-router.get('/notifications/:type', authorization.required, notifications.get);
+router.get('/notifications/:type', middleware.authRequired, notifications.get);
 
 // @route   POST /profile/editnotification
 // @desc    Edit notification settings: email, push
 // @access  Private
-router.delete('/notifications/:type/:id', authorization.required, notifications.remove);
+router.delete('/notifications/:type/:id', middleware.authRequired, notifications.remove);
 
 // @route   POST /
 // @desc    Show other user profile
 // @access  Private
-router.post('/', authorization.required, show.userProfile);
+router.post('/', middleware.authRequired, show.userProfile);
 
 // @route   POST /profile/create
 // @desc    Add profile info
 // @access  Private
-router.post('/create', create);
+router.post('/create', middleware.authWithStatus1, create);
 
 // @route   POST /profile/edit
 // @desc    Edit profile info (gender, sex preferences, birth date, country)
 // @access  Private
-router.post('/edit', authorization.required, edit.general);
+router.post('/edit', middleware.authRequired, edit.general);
 
 // @route   POST /profile/editTags
 // @desc    Edit profile info
 // @access  Private
-router.post('/editTags', authorization.required, edit.tags);
+router.post('/editTags', middleware.authRequired, edit.tags);
 
 // @route   POST /profile/addinteraction
 // @desc    Add like, view, block, report
 // @access  Private
-router.post('/addinteraction/:type/:user_id', authorization.required, interaction.add);
+router.post('/addinteraction/:type/:user_id', middleware.authRequired, interaction.add);
 
 // @route   POST /profile/removeinteraction
 // @desc    remove like, view, block, report
 // @access  Private
-router.post('/removeinteraction/:type/:user_id', authorization.required, interaction.remove);
+router.post('/removeinteraction/:type/:user_id', middleware.authRequired, interaction.remove);
 
 // @route   POST /profile/delete
 // @desc    Delete account
 // @access  Private
-router.post('/delete', authorization.required, deleteAccount);
+router.post('/delete', middleware.authRequired, deleteAccount);
 
 // @route   POST /profile/uploadphoto
 // @desc    Upload (profile) photo
 // @access  Private
-router.post('/uploadphoto', authorization.required, photo.upload);
+router.post('/uploadphoto', middleware.authRequired, photo.upload);
 
 // @route   POST /profile/deletephoto
 // @desc    Delete user photo
 // @access  Private
-router.post('/deletephoto', authorization.required, photo.deletePhoto);
+router.post('/deletephoto', middleware.authRequired, photo.deletePhoto);
 
 // @route   POST /profile/connected
 // @desc    Check if users are connected
 // @access  Private
-router.post('/connected/:user_id', authorization.required, interaction.connected);
+router.post('/connected/:user_id', middleware.authRequired, interaction.connected);
 
 // @route   GET /blockedUsers
 // @desc    Get list of blocked users
 // @access  Private
-router.get('/blockedUsers', authorization.required, show.blockedUsers);
+router.get('/blockedUsers', middleware.authRequired, show.blockedUsers);
 
 module.exports = router;

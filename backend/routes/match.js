@@ -1,36 +1,36 @@
 const express = require('express');
 const router = express.Router();
 const { filter, display } = require('../controllers/match');
-const authorization = require('../middleware/authorization');
+const middleware = require('../utils/middleware');
 
 // @route   POST /match/filter
 // @desc    Match and filter
 // @access  Public
-router.post('/filter', authorization.required, filter);
+router.post('/filter', middleware.authRequired, filter);
 
 // @route   GET /match/likedme
 // @desc    Display all who liked me
 // @access  Private
-router.get('/likedme', authorization.required, display.likedMe);
+router.get('/likedme', middleware.authRequired, display.likedMe);
 
 // @route   GET /match/connected
 // @desc    Display all who liked me
 // @access  Private
-router.get('/connected', authorization.required, display.connected);
+router.get('/connected', middleware.authRequired, display.connected);
 
 // @route   GET /match/visitedme
 // @desc    Display all who liked me
 // @access  Private
-router.get('/visitedme', authorization.required, display.visitedMe);
+router.get('/visitedme', middleware.authRequired, display.visitedMe);
 
 // @route   GET /match/visitedme
 // @desc    Display all who liked me
 // @access  Private
-router.get('/visitedbyme', authorization.required, display.visitedByMe);
+router.get('/visitedbyme', middleware.authRequired, display.visitedByMe);
 
 // @route   GET /match/recommend
 // @desc    Display all who liked me
 // @access  Private
-router.get('/recommend', authorization.required, display.recommend);
+router.get('/recommend', middleware.authRequired, display.recommend);
 
 module.exports = router;

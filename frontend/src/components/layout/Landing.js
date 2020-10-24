@@ -60,7 +60,7 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
                 color="secondary"
                 className={classesLanding.fullBtn}
             >
-                Log in with username
+                Log in
             </Button>
             <Button
                 onClick={() => handleRedirect("/login")}

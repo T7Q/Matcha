@@ -11,7 +11,7 @@ import Gallery from "./Gallery";
 // console.log("TYPE", type);
 
 const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path, route, filterIsOn }) => {
-    // console.log("GetMatch component");
+    console.log("GetMatch component");
 
     useEffect(() => {
         // console.log("useEffect MATCH component", match);
@@ -21,14 +21,12 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path,
     
 
     const handleScroll = () => {
-        // const temp = window.innerHeight + window.scrollY;
-        // const temp2 = document.body.offsetHeight;
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        // if (temp >= temp2) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 2) {
             fetchMore();
         }
     }
     window.addEventListener("scroll", handleScroll);
+
     return (
         <Fragment>
             <Gallery match={match} iEnd={iEnd} />

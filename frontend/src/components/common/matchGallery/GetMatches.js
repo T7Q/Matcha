@@ -11,7 +11,7 @@ import Gallery from "./Gallery";
 // console.log("TYPE", type);
 
 const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path, route, filterIsOn }) => {
-    console.log("GetMatch component");
+    // console.log("GetMatch component");
 
     useEffect(() => {
         // console.log("useEffect MATCH component", match);

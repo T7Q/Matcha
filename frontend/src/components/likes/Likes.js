@@ -1,42 +1,60 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { AppBar, Tabs, Tab, Typography, Box, Container, Badge } from '@material-ui/core';
-import Match from '../common/matchGallery/GetMatches';
-import { getNotifications, updateNotifications } from '../../actions/notifications';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import {
+    AppBar,
+    Tabs,
+    Tab,
+    Typography,
+    Box,
+    Container,
+    Badge,
+} from "@material-ui/core";
+import Match from "../common/matchGallery/GetMatches";
+import {
+    getNotifications,
+    updateNotifications,
+} from "../../actions/notifications";
 
-const Likes = ({ match, history, socket, getNotifications, updateNotifications, notifications }) => {
+const Likes = ({
+    match,
+    history,
+    socket,
+    getNotifications,
+    updateNotifications,
+    notifications,
+}) => {
     const { page } = match.params;
 
-    const indexToTabName = ['likesyou', 'connected', 'temp'];
+    const indexToTabName = ["likesyou", "connected", "temp"];
 
     const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
     const [newLikes, setNewLikes] = useState(false);
     const [newUnlikes, setNewUnlikes] = useState(false);
     const [newMatches, setNewMatches] = useState(false);
 
-    const amount = amount => {
-        return amount < 100 ? amount : '99+';
+    const amount = (amount) => {
+        return amount < 100 ? amount : "99+";
     };
 
     useEffect(() => {
         let isMounted = true;
-        socket.on('UPDATE_NOTIFICATIONS', type => {
+        socket.on("UPDATE_NOTIFICATIONS", (type) => {
             if (isMounted) {
-                if (type === 'unlike') {
+                if (type === "unlike") {
                     setNewUnlikes(true);
                 }
             }
         });
 
         // console.log('page', page);
-        if (page === 'connected') {
+        if (page === "connected") {
             setNewUnlikes(false);
             setNewMatches(false);
-            updateNotifications('unlike');
-        } else if (page === 'likesyou') {
+            updateNotifications("unlike");
+        } else if (page === "likesyou") {
             setNewLikes(false);
-            updateNotifications('like');
+            updateNotifications("like");
         }
         getNotifications();
         return () => {
@@ -46,12 +64,12 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
 
     useEffect(() => {
         let isMounted = true;
-        socket.on('UPDATE_NOTIFICATIONS', type => {
-            if (isMounted && type === 'like') {
+        socket.on("UPDATE_NOTIFICATIONS", (type) => {
+            if (isMounted && type === "like") {
                 setNewLikes(true);
             }
         });
-        updateNotifications('like');
+        updateNotifications("like");
         return () => {
             isMounted = false;
         };
@@ -65,16 +83,39 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
     return (
         <div>
             <AppBar color="secondary" position="static">
+            <Container>
+
+            
                 <Box p={2} justifyContent="center">
                     <Typography variant="h6">Likes</Typography>
-                    {newLikes && <Typography>You have new likes, refresh the page</Typography>}
-                    {newUnlikes && <Typography>You have new unlikes, refresh the page</Typography>}
-                    {newMatches && <Typography>You have new connections, refresh the page</Typography>}
+                    {newLikes && (
+                        <Typography>
+                            You have new likes, refresh the page
+                        </Typography>
+                    )}
+                    {newUnlikes && (
+                        <Typography>
+                            You have new unlikes, refresh the page
+                        </Typography>
+                    )}
+                    {newMatches && (
+                        <Typography>
+                            You have new connections, refresh the page
+                        </Typography>
+                    )}
                 </Box>
-                <Tabs value={selectedTab} onChange={handleChange}>
+                <Tabs
+                    value={selectedTab}
+                    onChange={handleChange}
+                    indicatorColor="primary"
+                    textColor="primary"
+                >
                     <Tab
                         label={
-                            <Badge badgeContent={notifications.like} color="primary">
+                            <Badge
+                                badgeContent={notifications.like}
+                                color="primary"
+                            >
                                 Likes you
                             </Badge>
                         }
@@ -82,16 +123,25 @@ const Likes = ({ match, history, socket, getNotifications, updateNotifications, 
                     <Tab
                         label={
                             <Box>
-                                <Badge badgeContent={amount(notifications.match)} color="primary">
+                                <Badge
+                                    badgeContent={amount(notifications.match)}
+                                    color="primary"
+                                >
                                     Connected
-                                </Badge>{' '}
-                                <Badge badgeContent={-amount(notifications.unlike)} color="error">
-                                    {!notifications.match && <Box color="transparent">------</Box>}
+                                </Badge>{" "}
+                                <Badge
+                                    badgeContent={-amount(notifications.unlike)}
+                                    color="error"
+                                >
+                                    {!notifications.match && (
+                                        <Box color="transparent">------</Box>
+                                    )}
                                 </Badge>
                             </Box>
                         }
                     />
                 </Tabs>
+            </Container>
             </AppBar>
 
             <Container>
@@ -116,8 +166,11 @@ Likes.propTypes = {
     notifications: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     notifications: state.notifications,
 });
 
-export default connect(mapStateToProps, { updateNotifications, getNotifications })(Likes);
+export default connect(mapStateToProps, {
+    updateNotifications,
+    getNotifications,
+})(Likes);

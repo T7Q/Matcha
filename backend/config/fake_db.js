@@ -7,7 +7,7 @@ const { database } = require("./index");
 // there is also a demo user (user_id 1) created on setup_db stage
 
 // number of generated fake accounts
-const desiredFakeUsers = 30;
+const desiredFakeUsers = 10;
 
 // statement to insert 21 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
@@ -22,6 +22,7 @@ const prepareStmt = (desiredFakeUsers) => {
         }
         str = k === desiredFakeUsers - 1 ? str.concat(")") : str.concat("),");
     }
+
     return `INSERT INTO users (first_name, last_name, username, email, password,
         status, birth_date, gender, sex_preference, email_notification,
         online, latitude, longitude, country, real_time_notification,
@@ -225,6 +226,7 @@ const insertFakeUsers = async () => {
     console.log("\x1b[34m" + "Generating fake users" + "\x1b[0m");
     tagsArray(56);
     // calculate the id of first inserted user to add info
+    let errorCount = false;
     let idMin = 1;
     await pool
         .query(`SELECT max(user_id) from users`)
@@ -233,6 +235,7 @@ const insertFakeUsers = async () => {
         })
         .catch((err) => {
             console.log("\x1b[31m" + err + "\x1b[0m");
+            errorCount = true;
         });
 
     // add fake users to the database
@@ -247,6 +250,7 @@ const insertFakeUsers = async () => {
         })
         .catch((err) => {
             console.log("\x1b[31m" + err + "\x1b[0m");
+            errorCount = true;
         });
 
     // get all user id from database
@@ -258,10 +262,13 @@ const insertFakeUsers = async () => {
         })
         .catch((err) => {
             console.log("\x1b[31m" + err + "\x1b[0m");
+            errorCount = true;
         });
 
     // prepare fake users data (likes, visits) statements
-    const tagsStmt = prepareDataStmt(idMin, currentUsers);
+    let tagsStmt = ""
+    if(!errorCount)
+        tagsStmt = prepareDataStmt(idMin, currentUsers);
 
     // insert data to the database
     await pool

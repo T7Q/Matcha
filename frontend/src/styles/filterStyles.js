@@ -38,6 +38,14 @@ export const filterStyles = makeStyles((theme) => ({
             backgroundColor: 'red',
             color: 'blue',
           },
-    }
+    },
+    tags: {
+        '& .MuiChip-root': {
+            color: 'green',
+        },
+        '& .MuiChip-label': {
+            color: 'blue',
+        },
+    },
 
 }));

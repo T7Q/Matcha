@@ -7,8 +7,7 @@ import {
     Tab,
     Typography,
     Box,
-    Container,
-    Grid
+    Container
 } from "@material-ui/core";
 import Match from "../common/matchGallery/GetMatches";
 import {

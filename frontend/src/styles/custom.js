@@ -93,11 +93,11 @@ export const theme = createMuiTheme({
             },
         },
         // button in nav to capitalize
-        // MuiTypography: {
-        //     button: {
-        //         textTransform: 'capitalize',
-        //     },
-        // },
+        MuiTypography: {
+            button: {
+                textTransform: 'capitalize',
+            },
+        },
         MuiDropzoneArea: {
             text: {
                 color: '#000',
@@ -130,10 +130,44 @@ export const theme = createMuiTheme({
                 overflowWrap: 'normal',
             },
         },
+        MuiList: {
+            dense: {
+                background: 'red',
+                color: 'green',
+            },
+            root: {
+                // background: '#12172d',
+                color: 'white',
+                width: '100%',
+                '& .MuiListItem': {
+                    border: '1px solid yellow',
+                },
+                '&::-webkit-scrollbar': {
+                    width: '0.4em'
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    boxShadow: 'inset 0 0 6px #12172d',
+                    webkitBoxShadow: 'inset 0 0 6px #12172d'
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#252839',
+                    outline: '1px solid #252839'
+                  }
+            },
+            
+        },
+        MuiListItem: {
+            root: {
+                // borderTop: '1px solid #252839',
+                // borderBottom: '1px solid #252839',
+            }
+        }
+
     },
 });
 
 export const useStyles = makeStyles(theme => ({
+    
     menu: {
         '& .MuiMenu-paper': {
             border: '1px solid #000',
@@ -182,7 +216,7 @@ export const useStyles = makeStyles(theme => ({
         lineHeight: '1.3',
         letterSpacing: 'normal',
         minWidth: '170px',
-        fontWeight: '700',
+        fontWeight: '500',
         border: `1px solid ${theme.palette.primary.main}`,
         color: theme.palette.text.primary,
         backgroundColor: theme.palette.primary.main,
@@ -271,12 +305,13 @@ export const useStyles = makeStyles(theme => ({
         },
     },
     customInput: {
-        // width: '100%',
-        margin: '5px',
+        width: '95%',
+        margin: '10px',
+        alignItems: "center",
         // backgroundColor: 'transparent',
         '& label': {
             color: theme.palette.secondary.main,
-            fontSize: '20px',
+            fontSize: '16px',
             // marginLeft: '25%',
         },
         '& input': {
@@ -291,7 +326,7 @@ export const useStyles = makeStyles(theme => ({
             backgroundColor: '#fff',
             color: theme.palette.secondary.main,
             width: '100%',
-            fontSize: '20px',
+            fontSize: '16px',
             borderWidth: 2,
         },
     },

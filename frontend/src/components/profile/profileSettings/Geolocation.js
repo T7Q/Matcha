@@ -2,22 +2,24 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { FormGroup, Grid, Button } from '@material-ui/core';
+import { FormGroup, Button, Box, useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import { useStyles } from '../../../styles/custom';
-import { editProfile } from '../../../actions/profile'; /// update here function
+import { editProfile } from '../../../actions/profile';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import mapStyles from './mapStyles';
 
 const Geolocation = ({ user, editProfile, setSnackbar }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
     const [marker, setMarker] = useState({
         lat: user.latitude,
         lng: user.longitude,
     });
     const classes = useStyles();
 
-    const handleSubmit = async event => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // console.log('Coordinates', marker);
         try {
             const res = await axios.post('/profile/edit', { key: 'location', value: marker });
             if (res.data.error) {
@@ -33,7 +35,7 @@ const Geolocation = ({ user, editProfile, setSnackbar }) => {
         }
     };
 
-    const handleMapClick = event => {
+    const handleMapClick = (event) => {
         setMarker({
             lat: event.latLng.lat(),
             lng: event.latLng.lng(),
@@ -41,8 +43,12 @@ const Geolocation = ({ user, editProfile, setSnackbar }) => {
     };
 
     const mapContainerStyle = {
-        width: '30vw',
-        height: '50vh',
+        width: '40vw',
+        height: '40vh',
+    };
+    const mapContainerStyleSm = {
+        width: '80vw',
+        height: '60vh',
     };
 
     const center = {
@@ -62,22 +68,19 @@ const Geolocation = ({ user, editProfile, setSnackbar }) => {
 
     if (loadError) return 'Error loading maps';
     if (!isLoaded) return 'Loading Maps';
-    // console.log('marker', marker);
     return (
         <form onSubmit={handleSubmit}>
             <FormGroup>
-                <Grid>
-                    <Grid item xs={6}>
-                        <GoogleMap
-                            mapContainerStyle={mapContainerStyle}
-                            zoom={8}
-                            center={center}
-                            options={options}
-                            onClick={handleMapClick}>
-                            <Marker position={{ lat: marker.lat, lng: marker.lng }} />
-                        </GoogleMap>
-                    </Grid>
-                </Grid>
+                <Box>
+                    <GoogleMap
+                        mapContainerStyle={isMobile ? mapContainerStyleSm : mapContainerStyle}
+                        zoom={8}
+                        center={center}
+                        options={options}
+                        onClick={handleMapClick}>
+                        <Marker position={{ lat: marker.lat, lng: marker.lng }} />
+                    </GoogleMap>
+                </Box>
                 <Button
                     type="submit"
                     size="small"
@@ -95,7 +98,7 @@ Geolocation.propTypes = {
     editProfile: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     user: state.auth.user,
 });
 

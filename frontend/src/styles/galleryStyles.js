@@ -3,6 +3,9 @@ import { makeStyles } from "@material-ui/core/styles";
 export const galleryStyles = makeStyles((theme) => ({
     card: {
         width: 250,
+        [theme.breakpoints.down('xs')]: {
+            width: "auto",
+        },
         margin: "auto",
         border: `1px solid #10183c`,
         "&.MuiPaper-elevation1": {
@@ -14,6 +17,9 @@ export const galleryStyles = makeStyles((theme) => ({
     },
     cardMedia: {
         height: 280,
+        [theme.breakpoints.down('xs')]: {
+            height: 250,
+        },
         width: "100%",
         objectFit: "cover",
     },

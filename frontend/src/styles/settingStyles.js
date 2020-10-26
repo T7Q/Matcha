@@ -5,18 +5,27 @@ export const settingStyles = makeStyles((theme) => ({
         color: "#219bf1",
     },
     tabs: {
-        '&.MuiTab, &.MuiTab-wrapper': {
+        padding: 0,
+        '& .MuiTab-wrapper': {
             flexDirection: 'row',
             justifyContent: 'start',
+            // color: 'blue',
         },
-        flexDirection: 'row',
-        justifyContent: 'start',
-        // MuiTab: {
-        //     wrapper: {
-        //         flexDirection: 'row',
-        //         justifyContent: 'start',
-        //     },
-        // },
+        // '& .MuiTouchRipple': {
+        //     root:{
+        //         border: "1px solid pink",
+        //         height: "100px",  
+        //     }
+        // }, PINK OVERLAY
+        '& .MuiTab-root': {
+            padding: 0,
+        },
+    },
+    notification: {
+        justifyContent: "space-between",
+        marginLeft: 0, 
+        marginRight: 0 
+
     }
 
 

@@ -47,7 +47,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
                     <PrivateRoute exact path="/settings/:type" component={Settings} />
                     <Redirect exact from="/matches" to="/matches/recommend" />
                     <PrivateRoute exact path="/matches/:page?" component={Matches} />
-                    <Redirect exact from="/visits" to="/visits/newvisits" />
+                    <Redirect exact from="/visits" to="/visits/allvisits" />
                     <PrivateRoute exact path="/visits/:page?" socket={socket} component={Visits} />
                     <PrivateRoute exact path="/profile/me/edit/:type?" component={EditProfile} />
                     {/* <Route component={NotFound} /> */}

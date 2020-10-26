@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import clsx from "clsx";
 import { Button, Collapse, Grid, IconButton } from "@material-ui/core";
-import { makeStyles, Box, Divider } from "@material-ui/core";
+import { makeStyles, Box } from "@material-ui/core";
 
 import { HighlightOff, ExpandMore, SyncAlt } from "@material-ui/icons";
 
@@ -65,7 +65,6 @@ const Filter = ({
     };
 
     const classes = localStyles();
-    const theme = useTheme();
     const classesCustom = useStyles();
     const classesFilter = filterStyles();
     const [expanded, setExpanded] = React.useState(setting);
@@ -250,7 +249,7 @@ const Filter = ({
                             id="filterBtn"
                             size="small"
                             variant="contained"
-                            color="primary"
+                            // color="primary"
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
@@ -261,10 +260,11 @@ const Filter = ({
                         <Button
                             variant="contained"
                             size="small"
-                            color="primary"
+                            // color="primary"
                             onClick={() => {
                                 handleClickReset();
                             }}
+                            // className={classesCustom.customButton}
                             className={classesCustom.customTransparentButton}
                         >
                             Reset

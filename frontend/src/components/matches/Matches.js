@@ -17,11 +17,11 @@ import {
 import Match from "../common/matchGallery/GetMatches";
 import Filter from "./filter/Index";
 import { resetFilter } from "../../actions/match";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from "react-redux";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
-    
+
     return (
         <div
             role="tabpanel"
@@ -71,70 +71,77 @@ const Matches = ({ resetFilter, match, history, previousPath }) => {
 
     useEffect(() => {
         // console.log("use effect");
-        if( previousPath === ""){
+        if (previousPath === "") {
             // console.log("1", previousPath, back);
             resetFilter();
-        } else if (previousPath === "otherUser"){
+        } else if (previousPath === "otherUser") {
             // console.log("2", previousPath, back);
-            dispatch({ type: 'UPDATE_PATH', payload: "" });
-        } 
+            dispatch({ type: "UPDATE_PATH", payload: "" });
+        }
     }, []);
-    
-    
+
     const handleChange = (event, newValue) => {
         history.push(`/matches/${indexToTabName[newValue]}`);
         setValue(newValue);
         resetFilter();
     };
 
-    
     // window.onpopstate = e => {
     //     setBack(true);
     //     console.log("back", e);
     //     // console.log("previousPath", previousPath);
     // }
 
-
     return (
         <Box>
-            <AppBar color="secondary" position="static">
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    variant="scrollable"
-                    scrollButtons="on"
-                    indicatorColor="primary"
-                    textColor="primary"
-                    aria-label="scrollable force tabs example"
-                >
-                    <Tab
-                        label="Recommended"
-                        icon={<Favorite />}
-                        {...a11yProps(0)}
-                    />
-                    <Tab label="Search" icon={<Search />} {...a11yProps(1)} />
-                    <Tab
-                        label="Online"
-                        icon={<QueryBuilder />}
-                        {...a11yProps(2)}
-                    />
-                    <Tab
-                        label="New People"
-                        icon={<WbIncandescent />}
-                        {...a11yProps(3)}
-                    />
-                    <Tab
-                        label="Popular"
-                        icon={<Whatshot />}
-                        {...a11yProps(4)}
-                    />
-                    <Tab label="Random" icon={<Help />} {...a11yProps(5)} />
-                    <Tab
-                        label="Nearby"
-                        icon={<PersonPin />}
-                        {...a11yProps(6)}
-                    />
-                </Tabs>
+            <AppBar
+                color="secondary"
+                position="static"
+                style={{ paddingTop: "20px", paddingBottom: "20px" }}
+            >
+                <Container>
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                        variant="scrollable"
+                        scrollButtons="on"
+                        indicatorColor="primary"
+                        textColor="primary"
+                        aria-label="scrollable force tabs example"
+                    >
+                        <Tab
+                            label="Recommended"
+                            icon={<Favorite />}
+                            {...a11yProps(0)}
+                        />
+                        <Tab
+                            label="Search"
+                            icon={<Search />}
+                            {...a11yProps(1)}
+                        />
+                        <Tab
+                            label="Online"
+                            icon={<QueryBuilder />}
+                            {...a11yProps(2)}
+                        />
+                        <Tab
+                            label="New People"
+                            icon={<WbIncandescent />}
+                            {...a11yProps(3)}
+                        />
+                        <Tab
+                            label="Popular"
+                            icon={<Whatshot />}
+                            {...a11yProps(4)}
+                        />
+                        <Tab label="Random" icon={<Help />} {...a11yProps(5)} />
+                        <Tab
+                            label="Nearby"
+                            icon={<PersonPin />}
+                            {...a11yProps(6)}
+                        />
+                    </Tabs>
+                </Container>
             </AppBar>
             <Container>
                 <TabPanel value={value} index={0}>

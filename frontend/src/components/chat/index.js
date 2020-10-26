@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Box, Typography, Grid } from '@material-ui/core';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Box, Typography, Grid, Container } from "@material-ui/core";
 // import { useTheme } from '@material-ui/core/styles';
-import { getConversations } from '../../actions/chat';
-import { getMessageNotifications } from '../../actions/notifications';
-import Conversations from './Conversations';
-import PrivateChat from './PrivateChat';
+import { getConversations } from "../../actions/chat";
+import { getMessageNotifications } from "../../actions/notifications";
+import Conversations from "./Conversations";
+import PrivateChat from "./PrivateChat";
 
 const Chat = ({
     auth,
@@ -18,21 +18,27 @@ const Chat = ({
     ...props
 }) => {
     const [currentConversation, setCurrentConversation] = useState(0);
-    const [partnerTyping, setPartnerTyping] = useState({ typing: false, chatId: 0 });
-    const [lastMessage, setLastMessage] = useState({ text: '', chatId: 0 });
+    const [partnerTyping, setPartnerTyping] = useState({
+        typing: false,
+        chatId: 0,
+    });
+    const [lastMessage, setLastMessage] = useState({ text: "", chatId: 0 });
 
     // const theme = useTheme();
     let username = props.match.params.username;
 
     useEffect(() => {
-        if (username !== 0 && conversations.some(el => el.partner_username === username)) {
+        if (
+            username !== 0 &&
+            conversations.some((el) => el.partner_username === username)
+        ) {
             setCurrentConversation(username);
         }
     }, [username, conversations]);
 
     useEffect(() => {
         let isMounted = true;
-        auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
+        auth.socket.on("TYPING_NOTIFICATION", (chatId, typing) => {
             isMounted && setPartnerTyping({ typing: typing, chatId: chatId });
         });
     }, [username, conversations, auth.socket]);
@@ -42,8 +48,8 @@ const Chat = ({
         // console.log('get conversations in chat index');
         getConversations();
         getMessageNotifications();
-        auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
-            if (isMounted && type === 'message') {
+        auth.socket.on("UPDATE_NOTIFICATIONS", (type, chatId, text) => {
+            if (isMounted && type === "message") {
                 if (text) setLastMessage({ text: text, chatId: chatId });
                 // console.log('on update notification in chat index', text);
                 getMessageNotifications();
@@ -52,15 +58,15 @@ const Chat = ({
 
         return () => {
             isMounted = false;
-            auth.socket.off('TYPING_NOTIFICATION');
+            auth.socket.off("TYPING_NOTIFICATION");
         };
     }, [getConversations, getMessageNotifications, auth.socket]);
 
     const handleChange = (event, newUsername, senderId) => {
         setCurrentConversation(newUsername);
-        history.push('/messages/' + newUsername);
+        history.push("/messages/" + newUsername);
         if (notifications.message > 0) {
-            auth.socket.emit('SEE_CONVERSATION', auth.user.userId, senderId);
+            auth.socket.emit("SEE_CONVERSATION", auth.user.userId, senderId);
         }
     };
 
@@ -72,32 +78,38 @@ const Chat = ({
                 justifyContent="center"
                 bgcolor="secondary.main"
                 pl={8}
-                height="80px">
-                <Typography variant="h5">Messages</Typography>
-                <Typography variant="h6">Recent conversations</Typography>
+                height="80px"
+            >
+                <Container>
+                    <Typography variant="h6">Messages</Typography>
+                    <Typography variant="body1">Recent conversations</Typography>
+                </Container>
             </Box>
+
             <Box flexGrow={1} display="flex" p={5}>
-                <Grid container>
-                    <Grid container item sm={6} xs={12} justify="center">
-                        <Conversations
-                            socket={auth.socket}
-                            partnerTyping={partnerTyping}
-                            messageNotifications={notifications.messages}
-                            conversations={conversations}
-                            handleChange={handleChange}
-                            lastMessage={lastMessage}
-                        />
+                <Container>
+                    <Grid container>
+                        <Grid container item sm={6} xs={12} justify="center">
+                            <Conversations
+                                socket={auth.socket}
+                                partnerTyping={partnerTyping}
+                                messageNotifications={notifications.messages}
+                                conversations={conversations}
+                                handleChange={handleChange}
+                                lastMessage={lastMessage}
+                            />
+                        </Grid>
+                        <Grid container justify="center" item sm={6} xs={12}>
+                            <PrivateChat
+                                partnerTyping={partnerTyping}
+                                setPartnerTyping={setPartnerTyping}
+                                notifications={notifications}
+                                setCurrentConversation={setCurrentConversation}
+                                currentConversation={currentConversation}
+                            />
+                        </Grid>
                     </Grid>
-                    <Grid container justify="center" item sm={6} xs={12}>
-                        <PrivateChat
-                            partnerTyping={partnerTyping}
-                            setPartnerTyping={setPartnerTyping}
-                            notifications={notifications}
-                            setCurrentConversation={setCurrentConversation}
-                            currentConversation={currentConversation}
-                        />
-                    </Grid>
-                </Grid>
+                </Container>
             </Box>
         </Box>
     );
@@ -110,10 +122,13 @@ Chat.propTypes = {
     notifications: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     chat: state.chat,
     notifications: state.notifications,
     auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getMessageNotifications, getConversations })(Chat);
+export default connect(mapStateToProps, {
+    getMessageNotifications,
+    getConversations,
+})(Chat);

@@ -21,14 +21,12 @@ const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path,
     
 
     const handleScroll = () => {
-        // const temp = window.innerHeight + window.scrollY;
-        // const temp2 = document.body.offsetHeight;
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        // if (temp >= temp2) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 2) {
             fetchMore();
         }
     }
     window.addEventListener("scroll", handleScroll);
+
     return (
         <Fragment>
             <Gallery match={match} iEnd={iEnd} />

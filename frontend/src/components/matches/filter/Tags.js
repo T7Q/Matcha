@@ -44,7 +44,7 @@ const Tags = ({ updateFilter, filter }) => {
                 <TextField
                     {...params}
                     variant="standard"
-                    label="My interests are ..."
+                    label="Passionate about ..."
                 />
             )}
         />

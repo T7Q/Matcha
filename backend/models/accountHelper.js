@@ -1,13 +1,15 @@
 const bcrypt = require('bcrypt');
 const { findUserInfo } = require('./account');
 
-const validateEmail = async email => {
+const validateEmail = async (email) => {
     let errors = {};
 
     if (!email) {
         errors['emailError'] = 'Email could not be empty';
     } else if (await findUserInfo('email', email, 'user_id')) {
         errors['emailError'] = 'User with this email already exists';
+    } else if (email.length > 63) {
+        errors['emailError'] = 'Email is too long';
     } else {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!re.test(String(email).toLowerCase())) {
@@ -17,13 +19,15 @@ const validateEmail = async email => {
     return errors;
 };
 
-const validateUsername = async username => {
+const validateUsername = async (username) => {
     let errors = {};
 
     if (!username) {
         errors['usernameError'] = 'Username could not be empty';
     } else if (await findUserInfo('username', username, 'user_id')) {
         errors['usernameError'] = 'This username has already been taken';
+    } else if (username.length >= 30) {
+        errors['usernameError'] = 'Username is too long';
     } else {
         const re = /^[A-Za-z0-9]{0,}$/;
         if (!re.test(username)) {
@@ -33,11 +37,13 @@ const validateUsername = async username => {
     return errors;
 };
 
-const validateName = name => {
+const validateName = (name) => {
     let errors = {};
 
     if (!name) {
         errors['firstnameError'] = 'Name could not be empty';
+    } else if (name.length >= 30) {
+        errors['firstnameError'] = 'Name is too long';
     } else {
         const re = /^[A-Za-z0-9]{0,}$/;
         if (!re.test(name)) {

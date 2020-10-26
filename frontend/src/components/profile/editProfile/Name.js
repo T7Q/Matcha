@@ -16,12 +16,12 @@ const Name = ({ setSnackbar, firstName, lastName }) => {
     const { firstname, lastname } = formData;
     const { firstnameError, lastnameError } = errors;
 
-    const onChange = e => {
+    const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         validateLocal(e.target.name, e.target.value);
     };
 
-    const handleSubmit = async event => {
+    const handleSubmit = async (event) => {
         if (validate()) {
             try {
                 const res = await axios.post('/profile/edit', { key: 'name', value: formData });
@@ -40,6 +40,8 @@ const Name = ({ setSnackbar, firstName, lastName }) => {
         const errorType = [type] + 'Error';
         if (!value) {
             setErrors({ ...errors, [errorType]: 'required field' });
+        } else if (value.length > 25) {
+            setErrors({ ...errors, [errorType]: 'Should be between 1 to 25 characthers' });
         } else {
             const re = /^[A-Za-z0-9]{0,}$/;
             if (!re.test(value)) {

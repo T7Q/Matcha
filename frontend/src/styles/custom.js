@@ -77,7 +77,7 @@ export const theme = createMuiTheme({
                 // flexDirection: 'row',
                 // justifyContent: 'start',
                 textTransform: 'capitalize',
-                fontSize: "medium",
+                fontSize: 'medium',
             },
         },
         MuiDialog: {
@@ -92,12 +92,6 @@ export const theme = createMuiTheme({
                 },
             },
         },
-        // button in nav to capitalize
-        // MuiTypography: {
-        //     button: {
-        //         textTransform: 'capitalize',
-        //     },
-        // },
         MuiDropzoneArea: {
             text: {
                 color: '#000',
@@ -119,6 +113,10 @@ export const theme = createMuiTheme({
             body1: {
                 overflowWrap: 'anywhere',
             },
+            button: {
+                textTransform: 'capitalize',
+                fontSize: '20px',
+            },
         },
         MuiTooltip: {
             tooltip: {
@@ -133,7 +131,7 @@ export const theme = createMuiTheme({
     },
 });
 
-export const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles((theme) => ({
     menu: {
         '& .MuiMenu-paper': {
             border: '1px solid #000',
@@ -216,9 +214,19 @@ export const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: theme.palette.primary.main,
         },
-        flex: "0 1 auto",
-        [theme.breakpoints.down("xs")]: {
-            padding: "15px 5px",
+        flex: '0 1 auto',
+        [theme.breakpoints.down('xs')]: {
+            padding: '15px 5px',
+        },
+    },
+    customIconButtonActive: {
+        '& span': {
+            color: theme.palette.primary.main,
+        },
+        borderRadius: '5px',
+        flex: '0 1 auto',
+        [theme.breakpoints.down('xs')]: {
+            padding: '15px 5px',
         },
     },
     customIconButton: {

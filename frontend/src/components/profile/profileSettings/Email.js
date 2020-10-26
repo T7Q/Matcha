@@ -21,7 +21,7 @@ const Email = ({ setSnackbar, editProfile, user }) => {
     const { emailError, passwordError } = errors;
     const classes = useStyles();
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const validate = () => {
         let errorPassword = '';
@@ -30,6 +30,8 @@ const Email = ({ setSnackbar, editProfile, user }) => {
         }
         if (!email) {
             setErrors({ ...errors, passwordError: errorPassword, emailError: 'required field' });
+        } else if (email.length > 63) {
+            setErrors({ ...errors, passwordError: errorPassword, emailError: 'email is too long' });
         } else if (errorPassword) {
             setErrors({ ...errors, passwordError: errorPassword, emailError: '' });
         } else {
@@ -39,7 +41,7 @@ const Email = ({ setSnackbar, editProfile, user }) => {
         return false;
     };
 
-    const handleSubmit = async event => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (!validate()) {
             return;
@@ -110,7 +112,7 @@ Email.propTypes = {
     editProfile: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     user: state.auth.user,
 });
 

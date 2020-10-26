@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { Badge, Typography, IconButton } from '@material-ui/core';
 import { MessageOutlined, PeopleOutline, FavoriteBorder } from '@material-ui/icons';
-import { useStyles } from '../../../styles/custom';
+import { navStyles } from '../../../styles/navStyles';
 
 const NavItem = ({
     auth: { isAuthenticated, user, socket, loading },
-    isMobile,
     handleNavigation,
     notifications,
     getNotifications,
@@ -13,7 +12,7 @@ const NavItem = ({
     active,
     setActive,
 }) => {
-    const classes = useStyles();
+    const classes = navStyles();
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -80,14 +79,9 @@ const NavItem = ({
                 menuItems.map((menu) => (
                     <IconButton
                         key={menu.title}
-                        className={
-                            menu.active ? classes.customIconButtonActive : classes.customIconButton
-                        }
+                        className={menu.active ? classes.iconButtonActive : classes.iconButton}
                         onClick={() => handleClick(menu.pageUrl, menu.title)}>
-                        <Typography
-                            color="textSecondary"
-                            className={isMobile ? classes.text : ''}
-                            variant="button">
+                        <Typography color="textSecondary" className={classes.text} variant="button">
                             <Badge
                                 badgeContent={menu.amount}
                                 className={classes.pr}

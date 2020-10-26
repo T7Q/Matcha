@@ -51,8 +51,6 @@ const StyledOfflineBadge = withStyles((theme) => ({
 }))(Badge);
 
 const OnlineBadge = ({ lastSeen }) => {
-    // const lastSeen = `last seen ${days(profile.last_seen)}`;
-
     // calculate hours ago
     const hours = (date) => {
         const timeNow = new Date();

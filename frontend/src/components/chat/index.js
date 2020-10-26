@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Box, Typography, Grid, Container } from '@material-ui/core';
-// import { useTheme } from '@material-ui/core/styles';
 import { getConversations } from '../../actions/chat';
 import { getMessageNotifications } from '../../actions/notifications';
 import Conversations from './Conversations';
@@ -47,13 +46,11 @@ const Chat = ({
 
     useEffect(() => {
         let isMounted = true;
-        // console.log('get conversations in chat index');
         getConversations();
         getMessageNotifications();
         auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
             if (isMounted && type === 'message') {
                 if (text) setLastMessage({ text: text, chatId: chatId });
-                // console.log('on update notification in chat index', text);
                 getMessageNotifications();
             }
         });

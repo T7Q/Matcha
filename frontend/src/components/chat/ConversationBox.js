@@ -18,7 +18,6 @@ const ConversationBox = ({
     useEffect(() => {
         let isMounted = true;
         socket.on('ONLINE', (userId, online) => {
-            // console.log('in box on online', userId, online);
             if (isMounted) {
                 setPartnerIsOnline({ online: online, partnerId: userId });
             }
@@ -63,10 +62,6 @@ const ConversationBox = ({
                                         : conversation.last_seen
                                 }
                             />
-                            {/* {partnerIsOnline.partnerId === conversation.partner_id &&
-                            partnerIsOnline.online
-                                ? 'online'
-                                : days(conversation.last_seen)} */}
                         </div>
                     </>
                 }

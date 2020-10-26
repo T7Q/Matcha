@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { Badge, Typography, IconButton, MenuItem, Menu, Box, Avatar } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
+import { navStyles } from '../../../styles/navStyles';
 
 const ProfileMenu = ({
-    isMobile,
     getNotifications,
     notifications,
     auth: { user, socket },
@@ -13,7 +12,7 @@ const ProfileMenu = ({
     active,
     setActive,
 }) => {
-    const classes = useStyles();
+    const classes = navStyles();
 
     useEffect(() => {
         socket.on('UPDATE_NOTIFICATIONS', (type) => {
@@ -55,14 +54,11 @@ const ProfileMenu = ({
             <IconButton
                 className={
                     active === 'profile' || active === 'settings' || active === 'visits'
-                        ? classes.customIconButtonActive
-                        : classes.customIconButton
+                        ? classes.iconButtonActive
+                        : classes.iconButton
                 }
                 onClick={handleClick}>
-                <Typography
-                    variant="button"
-                    className={isMobile ? classes.text : ''}
-                    color="textPrimary">
+                <Typography variant="button" className={classes.text} color="textPrimary">
                     <Badge
                         className={classes.pr}
                         badgeContent={amount(notifications.visit)}

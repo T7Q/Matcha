@@ -2,18 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useTheme } from '@material-ui/core/styles';
 import { ExitToAppOutlined } from '@material-ui/icons';
-import {
-    Badge,
-    AppBar,
-    Toolbar,
-    Typography,
-    Box,
-    IconButton,
-    useMediaQuery,
-} from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
+import { Badge, AppBar, Toolbar, Typography, Box, IconButton } from '@material-ui/core';
+import { navStyles } from '../../../styles/navStyles';
 import { logout } from '../../../actions/auth';
 import ProfileMenu from './ProfileMenu';
 import NavItem from './NavItem';
@@ -31,10 +22,7 @@ const Navbar = ({
     const [profileSettings, setProfileSettings] = useState(null);
     const [active, setActive] = useState('Matches');
     const { isAuthenticated, user } = auth;
-    const theme = useTheme();
-    const classes = useStyles();
-    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-    const isMedium = useMediaQuery(theme.breakpoints.down('sm'));
+    const classes = navStyles();
     const location = useLocation();
 
     useEffect(() => {
@@ -47,28 +35,25 @@ const Navbar = ({
     };
 
     return (
-        <AppBar color="secondary" className={isMobile && isAuthenticated ? classes.appBar : ''}>
+        <AppBar color="secondary" className={isAuthenticated ? classes.appBar : ''}>
             <Toolbar>
                 <Box justifyContent="flex-start" display="flex" flexGrow={2}>
-                    {((!isMobile && !isMedium) || !isAuthenticated) && (
-                        <IconButton
-                            className={classes.customIconButton}
-                            onClick={() => {
-                                setActive('Matches');
-                                handleNavigation('/');
-                            }}>
-                            <Typography color="textPrimary" variant="h6">
-                                Astro Matcha
-                            </Typography>
-                        </IconButton>
-                    )}
+                    <IconButton
+                        className={`${classes.iconButton} ${classes.hideMedium}`}
+                        onClick={() => {
+                            setActive('Matches');
+                            handleNavigation('/');
+                        }}>
+                        <Typography color="textPrimary" variant="h6">
+                            Astro Matcha
+                        </Typography>
+                    </IconButton>
                     <NavItem
                         active={active}
                         setActive={setActive}
                         updateNotifications={updateNotifications}
                         notifications={notifications}
                         getNotifications={getNotifications}
-                        isMobile={isMobile}
                         auth={auth}
                         handleNavigation={handleNavigation}
                     />
@@ -85,17 +70,14 @@ const Navbar = ({
                                 profileSettings={profileSettings}
                                 setProfileSettings={setProfileSettings}
                                 handleNavigation={handleNavigation}
-                                isMobile={isMobile}
                             />
                         )}
-                        <IconButton
-                            className={classes.customIconButton}
-                            onClick={() => logout(history)}>
+                        <IconButton className={classes.iconButton} onClick={() => logout(history)}>
                             <Typography
                                 variant="button"
-                                className={isMobile ? classes.text : ''}
+                                className={classes.mobileText}
                                 color="textSecondary">
-                                <Badge className={classes.pr}>
+                                <Badge>
                                     <ExitToAppOutlined />
                                 </Badge>
                                 Logout

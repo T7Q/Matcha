@@ -9,7 +9,6 @@ import { Avatar } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Dropdown from '../common/Dropdown';
 import { getProfile } from '../../actions/profile';
-// import { useStyles } from '../../styles/custom';
 
 const PrivateChat = ({
     getProfile,
@@ -22,13 +21,11 @@ const PrivateChat = ({
     handleChange,
 }) => {
     const [textMessage, setTextMessage] = useState('');
-    // const [messages, setMessages] = useState([]);
     const chat = currentConversation
         ? conversations.filter((chat) => chat.partner_username === currentConversation)[0]
         : false;
     const messageRef = useRef();
     const partnerId = chat ? chat.partner_id : 0;
-    // const classes = useStyles();
 
     useEffect(() => {
         if (messageRef.current) {
@@ -43,11 +40,8 @@ const PrivateChat = ({
             getProfile('otherUser', partnerId, false);
             socket.emit('JOIN_CHAT', chat.chat_id);
             socket.on('MESSAGE', (chatId) => {
-                // console.log('on message in private chat');
-                // console.log('chat id in private chat', chat.chat_id, chatId);
                 if (isMounted && chat.chat_id === chatId) {
                     getMessages(chatId);
-                    // console.log('inside private chat go to see conversations');
                     socket.emit('SEE_CONVERSATION', user.userId, partnerId);
                 }
             });

@@ -78,18 +78,18 @@ const Filter = ({
         <>
             <Grid
                 container
-                // spacing={4}
+                // spacing={2}
                 direction="row"
+                justify="space-between"
                 alignItems="flex-end"
-                justify="center"
                 pb={4}
             >
                 <Grid item xs={6} sm={3}>
-                    <Box>
+                    <Box display="flex" justifyContent="flex-end">
                         <Button
                             variant="contained"
                             className={classesFilter.filter}
-                            startIcon={<SyncAlt />}
+                            startIcon={<SyncAlt style={{marginRight: 0}} />}
                             disabled
                         >
                             Filter&emsp;&emsp;
@@ -116,16 +116,18 @@ const Filter = ({
                             onClick={handleExpandClick}
                             aria-expanded={expanded}
                             aria-label="show more"
-                            style={{ padding: 0 }}
+                            style={{ padding: 0, margin: 0 }}
                         >
                             <ExpandMore style={{ color: "white" }} />
                         </IconButton>
-                        <Divider
+                        {/* <Divider
                             style={{
-                                backgroundColor: "#10183c",
+                                // backgroundColor: "#10183c",
+                                backgroundColor: "red",
                                 width: "100px",
+                                position: "absolute",
                             }}
-                        />
+                        /> */}
                     </Box>
                 </Grid>
                 <Grid item xs={6} sm={3}>

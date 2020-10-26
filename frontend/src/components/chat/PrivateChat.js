@@ -9,7 +9,6 @@ import { Avatar } from '@material-ui/core';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Dropdown from '../common/Dropdown';
 import { getProfile } from '../../actions/profile';
-// import { useStyles } from '../../styles/custom';
 
 const PrivateChat = ({
     getProfile,
@@ -19,17 +18,14 @@ const PrivateChat = ({
     profile: { profile },
     auth: { user, socket },
     history,
-    setCurrentConversation,
-    partnerTyping,
+    handleChange,
 }) => {
     const [textMessage, setTextMessage] = useState('');
-    // const [messages, setMessages] = useState([]);
     const chat = currentConversation
-        ? conversations.filter(chat => chat.partner_username === currentConversation)[0]
+        ? conversations.filter((chat) => chat.partner_username === currentConversation)[0]
         : false;
     const messageRef = useRef();
     const partnerId = chat ? chat.partner_id : 0;
-    // const classes = useStyles();
 
     useEffect(() => {
         if (messageRef.current) {
@@ -43,12 +39,9 @@ const PrivateChat = ({
             getMessages(chat.chat_id);
             getProfile('otherUser', partnerId, false);
             socket.emit('JOIN_CHAT', chat.chat_id);
-            socket.on('MESSAGE', chatId => {
-                // console.log('on message in private chat');
-                // console.log('chat id in private chat', chat.chat_id, chatId);
+            socket.on('MESSAGE', (chatId) => {
                 if (isMounted && chat.chat_id === chatId) {
                     getMessages(chatId);
-                    // console.log('inside private chat go to see conversations');
                     socket.emit('SEE_CONVERSATION', user.userId, partnerId);
                 }
             });
@@ -60,17 +53,17 @@ const PrivateChat = ({
         };
     }, [currentConversation, getMessages, partnerId, getProfile, socket, chat, user.userId]);
 
-    const goTo = newRoute => {
+    const goTo = (newRoute) => {
         history.push(newRoute);
     };
 
-    const onChange = e => {
+    const onChange = (e) => {
         let typing = e.target.value !== '' ? true : false;
         setTextMessage(e.target.value);
         socket.emit('TYPING_NOTIFICATION', chat.chat_id, typing, partnerId);
     };
 
-    const postMessage = async e => {
+    const postMessage = async (e) => {
         e.preventDefault();
         if (textMessage) {
             await axios.post('/chat/message', {
@@ -110,19 +103,24 @@ const PrivateChat = ({
                     </Link>
                 </Box>
                 <Dropdown />
-                <Button onClick={() => setCurrentConversation(0)}>
+                <Button onClick={(e) => handleChange(e, 0)}>
                     <HighlightOffIcon fontSize="large" />
                 </Button>
             </Box>
             <Box ref={messageRef} mb={8} maxHeight="60vh" style={{ overflowY: 'auto' }}>
                 {messages.length > 0 &&
-                    messages.map(element => {
+                    messages.map((element) => {
                         const options = { month: 'short', day: 'numeric' };
-                        const date = new Date(element.time_sent).toLocaleDateString('en-US', options);
+                        const date = new Date(element.time_sent).toLocaleDateString(
+                            'en-US',
+                            options
+                        );
                         return (
                             <Box p={1} key={element.id} textAlign={element.mine ? 'right' : 'left'}>
                                 <Box
-                                    borderRadius={element.mine ? '14px 14px 0 14px' : '14px 14px 14px 0'}
+                                    borderRadius={
+                                        element.mine ? '14px 14px 0 14px' : '14px 14px 14px 0'
+                                    }
                                     bgcolor={element.mine ? 'primary.light' : 'primary.main'}
                                     m={1}
                                     mr={element.mine ? 0 : 10}
@@ -166,7 +164,7 @@ PrivateChat.propTypes = {
     auth: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     profile: state.profile,
     chat: state.chat,
     auth: state.auth,

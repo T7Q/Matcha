@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
-import { Badge, Typography, IconButton, MenuItem, Menu, Box } from '@material-ui/core';
-import { AccountCircle } from '@material-ui/icons';
-import { useStyles } from '../../../styles/custom';
+import { Badge, Typography, IconButton, MenuItem, Menu, Box, Avatar } from '@material-ui/core';
+import { navStyles } from '../../../styles/navStyles';
 
 const ProfileMenu = ({
-    isMobile,
     getNotifications,
     notifications,
     auth: { user, socket },
     profileSettings,
     setProfileSettings,
     handleNavigation,
+    active,
+    setActive,
 }) => {
-    const classes = useStyles();
+    const classes = navStyles();
 
     useEffect(() => {
-        socket.on('UPDATE_NOTIFICATIONS', type => {
+        socket.on('UPDATE_NOTIFICATIONS', (type) => {
             getNotifications();
         });
     }, [getNotifications, socket]);
@@ -24,11 +24,11 @@ const ProfileMenu = ({
         setProfileSettings(null);
     };
 
-    const amount = amount => {
+    const amount = (amount) => {
         return amount < 100 ? amount : '99+';
     };
 
-    const handleClick = event => {
+    const handleClick = (event) => {
         setProfileSettings(event.currentTarget);
     };
 
@@ -43,7 +43,7 @@ const ProfileMenu = ({
         },
         {
             title: 'Visit history',
-            pageUrl: '/visits/newvisits',
+            pageUrl: '/visits/allvisits',
             notification: notifications.visit ? amount(notifications.visit) : '',
             color: notifications.visit > 0 ? 'primary.main' : 'transparent',
         },
@@ -51,12 +51,28 @@ const ProfileMenu = ({
 
     return (
         <>
-            <IconButton className={classes.customIconButton} onClick={handleClick}>
-                <Typography variant="button" className={isMobile ? classes.text : ''} color="textPrimary">
-                    <Badge className={classes.pr} badgeContent={amount(notifications.visit)} color="primary">
-                        <AccountCircle />
+            <IconButton
+                className={
+                    active === 'profile' || active === 'settings' || active === 'visits'
+                        ? classes.iconButtonActive
+                        : classes.iconButton
+                }
+                onClick={handleClick}>
+                <Typography variant="button" className={classes.text} color="textPrimary">
+                    <Badge
+                        className={classes.pr}
+                        badgeContent={amount(notifications.visit)}
+                        color="primary">
+                        <Avatar
+                            style={{
+                                width: '25px',
+                                height: '25px',
+                                // backgroundColor: active === 'Profile' ? '#ca416e' : 'primary',
+                            }}>
+                            {user.username.charAt(0)}
+                        </Avatar>
                     </Badge>
-                    {isMobile ? 'profile' : user.username}
+                    Profile
                 </Typography>
             </IconButton>
             <Menu
@@ -75,11 +91,14 @@ const ProfileMenu = ({
                 anchorEl={profileSettings}
                 open={Boolean(profileSettings)}
                 onClose={handleClose}>
-                {profileMenu.map(menuItem => (
+                {profileMenu.map((menuItem) => (
                     <MenuItem
                         className={classes.menuItem}
                         key={menuItem.title}
-                        onClick={() => handleNavigation(menuItem.pageUrl)}>
+                        onClick={() => {
+                            setActive('Profile');
+                            handleNavigation(menuItem.pageUrl);
+                        }}>
                         {menuItem.title}
                         <Box
                             ml={2}

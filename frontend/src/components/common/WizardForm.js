@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
-import { useStyles } from '../../styles/custom';
+import { customStyles } from '../../styles/customStyles';
 
 const WizardForm = ({
     header,
@@ -23,7 +23,7 @@ const WizardForm = ({
     if (!steps) {
         steps = 1;
     }
-    const classes = useStyles();
+    const classes = customStyles();
 
     const next = () => {
         // If the current step is 1 or 2, then add one on "next" button click
@@ -38,13 +38,13 @@ const WizardForm = ({
         // validate(children[step - 1].props.name, children[step - 1].props.value);
     };
 
-    const handleRedirect = newRoute => {
+    const handleRedirect = (newRoute) => {
         history.push(newRoute);
     };
 
-    const normalise = value => ((value - 1) * 100) / (steps - 1);
+    const normalise = (value) => ((value - 1) * 100) / (steps - 1);
 
-    const formSubmit = async e => {
+    const formSubmit = async (e) => {
         e.preventDefault();
         if (steps === 1) {
             onSubmit();
@@ -58,7 +58,11 @@ const WizardForm = ({
             <form onSubmit={formSubmit}>
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <IconButton
-                        onClick={step === 1 || steps === 1 ? () => handleRedirect(link ? link : '/') : prev}>
+                        onClick={
+                            step === 1 || steps === 1
+                                ? () => handleRedirect(link ? link : '/')
+                                : prev
+                        }>
                         <ArrowBackIosIcon fontSize="large" />
                     </IconButton>
                     {steps === 1 && <Typography variant="h6">{header}</Typography>}
@@ -71,7 +75,7 @@ const WizardForm = ({
                             <>
                                 <Typography variant="h6">{header}</Typography>
                                 <LinearProgress
-                                    className={classes.root}
+                                    className={classes.progress}
                                     variant="determinate"
                                     value={normalise(step)}
                                 />
@@ -80,7 +84,11 @@ const WizardForm = ({
                     </Box>
                     {steps === 1 ? children : children[step - 1]}
                     {!hideButton && (
-                        <Button variant="contained" color="primary" type="submit" className={classes.customButton}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            className={classes.mainButton}>
                             {step < steps ? 'Next' : 'Done'}
                         </Button>
                     )}

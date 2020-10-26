@@ -41,7 +41,12 @@ const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
                     <PrivateRoute exact path="/likes/:page?" socket={socket} component={Likes} />
                     <Redirect exact from="/profile" to="/profile/me" />
                     <PrivateRoute exact path="/profile/me" component={ProfileView} />
-                    <PrivateRoute socket={socket} exact path="/profile/:user_id?" component={ProfileView} />
+                    <PrivateRoute
+                        socket={socket}
+                        exact
+                        path="/profile/:user_id?"
+                        component={ProfileView}
+                    />
                     <Route exact path="/complete" component={ProfileCreation} />
                     <PrivateRoute exact path="/settings" component={Settings} />
                     <PrivateRoute exact path="/settings/:type" component={Settings} />
@@ -61,7 +66,7 @@ CustomRouter.propTypes = {
     auth: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     auth: state.auth,
 });
 

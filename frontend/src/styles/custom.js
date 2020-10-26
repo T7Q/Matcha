@@ -77,7 +77,7 @@ export const theme = createMuiTheme({
                 // flexDirection: 'row',
                 // justifyContent: 'start',
                 textTransform: 'capitalize',
-                fontSize: "medium",
+                fontSize: 'medium',
             },
         },
         MuiDialog: {
@@ -119,6 +119,10 @@ export const theme = createMuiTheme({
             body1: {
                 overflowWrap: 'anywhere',
             },
+            button: {
+                textTransform: 'capitalize',
+                fontSize: '20px',
+            },
         },
         MuiTooltip: {
             tooltip: {
@@ -143,31 +147,28 @@ export const theme = createMuiTheme({
                     border: '1px solid yellow',
                 },
                 '&::-webkit-scrollbar': {
-                    width: '0.4em'
-                  },
-                  '&::-webkit-scrollbar-track': {
+                    width: '0.4em',
+                },
+                '&::-webkit-scrollbar-track': {
                     boxShadow: 'inset 0 0 6px #12172d',
-                    webkitBoxShadow: 'inset 0 0 6px #12172d'
-                  },
-                  '&::-webkit-scrollbar-thumb': {
+                    webkitBoxShadow: 'inset 0 0 6px #12172d',
+                },
+                '&::-webkit-scrollbar-thumb': {
                     backgroundColor: '#252839',
-                    outline: '1px solid #252839'
-                  }
+                    outline: '1px solid #252839',
+                },
             },
-            
         },
         MuiListItem: {
             root: {
                 // borderTop: '1px solid #252839',
                 // borderBottom: '1px solid #252839',
-            }
-        }
-
+            },
+        },
     },
 });
 
-export const useStyles = makeStyles(theme => ({
-    
+export const useStyles = makeStyles((theme) => ({
     menu: {
         '& .MuiMenu-paper': {
             border: '1px solid #000',
@@ -250,9 +251,19 @@ export const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: theme.palette.primary.main,
         },
-        flex: "0 1 auto",
-        [theme.breakpoints.down("xs")]: {
-            padding: "15px 5px",
+        flex: '0 1 auto',
+        [theme.breakpoints.down('xs')]: {
+            padding: '15px 5px',
+        },
+    },
+    customIconButtonActive: {
+        '& span': {
+            color: theme.palette.primary.main,
+        },
+        borderRadius: '5px',
+        flex: '0 1 auto',
+        [theme.breakpoints.down('xs')]: {
+            padding: '15px 5px',
         },
     },
     customIconButton: {
@@ -307,7 +318,7 @@ export const useStyles = makeStyles(theme => ({
     customInput: {
         width: '95%',
         margin: '10px',
-        alignItems: "center",
+        alignItems: 'center',
         // backgroundColor: 'transparent',
         '& label': {
             color: theme.palette.secondary.main,

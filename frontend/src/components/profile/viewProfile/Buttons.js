@@ -62,7 +62,7 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
                     variant="outlined"
                     color="primary"
                     component={Link}
-                    to="/messages"
+                    to={`/messages/${profile.profile.username}`}
                     className={classesProf.chatButton}
                     startIcon={<Chat />}>
                     Chat
@@ -83,7 +83,7 @@ Buttons.propTypes = {
     profile: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     match: state.match,
     auth: state.auth,
     profile: state.profile,

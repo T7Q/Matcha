@@ -5,15 +5,13 @@ import ConversationBox from './ConversationBox';
 const Conversations = ({
     messageNotifications,
     conversations,
-    currentConversation,
     handleChange,
     partnerTyping,
     lastMessage,
     socket,
+    active,
 }) => {
-    const conversationItems = conversations.map(conversation => {
-        const conversationIsActive = currentConversation && conversation.chat_id === currentConversation.id;
-
+    const conversationItems = conversations.map((conversation) => {
         return (
             <ConversationBox
                 socket={socket}
@@ -22,7 +20,7 @@ const Conversations = ({
                 conversation={conversation}
                 unread={messageNotifications[conversation.partner_id]}
                 handleChange={handleChange}
-                isActive={conversationIsActive}
+                active={active}
                 lastMessage={lastMessage}
             />
         );

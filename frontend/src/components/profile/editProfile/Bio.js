@@ -12,12 +12,12 @@ const Bio = ({ setSnackbar, bioProp }) => {
     const { bioError } = errors;
     const classes = useStyles();
 
-    const setData = value => {
+    const setData = (value) => {
         validate(value);
         setFormData({ bio: value });
     };
 
-    const handleSubmit = async event => {
+    const handleSubmit = async (event) => {
         if (validate(bio)) {
             try {
                 const res = await axios.post('/profile/edit', { key: 'bio', value: bio });
@@ -32,10 +32,12 @@ const Bio = ({ setSnackbar, bioProp }) => {
         }
     };
 
-    const validate = value => {
+    const validate = (value) => {
         if (!bio) {
             setErrors({ bioError: 'required field' });
             return false;
+        } else if (bio.length > 200) {
+            setErrors({ bioError: 'Bio should be between 1 to 200 characters' });
         } else {
             setErrors({ bioError: '' });
             return true;
@@ -55,7 +57,7 @@ const Bio = ({ setSnackbar, bioProp }) => {
                     rowsMin={15}
                     value={bio}
                     className={classes.bioInput}
-                    onChange={e => setData(e.target.value, 'bio')}
+                    onChange={(e) => setData(e.target.value, 'bio')}
                     placeholder="For example, how would your best friend discribe you"
                 />
                 <FormControl className={classes.ml} error={bioError ? true : false}>

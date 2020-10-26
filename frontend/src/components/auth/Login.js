@@ -7,19 +7,19 @@ import { Button } from '@material-ui/core';
 import { login } from '../../actions/auth';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
-import { useStyles } from '../../styles/custom';
+import { customStyles } from '../../styles/customStyles';
 import { setSnackbar } from '../../actions/setsnackbar';
 
 const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
-    const location = useLocation();
-    const history = useHistory();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
 
-    const classes = useStyles();
+    const location = useLocation();
+    const history = useHistory();
+    const classes = customStyles();
     const { username, password } = formData;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     useEffect(() => {
         let isMounted = true;
@@ -42,11 +42,11 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
         };
     }, [location, history, setSnackbar]);
 
-    const handleRedirect = newRoute => {
+    const handleRedirect = (newRoute) => {
         history.push(newRoute);
     };
 
-    const sendLogin = async data => {
+    const sendLogin = async (data) => {
         const res = await login(data);
         if (res && res.error) {
             setErrors({
@@ -56,18 +56,18 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
         }
     };
 
-    const getPosition = async position => {
+    const getPosition = async (position) => {
         const dataToSubmit = { ...formData };
         dataToSubmit.longitude = position.coords.longitude;
         dataToSubmit.latitude = position.coords.latitude;
         sendLogin(dataToSubmit);
     };
 
-    const errorInPosition = async error => {
+    const errorInPosition = async (error) => {
         sendLogin(formData);
     };
 
-    const onSubmit = async e => {
+    const onSubmit = async (e) => {
         if (!username || !password) {
             setErrors({
                 usernameError: !username && 'username required',
@@ -90,7 +90,11 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
     }
 
     return (
-        <WizardForm formData={formData} setFormData={setFormData} onSubmit={onSubmit} hideButton={true}>
+        <WizardForm
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={onSubmit}
+            hideButton={true}>
             <>
                 <Input
                     header="Enter username and password"
@@ -105,11 +109,15 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
                     value={password}
                     helperText={errors.passwordError}
                 />
-                <Button type="submit" variant="contained" color="primary" className={classes.customButton}>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.mainButton}>
                     Next
                 </Button>
                 <Button
-                    className={classes.customTransparentButton}
+                    className={`${classes.mainButton} ${classes.secondButton}`}
                     onClick={() => handleRedirect('/forgetPwd')}
                     color="secondary">
                     Forgot password?
@@ -126,7 +134,7 @@ Login.propTypes = {
     setSnackbar: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user,
 });

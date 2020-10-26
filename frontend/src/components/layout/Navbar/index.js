@@ -1,25 +1,47 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { withRouter, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTheme } from '@material-ui/core/styles';
 import { ExitToAppOutlined } from '@material-ui/icons';
-import { Badge, AppBar, Toolbar, Typography, Box, IconButton, useMediaQuery } from '@material-ui/core';
+import {
+    Badge,
+    AppBar,
+    Toolbar,
+    Typography,
+    Box,
+    IconButton,
+    useMediaQuery,
+} from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 import { logout } from '../../../actions/auth';
 import ProfileMenu from './ProfileMenu';
 import NavItem from './NavItem';
 import { getNotifications, updateNotifications } from '../../../actions/notifications';
 
-const Navbar = ({ logout, auth, history, getNotifications, updateNotifications, notifications }) => {
+const Navbar = ({
+    logout,
+    auth,
+    history,
+    getNotifications,
+    updateNotifications,
+    notifications,
+    ...props
+}) => {
     const [profileSettings, setProfileSettings] = useState(null);
+    const [active, setActive] = useState('Matches');
     const { isAuthenticated, user } = auth;
     const theme = useTheme();
     const classes = useStyles();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
     const isMedium = useMediaQuery(theme.breakpoints.down('sm'));
+    const location = useLocation();
 
-    const handleNavigation = newRoute => {
+    useEffect(() => {
+        setActive(location.pathname.split('/')[1]);
+    }, [location]);
+
+    const handleNavigation = (newRoute) => {
         history.push(newRoute);
         setProfileSettings(null);
     };
@@ -29,13 +51,20 @@ const Navbar = ({ logout, auth, history, getNotifications, updateNotifications, 
             <Toolbar>
                 <Box justifyContent="flex-start" display="flex" flexGrow={2}>
                     {((!isMobile && !isMedium) || !isAuthenticated) && (
-                        <IconButton className={classes.customIconButton} onClick={() => handleNavigation('/')}>
+                        <IconButton
+                            className={classes.customIconButton}
+                            onClick={() => {
+                                setActive('Matches');
+                                handleNavigation('/');
+                            }}>
                             <Typography color="textPrimary" variant="h6">
                                 Astro Matcha
                             </Typography>
                         </IconButton>
                     )}
                     <NavItem
+                        active={active}
+                        setActive={setActive}
                         updateNotifications={updateNotifications}
                         notifications={notifications}
                         getNotifications={getNotifications}
@@ -48,6 +77,8 @@ const Navbar = ({ logout, auth, history, getNotifications, updateNotifications, 
                     <Box display="flex">
                         {user.status === 2 && (
                             <ProfileMenu
+                                active={active}
+                                setActive={setActive}
                                 notifications={notifications}
                                 getNotifications={getNotifications}
                                 auth={auth}
@@ -57,7 +88,9 @@ const Navbar = ({ logout, auth, history, getNotifications, updateNotifications, 
                                 isMobile={isMobile}
                             />
                         )}
-                        <IconButton className={classes.customIconButton} onClick={() => logout(history)}>
+                        <IconButton
+                            className={classes.customIconButton}
+                            onClick={() => logout(history)}>
                             <Typography
                                 variant="button"
                                 className={isMobile ? classes.text : ''}
@@ -83,9 +116,11 @@ Navbar.propTypes = {
     notifications: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     auth: state.auth,
     notifications: state.notifications,
 });
 
-export default connect(mapStateToProps, { updateNotifications, getNotifications, logout })(withRouter(Navbar));
+export default connect(mapStateToProps, { updateNotifications, getNotifications, logout })(
+    withRouter(Navbar)
+);

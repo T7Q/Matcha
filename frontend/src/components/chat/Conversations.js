@@ -10,10 +10,9 @@ const Conversations = ({
     partnerTyping,
     lastMessage,
     socket,
+    active,
 }) => {
-    const conversationItems = conversations.map(conversation => {
-        const conversationIsActive = currentConversation && conversation.chat_id === currentConversation.id;
-
+    const conversationItems = conversations.map((conversation) => {
         return (
             <ConversationBox
                 socket={socket}
@@ -22,13 +21,17 @@ const Conversations = ({
                 conversation={conversation}
                 unread={messageNotifications[conversation.partner_id]}
                 handleChange={handleChange}
-                isActive={conversationIsActive}
+                active={active}
                 lastMessage={lastMessage}
             />
         );
     });
 
-    return <List style={{ backgroundColor: 'rgb(52, 55, 77)', minWidth: '80%' }}>{conversationItems}</List>;
+    return (
+        <List style={{ backgroundColor: 'rgb(52, 55, 77)', minWidth: '80%' }}>
+            {conversationItems}
+        </List>
+    );
 };
 
 export default Conversations;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GET_CONVERSATIONS, GET_MESSAGES, CLEAR_MESSAGES } from './types';
 
-export const getConversations = () => async dispatch => {
+export const getConversations = () => async (dispatch) => {
     try {
         const res = await axios.get('/chat');
         dispatch({ type: GET_CONVERSATIONS, payload: res.data });
@@ -10,7 +10,7 @@ export const getConversations = () => async dispatch => {
     }
 };
 
-export const getMessages = chatId => async dispatch => {
+export const getMessages = (chatId) => async (dispatch) => {
     try {
         if (chatId === 0) {
             dispatch({ type: CLEAR_MESSAGES });

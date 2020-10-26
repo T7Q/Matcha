@@ -8,7 +8,6 @@ import Login from '../auth/Login';
 import ForgotPwd from '../auth/ForgotPwd';
 import UpdatePwd from '../auth/UpdatePwd';
 import Landing from '../layout/Landing';
-import Message from '../layout/Message';
 import Register from '../profile/CreateAccount';
 import ProfileView from '../profile/viewProfile/';
 import ProfileCreation from '../profile/createProfile/';
@@ -35,7 +34,7 @@ const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/forgetPwd" component={ForgotPwd} />
                     <Route exact path="/updatePwd" component={UpdatePwd} />
-                    <Route exact path="/message" component={Message} />
+                    <Route exact path="/account/activate" component={Login} />
                     <PrivateRoute exact path="/messages" component={Chat} />
                     <PrivateRoute exact path="/messages/:username" component={Chat} />
                     <Redirect exact from="/likes" to="/likes/likesyou" />

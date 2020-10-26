@@ -93,20 +93,6 @@ export const forgetPwd = ({ email, history }) => async dispatch => {
     }
 };
 
-export const updatePwd = ({ password, confirmPassword, history }) => async dispatch => {
-    try {
-        const res = await axios.post('/account/pwdUpdate', { password, confirmPassword });
-
-        if (res.data.error) {
-            return res.data.error;
-        } else {
-            history.push('/login');
-        }
-    } catch (error) {
-        console.log(error);
-    }
-};
-
 export const loadSocket = socket => async dispatch => {
     dispatch({ type: LOAD_SOCKET, payload: socket });
 };

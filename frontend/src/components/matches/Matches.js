@@ -1,23 +1,17 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 // import { browserHistory } from 'react-router';
 
-import { AppBar, Tabs, Tab, Container, Box } from "@material-ui/core";
-import {
-    Search,
-    Whatshot,
-    Favorite,
-    PersonPin,
-    Help,
-    QueryBuilder,
-    WbIncandescent,
-} from "@material-ui/icons";
+import { AppBar, Tabs, Tab, Container, Box } from '@material-ui/core';
+import { Search, Whatshot, Favorite, PersonPin, Help, QueryBuilder, WbIncandescent } from '@material-ui/icons';
+
 
 import Match from "../common/matchGallery/GetMatches";
 import Filter from "./filter/Index";
 import { resetFilter } from "../../actions/match";
 import { useDispatch } from "react-redux";
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -28,8 +22,7 @@ function TabPanel(props) {
             hidden={value !== index}
             id={`scrollable-force-tabpanel-${index}`}
             aria-labelledby={`scrollable-force-tab-${index}`}
-            {...other}
-        >
+            {...other}>
             {value === index && (
                 <Box p={3}>
                     <>{children}</>
@@ -48,22 +41,14 @@ TabPanel.propTypes = {
 function a11yProps(index) {
     return {
         id: `scrollable-force-tab-${index}`,
-        "aria-controls": `scrollable-force-tabpanel-${index}`,
+        'aria-controls': `scrollable-force-tabpanel-${index}`,
     };
 }
 
 const Matches = ({ resetFilter, match, history, previousPath }) => {
     const { page } = match.params;
-    const route = "/match/" + page;
-    const indexToTabName = [
-        "recommend",
-        "search",
-        "online",
-        "new",
-        "popular",
-        "random",
-        "nearby",
-    ];
+    const route = '/match/' + page;
+    const indexToTabName = ['recommend', 'search', 'online', 'new', 'popular', 'random', 'nearby'];
     const [value, setValue] = React.useState(indexToTabName.indexOf(page));
     // const [back, setBack] = React.useState(true);
 
@@ -71,14 +56,16 @@ const Matches = ({ resetFilter, match, history, previousPath }) => {
 
     useEffect(() => {
         // console.log("use effect");
-        if (previousPath === "") {
+
+        if (previousPath === '') {
             // console.log("1", previousPath, back);
             resetFilter();
-        } else if (previousPath === "otherUser") {
+        } else if (previousPath === 'otherUser') {
             // console.log("2", previousPath, back);
-            dispatch({ type: "UPDATE_PATH", payload: "" });
+            dispatch({ type: 'UPDATE_PATH', payload: '' });
         }
-    }, []);
+    }, [dispatch, previousPath, resetFilter]);
+
 
     const handleChange = (event, newValue) => {
         history.push(`/matches/${indexToTabName[newValue]}`);
@@ -142,6 +129,7 @@ const Matches = ({ resetFilter, match, history, previousPath }) => {
                         />
                     </Tabs>
                 </Container>
+
             </AppBar>
             <Container>
                 <TabPanel value={value} index={0}>
@@ -166,7 +154,7 @@ Matches.propTypes = {
     previousPath: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     previousPath: state.auth.previousPath,
 });
 

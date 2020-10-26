@@ -13,7 +13,7 @@ import { setSnackbar } from './setsnackbar';
 import { loadUser } from './auth';
 
 // Get user profile
-export const getProfile = (type, userId, otherProfile = true) => async dispatch => {
+export const getProfile = (type, userId, otherProfile = false) => async dispatch => {
     // clear profile state to prevent blinking of old info on screen
     // dispatch({ type: CLEAR_PROFILE });
 

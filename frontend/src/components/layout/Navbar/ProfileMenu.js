@@ -54,7 +54,9 @@ const ProfileMenu = ({
         <>
             <IconButton
                 className={
-                    active === 'profile' ? classes.customIconButtonActive : classes.customIconButton
+                    active === 'profile' || active === 'settings' || active === 'visits'
+                        ? classes.customIconButtonActive
+                        : classes.customIconButton
                 }
                 onClick={handleClick}>
                 <Typography

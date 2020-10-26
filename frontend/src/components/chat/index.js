@@ -105,7 +105,6 @@ const Chat = ({
                                     conversations={conversations}
                                     handleChange={handleChange}
                                     lastMessage={lastMessage}
-                                    currentConversation={currentConversation}
                                 />
                             </Grid>
                             <Grid container justify="center" item sm={6} xs={12}>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ListItem, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { ListItem, ListItemText, ListItemAvatar, Avatar, Link } from '@material-ui/core';
 import OnlineBadge from './OnlineBadge';
 
 const ConversationBox = ({
@@ -12,6 +13,7 @@ const ConversationBox = ({
     socket,
 }) => {
     const [partnerIsOnline, setPartnerIsOnline] = useState({ online: false, partnerId: 0 });
+    const history = useHistory();
 
     useEffect(() => {
         let isMounted = true;
@@ -37,12 +39,18 @@ const ConversationBox = ({
                 backgroundColor: active === conversation.partner_username ? '#003781' : 'inherit',
             }}
             button
-            onClick={(e) => handleChange(e, conversation.partner_username, conversation.sender_id)}
             alignItems="flex-start">
-            <ListItemAvatar>
-                <Avatar alt={conversation.partner_username} src={conversation.avatar} />
-            </ListItemAvatar>
+            <Link
+                onClick={() => history.push(`/profile/${conversation.partner_id}`)}
+                component="button">
+                <ListItemAvatar>
+                    <Avatar alt={conversation.partner_username} src={conversation.avatar} />
+                </ListItemAvatar>
+            </Link>
             <ListItemText
+                onClick={(e) =>
+                    handleChange(e, conversation.partner_username, conversation.sender_id)
+                }
                 primary={
                     <>
                         {conversation.partner_username}{' '}

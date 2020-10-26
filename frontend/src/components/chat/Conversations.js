@@ -5,7 +5,6 @@ import ConversationBox from './ConversationBox';
 const Conversations = ({
     messageNotifications,
     conversations,
-    currentConversation,
     handleChange,
     partnerTyping,
     lastMessage,

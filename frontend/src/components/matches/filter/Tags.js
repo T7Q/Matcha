@@ -4,7 +4,10 @@ import axios from "axios";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
+import { settingStyles } from "../../../styles/settingStyles";
+
 const Tags = ({ updateFilter, filter }) => {
+    const classesSetting = settingStyles();
     const [realTags, setRealTags] = useState([]);
     useEffect(() => {
         let isMounted = true;
@@ -42,6 +45,7 @@ const Tags = ({ updateFilter, filter }) => {
             defaultValue={[]}
             renderInput={(params) => (
                 <TextField
+                    className={classesSetting.tags}
                     {...params}
                     variant="standard"
                     label="Passionate about ..."

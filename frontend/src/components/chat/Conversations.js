@@ -28,7 +28,8 @@ const Conversations = ({
         );
     });
 
-    return <List style={{ backgroundColor: 'rgb(52, 55, 77)', minWidth: '80%' }}>{conversationItems}</List>;
+    // return <List style={{ backgroundColor: '#252839', minWidth: '80%' }}>{conversationItems}</List>;
+    return <List style={{ minWidth: '80%' }}>{conversationItems}</List>;
 };
 
 export default Conversations;

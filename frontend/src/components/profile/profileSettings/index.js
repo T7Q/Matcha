@@ -57,7 +57,8 @@ const Settings = ({ setSnackbar, history, ...props }) => {
                 // pl={8}
                 height="80px"
             >
-                <Container>
+                <Container
+                    >
                     <Typography variant="h6">Account Settings</Typography>
                 </Container>
             </Box>
@@ -67,9 +68,11 @@ const Settings = ({ setSnackbar, history, ...props }) => {
                         <Grid
                             container
                             item
-                            sm={6}
                             xs={12}
-                            justify="flex-start"
+                            sm={tab === 0 ? 12 : 4}
+                            md={3}
+                            justify={tab === 0 ? "center" : "center"}
+                            // justify={tab === 0 ? "flex-start" : "center"}
                         >
                             <Tabs
                                 indicatorColor="primary"
@@ -77,7 +80,7 @@ const Settings = ({ setSnackbar, history, ...props }) => {
                                 orientation="vertical"
                                 value={tab}
                                 onChange={handleChange}
-                                className={classesSetting.tabs}
+                                
                             >
                                 <Tab
                                     style={{ display: "none" }}
@@ -85,39 +88,46 @@ const Settings = ({ setSnackbar, history, ...props }) => {
                                 />
                                 <Tab
                                     
-                                    label="&emsp;Notifications &emsp;&emsp;&emsp;&#8811;"
+                                    label="&emsp;Notifications"
                                     icon={<NotificationsActive />}
+                                    className={classesSetting.tabs}
                                 />
                                 <Tab
-                                    label="&emsp;Change password&emsp;&#8811;"
+                                    label="&emsp;Change password"
                                     icon={<Lock />}
+                                    className={classesSetting.tabs}
                                 />
                                 <Tab
-                                    label="&emsp;Change email &emsp;&emsp;&emsp;&#8811;"
+                                    label="&emsp;Change email"
                                     icon={<Email />}
+                                    className={classesSetting.tabs}
                                 />
                                 <Tab
-                                    label="&emsp;Change geolocation &emsp;&emsp;&#8811;"
+                                    label="&emsp;Change geolocation&emsp;"
                                     icon={<Public />}
+                                    className={classesSetting.tabs}
                                 />
                                 <Tab
-                                    label="&emsp;Blocked users &nbsp; &emsp;&emsp;&#8811;"
+                                    label="&emsp;Blocked users"
                                     icon={<Block />}
+                                    className={classesSetting.tabs}
                                 />
                                 <Tab
-                                    label="&emsp;Delete account &nbsp; &nbsp;&emsp;&#8811;"
+                                    label="&emsp;Delete account"
                                     icon={<Delete />}
+                                    className={classesSetting.tabs}
                                 />
                             </Tabs>
                         </Grid>
                         <Grid
                             container
-                            justify={isMobile ? "center" : "flex-start"}
+                            // justify={isMobile ? "center" : "center"}
+                            justify="center"
                             item
                             sm={6}
                             xs={12}
                         >
-                            <Box pt={3} m={3}>
+                            <Box pt={3} m={3} style={{width: "300px", paddingTop: 0}}>
                                 {tab === 0 && <></>}
                                 {tab === 1 && (
                                     <NotificationsTab

@@ -2,21 +2,12 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import { List } from '@material-ui/core';
 import { FormGroup, Button, Typography } from '@material-ui/core';
 
 import BlockedUserCard from './BlockedUserCard';
-
 import { unblockUser } from '../../../actions/profile';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-}));
+import { useStyles } from '../../../styles/custom';
 
 const BlockedUsers = ({ unblockUser, setSnackbar }) => {
     const classes = useStyles();
@@ -34,16 +25,16 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
         };
     }, []);
 
-    const handleBlock = index => () => {
+    const handleBlock = (index) => () => {
         const newblockedList = [...blockedList];
         newblockedList[index].blocked = !newblockedList[index].blocked;
         setBlockedUsers(newblockedList);
     };
     const handleSave = () => {
-        const unblockList = blockedList.filter(e => e.blocked === false);
+        const unblockList = blockedList.filter((e) => e.blocked === false);
         if (unblockList.length > 0) {
             unblockUser('settings', unblockList);
-            const newblockedList = blockedList.filter(e => e.blocked === true);
+            const newblockedList = blockedList.filter((e) => e.blocked === true);
             setBlockedUsers(newblockedList);
         } else {
             setSnackbar(true, 'warning', 'No changes applied');
@@ -55,8 +46,7 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
 
     return (
         <FormGroup>
-            <Typography>Blocked Accounts</Typography>
-            <List dense className={classes.root} style={{ backgroundColor: 'grey' }}>
+            <List style={{ maxHeight: 350, overflow: 'auto', borderTop: '1px solid #252839' }}>
                 {blockedList.map((value, index) => {
                     const labelId = `checkbox-list-secondary-label-${value.user_id}`;
                     return (
@@ -71,7 +61,10 @@ const BlockedUsers = ({ unblockUser, setSnackbar }) => {
                     );
                 })}
             </List>
-            <Button size="small" variant="contained" color="primary" onClick={handleSave}>
+            <Button
+                className={`${classes.customButton} ${classes.p2}`}
+                size="small"
+                onClick={handleSave}>
                 Save
             </Button>
         </FormGroup>

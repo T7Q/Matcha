@@ -26,9 +26,11 @@ const DeleteAccount = ({ deleteProfile, history }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box m={{ xs: 2, sm: 0 }} mr={{ sm: 6 }} textAlign="center">
-                <Typography variant="h6">When you delete your account, everything is permanently gone.</Typography>
-                <Typography variant="h6">Your account will no longer appear to other people on Matcha.</Typography>
+            <Box 
+            // m={{ xs: 2, sm: 0 }} mr={{ sm: 6 }} 
+            textAlign="center">
+                <Typography variant="body1">When you delete your account, everything is permanently gone.</Typography>
+                <Typography variant="body1">Your account will no longer appear to other people on Astro Matcha.</Typography>
                 <Button
                     type="submit"
                     size="small"

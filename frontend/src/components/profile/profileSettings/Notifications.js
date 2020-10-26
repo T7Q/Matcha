@@ -3,7 +3,10 @@ import axios from 'axios';
 import { Checkbox, FormGroup, FormControlLabel, Button, Typography } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 
+import { settingStyles } from "../../../styles/settingStyles";
+
 const Notifications = ({ setSnackbar }) => {
+    const classesSetting = settingStyles();
     const [notifications, setNotifications] = useState({
         email: false,
         push: false,
@@ -40,6 +43,7 @@ const Notifications = ({ setSnackbar }) => {
         <form onSubmit={handleSubmit}>
             <FormGroup>
                 <FormControlLabel
+                    className={classesSetting.notification}
                     control={
                         <Checkbox
                             value={email}
@@ -48,10 +52,11 @@ const Notifications = ({ setSnackbar }) => {
                             color="primary"
                         />
                     }
-                    label={<Typography variant="h5">Allow email notifications</Typography>}
+                    label={<Typography variant="body1">&emsp;Allow email notifications</Typography>}
                     labelPlacement="start"
                 />
                 <FormControlLabel
+                    className={classesSetting.notification}
                     control={
                         <Checkbox
                             checked={push}
@@ -59,14 +64,13 @@ const Notifications = ({ setSnackbar }) => {
                             color="primary"
                         />
                     }
-                    label={<Typography variant="h5">Allow push notifications</Typography>}
+                    label={<Typography variant="body1">&emsp;Allow push notifications</Typography>}
                     labelPlacement="start"
                 />
                 <Button
                     type="submit"
                     size="small"
                     variant="contained"
-                    color="primary"
                     className={`${classes.customButton} ${classes.p2}`}>
                     Save
                 </Button>

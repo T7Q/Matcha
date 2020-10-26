@@ -60,7 +60,7 @@ const ConversationBox = ({ unread, conversation, isActive, handleChange, partner
     };
     return (
         <ListItem
-            style={{ borderBottom: '1px solid #003781' }}
+            style={{ borderBottom: '1px solid #252839' }}
             button
             onClick={e => handleChange(e, conversation.partner_username, conversation.sender_id)}
             alignItems="flex-start">

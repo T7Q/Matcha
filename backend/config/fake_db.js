@@ -3,11 +3,11 @@ const faker = require("faker");
 const { Pool } = require("pg");
 const { database } = require("./index");
 
-// user 1 is a demo user, created on setup_db stage
 // this file generates fake users and adds interactions with demo user
+// there is also a demo user (user_id 1) created on setup_db stage
 
 // number of generated fake accounts
-const desiredFakeUsers = 50;
+const desiredFakeUsers = 10;
 
 // statement to insert 21 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
@@ -22,8 +22,9 @@ const prepareStmt = (desiredFakeUsers) => {
         }
         str = k === desiredFakeUsers - 1 ? str.concat(")") : str.concat("),");
     }
-    return `INSERT INTO users (username, first_name, last_name, email, status, 
-        password, birth_date, gender, sex_preference, email_notification,
+
+    return `INSERT INTO users (first_name, last_name, username, email, password,
+        status, birth_date, gender, sex_preference, email_notification,
         online, latitude, longitude, country, real_time_notification,
         fame_rating, bio, created_at, last_seen, profile_pic_path, fame_14_days)
         VALUES ${str}`;
@@ -32,12 +33,12 @@ const prepareStmt = (desiredFakeUsers) => {
 // generate 21 column values for each user with Faker.js
 const createFakeUser = () => {
     return [
-        faker.internet.userName(),
         faker.name.firstName(),
         faker.name.lastName(),
+        faker.internet.userName(),
         faker.internet.email(),
-        "2",
         faker.internet.password(),
+        "2",
         faker.date.between("1960-01-01", "2002-01-01"),
         faker.random.arrayElement(["man", "woman"]),
         faker.random.arrayElement(["man", "woman", "both"]),
@@ -63,6 +64,7 @@ const generateFakeUsers = (desiredFakeUsers) => {
         let temp = createFakeUser();
         fakeUsers = fakeUsers.concat(temp);
     }
+
     return fakeUsers;
 };
 
@@ -87,14 +89,17 @@ let visits = parseInt(desiredFakeUsers * 0.3);
 let likes = parseInt(visits * 0.7);
 let connected = parseInt(likes * 0.5);
 
+// generate random number between min and max
+const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 // generate statements to add fake users like, views to data
-const prepareDataStmt = (idMin) => {
+const prepareDataStmt = (idMin, currentUsers) => {
     let str = "";
-    let allVisits = "";
-    let allLike = "";
-    let myVisits = "";
-    let myLike = "";
     let images = "";
+    let fakeLikes = "";
+    let fakeVisits = "";
 
     const img = [
         "/demo6.jpg",
@@ -103,6 +108,14 @@ const prepareDataStmt = (idMin) => {
         "/demo9.jpg",
         "/demo10.jpg",
     ];
+
+    // get array of current users in db
+    currentUsers = currentUsers.map((element) => {
+        return parseInt(element.user_id);
+    });
+
+    // total amount of users in db
+    const usersTotal = desiredFakeUsers + idMin - 1;
 
     // fake data is added to each user
     for (let k = idMin; k < desiredFakeUsers + idMin; k++) {
@@ -125,60 +138,75 @@ const prepareDataStmt = (idMin) => {
                     : images.concat(",");
         }
 
-        //  fake user visits to demo user profile
-        if (k < visits + idMin) {
-            allVisits = allVisits.concat("(" + `${k},` + "1)");
-            allVisits =
-                k === visits + idMin - 1 ? allVisits : allVisits.concat(",");
+        const amountLikes = getRandomInt(1, usersTotal / 2);
+        const amountVisits = getRandomInt(1, usersTotal / 2);
+
+        let users = [];
+        for (let i = 0; i < amountLikes; i++) {
+            const randomUserId = getRandomInt(1, usersTotal);
+            if (
+                currentUsers.includes(randomUserId) &&
+                !users.includes(randomUserId) &&
+                k !== randomUserId
+            ) {
+                users.push(randomUserId);
+            }
         }
 
-        // demo user visits to fake users profiles 
-        if (k < visits * 2 + idMin) {
-            myVisits = myVisits.concat("(1, " + `${k}` + ")");
-            myVisits =
-                k === visits * 2 + idMin - 1 ? myVisits : myVisits.concat(",");
+        // generate random likes for fake users
+        let userLikes = "";
+        for (let i = 0; i < users.length; i++) {
+            userLikes = userLikes.concat("(" + `${k},` + `${users[i]}` + ")");
+            userLikes =
+                i === users.length - 1 ? userLikes : userLikes.concat(",");
         }
+        fakeLikes = fakeLikes.concat(userLikes);
+        fakeLikes =
+            k === desiredFakeUsers + idMin - 1
+                ? fakeLikes
+                : fakeLikes.concat(",");
 
-        //  fake user likes of demo user profiles
-        if (k < likes + idMin) {
-            allLike = allLike.concat("(" + `${k},` + "1)");
-            allLike = k === likes + idMin - 1 ? allLike : allLike.concat(", ");
+        // generate random views for fake users
+        users = [];
+        for (let i = 0; i < amountVisits; i++) {
+            const randomUserId = getRandomInt(1, usersTotal);
+            if (
+                currentUsers.includes(randomUserId) &&
+                !users.includes(randomUserId) &&
+                k !== randomUserId
+            ) {
+                users.push(randomUserId);
+            }
         }
-
-        // demo user likes of fake users profiles 
-        if (k < connected + idMin) {
-            myLike = myLike.concat("(1, " + `${k})`);
-            myLike = k === connected + idMin - 1 ? myLike : myLike.concat(", ");
+        let userVisits = "";
+        for (let i = 0; i < users.length; i++) {
+            userVisits = userVisits.concat("(" + `${k},` + `${users[i]}` + ")");
+            userVisits =
+                i === users.length - 1 ? userVisits : userVisits.concat(",");
         }
+        fakeVisits = fakeVisits.concat(userVisits);
+        fakeVisits =
+            k === desiredFakeUsers + idMin - 1
+                ? fakeVisits
+                : fakeVisits.concat(",");
     }
-
-    // queries are generated if there are visits, likes
+   
     const tagsQuery = `INSERT INTO user_tags (user_id, tag_id) VALUES ${str};`;
     const imgQuery = `INSERT INTO images(user_id, image_path) VALUES ${images};`;
-    const allVisitsQuery =
-        visits > 0
-            ? `INSERT INTO views (from_user_id, to_user_id) VALUES ${allVisits};`
-            : "";
-    const myVisitsQuery =
-        visits + visits > 0
-            ? `INSERT INTO views (from_user_id, to_user_id) VALUES ${myVisits};`
-            : "";
-    const allLikeQuery =
-        likes > 0
-            ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${allLike};`
-            : "";
-    const myLikeQuery =
-        connected > 0
-            ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${myLike};`
-            : "";
 
+    const fakeVisitsQuery =
+        fakeVisits !== ""
+            ? `INSERT INTO views (from_user_id, to_user_id) VALUES ${fakeVisits};`
+            : "";
+    const fakeLikesQuery =
+        fakeLikes !== ""
+            ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${fakeLikes};`
+            : "";
+    // console.log(
+    //     tagsQuery + imgQuery + fakeLikesQuery + fakeVisitsQuery
+    // );
     return (
-        tagsQuery +
-        imgQuery +
-        allVisitsQuery +
-        myVisitsQuery +
-        allLikeQuery +
-        myLikeQuery
+        tagsQuery + imgQuery + fakeLikesQuery + fakeVisitsQuery
     );
 };
 
@@ -198,6 +226,7 @@ const insertFakeUsers = async () => {
     console.log("\x1b[34m" + "Generating fake users" + "\x1b[0m");
     tagsArray(56);
     // calculate the id of first inserted user to add info
+    let errorCount = false;
     let idMin = 1;
     await pool
         .query(`SELECT max(user_id) from users`)
@@ -206,6 +235,7 @@ const insertFakeUsers = async () => {
         })
         .catch((err) => {
             console.log("\x1b[31m" + err + "\x1b[0m");
+            errorCount = true;
         });
 
     // add fake users to the database
@@ -220,10 +250,25 @@ const insertFakeUsers = async () => {
         })
         .catch((err) => {
             console.log("\x1b[31m" + err + "\x1b[0m");
+            errorCount = true;
         });
-    
+
+    // get all user id from database
+    let currentUsers = {};
+    await pool
+        .query(`SELECT user_id from users`)
+        .then((res) => {
+            currentUsers = res.rows;
+        })
+        .catch((err) => {
+            console.log("\x1b[31m" + err + "\x1b[0m");
+            errorCount = true;
+        });
+
     // prepare fake users data (likes, visits) statements
-    const tagsStmt = prepareDataStmt(idMin);
+    let tagsStmt = ""
+    if(!errorCount)
+        tagsStmt = prepareDataStmt(idMin, currentUsers);
 
     // insert data to the database
     await pool

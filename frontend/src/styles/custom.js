@@ -72,12 +72,14 @@ export const theme = createMuiTheme({
                 color: '#fff',
             },
         },
-        // MuiTab: {
-        //     wrapper: {
-        //         flexDirection: 'row',
-        //         justifyContent: 'start',
-        //     },
-        // },
+        MuiTab: {
+            wrapper: {
+                // flexDirection: 'row',
+                // justifyContent: 'start',
+                textTransform: 'capitalize',
+                fontSize: "medium",
+            },
+        },
         MuiDialog: {
             paper: {
                 backgroundColor: '#34374d',
@@ -182,8 +184,10 @@ export const useStyles = makeStyles(theme => ({
         minWidth: '170px',
         fontWeight: '700',
         border: `1px solid ${theme.palette.primary.main}`,
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.primary.main,
         '&:hover': {
-            backgroundColor: 'transparent',
+            backgroundColor: theme.palette.background.default,
         },
         flex: '0 1 auto',
         [theme.breakpoints.down('xs')]: {
@@ -206,9 +210,15 @@ export const useStyles = makeStyles(theme => ({
         letterSpacing: 'normal',
         minWidth: '170px',
         fontWeight: '500',
-        color: '#fff',
+        border: `1px solid ${theme.palette.primary.main}`,
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.background.secondary,
         '&:hover': {
-            color: theme.palette.primary.main,
+            backgroundColor: theme.palette.primary.main,
+        },
+        flex: "0 1 auto",
+        [theme.breakpoints.down("xs")]: {
+            padding: "15px 5px",
         },
     },
     customIconButton: {

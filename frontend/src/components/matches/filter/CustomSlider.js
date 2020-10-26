@@ -56,7 +56,12 @@ const CustomSlider = ({ type, updateFilter, filter }) => {
     };
     return (
         <>
-            <Typography id="range-slider" gutterBottom>
+            <Typography
+                id="range-slider"
+                variant="body1"
+                color="textSecondary"
+                gutterBottom
+            >
                 {data[type].title}
             </Typography>
             <Slider

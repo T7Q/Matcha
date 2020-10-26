@@ -1,6 +1,29 @@
+const jwt = require('jsonwebtoken');
+const { jwtSecret } = require('../config');
 const accountModel = require('../models/account');
 
-const required = async (req, res, next) => {
+const authentication = async (req, res, next) => {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
+        jwt.verify(req.headers.authorization.split(' ')[1], jwtSecret, async (err, decode) => {
+            if (err) {
+                req.user = undefined;
+            } else {
+                try {
+                    let user = await accountModel.findUserInfo('user_id', decode.userId, 'online', 'status');
+                    req.user = user && user.online !== 0 ? decode : undefined;
+                } catch {
+                    return res.json({ error: 'something went wrong' });
+                }
+            }
+            return next();
+        });
+    } else {
+        req.user = undefined;
+        return next();
+    }
+};
+
+const authRequired = async (req, res, next) => {
     if (req.user) {
         try {
             const user = await accountModel.findUserInfo('user_id', req.user.userId, 'online', 'status');
@@ -20,7 +43,7 @@ const required = async (req, res, next) => {
     return res.json({ error: 'Unauthorized user!' });
 };
 
-const withStatus1 = async (req, res, next) => {
+const authWithStatus1 = async (req, res, next) => {
     if (req.user) {
         try {
             const user = await accountModel.findUserInfo('user_id', req.user.userId, 'online', 'status');
@@ -39,15 +62,27 @@ const withStatus1 = async (req, res, next) => {
     return res.json({ error: 'Unauthorized user!' });
 };
 
-const forbidden = async (req, res, next) => {
+const authForbidden = async (req, res, next) => {
     if (req.user) {
         return res.json({ error: 'You should be logged out!' });
     }
     return next();
 };
 
+const unknownEndpoint = (req, res) => {
+    res.json({ error: 'unknown endpoint' });
+};
+
+const errorHandler = (error, req, res) => {
+    console.log('error here', error);
+    res.json({ error: 'something went wrong' });
+};
+
 module.exports = {
-    required,
-    forbidden,
-    withStatus1,
+    authentication,
+    authForbidden,
+    authWithStatus1,
+    authRequired,
+    unknownEndpoint,
+    errorHandler,
 };

@@ -15,9 +15,7 @@ import { connect } from 'react-redux';
 import { profileStyles } from '../../../styles/profileStyles';
 import { useTheme } from '@material-ui/core/styles';
 
-
 const Body = ({ profile: { profile, loading }, type }) => {
-
     const theme = useTheme();
     const classesProf = profileStyles();
 

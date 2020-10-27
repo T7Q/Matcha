@@ -1,6 +1,7 @@
 import React from 'react';
 import { List } from '@material-ui/core';
 import ConversationBox from './ConversationBox';
+import { chatStyles } from '../../styles/chatStyles';
 
 const Conversations = ({
     messageNotifications,
@@ -11,6 +12,7 @@ const Conversations = ({
     socket,
     active,
 }) => {
+    const classesChat = chatStyles();
     const conversationItems = conversations.map((conversation) => {
         return (
             <ConversationBox
@@ -26,8 +28,9 @@ const Conversations = ({
         );
     });
 
-    // return <List style={{ backgroundColor: '#252839', minWidth: '80%' }}>{conversationItems}</List>;
-    return <List style={{ minWidth: '80%' }}>{conversationItems}</List>;
+    return <List
+    className={classesChat.list}
+    >{conversationItems}</List>;
 };
 
 export default Conversations;

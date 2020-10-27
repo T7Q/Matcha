@@ -21,7 +21,9 @@ const Header = ({ profile, type }) => {
 
     const classesProf = profileStyles();
     return (
-        <Box bgcolor="secondary.main" boxShadow={6} pt={4} pb={2}>
+        <Box bgcolor="secondary.main" boxShadow={6} pt={4} pb={2}
+        className={classesProf.backgroundHeader}
+        >
             <Grid container alignItems="flex-end">
                 <Grid item xs={12} sm={4} md={3}>
                     {type === "otherUser" ? (

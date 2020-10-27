@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import BackgroundImage from "../background2.jpg";
 
 export const settingStyles = makeStyles((theme) => ({
     title: {
@@ -9,14 +10,7 @@ export const settingStyles = makeStyles((theme) => ({
         '& .MuiTab-wrapper': {
             flexDirection: 'row',
             justifyContent: 'start',
-            // color: 'blue',
         },
-        // '& .MuiTouchRipple': {
-        //     root:{
-        //         border: "1px solid pink",
-        //         height: "100px",  
-        //     }
-        // }, PINK OVERLAY
         '& .MuiTab-root': {
             padding: 0,
         },
@@ -26,7 +20,7 @@ export const settingStyles = makeStyles((theme) => ({
         marginLeft: 0, 
         marginRight: 0 
 
-    }
+    },
 
 
 }));

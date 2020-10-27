@@ -1,10 +1,10 @@
 import { makeStyles } from "@material-ui/core/styles";
+import BackgroundImage from "../background2.jpg";
 
 export const profileStyles = makeStyles((theme) => ({
     backgroundHeader: {
-        backgroundImage: `url('./milkyWay.jpg')`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
+        background: `url(${BackgroundImage}) no-repeat center center fixed`,
+        backgroundSize: "cover",
     },
     name: {
         color: "#219bf1",

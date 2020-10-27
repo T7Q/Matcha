@@ -8,6 +8,7 @@ import { login } from '../../actions/auth';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 import { customStyles } from '../../styles/customStyles';
+import { useStyles } from '../../styles/custom';
 import { setSnackbar } from '../../actions/setsnackbar';
 
 const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
@@ -17,6 +18,7 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
     const location = useLocation();
     const history = useHistory();
     const classes = customStyles();
+    const classesCustom = useStyles();
     const { username, password } = formData;
 
     const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -117,7 +119,7 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
                     Next
                 </Button>
                 <Button
-                    className={`${classes.mainButton} ${classes.secondButton}`}
+                    className={classesCustom.customLinkButton}
                     onClick={() => handleRedirect('/forgetPwd')}
                     color="secondary">
                     Forgot password?

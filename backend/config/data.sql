@@ -45,7 +45,7 @@ INSERT INTO western_horo_compatibility (sign_1, sign_2, compatibility_value)
  ('Pisces', 'Capricorn', 9), ('Pisces', 'Gemini', 5), ('Pisces', 'Leo', 5), ('Pisces', 'Libra', 5),
  ('Pisces', 'Pisces', 5), ('Sagittarius', 'Aquarius', 6), ('Sagittarius', 'Aries', 8),
  ('Sagittarius', 'Cancer', 5), ('Sagittarius', 'Capricorn', 4), ('Sagittarius', 'Gemini', 8),
- ('Sagittarius', 'Leo', 7), ('Sagittarius', 'Libra', 8), ('Sagittarius', 'Pisces', 6),
+ ('Sagittarius', 'Leo', 9), ('Sagittarius', 'Libra', 8), ('Sagittarius', 'Pisces', 6),
  ('Sagittarius', 'Sagittarius', 8), ('Scorpio', 'Aquarius', 8), ('Scorpio', 'Aries', 6),
  ('Scorpio', 'Cancer', 9), ('Scorpio', 'Capricorn', 9), ('Scorpio', 'Gemini', 4), ('Scorpio', 'Leo', 7),
  ('Scorpio', 'Libra', 5), ('Scorpio', 'Pisces', 8), ('Scorpio', 'Sagittarius', 4), ('Scorpio', 'Scorpio', 10),

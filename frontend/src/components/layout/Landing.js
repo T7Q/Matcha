@@ -5,11 +5,9 @@ import PropTypes from "prop-types";
 import { Box, Button, Typography, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { useStyles } from "../../styles/custom";
-import { landingStyles } from "../../styles/landingStyles";
 
 const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
     const classes = useStyles();
-    const classesLanding = landingStyles();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
 
@@ -32,7 +30,7 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
         >
             <Typography
                 variant={isMobile ? "h5" : "h4"}
-                className={classesLanding.title}
+                style={{ color: theme.palette.info.main }}
             >
                 Your love Is Written
             </Typography>
@@ -47,7 +45,7 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
                 onClick={() => handleRedirect("/register")}
                 variant="contained"
                 color="primary"
-                className={classesLanding.outlinedBtn}
+                className={classes.customTransparentButton}
             >
                 Create Account
             </Button>
@@ -58,7 +56,7 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
             <Button
                 onClick={() => handleRedirect("/login")}
                 color="secondary"
-                className={classesLanding.fullBtn}
+                className={classes.customButton}
             >
                 Log in
             </Button>
@@ -66,7 +64,7 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
                 onClick={() => handleRedirect("/login")}
                 variant="contained"
                 // className={classesLanding.googleBtn + ' ' + classes.p2}>
-                className={classesLanding.googleBtn}
+                className={classes.googleBtn}
             >
                 <img
                     className={classes.img}

@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
 import { customStyles } from '../../styles/customStyles';
+import { profileStyles } from '../../styles/profileStyles';
 
 const WizardForm = ({
     header,
@@ -24,6 +25,7 @@ const WizardForm = ({
         steps = 1;
     }
     const classes = customStyles();
+    const classesProf = profileStyles();
 
     const next = () => {
         // If the current step is 1 or 2, then add one on "next" button click
@@ -54,18 +56,28 @@ const WizardForm = ({
     };
 
     return (
-        <Box width="auto" pt="100px" mb={{ xs: '80px' }}>
+        <Box
+            // width="auto"
+            // pt="100px"
+            pt={20}
+            mb={{ xs: '80px' }}
+            className={classesProf.editBox}>
             <form onSubmit={formSubmit}>
-                <Box display="flex" alignItems="center" justifyContent="center">
-                    <IconButton
-                        onClick={
-                            step === 1 || steps === 1
-                                ? () => handleRedirect(link ? link : '/')
-                                : prev
-                        }>
-                        <ArrowBackIosIcon fontSize="large" />
-                    </IconButton>
-                    {steps === 1 && <Typography variant="h6">{header}</Typography>}
+                <Box display="flex" alignItems="center" justifyContent="flex-start">
+                    {/* <Box style={{ position: 'absolute', alignSelf: 'start' }}> */}
+                        <IconButton
+                            style={{ position: 'absolute'}}
+                            onClick={
+                                step === 1 || steps === 1
+                                    ? () => handleRedirect(link ? link : '/')
+                                    : prev
+                            }>
+                            <ArrowBackIosIcon fontSize="small" />
+                        </IconButton>
+                    {/* </Box> */}
+                    {steps === 1 && <Typography 
+                    style={{ marginLeft: 'auto', marginRight: 'auto'}}
+                    variant="h6">{header}</Typography>}
                 </Box>
                 <Box display="flex" flexDirection="column" textAlign="center">
                     <Box display="flex" my={5} maxWidth="300px">

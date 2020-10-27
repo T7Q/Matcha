@@ -121,7 +121,7 @@ export const theme = createMuiTheme({
             },
             button: {
                 textTransform: 'capitalize',
-                fontSize: '20px',
+                fontSize: '16px',
             },
         },
         MuiTooltip: {

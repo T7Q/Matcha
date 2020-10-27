@@ -26,7 +26,7 @@ export const settingStyles = makeStyles((theme) => ({
         marginLeft: 0, 
         marginRight: 0 
 
-    }
+    },
 
 
 }));

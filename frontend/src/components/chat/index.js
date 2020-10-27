@@ -6,6 +6,7 @@ import { getConversations } from '../../actions/chat';
 import { getMessageNotifications } from '../../actions/notifications';
 import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
+import { chatStyles } from '../../styles/chatStyles';
 
 const Chat = ({
     auth,
@@ -16,6 +17,7 @@ const Chat = ({
     history,
     ...props
 }) => {
+    const classesChat = chatStyles();
     const [currentConversation, setCurrentConversation] = useState(0);
     const [partnerTyping, setPartnerTyping] = useState({
         typing: false,
@@ -84,7 +86,6 @@ const Chat = ({
                 height="80px">
                 <Container>
                     <Typography variant="h6">Messages</Typography>
-                    <Typography variant="body1">Recent conversations</Typography>
                 </Container>
             </Box>
             <Box flexGrow={1} display="flex" p={5}>
@@ -92,19 +93,41 @@ const Chat = ({
                     {conversations.length === 0 ? (
                         <Box textAlign="center">No conversations yet</Box>
                     ) : (
-                        <Grid container>
-                            <Grid container item sm={6} xs={12} justify="center">
-                                <Conversations
-                                    active={active}
-                                    socket={auth.socket}
-                                    partnerTyping={partnerTyping}
-                                    messageNotifications={notifications.messages}
-                                    conversations={conversations}
-                                    handleChange={handleChange}
-                                    lastMessage={lastMessage}
-                                />
+                        <Grid container spacing={4} className={classesChat.chatGrid}>
+                            <Grid
+                                container
+                                item
+                                sm={4}
+                                xs={12}
+                                direction="column"
+                                justify="space-around"
+                                alignItems="center"
+                                spacing={1}
+                                className={classesChat.leftSide}>
+                                <Typography className={classesChat.titleChats} variant="h6">
+                                    Recent conversations
+                                </Typography>
+                                <Box className={classesChat.listBox}>
+                                    <Conversations
+                                        active={active}
+                                        socket={auth.socket}
+                                        partnerTyping={partnerTyping}
+                                        messageNotifications={notifications.messages}
+                                        conversations={conversations}
+                                        handleChange={handleChange}
+                                        lastMessage={lastMessage}
+                                    />
+                                </Box>
                             </Grid>
-                            <Grid container justify="center" item sm={6} xs={12}>
+                            <Grid
+                                item
+                                container
+                                justify="center"
+                                alignItems="center"
+                                sm={6}
+                                xs={12}
+                                className={classesChat.rightSide}
+                            >
                                 <PrivateChat
                                     handleChange={handleChange}
                                     notifications={notifications}

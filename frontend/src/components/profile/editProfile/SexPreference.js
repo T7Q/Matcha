@@ -50,11 +50,11 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
             setFormData={setFormData}
             onSubmit={handleSubmit}>
             <>
-                <Box width={{ md: '300px' }} py={2}>
+                {/* <Box width={{ md: '300px' }} py={2}>
                     <Typography variant="h6" className={classes.customHeader}>
                         I am ...
                     </Typography>
-                </Box>
+                </Box> */}
                 <Autocomplete
                     onChange={(e, val) => setData(val, 'gender')}
                     options={['man', 'woman']}
@@ -65,19 +65,20 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
                         <TextField
                             autoFocus
                             {...params}
-                            className={classes.customInput}
+                            className={classes.customInput2}
                             error={genderError ? true : false}
                             helperText={genderError}
                             variant="outlined"
                             placeholder="gender"
+                            label="I'm a ..."
                         />
                     )}
                 />
-                <Box width={{ md: '300px' }} py={2}>
+                {/* <Box width={{ md: '300px' }} py={2}>
                     <Typography variant="h6" className={classes.customHeader}>
                         I am looking for ...
                     </Typography>
-                </Box>
+                </Box> */}
                 <Autocomplete
                     onChange={(e, val) => setData(val, 'sexPreference')}
                     options={['man', 'woman', 'both']}
@@ -88,11 +89,12 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
                         <TextField
                             autoFocus
                             {...params}
-                            className={classes.customInput}
+                            className={classes.customInput2}
                             error={sexPreferenceError ? true : false}
                             helperText={sexPreferenceError}
                             variant="outlined"
                             placeholder="gender"
+                            label="I'm am looking for"
                         />
                     )}
                 />

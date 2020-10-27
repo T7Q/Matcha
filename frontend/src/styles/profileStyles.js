@@ -91,6 +91,11 @@ export const profileStyles = makeStyles((theme) => ({
     editBtn: {
         color: theme.palette.text.secondary,
     },
-   
+   editBox: {
+       minWidth: "300px",
+       [theme.breakpoints.down("sm")]: {
+        minWidth: "220px",
+    },
+   }
 
 }));

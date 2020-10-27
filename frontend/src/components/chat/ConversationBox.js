@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { ListItem, ListItemText, ListItemAvatar, Avatar, Link, Badge } from '@material-ui/core';
+import { ListItem, ListItemText, ListItemAvatar, Avatar, Link, Badge, Box } from '@material-ui/core';
 import OnlineBadge from './OnlineBadge';
 
 const ConversationBox = ({
@@ -52,7 +52,7 @@ const ConversationBox = ({
                 }
                 primary={
                     <>
-                        {conversation.partner_username}{' '}
+                        {conversation.partner_name} {conversation.partner_surname}{' '}
                         <div style={{ float: 'right', color: '#b5bad3' }}>
                             {/* <OnlineBadge
                                 lastSeen={
@@ -65,7 +65,6 @@ const ConversationBox = ({
                         </div>
                     </>
                 }
-                // primary={<></>}
                 secondary={
                     <>
                         {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id
@@ -73,9 +72,6 @@ const ConversationBox = ({
                             : lastMessage.chatId === conversation.chat_id
                             ? lastMessage.text
                             : conversation.last_message}{' '}
-                        {/* <span style={{ float: 'right', color: 'red', fontSize: '16px' }}>
-                            {unread ? amount(unread) : ''}
-                        </span> */}
                         {unread ? (
                             <Badge badgeContent={amount(unread)} color="primary" style={{ float: 'right'}}></Badge>
                         ) : (

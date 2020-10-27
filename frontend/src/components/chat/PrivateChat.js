@@ -106,20 +106,24 @@ const PrivateChat = ({
                         underline="none"
                         color="secondary">
                         <Avatar style={{ margin: 'auto' }} alt="N" src={profile.profile_pic_path} />
-                        <Typography variant="body1" style={{ color: theme.palette.text.primary }}>
+                        <Typography variant="body1" style={{ color: theme.palette.primary.main }}>
                             {profile.first_name}
                         </Typography>
                     </Link>
                 </Box>
-                <Dropdown />
-                <Button onClick={(e) => handleChange(e, 0)}>
-                    <HighlightOffOutlined
-                        fontSize="small"
-                        style={{ fill: theme.palette.text.primary }}
-                    />
-                </Button>
+                <Box 
+                style={{position: "absolute", left: "80%"}}
+                >
+                    <Dropdown />
+                    <Button onClick={(e) => handleChange(e, 0)}>
+                        <HighlightOffOutlined
+                            fontSize="small"
+                            style={{ fill: theme.palette.text.primary }}
+                        />
+                    </Button>
+                </Box>
             </Box>
-            <Box ref={messageRef} mb={8} maxHeight="40vh" style={{ overflowY: 'auto' }}>
+            <Box ref={messageRef} mb={10} maxHeight="40vh" style={{ overflowY: 'auto' }}>
                 {messages.length > 0 &&
                     messages.map((element) => {
                         const options = { month: 'short', day: 'numeric' };
@@ -133,7 +137,7 @@ const PrivateChat = ({
                                     borderRadius={
                                         element.mine ? '14px 14px 0 14px' : '14px 14px 14px 0'
                                     }
-                                    bgcolor='#0c1023'
+                                    bgcolor="#0c1023"
                                     border={
                                         element.mine ? '1px solid #ff749c' : '1px solid #b5bad3'
                                     }
@@ -164,9 +168,7 @@ const PrivateChat = ({
                                 onChange={onChange}
                             />
                         </Box>
-                        <IconButton color="primary" type="submit"
-                        style={{marginLeft: "20px"}}
-                        >
+                        <IconButton color="primary" type="submit" style={{ marginLeft: '20px' }}>
                             <Send />
                         </IconButton>
                     </Box>

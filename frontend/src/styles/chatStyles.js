@@ -1,25 +1,26 @@
 import { makeStyles } from '@material-ui/core/styles';
+import BackgroundImage from "../background2.jpg";
 
 export const chatStyles = makeStyles((theme) => ({
+    header:{
+        height: "150px",
+        background: `url(${BackgroundImage}) no-repeat center center fixed`,
+        backgroundSize: "cover",
+
+    },
+    headerText: {
+        color: theme.palette.info.main,
+    },
     chatGrid: {
         justifyContent: 'space-around',
+        alignItems: "center",
     },
-    // converstations: {
-    background: theme.palette.background.secondary,
-    // padding: '10px 20px 10px 20px',
-    // "&.MuiPaper-elevation1": {
-    //     boxShadow: "0px 15px 13px 0px rgba(0,0,0,0.2)",
-    // },
-    // boxShadow: "0px 15px 13px 0px rgba(0,0,0,0.2)",
-    // },
     leftSide: {
         minHeight: '60vh',
         maxHeight: '60vh',
         background: theme.palette.background.secondary,
     },
     rightSide: {
-        minHeight: '60vh',
-        maxHeight: '60vh',
         paddingLeft: 0,
         paddingRight: 0,
     },
@@ -42,10 +43,11 @@ export const chatStyles = makeStyles((theme) => ({
     list: {
         maxHeight: '45vh',
         overflow: 'auto',
-        // width: "inherit",
         background: theme.palette.background.default,
     },
     chat: {
+        minHeight: '60vh',
+        maxHeight: '60vh',
         border: '1px solid #252839',
         borderRadius: '30px',
         background: theme.palette.background.secondary,

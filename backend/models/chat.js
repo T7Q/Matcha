@@ -6,6 +6,8 @@ const getUserConversations = async userId => {
         CASE WHEN user_1 = $1 THEN user_2
         ELSE user_1 END AS partner_id,
         users.username AS partner_username,
+        users.first_name AS partner_name,
+        users.last_name AS partner_surname,
         users.last_seen,
         users.profile_pic_path AS avatar,
         m1.message AS last_message, m1.time_sent, m1.sender_id

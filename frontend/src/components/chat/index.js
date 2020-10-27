@@ -26,7 +26,6 @@ const Chat = ({
     const [lastMessage, setLastMessage] = useState({ text: '', chatId: 0 });
     const [active, setActive] = useState(null);
 
-    // const theme = useTheme();
     let username = props.match.params.username;
 
     useEffect(() => {
@@ -81,11 +80,27 @@ const Chat = ({
                 display="flex"
                 flexDirection="column"
                 justifyContent="center"
-                bgcolor="secondary.main"
+                // bgcolor="secondary.main"
                 pl={8}
-                height="80px">
+                boxShadow={6}
+                className={classesChat.header}>
                 <Container>
-                    <Typography variant="h6">Messages</Typography>
+                    <Grid
+                        container
+                        item
+                        sm={4}
+                        xs={12}
+                        justify="space-around"
+                        direction="column"
+                        alignItems="start"
+                        spacing={1}>
+                        <Typography
+                            variant="h5"
+                            // className={classesChat.headerText}
+                        >
+                            Messages
+                        </Typography>
+                    </Grid>
                 </Container>
             </Box>
             <Box flexGrow={1} display="flex" p={5}>
@@ -126,8 +141,7 @@ const Chat = ({
                                 alignItems="center"
                                 sm={6}
                                 xs={12}
-                                className={classesChat.rightSide}
-                            >
+                                className={classesChat.rightSide}>
                                 <PrivateChat
                                     handleChange={handleChange}
                                     notifications={notifications}

@@ -1,46 +1,41 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Box, Typography, Grid, Tab, Tabs } from "@material-ui/core";
-import { Container, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import {
-    NotificationsActive,
-    Lock,
-    Email,
-    Block,
-    Delete,
-    Public,
-} from "@material-ui/icons";
-import NotificationsTab from "./Notifications";
-import PasswordTab from "./Password";
-import EmailTab from "./Email";
-import GeolocationTab from "./Geolocation";
-import BlockedUsersTab from "./BlockedUsers";
-import DeleteAccountTab from "./DeleteAccount";
-import { setSnackbar } from "../../../actions/setsnackbar";
-import { settingStyles } from "../../../styles/settingStyles";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Box, Typography, Grid, Tab, Tabs } from '@material-ui/core';
+import { Container, useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import { NotificationsActive, Lock, Email, Block, Delete, Public } from '@material-ui/icons';
+import NotificationsTab from './Notifications';
+import PasswordTab from './Password';
+import EmailTab from './Email';
+import GeolocationTab from './Geolocation';
+import BlockedUsersTab from './BlockedUsers';
+import DeleteAccountTab from './DeleteAccount';
+import { setSnackbar } from '../../../actions/setsnackbar';
+import { settingStyles } from '../../../styles/settingStyles';
+import { chatStyles } from '../../../styles/chatStyles';
 
 const Settings = ({ setSnackbar, history, ...props }) => {
     const classesSetting = settingStyles();
+    const classesChat = chatStyles();
     let route = props.match.params.type;
 
     const indexToTabName = [
-        "",
-        "notifications",
-        "password",
-        "email",
-        "location",
-        "blocked",
-        "delete",
+        '',
+        'notifications',
+        'password',
+        'email',
+        'location',
+        'blocked',
+        'delete',
     ];
     if (!indexToTabName.includes(route)) {
-        route = "";
+        route = '';
     }
     const [tab, setTab] = useState(indexToTabName.indexOf(route));
 
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
     const handleChange = (event, newTab) => {
         history.push(`/settings/${indexToTabName[newTab]}`);
@@ -54,12 +49,17 @@ const Settings = ({ setSnackbar, history, ...props }) => {
                 flexDirection="column"
                 justifyContent="center"
                 bgcolor="secondary.main"
-                // pl={8}
-                height="80px"
-            >
-                <Container
-                    >
-                    <Typography variant="h6">Account Settings</Typography>
+                className={classesChat.header}>
+                <Container>
+                    <Grid
+                        container
+                        item
+                        xs={12}
+                        sm={tab === 0 ? 12 : 4}
+                        md={3}
+                        justify={tab === 0 ? 'center' : 'center'}>
+                        <Typography variant="h6">Account Settings</Typography>
+                    </Grid>
                 </Container>
             </Box>
             <Box alignItems="center" flexGrow={1} display="flex">
@@ -71,7 +71,7 @@ const Settings = ({ setSnackbar, history, ...props }) => {
                             xs={12}
                             sm={tab === 0 ? 12 : 4}
                             md={3}
-                            justify={tab === 0 ? "center" : "center"}
+                            justify={tab === 0 ? 'center' : 'center'}
                             // justify={tab === 0 ? "flex-start" : "center"}
                         >
                             <Tabs
@@ -79,15 +79,9 @@ const Settings = ({ setSnackbar, history, ...props }) => {
                                 textColor="primary"
                                 orientation="vertical"
                                 value={tab}
-                                onChange={handleChange}
-                                
-                            >
+                                onChange={handleChange}>
+                                <Tab style={{ display: 'none' }} label="hidden" />
                                 <Tab
-                                    style={{ display: "none" }}
-                                    label="hidden"
-                                />
-                                <Tab
-                                    
                                     label="&emsp;Notifications"
                                     icon={<NotificationsActive />}
                                     className={classesSetting.tabs}
@@ -125,34 +119,15 @@ const Settings = ({ setSnackbar, history, ...props }) => {
                             justify="center"
                             item
                             sm={6}
-                            xs={12}
-                        >
-                            <Box pt={3} m={3} style={{width: "300px", paddingTop: 0}}>
+                            xs={12}>
+                            <Box pt={3} m={3} style={{ width: '300px', paddingTop: 0 }}>
                                 {tab === 0 && <></>}
-                                {tab === 1 && (
-                                    <NotificationsTab
-                                        setSnackbar={setSnackbar}
-                                    />
-                                )}
-                                {tab === 2 && (
-                                    <PasswordTab setSnackbar={setSnackbar} />
-                                )}
-                                {tab === 3 && (
-                                    <EmailTab setSnackbar={setSnackbar} />
-                                )}
-                                {tab === 4 && (
-                                    <GeolocationTab setSnackbar={setSnackbar} />
-                                )}
-                                {tab === 5 && (
-                                    <BlockedUsersTab
-                                        setSnackbar={setSnackbar}
-                                    />
-                                )}
-                                {tab === 6 && (
-                                    <DeleteAccountTab
-                                        setSnackbar={setSnackbar}
-                                    />
-                                )}
+                                {tab === 1 && <NotificationsTab setSnackbar={setSnackbar} />}
+                                {tab === 2 && <PasswordTab setSnackbar={setSnackbar} />}
+                                {tab === 3 && <EmailTab setSnackbar={setSnackbar} />}
+                                {tab === 4 && <GeolocationTab setSnackbar={setSnackbar} />}
+                                {tab === 5 && <BlockedUsersTab setSnackbar={setSnackbar} />}
+                                {tab === 6 && <DeleteAccountTab setSnackbar={setSnackbar} />}
                             </Box>
                         </Grid>
                     </Grid>

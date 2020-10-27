@@ -49,6 +49,21 @@ export const theme = createMuiTheme({
         // },
     },
     overrides: {
+        MuiCssBaseline: {
+            '@global': {
+                '*::-webkit-scrollbar': {
+                    width: '0.4em',
+                },
+                '*::-webkit-scrollbar-track': {
+                    boxShadow: 'inset 0 0 6px #12172d',
+                    webkitBoxShadow: 'inset 0 0 6px #12172d',
+                },
+                '*::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#252839',
+                    outline: '1px solid #252839',
+                },
+            },
+        },
         MuiToggleButton: {
             root: {
                 '&$selected, &$selected:hover': {
@@ -146,17 +161,17 @@ export const theme = createMuiTheme({
                 '& .MuiListItem': {
                     border: '1px solid yellow',
                 },
-                '&::-webkit-scrollbar': {
-                    width: '0.4em',
-                },
-                '&::-webkit-scrollbar-track': {
-                    boxShadow: 'inset 0 0 6px #12172d',
-                    webkitBoxShadow: 'inset 0 0 6px #12172d',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: '#252839',
-                    outline: '1px solid #252839',
-                },
+                // '&::-webkit-scrollbar': {
+                //     width: '0.4em',
+                // },
+                // '&::-webkit-scrollbar-track': {
+                //     boxShadow: 'inset 0 0 6px #12172d',
+                //     webkitBoxShadow: 'inset 0 0 6px #12172d',
+                // },
+                // '&::-webkit-scrollbar-thumb': {
+                //     backgroundColor: '#252839',
+                //     outline: '1px solid #252839',
+                // },
             },
         },
         MuiListItem: {

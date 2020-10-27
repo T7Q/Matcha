@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { ListItem, ListItemText, ListItemAvatar, Avatar, Link, Badge, Box } from '@material-ui/core';
+import {
+    ListItem,
+    ListItemText,
+    ListItemAvatar,
+    Avatar,
+    Link,
+    Badge,
+    Box,
+} from '@material-ui/core';
 import OnlineBadge from './OnlineBadge';
 
 const ConversationBox = ({
@@ -34,7 +42,7 @@ const ConversationBox = ({
         <ListItem
             style={{
                 borderBottom: '1px solid #252839',
-                backgroundColor: active === conversation.partner_username ? '#10183c' : 'inherit',
+                backgroundColor: active === conversation.partner_id ? '#10183c' : 'inherit',
             }}
             button
             alignItems="flex-start">
@@ -42,14 +50,12 @@ const ConversationBox = ({
                 onClick={() => history.push(`/profile/${conversation.partner_id}`)}
                 component="button">
                 <ListItemAvatar>
-                    <Avatar alt={conversation.partner_username} src={conversation.avatar} />
+                    <Avatar alt={conversation.partner_name} src={conversation.avatar} />
                 </ListItemAvatar>
             </Link>
             <ListItemText
-                style={{ color: active === conversation.partner_username ? '#ca416e' : '#219bf1' }}
-                onClick={(e) =>
-                    handleChange(e, conversation.partner_username, conversation.sender_id)
-                }
+                style={{ color: active === conversation.partner_id ? '#ca416e' : '#219bf1' }}
+                onClick={(e) => handleChange(e, conversation.partner_id, conversation.sender_id)}
                 primary={
                     <>
                         {conversation.partner_name} {conversation.partner_surname}{' '}
@@ -66,18 +72,21 @@ const ConversationBox = ({
                     </>
                 }
                 secondary={
-                    <>
+                    <Box component="span" display="block" textOverflow="ellipsis" overflow="hidden">
                         {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id
                             ? 'is typing...'
                             : lastMessage.chatId === conversation.chat_id
                             ? lastMessage.text
                             : conversation.last_message}{' '}
                         {unread ? (
-                            <Badge badgeContent={amount(unread)} color="primary" style={{ float: 'right'}}></Badge>
+                            <Badge
+                                badgeContent={amount(unread)}
+                                color="primary"
+                                style={{ float: 'right' }}></Badge>
                         ) : (
                             ''
                         )}
-                    </>
+                    </Box>
                 }
             />
         </ListItem>

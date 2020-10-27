@@ -62,7 +62,7 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
                     variant="outlined"
                     color="primary"
                     component={Link}
-                    to={`/messages/${profile.profile.username}`}
+                    to={`/messages/${profile.profile.user_id}`}
                     className={classesProf.chatButton}
                     startIcon={<Chat />}>
                     Chat

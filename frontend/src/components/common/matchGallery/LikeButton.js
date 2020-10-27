@@ -46,7 +46,11 @@ const LikeButton = ({ addLike, removeLike, setSnackbar, match, auth, card, profi
                 />
             </IconButton>
             {card.connected === 2 ? (
-                <IconButton className={classesGallery.icon} aria-label="chat" component={Link} to="/messages">
+                <IconButton
+                    className={classesGallery.icon}
+                    aria-label="chat"
+                    component={Link}
+                    to={`/messages/${card.user_id}`}>
                     <ChatBubbleOutlineRounded
                         // fontSize="medium"
                         className={classesGallery.fullChatBtn}
@@ -68,7 +72,7 @@ LikeButton.propTypes = {
     profile: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     match: state.match,
     auth: state.auth,
     profile: state.profile,

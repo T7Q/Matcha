@@ -26,24 +26,24 @@ const Chat = ({
     const [lastMessage, setLastMessage] = useState({ text: '', chatId: 0 });
     const [active, setActive] = useState(null);
 
-    let username = props.match.params.username;
+    let userId = props.match.params.userId;
 
     useEffect(() => {
         setActive(currentConversation);
     }, [currentConversation]);
 
     useEffect(() => {
-        if (username !== 0 && conversations.some((el) => el.partner_username === username)) {
-            setCurrentConversation(username);
+        if (userId !== 0 && conversations.some((el) => el.partner_id === userId)) {
+            setCurrentConversation(userId);
         }
-    }, [username, conversations]);
+    }, [userId, conversations]);
 
     useEffect(() => {
         let isMounted = true;
         auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
             isMounted && setPartnerTyping({ typing: typing, chatId: chatId });
         });
-    }, [username, conversations, auth.socket]);
+    }, [userId, conversations, auth.socket]);
 
     useEffect(() => {
         let isMounted = true;
@@ -62,12 +62,12 @@ const Chat = ({
         };
     }, [getConversations, getMessageNotifications, auth.socket]);
 
-    const handleChange = (event, newUsername, senderId) => {
-        setCurrentConversation(newUsername);
-        if (newUsername === 0) {
+    const handleChange = (event, newUserId, senderId) => {
+        setCurrentConversation(newUserId);
+        if (newUserId === 0) {
             history.push('/messages');
         } else {
-            history.push('/messages/' + newUsername);
+            history.push('/messages/' + newUserId);
             if (notifications.message > 0) {
                 auth.socket.emit('SEE_CONVERSATION', auth.user.userId, senderId);
             }
@@ -92,7 +92,7 @@ const Chat = ({
                         xs={12}
                         justify="space-around"
                         direction="column"
-                        alignItems="start"
+                        alignItems="flex-start"
                         spacing={1}>
                         <Typography
                             variant="h5"

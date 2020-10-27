@@ -29,7 +29,7 @@ const PrivateChat = ({
     const classesChat = chatStyles();
     const [textMessage, setTextMessage] = useState('');
     const chat = currentConversation
-        ? conversations.filter((chat) => chat.partner_username === currentConversation)[0]
+        ? conversations.filter((chat) => chat.partner_id === currentConversation)[0]
         : false;
     const messageRef = useRef();
     const partnerId = chat ? chat.partner_id : 0;
@@ -111,9 +111,7 @@ const PrivateChat = ({
                         </Typography>
                     </Link>
                 </Box>
-                <Box 
-                style={{position: "absolute", left: "80%"}}
-                >
+                <Box style={{ position: 'absolute', left: '80%' }}>
                     <Dropdown />
                     <Button onClick={(e) => handleChange(e, 0)}>
                         <HighlightOffOutlined

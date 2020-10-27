@@ -81,7 +81,10 @@ const NavItem = ({
                         key={menu.title}
                         className={menu.active ? classes.iconButtonActive : classes.iconButton}
                         onClick={() => handleClick(menu.pageUrl, menu.title)}>
-                        <Typography color="textSecondary" className={classes.text} variant="button">
+                        <Typography
+                            color="textSecondary"
+                            className={classes.mobileText}
+                            variant="button">
                             <Badge
                                 badgeContent={menu.amount}
                                 className={classes.pr}

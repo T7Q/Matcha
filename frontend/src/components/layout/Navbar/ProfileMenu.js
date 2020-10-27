@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Badge, Typography, IconButton, MenuItem, Menu, Box, Avatar } from '@material-ui/core';
 import { navStyles } from '../../../styles/navStyles';
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
 const ProfileMenu = ({
     getNotifications,
@@ -58,19 +59,20 @@ const ProfileMenu = ({
                         : classes.iconButton
                 }
                 onClick={handleClick}>
-                <Typography variant="button" className={classes.text} color="textPrimary">
+                <Typography variant="button" className={classes.mobileText} color="textPrimary">
                     <Badge
                         className={classes.pr}
                         badgeContent={amount(notifications.visit)}
                         color="primary">
-                        <Avatar
-                            style={{
-                                width: '25px',
-                                height: '25px',
-                                // backgroundColor: active === 'Profile' ? '#ca416e' : 'primary',
-                            }}>
-                            {user.username.charAt(0)}
-                        </Avatar>
+                        <PersonOutlineIcon />
+                        {/* <Avatar
+              style={{
+                width: '25px',
+                height: '25px',
+                // backgroundColor: active === 'Profile' ? '#ca416e' : 'primary',
+              }}>
+              {user.username.charAt(0)}
+            </Avatar> */}
                     </Badge>
                     Profile
                 </Typography>

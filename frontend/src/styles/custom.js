@@ -256,6 +256,29 @@ export const useStyles = makeStyles((theme) => ({
             padding: '15px 5px',
         },
     },
+    customLinkButton: {
+        margin: '10px',
+        fontSize: '16px',
+        textTransform: 'capitalize',
+        padding: '21px 30px 17px',
+        borderRadius: '30px',
+        marginBottom: '4px',
+        lineHeight: '1.3',
+        letterSpacing: 'normal',
+        minWidth: '170px',
+        fontWeight: '500',
+        border: `1px solid ${theme.palette.primary.main}`,
+        color: theme.palette.text.primary,
+        // backgroundColor: theme.palette.background.secondary,
+        '&:hover': {
+            color: theme.palette.primary.main,
+            // backgroundColor: theme.palette.primary.main,
+        },
+        flex: '0 1 auto',
+        [theme.breakpoints.down('xs')]: {
+            padding: '15px 5px',
+        },
+    },
     customIconButtonActive: {
         '& span': {
             color: theme.palette.primary.main,

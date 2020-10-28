@@ -1,38 +1,35 @@
-import React from "react";
-import { useTheme } from "@material-ui/core/styles";
-import { Typography, Box, useMediaQuery, Button } from "@material-ui/core";
-import { Tooltip } from "@material-ui/core";
-import { footerStyles } from "../../styles/footerStyles";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Typography, Box, useMediaQuery, Button } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
+
+import { footerStyles } from '../../styles/footerStyles';
 
 const Footer = () => {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+    const { isAuthenticated } = useSelector((state) => state.auth);
+    const isMobile = useMediaQuery('(max-width:600px)');
     const classesFooter = footerStyles();
 
     const authors = [
         {
-            name: "tkuumola",
-            github: "https://github.com/T7Q",
+            name: 'tkuumola',
+            github: 'https://github.com/T7Q',
         },
         {
-            name: "Dmukaliyeva",
-            github: "https://github.com/DianaMukaliyeva",
+            name: 'Dmukaliyeva',
+            github: 'https://github.com/DianaMukaliyeva',
         },
     ];
 
     return (
-        !isMobile && (
+        (!isMobile || !isAuthenticated) && (
             <Box
                 zIndex="1"
                 textAlign="center"
                 p={2}
                 bgcolor="secondary.main"
-                color="text.secondary"
-            >
-                <Typography variant="body2">
-                    {" "}
-                    © Copyright 2020 All Rights Reserved.{" "}
-                </Typography>
+                color="text.secondary">
+                <Typography variant="body2"> © Copyright 2020 All Rights Reserved. </Typography>
                 {authors.map((value, index) => {
                     return (
                         <span key={index}>
@@ -41,12 +38,11 @@ const Footer = () => {
                                     target="_blank"
                                     href={value.github}
                                     className={classesFooter.footerBtn}
-                                    size="small"
-                                >
+                                    size="small">
                                     {value.name}
                                 </Button>
                             </Tooltip>
-                            {index === 0 ? " & " : ""}
+                            {index === 0 ? ' & ' : ''}
                         </span>
                     );
                 })}

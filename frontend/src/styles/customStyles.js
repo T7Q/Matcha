@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import BackgroundImage from '../background3.jpg';
 
 export const customStyles = makeStyles((theme) => ({
     mainButton: {
@@ -40,7 +41,6 @@ export const customStyles = makeStyles((theme) => ({
     },
     googleBtn: {
         border: 'none',
-        fontWeight: '700',
         backgroundColor: theme.palette.background.secondary,
     },
     progress: {
@@ -76,6 +76,19 @@ export const customStyles = makeStyles((theme) => ({
         width: '40px',
         padding: '0 5px',
     },
+    circle: {
+        overflow: 'hidden',
+        [theme.breakpoints.up('sm')]: {
+            maxWidth: '50%',
+        },
+        alignItems: 'center',
+    },
+    background: {
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(${BackgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+    },
+    spinner: { width: '200px', margin: 'auto', display: 'block' },
     customIconButtonActive: {
         '& span': {
             color: theme.palette.primary.main,

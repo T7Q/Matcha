@@ -1,38 +1,35 @@
 import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Badge, Typography, IconButton } from '@material-ui/core';
 import { MessageOutlined, PeopleOutline, FavoriteBorder } from '@material-ui/icons';
+
+import { getNotifications, updateNotifications } from '../../../actions/notifications';
 import { navStyles } from '../../../styles/navStyles';
 
-const NavItem = ({
-    auth: { isAuthenticated, user, socket, loading },
-    handleNavigation,
-    notifications,
-    getNotifications,
-    updateNotifications,
-    active,
-    setActive,
-}) => {
+const NavItem = ({ handleNavigation, active, setActive }) => {
+    const { isAuthenticated, user, socket } = useSelector((state) => state.auth);
+    const notifications = useSelector((state) => state.notifications);
+    const dispatch = useDispatch();
     const classes = navStyles();
 
     useEffect(() => {
         if (isAuthenticated) {
             socket.emit('LOGIN', user.userId);
-            getNotifications();
+            dispatch(getNotifications());
             socket.on('READ_MESSAGES', async (senderId) => {
-                // console.log('on read messsages in navbar');
-                await updateNotifications('message', senderId);
-                getNotifications();
+                await dispatch(updateNotifications('message', senderId));
+                dispatch(getNotifications());
             });
             socket.on('UPDATE_NOTIFICATIONS', (type) => {
                 console.log('on update notifications in navbar', type);
-                getNotifications();
+                dispatch(getNotifications());
             });
             return () => {
                 socket.off('READ_MESSAGES');
                 socket.emit('LOGOUT', user.userId);
             };
         }
-    }, [isAuthenticated, getNotifications, socket, user.userId, updateNotifications]);
+    }, [isAuthenticated, socket, user.userId, dispatch]);
 
     const amount = (amount) => {
         return amount < 100 ? amount : '99+';

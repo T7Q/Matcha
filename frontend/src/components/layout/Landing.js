@@ -26,9 +26,7 @@ const Landing = () => {
             <Typography variant={isMobile ? 'h5' : 'h4'} className={classes.infoColor}>
                 Your love Is Written
             </Typography>
-            <Typography mb={2} variant={isMobile ? 'h4' : 'h3'}>
-                In The Stars
-            </Typography>
+            <Typography variant={isMobile ? 'h4' : 'h3'}>In The Stars</Typography>
             <Button
                 onClick={() => handleRedirect('/register')}
                 variant="contained"

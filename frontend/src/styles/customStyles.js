@@ -38,6 +38,11 @@ export const customStyles = makeStyles((theme) => ({
             backgroundColor: 'transparent',
         },
     },
+    googleBtn: {
+        border: 'none',
+        fontWeight: '700',
+        backgroundColor: theme.palette.background.secondary,
+    },
     progress: {
         width: '75%',
         margin: '15px',
@@ -63,6 +68,13 @@ export const customStyles = makeStyles((theme) => ({
         },
         // width: '100%',
         // backgroundColor: 'transparent',
+    },
+    infoColor: {
+        color: theme.palette.info.main,
+    },
+    img: {
+        width: '40px',
+        padding: '0 5px',
     },
     customIconButtonActive: {
         '& span': {

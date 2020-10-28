@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import { Box, Typography, Grid, Container } from '@material-ui/core';
 import { getConversations } from '../../actions/chat';
 import { getMessageNotifications } from '../../actions/notifications';
@@ -8,37 +8,35 @@ import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
 import { chatStyles } from '../../styles/chatStyles';
 
-const Chat = ({
-    auth,
-    notifications,
-    getMessageNotifications,
-    getConversations,
-    chat: { conversations },
-    history,
-    ...props
-}) => {
-    const classesChat = chatStyles();
+const Chat = () => {
+    const {
+        auth,
+        notifications,
+        chat: { conversations },
+    } = useSelector((state) => state);
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [currentConversation, setCurrentConversation] = useState(0);
+    const [lastMessage, setLastMessage] = useState({ text: '', chatId: 0 });
+    const [active, setActive] = useState(null);
     const [partnerTyping, setPartnerTyping] = useState({
         typing: false,
         chatId: 0,
     });
-    const [lastMessage, setLastMessage] = useState({ text: '', chatId: 0 });
-    const [active, setActive] = useState(null);
-
-    let userId = props.match.params.userId;
+    const classesChat = chatStyles();
+    let { userId } = useParams();
+    // console.log('userId', userId);
 
     useEffect(() => {
+        // console.log('use ef 1');
         setActive(currentConversation);
-    }, [currentConversation]);
-
-    useEffect(() => {
         if (userId !== 0 && conversations.some((el) => el.partner_id === userId)) {
             setCurrentConversation(userId);
         }
     }, [userId, conversations]);
 
     useEffect(() => {
+        // console.log('use ef 2');
         let isMounted = true;
         auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
             isMounted && setPartnerTyping({ typing: typing, chatId: chatId });
@@ -46,13 +44,14 @@ const Chat = ({
     }, [userId, conversations, auth.socket]);
 
     useEffect(() => {
+        // console.log('use ef 3');
         let isMounted = true;
-        getConversations();
-        getMessageNotifications();
+        dispatch(getConversations());
+        dispatch(getMessageNotifications());
         auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
             if (isMounted && type === 'message') {
                 if (text) setLastMessage({ text: text, chatId: chatId });
-                getMessageNotifications();
+                dispatch(getMessageNotifications());
             }
         });
 
@@ -60,7 +59,7 @@ const Chat = ({
             isMounted = false;
             auth.socket.off('TYPING_NOTIFICATION');
         };
-    }, [getConversations, getMessageNotifications, auth.socket]);
+    }, [getConversations, getMessageNotifications, auth.socket, dispatch]);
 
     const handleChange = (event, newUserId, senderId) => {
         setCurrentConversation(newUserId);
@@ -156,20 +155,4 @@ const Chat = ({
     );
 };
 
-Chat.propTypes = {
-    getConversations: PropTypes.func.isRequired,
-    getMessageNotifications: PropTypes.func.isRequired,
-    chat: PropTypes.object.isRequired,
-    notifications: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    chat: state.chat,
-    notifications: state.notifications,
-    auth: state.auth,
-});
-
-export default connect(mapStateToProps, {
-    getMessageNotifications,
-    getConversations,
-})(Chat);
+export default Chat;

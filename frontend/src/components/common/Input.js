@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Typography, TextField, Box } from '@material-ui/core';
+
 import { customStyles } from '../../styles/customStyles';
 
 const Input = ({ value, header, type, label, handleChange, placeholder, ...rest }) => {

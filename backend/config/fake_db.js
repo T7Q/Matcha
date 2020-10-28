@@ -37,7 +37,7 @@ const createFakeUser = () => {
         faker.name.lastName(),
         faker.internet.userName(),
         faker.internet.email(),
-        faker.internet.password(),
+        "$2b$10$FOHKA4htx6iIAYHSEbX1hOnKtwk7Bur7eWl354I/mqs4KCt9cZAGi",
         "2",
         faker.date.between("1960-01-01", "2002-01-01"),
         faker.random.arrayElement(["man", "woman"]),

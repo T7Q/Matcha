@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { AppBar, Tabs, Tab, Typography, Box, Container } from '@material-ui/core';
 import Match from '../common/matchGallery/GetMatches';
 import { updateNotifications } from '../../actions/notifications';
 
 const Visits = ({ socket }) => {
     const dispatch = useDispatch();
-    const location = useLocation();
     const history = useHistory();
     const { page } = useParams();
 

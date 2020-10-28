@@ -1,8 +1,7 @@
-import React from "react";
-// import { Tooltip } from "@material-ui/core";
-import { StarBorder } from "@material-ui/icons";
-import Rating from "@material-ui/lab/Rating";
-import { profileStyles } from "../../../styles/profileStyles";
+import React from 'react';
+import { StarBorder } from '@material-ui/icons';
+import Rating from '@material-ui/lab/Rating';
+import { profileStyles } from '../../../styles/profileStyles';
 
 const UserRating = ({ profile }) => {
     const classesProf = profileStyles();
@@ -15,12 +14,7 @@ const UserRating = ({ profile }) => {
             precision={0.1}
             readOnly
             className={classesProf.ratingFill}
-            emptyIcon={
-                <StarBorder
-                    className={classesProf.ratingColor}
-                    fontSize="inherit"
-                />
-            }
+            emptyIcon={<StarBorder className={classesProf.ratingColor} fontSize="inherit" />}
         />
     );
 };

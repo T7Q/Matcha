@@ -36,6 +36,7 @@
         "react-material-ui-carousel": "^2.0.1",
         "react-responsive-carousel": "^3.2.10",
         "react-slick": "^0.27.11",
+        "redux": "^4.0.5",
         "socket.io": "^2.3.0"
     }
 }

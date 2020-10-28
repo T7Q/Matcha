@@ -14,12 +14,12 @@ module.exports = async (req, res) => {
     errors.push(profileHelper.validateGender(gender));
     errors.push(profileHelper.validateSexPreferences(sex_preference));
     errors.push(profileHelper.validateBio(bio));
-    errors.push(profileHelper.validateName(country));
+    errors.push(profileHelper.validateBio(country));
     errors.push(profileHelper.validateBirthdate(birth_date));
     errors.push(await profileHelper.validateTags(tags));
     // console.log('create1');
     // remove empty objects from errors
-    errors = errors.filter(error => {
+    errors = errors.filter((error) => {
         return Object.keys(error).length != 0;
     });
 

@@ -50,7 +50,7 @@ const WizardForm = ({
         e.preventDefault();
         if (steps === 1) {
             onSubmit();
-        } else if (await validate(children[step - 1].props.name, children[step - 1].props)) {
+        } else if (!(await validate(children[step - 1].props.name, children[step - 1].props))) {
             step < steps ? next() : onSubmit();
         }
     };

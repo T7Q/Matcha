@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import { Redirect, withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
+
 import { Grid } from '@material-ui/core';
 import { register } from '../../actions/auth';
+import { validateField, validateAtBackend } from '../../services/validator';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 
-const Register = ({ register, isAuthenticated, user, history }) => {
+const Register = () => {
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
     const [formData, setFormData] = useState({
         currentStep: 1,
         username: '',
@@ -45,187 +48,30 @@ const Register = ({ register, isAuthenticated, user, history }) => {
     } = errors;
 
     const validateNext = async (name, props) => {
-        const value = props.value;
-        switch (name) {
-            case 'email':
-                if (!value) {
-                    setErrors({ ...errors, emailError: 'required field' });
-                    return false;
-                } else {
-                    const res = await axios.post('/account/validateData', { key: 'email', value: value });
-                    if (res.data.error && Object.keys(res.data.error).length > 0) {
-                        setErrors({ ...errors, ...res.data.error });
-                        return false;
-                    }
-                    return true;
-                }
-            case 'username':
-                if (!value) {
-                    setErrors({ ...errors, usernameError: 'required field' });
-                    return false;
-                } else {
-                    const res = await axios.post('/account/validateData', { key: 'username', value: value });
-                    if (res.data.error && Object.keys(res.data.error).length > 0) {
-                        setErrors({ ...errors, ...res.data.error });
-                        return false;
-                    }
-                    return true;
-                }
-            case 'firstname':
-                if (!value) {
-                    setErrors({ ...errors, firstnameError: 'required field' });
-                    return false;
-                } else {
-                    const re = /^[A-Za-z0-9]{0,}$/;
-                    if (!re.test(value)) {
-                        setErrors({ ...errors, firstnameError: 'Name must include letters and numbers only' });
-                        return false;
-                    }
-                    return true;
-                }
-            case 'lastname':
-                if (!value) {
-                    setErrors({ ...errors, lastnameError: 'required field' });
-                    return false;
-                } else {
-                    const re = /^[A-Za-z0-9]{0,}$/;
-                    if (!re.test(value)) {
-                        setErrors({ ...errors, lastnameError: 'Name must include letters and numbers only' });
-                        return false;
-                    }
-                    return true;
-                }
-            case 'passwords':
-                const passwordValue = props.password;
-                const confirmPasswordValue = props.confirmpassword;
-                let passwordError = '';
-                if (!passwordValue) {
-                    passwordError = 'required field';
-                } else if (passwordValue.length < 6) {
-                    passwordError = 'Password must be at least 6 characters';
-                } else {
-                    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
-                    if (!re.test(passwordValue)) {
-                        passwordError = 'At least 1 uppercase, 1 lowercase letter and 1 number required';
-                    }
-                }
-                // console.log('password', passwordValue);
-                // console.log('confpassword', confirmPasswordValue);
-                if (!confirmPasswordValue) {
-                    setErrors({ ...errors, passwordError: passwordError, confirmPasswordError: 'required field' });
-                } else if (passwordValue !== confirmPasswordValue) {
-                    setErrors({
-                        ...errors,
-                        passwordError: passwordError,
-                        confirmPasswordError: 'Passwords do not match',
-                    });
-                } else if (passwordError) {
-                    setErrors({ ...errors, passwordError: passwordError });
-                } else {
-                    return true;
-                }
-                return false;
-            default:
-                return false;
+        if (name === 'email' || name === 'username') {
+            const error = await validateAtBackend(name, props.value);
+            if (error) {
+                setErrors({ ...errors, ...error });
+                return true;
+            }
         }
+        return false;
     };
 
-    const validate = async (name, value) => {
-        switch (name) {
-            case 'email':
-                if (!value) {
-                    setErrors({ ...errors, emailError: 'required field' });
-                } else {
-                    setErrors({ ...errors, emailError: '' });
-                }
-                break;
-            case 'username':
-                if (!value) {
-                    setErrors({ ...errors, usernameError: 'required field' });
-                } else {
-                    setErrors({ ...errors, usernameError: '' });
-                }
-                break;
-            case 'firstname':
-                if (!value) {
-                    setErrors({ ...errors, firstnameError: 'required field' });
-                } else {
-                    const re = /^[A-Za-z0-9]{0,}$/;
-                    if (!re.test(value)) {
-                        errors['firstnameError'] = 'Name must include letters and numbers only';
-                    } else {
-                        setErrors({ ...errors, firstnameError: '' });
-                    }
-                }
-                break;
-            case 'lastname':
-                if (!value) {
-                    setErrors({ ...errors, lastnameError: 'required field' });
-                } else {
-                    const re = /^[A-Za-z0-9]{0,}$/;
-                    if (!re.test(lastname)) {
-                        errors['firstnameError'] = 'Name must include letters and numbers only';
-                    } else {
-                        setErrors({ ...errors, lastnameError: '' });
-                    }
-                }
-                break;
-            case 'password':
-                if (!value) {
-                    setErrors({ ...errors, passwordError: 'required field' });
-                } else if (value.length < 6) {
-                    setErrors({ ...errors, passwordError: 'Password must be at least 6 characters' });
-                } else {
-                    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
-                    if (!re.test(value)) {
-                        setErrors({
-                            ...errors,
-                            passwordError: 'At least 1 uppercase, 1 lowercase letter and 1 number required',
-                        });
-                    } else {
-                        setErrors({ ...errors, passwordError: '' });
-                    }
-                }
-                break;
-            case 'confirmPassword':
-                let passwordError = '';
-                // console.log('valid confi pass', password);
-                if (!password) {
-                    // console.log('valid confi pass in pass', errors);
-                    passwordError = 'required field';
-                } else if (password.length < 6) {
-                    passwordError = 'Password must be at least 6 characters';
-                } else {
-                    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
-                    if (!re.test(password)) {
-                        passwordError = 'At least 1 uppercase, 1 lowercase letter and 1 number required';
-                    }
-                }
-                if (!value) {
-                    setErrors({ ...errors, passwordError: passwordError, confirmPasswordError: 'required field' });
-                } else if (password !== value) {
-                    setErrors({
-                        ...errors,
-                        passwordError: passwordError,
-                        confirmPasswordError: 'Passwords do not match',
-                    });
-                } else {
-                    setErrors({ ...errors, passwordError: passwordError, confirmPasswordError: '' });
-                }
-                break;
-            default:
-        }
-    };
+    const onChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        const errorType = [name] + 'Error';
+        const error = validateField(name, value, password);
 
-    const onChange = e => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        validate(e.target.name, e.target.value);
+        setErrors({ ...errors, [errorType]: error });
+        setFormData({ ...formData, [name]: value });
     };
 
     const onSubmit = async () => {
         const dataToSubmit = { ...formData };
         delete dataToSubmit.currentStep;
-        const errorsFromApi = await register(dataToSubmit, history);
+        const errorsFromApi = await dispatch(register(dataToSubmit, history));
         if (errorsFromApi) {
             setErrors({ ...errors, ...errorsFromApi });
         }
@@ -302,15 +148,4 @@ const Register = ({ register, isAuthenticated, user, history }) => {
     );
 };
 
-Register.propTypes = {
-    register: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
-    user: PropTypes.object,
-};
-
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { register })(withRouter(Register));
+export default Register;

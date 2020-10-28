@@ -6,7 +6,10 @@ import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
 
 const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
-    const [formData, setFormData] = useState({ gender: genderProp, sexPreference: sexPreferenceProp });
+    const [formData, setFormData] = useState({
+        gender: genderProp,
+        sexPreference: sexPreferenceProp,
+    });
 
     const [errors, setErrors] = useState({ genderError: '', sexPreferenceError: '' });
     const { gender, sexPreference } = formData;
@@ -18,10 +21,13 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
         setFormData({ ...formData, [type]: value });
     };
 
-    const handleSubmit = async event => {
+    const handleSubmit = async (event) => {
         if (gender && sexPreference) {
             try {
-                const res = await axios.post('/profile/edit', { key: 'sex_preference', value: formData });
+                const res = await axios.post('/profile/edit', {
+                    key: 'sex_preference',
+                    value: formData,
+                });
                 if (res.data.error) {
                     setErrors(res.data.error);
                 } else {
@@ -51,17 +57,17 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
             onSubmit={handleSubmit}>
             <>
                 {/* <Box width={{ md: '300px' }} py={2}>
-                    <Typography variant="h6" className={classes.customHeader}>
+                    <Typography variant="h6" >
                         I am ...
                     </Typography>
                 </Box> */}
                 <Autocomplete
                     onChange={(e, val) => setData(val, 'gender')}
                     options={['man', 'woman']}
-                    getOptionLabel={option => option}
-                    getOptionSelected={option => option}
+                    getOptionLabel={(option) => option}
+                    getOptionSelected={(option) => option}
                     value={formData.gender}
-                    renderInput={params => (
+                    renderInput={(params) => (
                         <TextField
                             autoFocus
                             {...params}
@@ -75,17 +81,17 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
                     )}
                 />
                 {/* <Box width={{ md: '300px' }} py={2}>
-                    <Typography variant="h6" className={classes.customHeader}>
+                    <Typography variant="h6" >
                         I am looking for ...
                     </Typography>
                 </Box> */}
                 <Autocomplete
                     onChange={(e, val) => setData(val, 'sexPreference')}
                     options={['man', 'woman', 'both']}
-                    getOptionLabel={option => option}
-                    getOptionSelected={option => option}
+                    getOptionLabel={(option) => option}
+                    getOptionSelected={(option) => option}
                     value={formData.sexPreference}
-                    renderInput={params => (
+                    renderInput={(params) => (
                         <TextField
                             autoFocus
                             {...params}

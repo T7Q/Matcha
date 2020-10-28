@@ -1,8 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { Grid, Box } from '@material-ui/core';
+
 import PrivateRoute from './PrivateRoute';
 import Login from '../auth/Login';
 import ForgotPwd from '../auth/ForgotPwd';
@@ -11,22 +11,23 @@ import Landing from '../layout/Landing';
 import Register from '../profile/CreateAccount';
 import ProfileView from '../profile/viewProfile/';
 import ProfileCreation from '../profile/createProfile/';
+import Settings from '../profile/profileSettings';
+import EditProfile from '../profile/editProfile';
 import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
+import Visits from '../visits/Visits';
 // import NotFound from '../layout/NotFound';
 import Chat from '../chat/';
-import Settings from '../profile/profileSettings';
-import Visits from '../visits/Visits';
-import EditProfile from '../profile/editProfile';
 
-const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
+const CustomRouter = () => {
+    const { isAuthenticated, user, socket } = useSelector((state) => state.auth);
+
     return (
         <Grid justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
             <Route exact path="/" component={Landing} />
             <Box
                 pt={{ xs: '0px', sm: '64px' }}
                 mb={{ xs: '100px', sm: '0' }}
-                // textAlign="center"
                 width={isAuthenticated && user.status !== 1 ? '100%' : 'auto'}>
                 <Switch>
                     {/* <Route exact path="/" component={Landing} /> */}
@@ -62,12 +63,4 @@ const CustomRouter = ({ auth: { isAuthenticated, user, socket } }) => {
     );
 };
 
-CustomRouter.propTypes = {
-    auth: PropTypes.object,
-};
-
-const mapStateToProps = (state) => ({
-    auth: state.auth,
-});
-
-export default connect(mapStateToProps)(CustomRouter);
+export default CustomRouter;

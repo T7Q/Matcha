@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-
 import { Grid } from '@material-ui/core';
+
 import { register } from '../../actions/auth';
 import { validateField, validateAtBackend } from '../../services/validator';
+
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 

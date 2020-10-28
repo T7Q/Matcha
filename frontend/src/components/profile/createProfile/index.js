@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { Box, Typography, useMediaQuery } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
 
 import { createProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
 
-import WizardForm from '../../common/WizardForm';
 import BirthdayItem from './BirthdayItem';
 import CountryItem from './CountryItem';
 import UploadItem from './UploadItem';
@@ -15,6 +13,7 @@ import BioItem from './BioItem';
 import GenderItem from './GenderItem';
 import SexPreferenceItem from './SexPreferenceItem';
 import TagItem from './TagItem';
+import WizardForm from '../../common/WizardForm';
 
 const ProfileCreation = () => {
     const { isAuthenticated, user } = useSelector((state) => state.auth);
@@ -52,8 +51,7 @@ const ProfileCreation = () => {
         base5: '',
     });
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+    const isMobile = useMediaQuery('(max-width:600px)');
     const {
         birthdateError,
         countryError,

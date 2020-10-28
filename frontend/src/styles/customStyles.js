@@ -69,6 +69,16 @@ export const customStyles = makeStyles((theme) => ({
         // width: '100%',
         // backgroundColor: 'transparent',
     },
+    bioInput: {
+        // minHeight: '150px',
+        minWidth: '400px',
+        [theme.breakpoints.down('xs')]: {
+            minWidth: '200px',
+        },
+    },
+    ml: {
+        marginLeft: '30px',
+    },
     infoColor: {
         color: theme.palette.info.main,
     },
@@ -107,6 +117,13 @@ export const customStyles = makeStyles((theme) => ({
         flex: '0 1 auto',
         [theme.breakpoints.down('xs')]: {
             padding: '15px 5px',
+        },
+    },
+    radio: {
+        maxWidth: '300px',
+        borderRadius: '30px !important',
+        [theme.breakpoints.down('xs')]: {
+            maxWidth: '200px',
         },
     },
 }));

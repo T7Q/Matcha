@@ -1,9 +1,9 @@
-import { makeStyles } from "@material-ui/core/styles";
-import BackgroundImage from "../background2.jpg";
+import { makeStyles } from '@material-ui/core/styles';
+// import BackgroundImage from "../background2.jpg";
 
 export const settingStyles = makeStyles((theme) => ({
     title: {
-        color: "#219bf1",
+        color: '#219bf1',
     },
     tabs: {
         padding: 0,
@@ -16,11 +16,8 @@ export const settingStyles = makeStyles((theme) => ({
         },
     },
     notification: {
-        justifyContent: "space-between",
-        marginLeft: 0, 
-        marginRight: 0 
-
+        justifyContent: 'space-between',
+        marginLeft: 0,
+        marginRight: 0,
     },
-
-
 }));

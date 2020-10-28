@@ -1,4 +1,6 @@
 import axios from 'axios';
+import profileService from '../services/profileService';
+
 import {
     CREATE_PROFILE,
     GET_PROFILE,
@@ -13,15 +15,14 @@ import { setSnackbar } from './setsnackbar';
 import { loadUser } from './auth';
 
 // Get user profile
-export const getProfile = (type, userId, otherProfile = false) => async dispatch => {
-    // clear profile state to prevent blinking of old info on screen
-    // dispatch({ type: CLEAR_PROFILE });
-
+export const getProfile = (type, userId, otherProfile = false) => async (dispatch) => {
     // send request to corresponding router depending on wheather profile is My or Other user
     try {
         if (otherProfile) await axios.get(`/profile/visit/${userId}`);
         const res =
-            type === 'myProfile' ? await axios.get('/profile/me') : await axios.get(`/profile/user/${userId}`);
+            type === 'myProfile'
+                ? await profileService.getMyProfile()
+                : await profileService.getUserProfile(userId);
 
         if (res.data.error) {
             dispatch({
@@ -45,15 +46,17 @@ const convertImages = (images, profile = 'base1') => {
     const data = {
         key: 'photo',
         value: Object.entries(images)
-            .filter(value => value[0].includes('base') && value[1])
-            .map(value =>
-                value[0] === profile ? { type: 'profile', data: value[1] } : { type: 'photo', data: value[1] }
+            .filter((value) => value[0].includes('base') && value[1])
+            .map((value) =>
+                value[0] === profile
+                    ? { type: 'profile', data: value[1] }
+                    : { type: 'photo', data: value[1] }
             ),
     };
     return data;
 };
 
-export const createProfile = (formData, images, history) => async dispatch => {
+export const createProfile = (formData, images, history) => async (dispatch) => {
     try {
         const imagesToSubmit = convertImages(images);
         const res = await axios.post('profile/create', formData);
@@ -73,7 +76,7 @@ export const createProfile = (formData, images, history) => async dispatch => {
     }
 };
 
-export const uploadPhotos = (images, profile) => async dispatch => {
+export const uploadPhotos = (images, profile) => async (dispatch) => {
     try {
         const imagesToSubmit = convertImages(images, profile);
         const result = await axios.post('/profile/uploadphoto', imagesToSubmit);
@@ -87,12 +90,12 @@ export const uploadPhotos = (images, profile) => async dispatch => {
 };
 
 // Add like, update connection level
-export const addLike = (location, toUserId, match, profile) => async dispatch => {
+export const addLike = (location, toUserId, match, profile) => async (dispatch) => {
     try {
-        await axios.post(`/profile/addinteraction/likes/${toUserId}`, {});
-        const result = await axios.post(`/profile/connected/${toUserId}`, {});
+        await profileService.addLike(toUserId);
+        const result = await profileService.checkConnection(toUserId);
         if (location === 'userCard') {
-            match.forEach(element => {
+            match.forEach((element) => {
                 if (element.user_id === toUserId) {
                     element['connected'] = result.data.msg;
                 }
@@ -110,12 +113,12 @@ export const addLike = (location, toUserId, match, profile) => async dispatch =>
 };
 
 // Remove like, update connection level
-export const removeLike = (location, toUserId, match, profile) => async dispatch => {
+export const removeLike = (location, toUserId, match, profile) => async (dispatch) => {
     try {
-        await axios.post(`/profile/removeinteraction/likes/${toUserId}`, {});
-        const result = await axios.post(`/profile/connected/${toUserId}`, {});
+        await profileService.removeLike(toUserId);
+        const result = await profileService.checkConnection(toUserId);
         if (location === 'userCard') {
-            match.forEach(element => {
+            match.forEach((element) => {
                 if (element.user_id === toUserId) {
                     element['connected'] = result.data.msg;
                 }
@@ -130,24 +133,26 @@ export const removeLike = (location, toUserId, match, profile) => async dispatch
 };
 
 // Add like, update connection level
-export const addInteraction = (type, toUserId) => async dispatch => {
+export const addInteraction = (type, toUserId) => async (dispatch) => {
     try {
-        const result = await axios.post(`/profile/addinteraction/${type}/${toUserId}`, {});
+        const result = await profileService.addInteraction(type, toUserId);
         if (type === 'blocked') {
             dispatch({ type: UPDATE_BlOCKED, payload: '1' });
         } else {
             dispatch(setSnackbar(true, 'success', result.data.msg));
         }
     } catch (err) {
-        dispatch(setSnackbar(true, 'error', 'Something went wrong saving your preference. Try again.'));
+        dispatch(
+            setSnackbar(true, 'error', 'Something went wrong saving your preference. Try again.')
+        );
     }
 };
 
 // Add like, update connection level
-export const unblockUser = (location, unblockList) => async dispatch => {
+export const unblockUser = (location, unblockList) => async (dispatch) => {
     try {
         for (const e of unblockList) {
-            await axios.post(`/profile/removeinteraction/blocked/${e.user_id}`, {});
+            await profileService.unblockUser(e.user_id);
         }
         if (location === 'settings') {
             dispatch(setSnackbar(true, 'success', 'Successfully updated'));
@@ -162,11 +167,17 @@ export const unblockUser = (location, unblockList) => async dispatch => {
     }
 };
 
-export const deleteProfile = history => async dispatch => {
+export const deleteProfile = (history) => async (dispatch) => {
     try {
-        const res = await axios.post('/profile/delete/', { key: 'delete1' });
+        const res = await profileService.deleteProfile();
         if (res.data.error) {
-            dispatch(setSnackbar(true, 'error', 'Something went wrong. Try again later or contact with us.'));
+            dispatch(
+                setSnackbar(
+                    true,
+                    'error',
+                    'Something went wrong. Try again later or contact with us.'
+                )
+            );
         } else {
             dispatch({ type: LOGOUT });
             history.push('/');
@@ -176,7 +187,7 @@ export const deleteProfile = history => async dispatch => {
     }
 };
 
-export const editProfile = user => async dispatch => {
+export const editProfile = (user) => async (dispatch) => {
     dispatch({
         type: UPDATE_PROFILE,
         payload: { user: user },

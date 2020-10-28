@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography, Grid, IconButton, Divider } from '@material-ui/core';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { Container, Paper } from '@material-ui/core';
@@ -14,9 +14,13 @@ import { Link } from 'react-router-dom';
 
 import { profileStyles } from '../../../styles/profileStyles';
 import { useTheme } from '@material-ui/core/styles';
+import store from '../../../store';
 
 const Body = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
+    const temp = store.getState().profile.profile.blocked;
+    // const temp = store.getState().profile;
+    console.log('temp', temp);
 
     const theme = useTheme();
     const classesProf = profileStyles();

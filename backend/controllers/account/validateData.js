@@ -2,18 +2,22 @@ const accountHelper = require('../../models/accountHelper');
 
 module.exports = async (req, res) => {
     const { key, value } = req.body;
-
+    let error = '';
     switch (key) {
         case 'email':
-            return res.send(await accountHelper.validateEmail(value));
+            error = await accountHelper.validateEmail(value);
+            return res.json({ error: error });
         case 'username':
-            return res.send(await accountHelper.validateUsername(value));
+            error = await accountHelper.validateUsername(value);
+            return res.json({ error: error });
         case 'name':
-            return res.send(await accountHelper.validateName(value));
+            error = await accountHelper.validateName(value);
+            return res.json({ error: error });
         case 'password':
             const { confirmPassword } = req.body;
-            return res.send(await accountHelper.validatePassword(value, confirmPassword));
+            error = await accountHelper.validatePassword(value, confirmPassword);
+            return res.json({ error: error });
         default:
-            return res.status(400).send('Invalid parameters');
+            return res.json({ error: 'Invalid parameters' });
     }
-}
+};

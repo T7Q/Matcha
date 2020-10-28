@@ -1,26 +1,27 @@
+const crypto = require('crypto');
 const accountModel = require('../../models/account');
+const mail = require('../../utils/mail');
 
 module.exports = async (req, res) => {
     const { email } = req.body;
 
-    const user = accountModel.findUserInfo('email', email, 'username', 'status');
+    if (!email) {
+        return res.json({ error: 'field can not be empty' });
+    }
+    const user = await accountModel.findUserInfo('email', email, 'user_id', 'username', 'status');
 
     if (!user) {
-        res.status(404).json({ 'error': 'User not found' });
+        return res.json({ error: 'user with this email not found' });
     }
 
+    // check if account activated
     if (user.status === 0) {
-        res.status(400).json({ 'error': 'Your account is not activated yet' });
+        return res.json({ error: 'account is not activated yet' });
     }
 
+    // create new token to reset password
     const token = crypto.randomBytes(42).toString('hex');
-    const result = await accountModel.updateToken(user.username, token);
 
-    if (result.error) {
-        return res.json(result);
-    }
-
-    // send email
-
-    return res.json({ 'msg': 'Password reset link has been sent to your emails' });
-}
+    await accountModel.updateAccount(user.user_id, { token: token });
+    return res.json(mail.pwdResetEmail(email, user.user_id, user.username, token, req));
+};

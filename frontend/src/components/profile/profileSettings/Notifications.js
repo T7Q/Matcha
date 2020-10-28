@@ -1,0 +1,82 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Checkbox, FormGroup, FormControlLabel, Button, Typography } from '@material-ui/core';
+import { useStyles } from '../../../styles/custom';
+
+import { settingStyles } from "../../../styles/settingStyles";
+
+const Notifications = ({ setSnackbar }) => {
+    const classesSetting = settingStyles();
+    const [notifications, setNotifications] = useState({
+        email: false,
+        push: false,
+    });
+
+    const { email, push } = notifications;
+    const classes = useStyles();
+
+    useEffect(() => {
+        let isMounted = true;
+        async function getNotifications() {
+            const res = await axios.get('/account/notifications');
+            isMounted && setNotifications(res.data);
+        }
+        getNotifications();
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+        try {
+            const res = await axios.post('/account/notifications', notifications);
+            if (res && res.data.msg) {
+                setSnackbar(true, 'success', res.data.msg);
+            }
+        } catch (error) {
+            // console.log(error);
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <FormGroup>
+                <FormControlLabel
+                    className={classesSetting.notification}
+                    control={
+                        <Checkbox
+                            value={email}
+                            checked={email}
+                            onChange={() => setNotifications({ ...notifications, email: !email })}
+                            color="primary"
+                        />
+                    }
+                    label={<Typography variant="body1">&emsp;Allow email notifications</Typography>}
+                    labelPlacement="start"
+                />
+                <FormControlLabel
+                    className={classesSetting.notification}
+                    control={
+                        <Checkbox
+                            checked={push}
+                            onChange={() => setNotifications({ ...notifications, push: !push })}
+                            color="primary"
+                        />
+                    }
+                    label={<Typography variant="body1">&emsp;Allow push notifications</Typography>}
+                    labelPlacement="start"
+                />
+                <Button
+                    type="submit"
+                    size="small"
+                    variant="contained"
+                    className={`${classes.customButton} ${classes.p2}`}>
+                    Save
+                </Button>
+            </FormGroup>
+        </form>
+    );
+};
+
+export default Notifications;

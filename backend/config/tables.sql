@@ -1,17 +1,16 @@
 DO $$ BEGIN
     CREATE TYPE gender AS ENUM ('man', 'woman');
-    CREATE TYPE sex_preference AS ENUM ('hetero', 'bi', 'homo');
+    CREATE TYPE notification_type AS ENUM ('message', 'like', 'unlike', 'visit');
+    CREATE TYPE sex_preference AS ENUM ('man', 'woman', 'both');
 EXCEPTION
     WHEN duplicate_object THEN null;
 END $$;
 
-CREATE TABLE IF NOT EXISTS "notifications"
-(
- "notification_id" serial NOT NULL PRIMARY KEY,
- "likes"           int NOT NULL DEFAULT 0 ,
- "messages"        int NOT NULL DEFAULT 0 ,
- "visits"          int NOT NULL DEFAULT 0
-);
+CREATE EXTENSION postgis;
+
+CREATE EXTENSION postgis_topology;
+
+
 
 CREATE TABLE IF NOT EXISTS "users"
 (
@@ -23,12 +22,14 @@ CREATE TABLE IF NOT EXISTS "users"
  "password"                 varchar(1000) NOT NULL ,
  "token"                    varchar(255) NULL ,
  "status"                   int NOT NULL DEFAULT 0 ,
+ "online"                   int NOT NULL DEFAULT 0 ,
  "birth_date"               date NULL ,
  "gender"                   gender NULL ,
  "latitude"                 float NULL ,
  "longitude"                float NULL ,
  "bio"                      text NULL ,
- "fame_rating"              decimal(3,2) NULL ,
+ "fame_rating"              double precision DEFAULT 0 ,
+ "fame_14_days"             bigint DEFAULT 0 ,
  "ip_address"               varchar(15) NULL ,
  "geo_localisation_allowed" boolean NULL DEFAULT FALSE ,
  "google_id"                varchar(255) NULL ,
@@ -36,13 +37,22 @@ CREATE TABLE IF NOT EXISTS "users"
  "email_notification"       boolean NOT NULL DEFAULT TRUE ,
  "last_seen"                timestamp NULL ,
  "created_at"               timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "age"                      int NULL ,
  "sex_preference"           sex_preference NULL ,
+ "sex_orientation"          character varying COLLATE pg_catalog."default",
  "western_horo"             varchar(45) NULL ,
  "chinese_horo"             varchar(45) NULL ,
  "profile_pic_path"         varchar(255) NULL ,
  "real_time_notification"   boolean NOT NULL DEFAULT TRUE,
- "notification_id"          integer UNIQUE NULL REFERENCES "notifications" ON DELETE CASCADE
+ "country"                  varchar(255) NULL ,
+ "geolocation"              geography(Point,4326)
+);
+
+CREATE TABLE IF NOT EXISTS "notifications"
+(
+ "notification_id" serial NOT NULL PRIMARY KEY,
+ "to_user_id"      bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
+ "from_user_id"    bigint NOT NULL REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
+ "type"            notification_type NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "western_horo_compatibility"
@@ -74,28 +84,29 @@ CREATE TABLE IF NOT EXISTS "user_tags"
  "tag_id"  bigint NOT NULL REFERENCES "tags" ( "tag_id" ) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS "report_users"
+CREATE TABLE IF NOT EXISTS "reported"
 (
  "report_id"        bigserial NOT NULL PRIMARY KEY,
- "user_id"          bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
- "user_id_reported" bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "from_user_id"          bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "to_user_id" bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
  "created_at"       timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS "block_users"
+CREATE TABLE IF NOT EXISTS "blocked"
 (
  "block_id"        bigserial NOT NULL PRIMARY KEY,
- "user_id"         bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
- "user_id_blocked" bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "from_user_id"         bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "to_user_id" bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
  "created_at"      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS "chats"
 (
  "chat_id"    bigserial NOT NULL PRIMARY KEY,
- "user_id"    bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
- "started_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "closed_at"  timestamp NULL
+ "user_1"     bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "user_2"     bigint NULL REFERENCES "users" ("user_id") ON DELETE CASCADE,
+ "started_at" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ "active"     boolean NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE IF NOT EXISTS "chinese_horo_compatibility"
@@ -136,11 +147,11 @@ CREATE INDEX IF NOT EXISTS "fkIdx_71" ON "likes"
 
 CREATE TABLE IF NOT EXISTS "messages"
 (
- "message_id" bigserial NOT NULL PRIMARY KEY,
- "message"    text NULL ,
- "time_sent"  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "chat_id"    bigint NOT NULL ,
- "sender_id"  bigint NOT NULL ,
+ "message_id"   bigserial NOT NULL PRIMARY KEY,
+ "message"      text NULL ,
+ "time_sent"    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ "chat_id"      bigint NOT NULL ,
+ "sender_id"    bigint NOT NULL ,
  CONSTRAINT "FK_72" FOREIGN KEY ( "sender_id" ) REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
  CONSTRAINT "FK_73" FOREIGN KEY ( "chat_id" ) REFERENCES "chats" ("chat_id") ON DELETE CASCADE
 );

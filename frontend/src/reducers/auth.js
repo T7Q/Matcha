@@ -8,14 +8,14 @@ import {
     LOGOUT,
     LOAD_SOCKET,
     UPDATE_PATH,
-} from "../actions/types";
+} from '../actions/types';
 
 const initialState = {
     isAuthenticated: false,
     loading: true,
     user: { userId: 0, status: -1 },
     socket: null,
-    previousPath: "",
+    previousPath: '',
 };
 
 export default (state = initialState, action) => {
@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
                 user: payload,
             };
         case LOGIN_SUCCESS:
-            localStorage.setItem("token", payload.tkn);
+            localStorage.setItem('token', payload.tkn);
             return {
                 ...state,
                 user: payload.user,
@@ -56,7 +56,7 @@ export default (state = initialState, action) => {
         case REGISTER_FAIL:
         case AUTH_FAIL:
         case LOGOUT:
-            localStorage.removeItem("token");
+            localStorage.removeItem('token');
             return {
                 ...state,
                 message: null,

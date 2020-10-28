@@ -65,35 +65,35 @@ const WizardForm = ({
             <form onSubmit={formSubmit}>
                 <Box display="flex" alignItems="center" justifyContent="flex-start">
                     {/* <Box style={{ position: 'absolute', alignSelf: 'start' }}> */}
-                        <IconButton
-                            style={{ position: 'absolute'}}
-                            onClick={
-                                step === 1 || steps === 1
-                                    ? () => handleRedirect(link ? link : '/')
-                                    : prev
-                            }>
-                            <ArrowBackIosIcon fontSize="small" />
-                        </IconButton>
+                    <IconButton
+                        style={{ position: 'absolute' }}
+                        onClick={
+                            step === 1 || steps === 1
+                                ? () => handleRedirect(link ? link : '/')
+                                : prev
+                        }>
+                        <ArrowBackIosIcon fontSize="small" />
+                    </IconButton>
                     {/* </Box> */}
-                    {steps === 1 && <Typography 
-                    style={{ marginLeft: 'auto', marginRight: 'auto'}}
-                    variant="h6">{header}</Typography>}
+                    {/* {steps === 1 && ( */}
+                    <Typography style={{ marginLeft: 'auto', marginRight: 'auto' }} variant="h6">
+                        {header}
+                    </Typography>
+                    {/* )} */}
                 </Box>
                 <Box display="flex" flexDirection="column" textAlign="center">
-                    <Box display="flex" my={5} maxWidth="300px">
-                        {steps === 1 ? (
-                            <></>
-                        ) : (
-                            <>
-                                <Typography variant="h6">{header}</Typography>
-                                <LinearProgress
-                                    className={classes.progress}
-                                    variant="determinate"
-                                    value={normalise(step)}
-                                />
-                            </>
-                        )}
-                    </Box>
+                    {steps === 1 ? (
+                        <></>
+                    ) : (
+                        <Box display="flex" my={5} maxWidth="300px">
+                            {/* <Typography variant="h6">{header}</Typography> */}
+                            <LinearProgress
+                                className={classes.progress}
+                                variant="determinate"
+                                value={normalise(step)}
+                            />
+                        </Box>
+                    )}
                     {steps === 1 ? children : children[step - 1]}
                     {!hideButton && (
                         <Button

@@ -1,71 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useHistory, useLocation } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
+
+import authService from '../../services/authService';
 import { login } from '../../actions/auth';
+import { setSnackbar } from '../../actions/setsnackbar';
+
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 import { customStyles } from '../../styles/customStyles';
-import { useStyles } from '../../styles/custom';
-import { setSnackbar } from '../../actions/setsnackbar';
 
-const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
-    const [formData, setFormData] = useState({ username: '', password: '' });
-    const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
-
+const Login = () => {
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     const location = useLocation();
     const history = useHistory();
-    const classes = customStyles();
-    const classesCustom = useStyles();
+    const [formData, setFormData] = useState({ username: '', password: '' });
+    const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
     const { username, password } = formData;
+    const classes = customStyles();
 
-    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    useEffect(() => {
-        let isMounted = true;
-        if (location.pathname === '/account/activate') {
-            const goToBackend = async () => {
-                const res = await axios.get(`/account/activate${location.search}`);
-                if (isMounted) {
-                    if (res.data.error) {
-                        setSnackbar(true, 'error', res.data.error);
-                    } else {
-                        setSnackbar(true, 'success', res.data.msg);
-                    }
-                    history.push('/login');
-                }
-            };
-            goToBackend();
-        }
-        return () => {
-            isMounted = false;
-        };
-    }, [location, history, setSnackbar]);
-
-    const handleRedirect = (newRoute) => {
-        history.push(newRoute);
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setErrors({ usernameError: '', passwordError: '' });
     };
 
-    const sendLogin = async (data) => {
-        const res = await login(data);
-        if (res && res.error) {
-            setErrors({
-                usernameError: res.error,
-                passwordError: res.error,
+    useEffect(() => {
+        if (location.pathname === '/account/activate') {
+            authService.activate(location.search).then((res) => {
+                if (res.error) {
+                    dispatch(setSnackbar(true, 'error', res.error));
+                } else {
+                    dispatch(setSnackbar(true, 'success', res.msg));
+                }
+                history.push('/login');
             });
+        }
+    }, [location, history, dispatch]);
+
+    const sendLogin = async (data) => {
+        const res = await dispatch(login(data));
+        if (res && res.error) {
+            setErrors({ usernameError: res.error, passwordError: res.error });
         }
     };
 
     const getPosition = async (position) => {
-        const dataToSubmit = { ...formData };
-        dataToSubmit.longitude = position.coords.longitude;
-        dataToSubmit.latitude = position.coords.latitude;
+        const dataToSubmit = {
+            ...formData,
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+        };
         sendLogin(dataToSubmit);
     };
 
-    const errorInPosition = async (error) => {
+    const errorInPosition = async () => {
         sendLogin(formData);
     };
 
@@ -75,9 +65,7 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
                 usernameError: !username && 'username required',
                 passwordError: !password && 'password required',
             });
-            return;
-        }
-        if (navigator.geolocation) {
+        } else if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(getPosition, errorInPosition);
         } else {
             sendLogin(formData);
@@ -119,8 +107,8 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
                     Next
                 </Button>
                 <Button
-                    className={classesCustom.customLinkButton}
-                    onClick={() => handleRedirect('/forgetPwd')}
+                    className={`${classes.mainButton} ${classes.linkButton}`}
+                    onClick={() => history.push('/forgetPwd')}
                     color="secondary">
                     Forgot password?
                 </Button>
@@ -129,16 +117,4 @@ const Login = ({ login, isAuthenticated, user, setSnackbar }) => {
     );
 };
 
-Login.propTypes = {
-    login: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
-    user: PropTypes.object,
-    setSnackbar: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { login, setSnackbar })(Login);
+export default Login;

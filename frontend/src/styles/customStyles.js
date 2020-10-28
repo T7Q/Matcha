@@ -30,6 +30,14 @@ export const customStyles = makeStyles((theme) => ({
             backgroundColor: theme.palette.primary.main,
         },
     },
+    linkButton: {
+        border: 'none',
+        backgroundColor: 'transparent',
+        '&:hover': {
+            color: theme.palette.primary.main,
+            backgroundColor: 'transparent',
+        },
+    },
     progress: {
         width: '75%',
         margin: '15px',

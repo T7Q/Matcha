@@ -1,84 +1,51 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { Redirect, useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect, useHistory, useLocation } from 'react-router-dom';
+
+import { setSnackbar } from '../../actions/setsnackbar';
+import authService from '../../services/authService';
+import { validatePasswords } from '../../services/validator';
+
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
-import { setSnackbar } from '../../actions/setsnackbar';
 
-const UpdatePwd = ({ isAuthenticated, user, location, setSnackbar }) => {
+const UpdatePwd = () => {
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
     const history = useHistory();
+    const location = useLocation();
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({ password: '', confirmPassword: '' });
     const [errors, setErrors] = useState({ passwordError: '', confirmPasswordError: '' });
     const searchParams = new URLSearchParams(location.search);
     const { password, confirmPassword } = formData;
     const { passwordError, confirmPasswordError } = errors;
 
-    const validate = async (name, value) => {
-        switch (name) {
-            case 'password':
-                if (!value) {
-                    setErrors({ ...errors, passwordError: 'required field' });
-                } else if (value.length < 6) {
-                    setErrors({ ...errors, passwordError: 'Password must be at least 6 characters' });
-                } else {
-                    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
-                    if (!re.test(value)) {
-                        setErrors({
-                            ...errors,
-                            passwordError: 'At least 1 uppercase, 1 lowercase letter and 1 number required',
-                        });
-                    } else {
-                        setErrors({ ...errors, passwordError: '' });
-                    }
-                }
-                break;
-            case 'confirmPassword':
-                let passwordError = '';
-                if (!password) {
-                    passwordError = 'required field';
-                } else if (password.length < 6) {
-                    passwordError = 'Password must be at least 6 characters';
-                } else {
-                    const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
-                    if (!re.test(password)) {
-                        passwordError = 'At least 1 uppercase, 1 lowercase letter and 1 number required';
-                    }
-                }
-                if (!value) {
-                    setErrors({ ...errors, passwordError: passwordError, confirmPasswordError: 'required field' });
-                } else if (password !== value) {
-                    setErrors({
-                        ...errors,
-                        passwordError: passwordError,
-                        confirmPasswordError: 'Passwords do not match',
-                    });
-                } else {
-                    setErrors({ ...errors, passwordError: passwordError, confirmPasswordError: '' });
-                }
-                break;
-            default:
-        }
-    };
-    const onChange = e => {
-        validate(e.target.name, e.target.value);
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        const errorType = [name] + 'Error';
+        const error = validatePasswords(name, value, password);
+
+        setErrors({ ...errors, [errorType]: error });
+        setFormData({ ...formData, [name]: value });
     };
 
     const onSubmit = async () => {
         if (!passwordError && !confirmPasswordError) {
-            const dataToSubmit = { ...formData };
-            dataToSubmit.userId = searchParams.get('user');
-            dataToSubmit.token = searchParams.get('token');
-            const res = await axios.post('/account/updatePwd', dataToSubmit);
-            if (res.data.errors) {
-                setErrors(res.data.errors);
-            } else if (res.data.error) {
-                setSnackbar(true, 'error', res.data.error);
+            const dataToSubmit = {
+                ...formData,
+                userId: searchParams.get('user'),
+                token: searchParams.get('token'),
+            };
+            const res = await authService.updatePwd(dataToSubmit);
+
+            if (res.errors) {
+                setErrors(res.errors);
+            } else if (res.error) {
+                dispatch(setSnackbar(true, 'error', res.error));
                 setErrors({ passwordError: '', confirmPasswordError: '' });
             } else {
-                setSnackbar(true, 'success', res.data.msg);
+                dispatch(setSnackbar(true, 'success', res.msg));
                 history.push('/login');
             }
         }
@@ -111,15 +78,4 @@ const UpdatePwd = ({ isAuthenticated, user, location, setSnackbar }) => {
     );
 };
 
-UpdatePwd.propTypes = {
-    isAuthenticated: PropTypes.bool,
-    user: PropTypes.object,
-    setSnackbar: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { setSnackbar })(UpdatePwd);
+export default UpdatePwd;

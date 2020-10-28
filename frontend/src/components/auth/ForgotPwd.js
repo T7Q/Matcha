@@ -1,27 +1,36 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { forgetPwd } from '../../actions/auth';
+
+import authService from '../../services/authService';
+import { setSnackbar } from '../../actions/setsnackbar';
+
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 
-const ForgetPwd = ({ forgetPwd, isAuthenticated, user }) => {
+const ForgetPwd = () => {
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
     const history = useHistory();
     const [formData, setFormData] = useState({ email: '' });
     const [error, setError] = useState('');
-
     const { email } = formData;
 
-    const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async () => {
         if (!email) {
             setError('required field');
             return;
         }
-        const res = await forgetPwd({ email, history });
-        if (res) setError(res);
+        const res = await authService.forgetPwd(email);
+
+        if (res.error) {
+            setError(res.error);
+        } else {
+            dispatch(setSnackbar(true, 'success', 'Check your email'));
+            setTimeout(() => history.push('/'), 1000);
+        }
     };
 
     if (isAuthenticated && user.status === 2) {
@@ -43,15 +52,4 @@ const ForgetPwd = ({ forgetPwd, isAuthenticated, user }) => {
     );
 };
 
-ForgetPwd.propTypes = {
-    forgetPwd: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
-    user: PropTypes.object,
-};
-
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { forgetPwd })(ForgetPwd);
+export default ForgetPwd;

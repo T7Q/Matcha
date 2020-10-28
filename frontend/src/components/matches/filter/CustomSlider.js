@@ -1,32 +1,37 @@
 import React from "react";
-
+import { useSelector, useDispatch } from 'react-redux';
 import { Slider, Typography } from "@material-ui/core";
+import { updateFilter } from '../../../actions/match';
+
 
 function valuetext(value) {
     return `${value}`;
 }
 
-const CustomSlider = ({ type, updateFilter, filter }) => {
+const CustomSlider = ({ type }) => {
+    const dispatch = useDispatch();
+    const { filter } = useSelector((state) => state.match);
+
     const handleDistanceChange = (event, newValue) => {
-        updateFilter({
+        dispatch(updateFilter({
             ...filter,
             min_distance: newValue[0],
             max_distance: newValue[1],
-        });
+        }));
     };
     const handleFameChange = (event, newValue) => {
-        updateFilter({
+        dispatch(updateFilter({
             ...filter,
             min_fame: newValue[0],
             max_fame: newValue[1],
-        });
+        }));
     };
     const handleAgeChange = (event, newValue) => {
-        updateFilter({
+        dispatch(updateFilter({
             ...filter,
             min_age: newValue[0],
             max_age: newValue[1],
-        });
+        }));
     };
     const data = {
         distance: {

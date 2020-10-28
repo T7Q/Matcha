@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { AppBar, Tabs, Tab, Typography, Box, Container } from '@material-ui/core';
-import Match from '../common/matchGallery/GetMatches';
+import GetMatches from '../common/matchGallery/GetMatches';
 import { updateNotifications } from '../../actions/notifications';
 
 const Visits = ({ socket }) => {
@@ -58,12 +58,12 @@ const Visits = ({ socket }) => {
             <Container>
                 {selectedTab === 0 && (
                     <Box p={3}>
-                        <Match route="/match/visitedMe" filterIsOn={0} />
+                        <GetMatches route="/match/visitedMe" filterIsOn={0} />
                     </Box>
                 )}
                 {selectedTab === 1 && (
                     <Box p={3}>
-                        <Match route="/match/visitedByMe" filterIsOn={0} />
+                        <GetMatches route="/match/visitedByMe" filterIsOn={0} />
                     </Box>
                 )}
             </Container>

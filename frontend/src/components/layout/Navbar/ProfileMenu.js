@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Badge, Typography, IconButton, MenuItem, Menu, Box, Avatar } from '@material-ui/core';
+import { Badge, Typography, IconButton, MenuItem, Menu, Box } from '@material-ui/core';
 import { navStyles } from '../../../styles/navStyles';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 

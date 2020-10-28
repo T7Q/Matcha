@@ -1,9 +1,12 @@
 import React from "react";
-
+import { useSelector, useDispatch } from 'react-redux';
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { updateFilter } from '../../../actions/match';
 
-const Orientation = ({ updateFilter, filter }) => {
+const Orientation = () => {
+    const dispatch = useDispatch();
+    const { filter } = useSelector((state) => state.match);
     const orientation = [
         { label: "men interested in man", db: "gay" },
         { label: "women interested in woman", db: "lesbian" },
@@ -17,10 +20,10 @@ const Orientation = ({ updateFilter, filter }) => {
         if (newValue !== null) {
             value = newValue.db;
         }
-        updateFilter({
+        dispatch(updateFilter({
             ...filter,
             sex_orientation: value,
-        });
+        }));
     };
     return (
         <Autocomplete

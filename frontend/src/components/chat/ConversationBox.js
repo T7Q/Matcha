@@ -9,7 +9,7 @@ import {
     Badge,
     Box,
 } from '@material-ui/core';
-import OnlineBadge from './OnlineBadge';
+// import OnlineBadge from './OnlineBadge';
 
 const ConversationBox = ({
     unread,

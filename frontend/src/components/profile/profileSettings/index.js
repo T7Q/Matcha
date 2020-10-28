@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Box, Typography, Grid, Tab, Tabs } from '@material-ui/core';
-import { Container, useMediaQuery } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
 import { NotificationsActive, Lock, Email, Block, Delete, Public } from '@material-ui/icons';
 import NotificationsTab from './Notifications';
 import PasswordTab from './Password';
@@ -34,8 +33,8 @@ const Settings = ({ setSnackbar, history, ...props }) => {
     }
     const [tab, setTab] = useState(indexToTabName.indexOf(route));
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+    // const theme = useTheme();
+    // const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
     const handleChange = (event, newTab) => {
         history.push(`/settings/${indexToTabName[newTab]}`);

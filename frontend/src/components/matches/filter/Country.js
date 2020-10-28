@@ -1,20 +1,24 @@
 import React from "react";
-
+import { useSelector, useDispatch } from 'react-redux';
 import { TextField } from "@material-ui/core";
 import { getCountries } from "countries-cities";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { updateFilter } from '../../../actions/match';
 
-const Country = ({ updateFilter, filter }) => {
+const Country = () => {
+    const dispatch = useDispatch();
+    const { filter } = useSelector((state) => state.match);
+
     const countries = getCountries();
     const handleCountryChange = (event, newValue) => {
         let value = "";
         if (newValue !== null) {
             value = newValue;
         }
-        updateFilter({
+        dispatch(updateFilter({
             ...filter,
             country: value,
-        });
+        }));
     };
     return (
         <Autocomplete

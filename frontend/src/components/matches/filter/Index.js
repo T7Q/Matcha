@@ -1,40 +1,38 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import clsx from "clsx";
-import { Button, Collapse, Grid, IconButton } from "@material-ui/core";
-import { makeStyles, Box } from "@material-ui/core";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import clsx from 'clsx';
+import { Button, Collapse, Grid, IconButton } from '@material-ui/core';
+import { makeStyles, Box } from '@material-ui/core';
 
-import { HighlightOff, ExpandMore, SyncAlt } from "@material-ui/icons";
+import { HighlightOff, ExpandMore, SyncAlt } from '@material-ui/icons';
 
-import { updateFilter, resetFilter } from "../../../actions/match";
-import Match from "../../common/matchGallery/GetMatches";
-import Toggle from "./Toggle";
-import Country from "./Country";
-import CustomSlider from "./CustomSlider";
-import Orientation from "./Orientation";
-import Tags from "./Tags";
-import Sort from "./Sort";
+import { updateFilter, resetFilter } from '../../../actions/match';
+import GetMatches from '../../common/matchGallery/GetMatches';
+import Toggle from './Toggle';
+import Country from './Country';
+import CustomSlider from './CustomSlider';
+import Orientation from './Orientation';
+import Tags from './Tags';
+import Sort from './Sort';
 
-import { filterStyles } from "../../../styles/filterStyles";
-import { useStyles } from "../../../styles/custom";
-import { useTheme } from "@material-ui/core/styles";
+import { filterStyles } from '../../../styles/filterStyles';
+import { useStyles } from '../../../styles/custom';
 
 const localStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        width: "100%",
+        width: '100%',
         backgroundColor: theme.palette.background.default,
     },
     expand: {
-        transform: "rotate(0deg)",
-        marginLeft: "auto",
-        transition: theme.transitions.create("transform", {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest,
         }),
     },
     expandOpen: {
-        transform: "rotate(180deg)",
+        transform: 'rotate(180deg)',
     },
 
     formControl: {
@@ -46,21 +44,18 @@ const localStyles = makeStyles((theme) => ({
     },
 }));
 
-const Filter = ({
-    updateFilter,
-    resetFilter,
-    match: { filter },
-    route,
-    setting,
-}) => {
+const Filter = ({ route, setting }) => {
+    const dispatch = useDispatch();
+    const { filter } = useSelector((state) => state.match);
+
     const [filterIsOn, setFilter] = React.useState(1);
 
     useEffect(() => {
-        updateFilter(filter);
-    }, [updateFilter, filter]);
+        dispatch(updateFilter(filter));
+    }, [dispatch, filter]);
 
     const handleClickReset = (e) => {
-        resetFilter();
+        dispatch(resetFilter());
         setFilter(0);
     };
 
@@ -81,16 +76,14 @@ const Filter = ({
                 direction="row"
                 justify="space-between"
                 alignItems="flex-end"
-                pb={4}
-            >
+                pb={4}>
                 <Grid item xs={6} sm={3}>
                     <Box display="flex" justifyContent="flex-end">
                         <Button
                             variant="contained"
                             className={classesFilter.filter}
-                            startIcon={<SyncAlt style={{marginRight: 0}} />}
-                            disabled
-                        >
+                            startIcon={<SyncAlt style={{ marginRight: 0 }} />}
+                            disabled>
                             Filter&emsp;&emsp;
                         </Button>
 
@@ -101,12 +94,11 @@ const Filter = ({
                                 }}
                                 aria-label="close"
                                 size="small"
-                                style={{ padding: 0 }}
-                            >
-                                <HighlightOff style={{ color: "white" }} />
+                                style={{ padding: 0 }}>
+                                <HighlightOff style={{ color: 'white' }} />
                             </IconButton>
                         ) : (
-                            ""
+                            ''
                         )}
                         <IconButton
                             className={clsx(classes.expand, {
@@ -115,9 +107,8 @@ const Filter = ({
                             onClick={handleExpandClick}
                             aria-expanded={expanded}
                             aria-label="show more"
-                            style={{ padding: 0, margin: 0 }}
-                        >
-                            <ExpandMore style={{ color: "white" }} />
+                            style={{ padding: 0, margin: 0 }}>
+                            <ExpandMore style={{ color: 'white' }} />
                         </IconButton>
                         {/* <Divider
                             style={{
@@ -131,22 +122,15 @@ const Filter = ({
                 </Grid>
                 <Grid item xs={6} sm={3}>
                     <Sort
-                        updateFilter={updateFilter}
                         setFilter={setFilter}
                         filterIsOn={filterIsOn}
-                        filter={filter}
                         className={classesFilter.filter}
                     />
                 </Grid>
             </Grid>
 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <Grid
-                    container
-                    direction="column"
-                    justify="center"
-                    alignItems="center"
-                >
+                <Grid container direction="column" justify="center" alignItems="center">
                     <Grid
                         item
                         xs={12}
@@ -154,27 +138,12 @@ const Filter = ({
                         spacing={3}
                         justify="center"
                         alignItems="center"
-                        style={{ marginTop: "10px" }}
-                    >
+                        style={{ marginTop: '10px' }}>
                         <Grid item xs={12} sm={4} md={3}>
-                            <Toggle
-                                name="believe_west"
-                                labelText="Western"
-                                updateFilter={updateFilter}
-                                filter={filter}
-                                style={{
-                                    borderTopWidth: 1,
-                                    borderColor: "red",
-                                }}
-                            />
+                            <Toggle name="believe_west" labelText="Western" />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3}>
-                            <Toggle
-                                name="believe_cn"
-                                labelText="Chinese"
-                                updateFilter={updateFilter}
-                                filter={filter}
-                            />
+                            <Toggle name="believe_cn" labelText="Chinese" />
                         </Grid>
                     </Grid>
                     <Grid
@@ -184,28 +153,15 @@ const Filter = ({
                         spacing={3}
                         justify="center"
                         alignItems="center"
-                        style={{ marginTop: "10px" }}
-                    >
+                        style={{ marginTop: '10px' }}>
                         <Grid item xs={12} sm={4} md={3}>
-                            <CustomSlider
-                                type="distance"
-                                updateFilter={updateFilter}
-                                filter={filter}
-                            />
+                            <CustomSlider type="distance" />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3}>
-                            <CustomSlider
-                                type="fame"
-                                updateFilter={updateFilter}
-                                filter={filter}
-                            />
+                            <CustomSlider type="fame" />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3}>
-                            <CustomSlider
-                                type="age"
-                                updateFilter={updateFilter}
-                                filter={filter}
-                            />
+                            <CustomSlider type="age" />
                         </Grid>
                     </Grid>
 
@@ -216,22 +172,15 @@ const Filter = ({
                         spacing={3}
                         justify="center"
                         alignItems="center"
-                        style={{ marginTop: "10px" }}
-                    >
+                        style={{ marginTop: '10px' }}>
                         <Grid item xs={12} sm={4} md={3}>
-                            <Orientation
-                                updateFilter={updateFilter}
-                                filter={filter}
-                            />
+                            <Orientation />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3}>
-                            <Country
-                                updateFilter={updateFilter}
-                                filter={filter}
-                            />
+                            <Country />
                         </Grid>
                         <Grid item xs={12} sm={4} md={3}>
-                            <Tags updateFilter={updateFilter} filter={filter} />
+                            <Tags />
                         </Grid>
                     </Grid>
 
@@ -243,53 +192,32 @@ const Filter = ({
                         direction="row"
                         justify="center"
                         alignItems="center"
-                        style={{ marginTop: "10px" }}
-                    >
+                        style={{ marginTop: '10px' }}>
                         <Button
                             id="filterBtn"
                             size="small"
                             variant="contained"
-                            // color="primary"
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
-                            className={classesCustom.customButton}
-                        >
+                            className={classesCustom.customButton}>
                             See results
                         </Button>
                         <Button
                             variant="contained"
                             size="small"
-                            // color="primary"
                             onClick={() => {
                                 handleClickReset();
                             }}
-                            // className={classesCustom.customButton}
-                            className={classesCustom.customTransparentButton}
-                        >
+                            className={classesCustom.customTransparentButton}>
                             Reset
                         </Button>
                     </Grid>
                 </Grid>
             </Collapse>
-            <Match route="/match/filter" filterIsOn={filterIsOn} />
+            <GetMatches route="/match/filter" filterIsOn={filterIsOn} />
         </>
     );
 };
 
-Filter.propTypes = {
-    updateFilter: PropTypes.func.isRequired,
-    resetFilter: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    setting: PropTypes.bool.isRequired,
-    route: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    match: state.match,
-});
-
-export default connect(mapStateToProps, {
-    updateFilter,
-    resetFilter,
-})(Filter);
+export default Filter;

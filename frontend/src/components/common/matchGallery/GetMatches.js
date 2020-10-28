@@ -1,49 +1,36 @@
-import React, { Fragment, useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { getRecommend, fetchMore } from "../../../actions/match";
-import Gallery from "./Gallery";
-// import HeaderScrollableTabs from "./HeaderScrollableTabs";
-// import MultipleSelect from "./MultipleSelect";
-// import Filter from "./Filter";
+import React, { Fragment, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getRecommend, fetchMore } from '../../../actions/match';
+import Gallery from './Gallery';
+import Typography from '@material-ui/core/Typography';
+import Spinner from '../../layout/Spinner';
 
-
-// console.log("TYPE", type);
-
-const Match = ({ getRecommend, fetchMore, match: { match, iEnd, loading }, path, route, filterIsOn }) => {
-    // console.log("GetMatch component");
+const GetMatches = ({ route, filterIsOn }) => {
+    const dispatch = useDispatch();
+    const { match, loading } = useSelector((state) => state.match);
 
     useEffect(() => {
-        // console.log("useEffect MATCH component", match);
-        
-        getRecommend(route, filterIsOn);
-    }, [getRecommend, route, filterIsOn]);
-    
+        dispatch(getRecommend(route, filterIsOn));
+    }, [dispatch, route, filterIsOn]);
 
     const handleScroll = () => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 2) {
-            fetchMore();
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 2) {
+            dispatch(fetchMore());
         }
-    }
-    window.addEventListener("scroll", handleScroll);
+    };
+    window.addEventListener('scroll', handleScroll);
 
-    return (
+    return loading ? (
+        <Spinner />
+    ) : match.length === 0 ? (
+        <Typography mt={4} pt={4} variant="h6">
+            No matches found.
+        </Typography>
+    ) : (
         <Fragment>
-            <Gallery match={match} iEnd={iEnd} />
+            <Gallery />
         </Fragment>
     );
 };
 
-Match.propTypes = {
-    getRecommend: PropTypes.func.isRequired,
-    fetchMore: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    route: PropTypes.string.isRequired,
-    filterIsOn: PropTypes.number.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    match: state.match,
-});
-
-export default connect(mapStateToProps, { getRecommend, fetchMore })(Match);
+export default GetMatches;

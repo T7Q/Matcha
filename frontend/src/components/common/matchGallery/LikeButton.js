@@ -1,15 +1,21 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { IconButton } from '@material-ui/core';
 import { FavoriteBorderRounded } from '@material-ui/icons';
 import { ChatBubbleOutlineRounded } from '@material-ui/icons';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 import { addLike, removeLike } from '../../../actions/profile';
 import { setSnackbar } from '../../../actions/setsnackbar';
 import { galleryStyles } from '../../../styles/galleryStyles';
 
-const LikeButton = ({ addLike, removeLike, setSnackbar, match, auth, card, profile }) => {
+const LikeButton = ({ card }) => {
+    const dispatch = useDispatch();
+
+    const match = useSelector((state) => state.match);
+    const auth = useSelector((state) => state.auth);
+    const profile = useSelector((state) => state.profile);
+
     const classesGallery = galleryStyles();
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
@@ -21,15 +27,17 @@ const LikeButton = ({ addLike, removeLike, setSnackbar, match, auth, card, profi
                 } else {
                     auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like');
                 }
-                addLike('userCard', toUserId, match.match, profile.profile);
+                dispatch(addLike('userCard', toUserId, match.match, profile.profile));
             } else {
                 if (card.connected === 2) {
                     auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'unlike');
                 }
-                removeLike('userCard', toUserId, match.match, profile.profile);
+                dispatch(removeLike('userCard', toUserId, match.match, profile.profile));
             }
         } else {
-            setSnackbar(true, 'error', 'Add at least 1 photo to enable like functionality');
+            dispatch(
+                setSnackbar(true, 'error', 'Add at least 1 photo to enable like functionality')
+            );
         }
     };
 
@@ -37,7 +45,6 @@ const LikeButton = ({ addLike, removeLike, setSnackbar, match, auth, card, profi
         <>
             <IconButton aria-label="like" onClick={handleLike} className={classesGallery.icon}>
                 <FavoriteBorderRounded
-                    // fontSize="medium"
                     className={
                         card.connected > 0 && card.connected < 3
                             ? classesGallery.fullLikeBtn
@@ -52,7 +59,6 @@ const LikeButton = ({ addLike, removeLike, setSnackbar, match, auth, card, profi
                     component={Link}
                     to={`/messages/${card.user_id}`}>
                     <ChatBubbleOutlineRounded
-                        // fontSize="medium"
                         className={classesGallery.fullChatBtn}
                     />
                 </IconButton>
@@ -63,23 +69,4 @@ const LikeButton = ({ addLike, removeLike, setSnackbar, match, auth, card, profi
     );
 };
 
-LikeButton.propTypes = {
-    addLike: PropTypes.func.isRequired,
-    removeLike: PropTypes.func.isRequired,
-    setSnackbar: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    match: state.match,
-    auth: state.auth,
-    profile: state.profile,
-});
-
-export default connect(mapStateToProps, {
-    addLike,
-    removeLike,
-    setSnackbar,
-})(LikeButton);
+export default LikeButton;

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Box, Typography, Link, Button, TextField, Icon, IconButton } from '@material-ui/core';
+import { Box, Typography, Link, Button, TextField, IconButton } from '@material-ui/core';
 import { getMessages } from '../../actions/chat';
 import { Send } from '@material-ui/icons';
 import { Avatar } from '@material-ui/core';
@@ -12,7 +12,7 @@ import Dropdown from '../profile/viewProfile/DropdownItem';
 import { getProfile } from '../../actions/profile';
 import { chatStyles } from '../../styles/chatStyles';
 import { useTheme } from '@material-ui/core/styles';
-import { useStyles } from '../../styles/custom';
+// import { useStyles } from '../../styles/custom';
 
 const PrivateChat = ({
     getProfile,
@@ -25,7 +25,6 @@ const PrivateChat = ({
     handleChange,
 }) => {
     const theme = useTheme();
-    const classes = useStyles();
     const classesChat = chatStyles();
     const [textMessage, setTextMessage] = useState('');
     const chat = currentConversation

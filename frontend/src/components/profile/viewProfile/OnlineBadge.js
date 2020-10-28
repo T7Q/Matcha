@@ -77,7 +77,6 @@ const StyledOfflineBadge = withStyles((theme) => ({
 }))(Badge);
 
 const OnlineBadge = ({ profile, handleClickOpen }) => {
-    // const lastSeen = `last seen ${days(profile.last_seen)}`;
 
     const classesProf = profileStyles();
     if (profile.online === 0)

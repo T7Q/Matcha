@@ -3,6 +3,7 @@ import { Typography, Grid, IconButton, Divider } from '@material-ui/core';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { Container, Paper } from '@material-ui/core';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import { useSelector } from 'react-redux';
 
 import { Timeline, AssignmentIndOutlined } from '@material-ui/icons';
 import { Chat, Favorite, VpnKeyOutlined } from '@material-ui/icons';
@@ -10,12 +11,13 @@ import { ArrowForwardIos, BubbleChartOutlined } from '@material-ui/icons';
 import { LocationOnOutlined } from '@material-ui/icons';
 
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import { profileStyles } from '../../../styles/profileStyles';
 import { useTheme } from '@material-ui/core/styles';
 
-const Body = ({ profile: { profile, loading }, type }) => {
+const Body = ({ type }) => {
+    const { profile } = useSelector((state) => state.profile);
+
     const theme = useTheme();
     const classesProf = profileStyles();
 
@@ -36,7 +38,10 @@ const Body = ({ profile: { profile, loading }, type }) => {
 
     const date = new Date(profile.birth_date).toLocaleDateString();
     let orientation = '';
-    if (profile.sex_orientation === 'straight_man' || profile.sex_orientation === 'straight_woman') {
+    if (
+        profile.sex_orientation === 'straight_man' ||
+        profile.sex_orientation === 'straight_woman'
+    ) {
         orientation = 'straight';
     } else if (profile.sex_orientation === 'bi_man' || profile.sex_orientation === 'bi_woman') {
         orientation = 'bisexual';
@@ -82,12 +87,10 @@ const Body = ({ profile: { profile, loading }, type }) => {
                                     <Divider light />
                                     <Paper
                                         style={{
-                                            // background: "#12172d",
                                             background: theme.palette.background.secondary,
                                             color: theme.palette.text.secondary,
                                             marginBottom: '20px',
                                         }}
-                                        // boxShadow={6}
                                         elevation={4}>
                                         <ListItem>
                                             <Typography variant="h6" style={{ color: 'white' }}>
@@ -118,24 +121,30 @@ const Body = ({ profile: { profile, loading }, type }) => {
                 </Grid>
                 <Grid container item xs={10} sm={4} justify="center">
                     <List key="desc2" style={{ backgroundColor: 'inherit', overflow: 'hidden' }}>
-                        {type === 'otherUser' && profile.connected === 1 && profile.blocked !== '1' ? (
+                        {type === 'otherUser' &&
+                        profile.connected === 1 &&
+                        profile.blocked !== '1' ? (
                             <>
                                 <ListItem style={{ justifyContent: 'center' }}>
                                     <Favorite className={classesProf.connectionStyle} />
-                                    {/* <Typography style={{ display: "flex", color: theme.palette.text.secondary }}> */}
-                                    <Typography style={{ display: 'flex' }}>You like them!</Typography>
+                                    <Typography style={{ display: 'flex' }}>
+                                        You like them!
+                                    </Typography>
                                 </ListItem>
                                 <Divider style={{ backgroundColor: theme.palette.primary.main }} />
                             </>
                         ) : (
                             ''
                         )}
-                        {type === 'otherUser' && profile.connected === 2 && profile.blocked !== '1' ? (
+                        {type === 'otherUser' &&
+                        profile.connected === 2 &&
+                        profile.blocked !== '1' ? (
                             <>
                                 <ListItem style={{ justifyContent: 'center' }}>
                                     <Chat className={classesProf.connectionStyle} />
-                                    {/* <Typography style={{ display: "flex", color: theme.palette.text.secondary }}> */}
-                                    <Typography style={{ display: 'flex' }}>You are connected!</Typography>
+                                    <Typography style={{ display: 'flex' }}>
+                                        You are connected!
+                                    </Typography>
                                 </ListItem>
                                 <Divider style={{ backgroundColor: theme.palette.primary.main }} />
                             </>
@@ -145,10 +154,11 @@ const Body = ({ profile: { profile, loading }, type }) => {
                         {userData.map((value, index) => {
                             return (
                                 <ListItem key={'info' + index} className={classesProf.listItem}>
-                                    <ListItemIcon className={classesProf.listIconStyle}>{value.icon}</ListItemIcon>
+                                    <ListItemIcon className={classesProf.listIconStyle}>
+                                        {value.icon}
+                                    </ListItemIcon>
                                     <ListItemText
                                         style={{ fontSize: '0.5em', margin: 0 }}
-                                        // style={{ color: theme.palette.text.secondary, fontSize: '0.5em', margin: 0 }}
                                         primary={value.text}
                                     />
                                     <ListItemSecondaryAction>
@@ -174,10 +184,4 @@ const Body = ({ profile: { profile, loading }, type }) => {
     );
 };
 
-const mapStateToProps = state => ({
-    match: state.match,
-    auth: state.auth,
-    profile: state.profile,
-});
-
-export default connect(mapStateToProps, {})(Body);
+export default Body;

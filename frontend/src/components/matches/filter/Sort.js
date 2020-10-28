@@ -1,13 +1,16 @@
 import React from 'react';
-
+import { useSelector, useDispatch } from 'react-redux';
 
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { filterStyles } from "../../../styles/filterStyles";
+import { updateFilter } from '../../../actions/match';
 
-
-const Sort = ({ updateFilter, setFilter, filterIsOn, filter }) => {
+const Sort = ({ setFilter, filterIsOn }) => {
+    const dispatch = useDispatch();
     const classesFilter = filterStyles();
+    const { filter } = useSelector((state) => state.match);
+
     const sort = [
 
         { label: "Yongest First", db: "age_asc" },
@@ -26,10 +29,10 @@ const Sort = ({ updateFilter, setFilter, filterIsOn, filter }) => {
         if (newValue !== null) {
             value[0] = newValue.db;
         }
-        updateFilter({
+        dispatch(updateFilter({
             ...filter,
             order: value,
-        });
+        }));
         setFilter(filterIsOn + 1);
     };
 

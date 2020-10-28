@@ -1,29 +1,15 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-// import { makeStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
 import axios from 'axios';
 import { Button, Box } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { setSnackbar } from '../../../actions/setsnackbar';
 import { getProfile } from '../../../actions/profile';
 
-// const useStyles = makeStyles(theme => ({
-//     root: {
-//         display: 'flex',
-//         flexWrap: 'wrap',
-//         justifyContent: 'space-around',
-//         overflow: 'hidden',
-//         backgroundColor: theme.palette.background.paper,
-//     },
-//     gridList: {
-//         width: 500,
-//         // height: 450,
-//     },
-// }));
-const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => {
+const ImageGridListOwn = ({ profile, handleClose }) => {
+    const dispatch = useDispatch();
     const temp = [...profile.photos];
-    // const classes = useStyles();
 
     let isProfileHere = false;
 
@@ -37,7 +23,7 @@ const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => 
     }
 
     if (isProfileHere) {
-        temp.map(element => {
+        temp.map((element) => {
             if (element.type === '') {
                 element.type = 'photo';
             }
@@ -64,7 +50,7 @@ const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => 
         }
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = event => {
+        reader.onload = (event) => {
             const copied = [...images];
             copied[index].data = event.target.result;
             setImages(copied);
@@ -85,11 +71,11 @@ const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => 
         try {
             const res = await axios.post('/profile/uploadphoto', { key: 'photo', value: images });
             if (res.data.error) {
-                setSnackbar(true, 'error', 'Try again later');
+                dispatch(setSnackbar(true, 'error', 'Try again later'));
             } else {
-                setSnackbar(true, 'success', 'Successfully updated');
+                dispatch(setSnackbar(true, 'success', 'Successfully updated'));
                 handleClose();
-                getProfile('myProfile', profile.user_id);
+                dispatch(getProfile('myProfile', profile.user_id));
             }
         } catch (err) {
             console.log(err);
@@ -98,7 +84,6 @@ const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => 
 
     return (
         <Box textAlign="center">
-            {/* <GridList className={classes.gridList} cols={2}> */}
             {temp.map((tile, index) => {
                 const initial = tile.image_path !== '' ? [tile.image_path] : [];
                 const text = tile.type === 'profile' ? 'Profile photo' : '';
@@ -106,7 +91,7 @@ const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => 
                     <DropzoneArea
                         key={index}
                         acceptedFiles={['image/*']}
-                        onChange={upload => handleUpload(upload, index)}
+                        onChange={(upload) => handleUpload(upload, index)}
                         initialFiles={initial}
                         dropzoneText={text}
                         showAlerts={false}
@@ -114,7 +99,6 @@ const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => 
                     />
                 );
             })}
-            {/* </GridList> */}
             <Button variant="contained" color="primary" onClick={save}>
                 Save
             </Button>
@@ -122,9 +106,4 @@ const ImageGridListOwn = ({ profile, getProfile, setSnackbar, handleClose }) => 
     );
 };
 
-ImageGridListOwn.propTypes = {
-    getProfile: PropTypes.func.isRequired,
-    setSnackbar: PropTypes.func.isRequired,
-};
-
-export default connect(null, { getProfile, setSnackbar })(ImageGridListOwn);
+export default ImageGridListOwn;

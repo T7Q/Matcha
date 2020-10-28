@@ -1,41 +1,32 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Box } from '@material-ui/core';
 import { getProfile } from '../../../actions/profile';
 import Spinner from '../../layout/Spinner';
 import Header from './Header';
 import Body from './Body';
-import { useDispatch } from 'react-redux';
 
-const ProfileView = ({
-    getProfile,
-    profile: { profile, loading },
-    authUserId,
-    previousPath,
-    socket,
-    ...props
-}) => {
+const ProfileView = ({ socket, ...props }) => {
     const dispatch = useDispatch();
+    const { profile, loading } = useSelector((state) => state.profile);
+    const authUserId = useSelector((state) => state.auth.user.userId);
 
     // get the type the profile (my or other user) based on url param
     let type = props.match.path === '/profile/me' ? 'myProfile' : 'otherUser';
     // map other user id from url param
-    const otherUserId = props.match.path === '/profile/me' ? authUserId : props.match.params.user_id;
-    // to prevent error if auth user enteres its user id in params
+    const otherUserId =
+        props.match.path === '/profile/me' ? authUserId : props.match.params.user_id;
 
+    // to redirect to authed user profile if auth user enteres his user id in params
     type = otherUserId === authUserId ? 'myProfile' : type;
 
-    // console.log("profile component error", profile.error);
-
     useEffect(() => {
-        getProfile(type, otherUserId, type !== 'myProfile');
+        dispatch(getProfile(type, otherUserId, type !== 'myProfile'));
         if (type !== 'myProfile') {
-            // console.log('not my profile');
             socket.emit('UPDATE_NOTIFICATIONS', otherUserId, 'visit');
         }
         dispatch({ type: 'UPDATE_PATH', payload: type });
-    }, [getProfile, type, otherUserId, socket, dispatch]);
+    }, [type, otherUserId, socket, dispatch]);
 
     if (profile === null) {
         return loading ? <Spinner /> : <div>Page is not found</div>;
@@ -53,17 +44,4 @@ const ProfileView = ({
     );
 };
 
-ProfileView.propTypes = {
-    getProfile: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired,
-    authUserId: PropTypes.string.isRequired,
-    previousPath: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => ({
-    profile: state.profile,
-    authUserId: state.auth.user.userId,
-    previousPath: state.auth.previousPath,
-});
-
-export default connect(mapStateToProps, { getProfile })(ProfileView);
+export default ProfileView;

@@ -1,8 +1,7 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button, Box, Tooltip } from '@material-ui/core';
 import { Favorite, Chat, Block } from '@material-ui/icons';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { addLike, removeLike } from '../../../actions/profile';
@@ -10,8 +9,14 @@ import { setSnackbar } from '../../../actions/setsnackbar';
 import { profileStyles } from '../../../styles/profileStyles';
 import { useTheme } from '@material-ui/core/styles';
 
-const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile }) => {
+const Buttons = ({ card }) => {
     const theme = useTheme();
+    const dispatch = useDispatch();
+
+    const match = useSelector((state) => state.match);
+    const auth = useSelector((state) => state.auth);
+    const profile = useSelector((state) => state.profile);
+
     const classesProf = profileStyles();
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
@@ -22,15 +27,17 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
                 } else {
                     auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like');
                 }
-                addLike('profile', toUserId, match.match, profile.profile);
+                dispatch(addLike('profile', toUserId, match.match, profile.profile));
             } else {
                 if (card.connected === 2) {
                     auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'unlike');
                 }
-                removeLike('profile', toUserId, match.match, profile.profile);
+                dispatch(removeLike('profile', toUserId, match.match, profile.profile));
             }
         } else {
-            setSnackbar(true, 'error', 'Add at least 1 photo to enable like functionality');
+            dispatch(
+                setSnackbar(true, 'error', 'Add at least 1 photo to enable like functionality')
+            );
         }
     };
 
@@ -43,7 +50,6 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
             </Box>
         );
     }
-    // console.log("theme.palette.info", theme.palette.info);
 
     return (
         <Box display="flex" alignItems="center" justifyContent="center">
@@ -51,7 +57,6 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
                 onClick={handleLike}
                 variant="outlined"
                 className={classesProf.likeButton}
-                // className={classesProf.buttonSize + ' ' + classesProf.likeButton}
                 color="primary"
                 startIcon={<Favorite />}>
                 {card.connected > 0 && card.connected < 3 ? 'Unmatch' : 'Like'}
@@ -74,23 +79,4 @@ const Buttons = ({ addLike, removeLike, setSnackbar, match, auth, card, profile 
     );
 };
 
-Buttons.propTypes = {
-    addLike: PropTypes.func.isRequired,
-    removeLike: PropTypes.func.isRequired,
-    setSnackbar: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
-    profile: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    match: state.match,
-    auth: state.auth,
-    profile: state.profile,
-});
-
-export default connect(mapStateToProps, {
-    addLike,
-    removeLike,
-    setSnackbar,
-})(Buttons);
+export default Buttons;

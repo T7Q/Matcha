@@ -108,11 +108,11 @@ export const theme = createMuiTheme({
             },
         },
         // button in nav to capitalize
-        MuiTypography: {
-            button: {
-                textTransform: 'capitalize',
-            },
-        },
+        // MuiTypography: {
+        //     button: {
+        //         textTransform: 'capitalize',
+        //     },
+        // },
         MuiDropzoneArea: {
             text: {
                 color: '#000',

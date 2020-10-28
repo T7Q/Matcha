@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { TextField } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import { settingStyles } from '../../../styles/settingStyles';
+import { updateFilter } from '../../../actions/match';
 
-import { settingStyles } from "../../../styles/settingStyles";
-
-const Tags = ({ updateFilter, filter }) => {
+const Tags = () => {
+    const dispatch = useDispatch();
+    const { filter } = useSelector((state) => state.match);
     const classesSetting = settingStyles();
     const [realTags, setRealTags] = useState([]);
     useEffect(() => {
         let isMounted = true;
         async function getTags() {
-            const res = await axios.get("/profile/tags");
+            const res = await axios.get('/profile/tags');
             isMounted && setRealTags(res.data);
         }
         getTags();
@@ -29,10 +32,10 @@ const Tags = ({ updateFilter, filter }) => {
                 selectedTags.push(value.tag);
             });
         }
-        updateFilter({
+        dispatch(updateFilter({
             ...filter,
             tags: selectedTags,
-        });
+        }));
     };
     return (
         <Autocomplete

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Autocomplete } from '@material-ui/lab';
-import { Box, Typography, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { useStyles } from '../../../styles/custom';
 import WizardForm from '../../common/WizardForm';
 

@@ -1,24 +1,15 @@
 import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-// import { browserHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { AppBar, Tabs, Tab, Container, Box } from '@material-ui/core';
-import {
-    Search,
-    Whatshot,
-    Favorite,
-    PersonPin,
-    Help,
-    QueryBuilder,
-    WbIncandescent,
-} from '@material-ui/icons';
+import { Search, Whatshot, Favorite, PersonPin } from '@material-ui/icons';
+import { Help, QueryBuilder, WbIncandescent } from '@material-ui/icons';
 
-import Match from '../common/matchGallery/GetMatches';
+import GetMatches from '../common/matchGallery/GetMatches';
 import Filter from './filter/Index';
 import { resetFilter } from '../../actions/match';
-import { useDispatch } from 'react-redux';
-
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -51,30 +42,27 @@ function a11yProps(index) {
     };
 }
 
-const Matches = ({ resetFilter, match, history, previousPath }) => {
-    const { page } = match.params;
+const Matches = () => {
+    const dispatch = useDispatch();
+    const { previousPath } = useSelector((state) => state.auth);
+    const { page } = useParams();
+    const history = useHistory();
     const route = '/match/' + page;
     const indexToTabName = ['recommend', 'search', 'online', 'new', 'popular', 'random', 'nearby'];
     const [value, setValue] = React.useState(indexToTabName.indexOf(page));
-    // const [back, setBack] = React.useState(true);
-
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        // console.log("use effect");
         if (previousPath === '') {
-            // console.log("1", previousPath, back);
-            resetFilter();
+            dispatch(resetFilter());
         } else if (previousPath === 'otherUser') {
-            // console.log("2", previousPath, back);
             dispatch({ type: 'UPDATE_PATH', payload: '' });
         }
-    }, [dispatch, previousPath, resetFilter]);
+    }, [dispatch, previousPath]);
 
     const handleChange = (event, newValue) => {
         history.push(`/matches/${indexToTabName[newValue]}`);
         setValue(newValue);
-        resetFilter();
+        dispatch(resetFilter());
     };
 
     // window.onpopstate = e => {
@@ -117,7 +105,7 @@ const Matches = ({ resetFilter, match, history, previousPath }) => {
                 </TabPanel>
                 {value > 1 && value < 7 && (
                     <TabPanel value={value} index={value}>
-                        <Match route={route} filterIsOn={1} />
+                        <GetMatches route={route} filterIsOn={1} />
                     </TabPanel>
                 )}
             </Container>
@@ -125,16 +113,4 @@ const Matches = ({ resetFilter, match, history, previousPath }) => {
     );
 };
 
-Matches.propTypes = {
-    resetFilter: PropTypes.func.isRequired,
-    match: PropTypes.object.isRequired,
-    previousPath: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    previousPath: state.auth.previousPath,
-});
-
-export default connect(mapStateToProps, {
-    resetFilter,
-})(Matches);
+export default Matches;

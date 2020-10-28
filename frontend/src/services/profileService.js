@@ -37,6 +37,11 @@ const unblockUser = async (userId) => {
     return res;
 };
 
+const getTags = async () => {
+    const res = await axios.get('profile/tags');
+    return res.data;
+};
+
 export default {
     getMyProfile,
     getUserProfile,
@@ -46,4 +51,5 @@ export default {
     removeLike,
     addInteraction,
     unblockUser,
+    getTags,
 };

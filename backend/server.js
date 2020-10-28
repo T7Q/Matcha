@@ -50,6 +50,6 @@ app.use('/match', require('./routes/match'));
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
-server.listen(config.express.port, config.express.ip, error => {
+server.listen(config.express.port, config.express.ip, (error) => {
     console.log(`Server is listening on http://${config.express.ip}:${config.express.port}`);
 });

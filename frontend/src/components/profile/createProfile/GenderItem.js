@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Typography, FormHelperText, FormControl } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { useStyles } from '../../../styles/custom';
+import { customStyles } from '../../../styles/customStyles';
 
 const CountryItem = ({ error, setData, formData }) => {
-    const classes = useStyles();
+    const classes = customStyles();
 
     return (
         <ToggleButtonGroup

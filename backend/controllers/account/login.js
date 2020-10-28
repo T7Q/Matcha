@@ -15,7 +15,11 @@ module.exports = async (req, res) => {
     const user = await accountModel.findUserInfo('username', username);
 
     // check if account exists and password correct
-    if (!user || Object.keys(user).length == 0 || !(await bcrypt.compare(password, user.password))) {
+    if (
+        !user ||
+        Object.keys(user).length == 0 ||
+        !(await bcrypt.compare(password, user.password))
+    ) {
         return res.json({ error: 'Invalid credentials' });
     }
 

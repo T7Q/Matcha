@@ -4,8 +4,8 @@ const { database } = require('./index');
 const config = {
     user: database.user,
     database: 'postgres',
-    password: database.password
-}
+    password: database.password,
+};
 
 const pool = new Pool(config);
 
@@ -26,23 +26,29 @@ const dropDatabase = async () => {
     `;
     const dropDbQuery = `DROP DATABASE IF EXISTS "${database.database}";`;
 
-    await pool.query(dropConnections)
-        .then(res => {
-            console.log('\x1b[32m' + `Database ${database.database} connections are stopped` + '\x1b[0m');
+    await pool
+        .query(dropConnections)
+        .then((res) => {
+            console.log(
+                '\x1b[32m' + `Database ${database.database} connections are stopped` + '\x1b[0m'
+            );
         })
-        .catch(err => {
+        .catch((err) => {
             console.log('\x1b[31m' + err + '\x1b[0m');
+        });
+    await pool
+        .query(dropDbQuery)
+        .then((res) => {
+            console.log(
+                '\x1b[32m' + `Database ${database.database} successfully dropped` + '\x1b[0m'
+            );
         })
-    await pool.query(dropDbQuery)
-        .then(res => {
-            console.log('\x1b[32m' + `Database ${database.database} successfully dropped` + '\x1b[0m');
-        })
-        .catch(err => {
+        .catch((err) => {
             console.log('\x1b[31m' + err + '\x1b[0m');
         })
         .finally(() => {
             pool.end();
-        })
-}
+        });
+};
 
 dropDatabase();

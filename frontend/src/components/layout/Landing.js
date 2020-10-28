@@ -1,15 +1,15 @@
-import React from "react";
-import { Redirect, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Box, Button, Typography, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
-import { useStyles } from "../../styles/custom";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
+import { Box, Button, Typography, useMediaQuery } from '@material-ui/core';
 
-const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
-    const classes = useStyles();
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+import { customStyles } from '../../styles/customStyles';
+
+const Landing = () => {
+    const { isAuthenticated, loading } = useSelector((state) => state.auth);
+    const history = useHistory();
+    const classes = customStyles();
+    const isMobile = useMediaQuery('(max-width:600px)');
 
     const handleRedirect = (newRoute) => {
         history.push(newRoute);
@@ -22,69 +22,31 @@ const Landing = ({ isAuthenticated, loading, history, ...rest }) => {
     return loading ? (
         <>Loading</>
     ) : (
-        <Box
-            pt="200px"
-            display="flex"
-            flexDirection="column"
-            textAlign="center"
-        >
-            <Typography
-                variant={isMobile ? "h5" : "h4"}
-                style={{ color: theme.palette.info.main }}
-            >
+        <Box pt="200px" display="flex" flexDirection="column" textAlign="center">
+            <Typography variant={isMobile ? 'h5' : 'h4'} className={classes.infoColor}>
                 Your love Is Written
             </Typography>
-            <Typography
-                mb={2}
-                className={classes.customHeader}
-                variant={isMobile ? "h4" : "h3"}
-            >
-                In The Stars
-            </Typography>
+            <Typography variant={isMobile ? 'h4' : 'h3'}>In The Stars</Typography>
             <Button
-                onClick={() => handleRedirect("/register")}
+                onClick={() => handleRedirect('/register')}
                 variant="contained"
-                color="primary"
-                className={classes.customTransparentButton}
-            >
+                className={`${classes.mainButton} ${classes.secondButton}`}>
                 Create Account
             </Button>
-            <Typography className={classes.customHeader} variant="h6">
-                or
-            </Typography>
+            <Typography variant="h6">or</Typography>
 
-            <Button
-                onClick={() => handleRedirect("/login")}
-                color="secondary"
-                className={classes.customButton}
-            >
+            <Button onClick={() => handleRedirect('/login')} className={classes.mainButton}>
                 Log in
             </Button>
             <Button
-                onClick={() => handleRedirect("/login")}
+                onClick={() => handleRedirect('/login')}
                 variant="contained"
-                // className={classesLanding.googleBtn + ' ' + classes.p2}>
-                className={classes.googleBtn}
-            >
-                <img
-                    className={classes.img}
-                    alt="google"
-                    src={require("../../google.png")}
-                />
+                className={`${classes.mainButton} ${classes.googleBtn}`}>
+                <img className={classes.img} alt="google" src={require('../../google.png')} />
                 Log in with Google
             </Button>
         </Box>
     );
 };
 
-Landing.propTypes = {
-    isAuthenticated: PropTypes.bool,
-    loading: PropTypes.bool,
-};
-
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    loading: state.auth.loading,
-});
-
-export default connect(mapStateToProps)(withRouter(Landing));
+export default Landing;

@@ -11,7 +11,7 @@ INSERT INTO tags (tag_name)
  ('Hiking'), ('Coffee'), ('Tea'), ('Baking'), ('Walking');
 
 INSERT INTO chinese_horo_compatibility(sign_1, sign_2, compatibility_value)
- VALUES 
+ VALUES
  ('Rat', 'Rat', 9), ('Ox', 'Rat', 6), ('Ox', 'Ox', 8), ('Tiger', 'Rat', 4), ('Tiger', 'Ox', 4),
  ('Tiger', 'Tiger', 5), ('Rabbit', 'Rat', 7), ('Rabbit', 'Ox', 8), ('Rabbit', 'Tiger', 5),
  ('Rabbit', 'Rabbit', 8), ('Dragon', 'Rat', 10), ('Dragon', 'Ox', 7), ('Dragon', 'Tiger', 6),

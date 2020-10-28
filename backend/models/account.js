@@ -6,7 +6,7 @@ const findUserInfo = async (key, value, ...args) => {
     return res.rows[0];
 };
 
-const register = async data => {
+const register = async (data) => {
     const { email, username, lastname, firstname, password, token } = data;
     const result = await db.query(
         `INSERT INTO users (email, password, username, first_name, last_name, token)
@@ -22,10 +22,10 @@ const getAll = async (req, res) => {
 };
 
 const updateTime = async (userId, time) => {
-    const result = await db.query(`UPDATE users SET last_seen = to_timestamp($1) WHERE user_id = $2`, [
-        time / 1000,
-        userId,
-    ]);
+    const result = await db.query(
+        `UPDATE users SET last_seen = to_timestamp($1) WHERE user_id = $2`,
+        [time / 1000, userId]
+    );
     return result.rowCount;
 };
 
@@ -33,7 +33,7 @@ const updateTime = async (userId, time) => {
 const updateAccount = async (user_id, data) => {
     const keys = Object.keys(data);
     const info = keys.map((key, i) => `${key} = $${i + 1}`).join(', ');
-    const values = keys.map(key => data[key]);
+    const values = keys.map((key) => data[key]);
     const res = await db.query(
         `UPDATE users
         SET ${info}
@@ -43,7 +43,7 @@ const updateAccount = async (user_id, data) => {
     return res.rowCount;
 };
 
-const getNotifications = async userId => {
+const getNotifications = async (userId) => {
     try {
         const result = await db.query(
             `

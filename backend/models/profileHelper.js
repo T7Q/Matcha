@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { validateTagsInDb } = require('./profile');
 
-const validateGender = gender => {
+const validateGender = (gender) => {
     let errors = {};
     if (!gender) {
         errors['genderError'] = 'Gender is missing';
@@ -11,7 +11,7 @@ const validateGender = gender => {
     return errors;
 };
 
-const validateSexPreferences = sexPreference => {
+const validateSexPreferences = (sexPreference) => {
     let errors = {};
     if (!sexPreference) {
         errors['sexPreferenceError'] = 'Sex preference is missing';
@@ -21,7 +21,7 @@ const validateSexPreferences = sexPreference => {
     return errors;
 };
 
-const validateBio = bio => {
+const validateBio = (bio) => {
     let errors = {};
     if (!bio) {
         errors['bioError'] = 'Bio is missing';
@@ -48,7 +48,7 @@ const validateName = (name, type = 'name') => {
     return errors;
 };
 
-const validateTags = async tags => {
+const validateTags = async (tags) => {
     let errors = {};
     if (!tags || tags.length < 5) {
         errors['tagsError'] = 'You should pick at least 5 passions';
@@ -60,7 +60,7 @@ const validateTags = async tags => {
     return errors;
 };
 
-const getAge = dob => {
+const getAge = (dob) => {
     const today = new Date();
     const birthDate = new Date(dob);
     let age = today.getFullYear() - birthDate.getFullYear();
@@ -71,18 +71,18 @@ const getAge = dob => {
     return age;
 };
 
-const validateBirthdate = dob => {
+const validateBirthdate = (dob) => {
     let errors = {};
     let age = getAge(dob);
     if (age < 18) {
-        errors['birthdateError'] = 'You must be at least 18 years old to user our services';
+        errors['birth_dateError'] = 'You must be at least 18 years old to user our services';
     } else if (age > 120) {
-        errors['birthdateError'] = 'You must be alive to user our services';
+        errors['birth_dateError'] = 'You must be alive to user our services';
     }
     return errors;
 };
 
-const saveToFile = baseImage => {
+const saveToFile = (baseImage) => {
     //path of folder to save the image
     const uploadPath = `${process.cwd()}/images/`;
 
@@ -104,7 +104,7 @@ const saveToFile = baseImage => {
     return filename;
 };
 
-const deleteFromFile = filename => {
+const deleteFromFile = (filename) => {
     const uploadPath = `${process.cwd()}/images/`;
     let files = fs.readdirSync(uploadPath);
     let imgToRemove = filename.split('/');
@@ -131,7 +131,8 @@ const buildQueryForSavingTags = (tags, user_id) => {
     let length = tags.length;
     while (length > 0) {
         j = i + 1;
-        query.placeholder += '($' + i + ',' + ' (SELECT tag_id FROM tags WHERE tag_name = $' + j + '))';
+        query.placeholder +=
+            '($' + i + ',' + ' (SELECT tag_id FROM tags WHERE tag_name = $' + j + '))';
         if (length != 1) query.placeholder += ',';
         i = i + 2;
         length--;

@@ -58,4 +58,8 @@ export const navStyles = makeStyles((theme) => ({
             background: theme.palette.secondary.main,
         },
     },
+    avatar: {
+        width: '25px',
+        height: '25px',
+    },
 }));

@@ -1,7 +1,8 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
+
 import { customStyles } from '../../styles/customStyles';
 import { profileStyles } from '../../styles/profileStyles';
 
@@ -11,11 +12,11 @@ const WizardForm = ({
     formData,
     setFormData,
     onSubmit,
-    history,
     validate,
     link,
     hideButton,
 }) => {
+    const history = useHistory();
     let step = formData.currentStep;
     let steps = 1;
     if (children) {
@@ -50,7 +51,7 @@ const WizardForm = ({
         e.preventDefault();
         if (steps === 1) {
             onSubmit();
-        } else if (await validate(children[step - 1].props.name, children[step - 1].props)) {
+        } else if (!(await validate(children[step - 1].props.name, children[step - 1].props))) {
             step < steps ? next() : onSubmit();
         }
     };
@@ -110,4 +111,4 @@ const WizardForm = ({
     );
 };
 
-export default withRouter(WizardForm);
+export default WizardForm;

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Redirect, withRouter } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect, useHistory } from 'react-router-dom';
 import { Box, Typography, useMediaQuery } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
-import WizardForm from '../../common/WizardForm';
+
 import { createProfile } from '../../../actions/profile';
+import { validateField } from '../../../services/validator';
+
 import BirthdayItem from './BirthdayItem';
 import CountryItem from './CountryItem';
 import UploadItem from './UploadItem';
@@ -13,8 +13,12 @@ import BioItem from './BioItem';
 import GenderItem from './GenderItem';
 import SexPreferenceItem from './SexPreferenceItem';
 import TagItem from './TagItem';
+import WizardForm from '../../common/WizardForm';
 
-const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
+const ProfileCreation = () => {
+    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    const history = useHistory();
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         gender: '',
         sex_preference: '',
@@ -26,7 +30,7 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     });
 
     const [errors, setErrors] = useState({
-        birthdateError: '',
+        birth_dateError: '',
         countryError: '',
         genderError: '',
         sex_preferenceError: '',
@@ -47,85 +51,22 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         base5: '',
     });
 
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
-    const { birthdateError, countryError, genderError, sex_preferenceError, tagsError, bioError } = errors;
+    const isMobile = useMediaQuery('(max-width:600px)');
+    const {
+        birthdateError,
+        countryError,
+        genderError,
+        sex_preferenceError,
+        tagsError,
+        bioError,
+    } = errors;
 
-    const getAge = date => {
-        const today = new Date();
-        const birthDate = new Date(date);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    };
-
-    const validateNext = async (name, props) => {
-        switch (name) {
-            case 'birthdate':
-                if (!formData.birth_date) {
-                    setErrors({ ...errors, birthdateError: 'required field' });
-                    return false;
-                }
-                let age = getAge(formData.birth_date);
-                if (age < 18) {
-                    setErrors({
-                        ...errors,
-                        birthdateError: '18 years required',
-                    });
-                    return false;
-                } else if (age > 120) {
-                    setErrors({
-                        ...errors,
-                        birthdateError: 'You must be alive',
-                    });
-                    return false;
-                }
-                return true;
-            case 'country':
-                if (!formData.country) {
-                    setErrors({ ...errors, countryError: 'required field' });
-                    return false;
-                }
-                setErrors({ ...errors, countryError: '' });
-                return true;
-            case 'tags':
-                if (formData.tags.length < 5) {
-                    setErrors({ ...errors, tagsError: 'Choose minimum 5 tags' });
-                    return false;
-                }
-                setErrors({ ...errors, tagsError: '' });
-                return true;
-            case 'gender':
-                if (!formData.gender) {
-                    setErrors({ ...errors, genderError: 'required field' });
-                    return false;
-                }
-                setErrors({ ...errors, genderError: '' });
-                return true;
-            case 'sexPreference':
-                if (!formData.sex_preference) {
-                    setErrors({ ...errors, sex_preferenceError: 'required field' });
-                    return false;
-                }
-                setErrors({ ...errors, sex_preferenceError: '' });
-                return true;
-            case 'bio':
-                if (!formData.bio) {
-                    setErrors({ ...errors, bioError: 'required field' });
-                    return false;
-                }
-                if (formData.bio.length > 200) {
-                    setErrors({ ...errors, bioError: 'should be less than 200 characters' });
-                    return false;
-                }
-                setErrors({ ...errors, bioError: '' });
-                return true;
-            default:
-                return true;
-        }
+    const validateNext = async (name) => {
+        if (!name) return false;
+        const errorType = [name] + 'Error';
+        let error = await validateField(name, formData[[name]]);
+        setErrors({ ...errors, [errorType]: error });
+        return error;
     };
 
     if (isAuthenticated && user.status === 2) {
@@ -134,21 +75,18 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
         return <Redirect to="/" />;
     }
 
-    const setData = (val, type) => {
+    const setData = (value, type) => {
         const errorType = type + 'Error';
-        if (!val) {
-            setErrors({ ...errors, [errorType]: 'required field' });
-        } else {
-            setErrors({ ...errors, [errorType]: '' });
-        }
-        setFormData({ ...formData, [type]: val });
+        const error = validateField(type, value);
+        setErrors({ ...errors, [errorType]: error });
+        setFormData({ ...formData, [type]: value });
     };
 
-    const onSubmit = async e => {
+    const onSubmit = async (e) => {
         const dataToSubmit = { ...formData };
         delete dataToSubmit.currentStep;
         dataToSubmit.userId = user.userId;
-        const errorsFromApi = await createProfile(dataToSubmit, images, history);
+        const errorsFromApi = await dispatch(createProfile(dataToSubmit, images, history));
         if (errorsFromApi) {
             setErrors({ ...errors, ...errorsFromApi });
         }
@@ -165,12 +103,22 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
                 <Typography variant={isMobile ? 'h5' : 'h4'}>Set up your profile</Typography>
                 <Typography variant={isMobile ? 'h5' : 'h4'}>to meet new people</Typography>
             </Box>
-            <BirthdayItem error={birthdateError} name="birthdate" setFormData={setFormData} formData={formData} />
-            <CountryItem error={countryError} name="country" setData={setData} formData={formData} />
+            <BirthdayItem
+                error={birthdateError}
+                name="birth_date"
+                setFormData={setFormData}
+                formData={formData}
+            />
+            <CountryItem
+                error={countryError}
+                name="country"
+                setData={setData}
+                formData={formData}
+            />
             <GenderItem error={genderError} name="gender" formData={formData} setData={setData} />
             <SexPreferenceItem
                 error={sex_preferenceError}
-                name="sexPreference"
+                name="sex_preference"
                 formData={formData}
                 setData={setData}
             />
@@ -181,15 +129,4 @@ const ProfileCreation = ({ isAuthenticated, user, createProfile, history }) => {
     );
 };
 
-ProfileCreation.propTypes = {
-    createProfile: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
-    user: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { createProfile })(withRouter(ProfileCreation));
+export default ProfileCreation;

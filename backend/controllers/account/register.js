@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     errors.push(helper.validateName(lastname));
 
     // remove empty objects from errors
-    errors = errors.filter(error => Object.keys(error).length != 0);
+    errors = errors.filter((error) => Object.keys(error).length != 0);
     errors = Object.assign({}, ...errors);
 
     if (Object.keys(errors).length !== 0) return res.json({ error: errors });

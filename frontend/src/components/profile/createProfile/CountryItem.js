@@ -1,31 +1,29 @@
 import React from 'react';
-import { Box, Typography, TextField } from '@material-ui/core';
 import { getCountries } from 'countries-cities';
+import { Box, Typography, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { useStyles } from '../../../styles/custom';
+import { customStyles } from '../../../styles/customStyles';
 
 const CountryItem = ({ error, setData, formData }) => {
-    const classes = useStyles();
+    const classes = customStyles();
     const countries = getCountries();
 
     return (
         <Box display="flex" flexDirection="column">
             <Box py={2}>
-                <Typography variant="h5" className={classes.customHeader}>
-                    Where do you primary live?
-                </Typography>
+                <Typography variant="h5">Where do you primary live?</Typography>
             </Box>
             <Autocomplete
                 onChange={(e, val) => setData(val, 'country')}
                 options={countries}
-                getOptionLabel={option => option}
-                getOptionSelected={option => option}
+                getOptionLabel={(option) => option}
+                getOptionSelected={(option) => option}
                 value={formData.country}
-                renderInput={params => (
+                renderInput={(params) => (
                     <TextField
                         autoFocus
                         {...params}
-                        className={classes.customInput}
+                        className={classes.input}
                         error={error ? true : false}
                         helperText={error}
                         variant="outlined"

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Typography, FormHelperText, FormControl } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { useStyles } from '../../../styles/custom';
+import { customStyles } from '../../../styles/customStyles';
 
 const SexPreferenceItem = ({ error, setData, formData }) => {
-    const classes = useStyles();
+    const classes = customStyles();
 
     return (
         <ToggleButtonGroup
@@ -15,9 +15,7 @@ const SexPreferenceItem = ({ error, setData, formData }) => {
                 setData(value, 'sex_preference');
             }}>
             <Box width={{ md: '300px' }} py={2}>
-                <Typography variant="h5" className={classes.customHeader}>
-                    You are looking for ...
-                </Typography>
+                <Typography variant="h5">You are looking for ...</Typography>
             </Box>
             <ToggleButton className={classes.radio} name="man" value="man">
                 Man

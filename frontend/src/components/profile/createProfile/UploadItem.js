@@ -1,15 +1,12 @@
 import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { useStyles } from '../../../styles/custom';
 
 const ImageItem = ({ images, setImages }) => {
-    const classes = useStyles();
-
     const onFileToBase64 = (file, base) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = event => {
+        reader.onload = (event) => {
             setImages({ ...images, [base]: event.target.result });
         };
     };
@@ -24,26 +21,24 @@ const ImageItem = ({ images, setImages }) => {
     return (
         <Box>
             <Box pb={2}>
-                <Typography variant="h5" className={classes.customHeader}>
-                    Add photos of you
-                </Typography>
+                <Typography variant="h5">Add photos of you</Typography>
             </Box>
             <Box display="flex" flexWrap="wrap" justifyContent="center">
                 <DropzoneArea
                     textColor="secondary"
                     acceptedFiles={['image/*']}
                     clearOnUnmount={false}
-                    onChange={upload => handleUpload(upload, 1, 'base1')}
+                    onChange={(upload) => handleUpload(upload, 1, 'base1')}
                     showFileNames
                     initialFiles={images[1]}
-                    dropzoneText="Add profile photo"
+                    dropzoneText="Profile photo"
                     showAlerts={false}
                     filesLimit={1}
                 />
                 <DropzoneArea
                     acceptedFiles={['image/*']}
                     clearOnUnmount={false}
-                    onChange={upload => handleUpload(upload, 2, 'base2')}
+                    onChange={(upload) => handleUpload(upload, 2, 'base2')}
                     showFileNames
                     initialFiles={images[2]}
                     dropzoneText="Add photo here"
@@ -53,7 +48,7 @@ const ImageItem = ({ images, setImages }) => {
                 <DropzoneArea
                     acceptedFiles={['image/*']}
                     clearOnUnmount={false}
-                    onChange={upload => handleUpload(upload, 3, 'base3')}
+                    onChange={(upload) => handleUpload(upload, 3, 'base3')}
                     showFileNames
                     initialFiles={images[3]}
                     dropzoneText="Add photo here"
@@ -63,7 +58,7 @@ const ImageItem = ({ images, setImages }) => {
                 <DropzoneArea
                     acceptedFiles={['image/*']}
                     clearOnUnmount={false}
-                    onChange={upload => handleUpload(upload, 4, 'base4')}
+                    onChange={(upload) => handleUpload(upload, 4, 'base4')}
                     showFileNames
                     initialFiles={images[4]}
                     dropzoneText="Add photo here"
@@ -73,7 +68,7 @@ const ImageItem = ({ images, setImages }) => {
                 <DropzoneArea
                     acceptedFiles={['image/*']}
                     clearOnUnmount={false}
-                    onChange={upload => handleUpload(upload, 5, 'base5')}
+                    onChange={(upload) => handleUpload(upload, 5, 'base5')}
                     showFileNames
                     initialFiles={images[5]}
                     dropzoneText="Add photo here"

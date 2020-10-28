@@ -1,36 +1,34 @@
-import React, { useEffect } from 'react';
-import { Badge, Typography, IconButton, MenuItem, Menu, Box } from '@material-ui/core';
-import { navStyles } from '../../../styles/navStyles';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Badge, Typography, IconButton, Box, Avatar, useMediaQuery } from '@material-ui/core';
+import { MenuItem, Menu } from '@material-ui/core';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
-const ProfileMenu = ({
-    getNotifications,
-    notifications,
-    auth: { user, socket },
-    profileSettings,
-    setProfileSettings,
-    handleNavigation,
-    active,
-    setActive,
-}) => {
+import { getNotifications } from '../../../actions/notifications';
+import { navStyles } from '../../../styles/navStyles';
+
+const ProfileMenu = ({ handleNavigation, active, setActive }) => {
+    const notifications = useSelector((state) => state.notifications);
+    const { user, socket } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const [profileSettings, setProfileSettings] = useState(null);
+    const isMobile = useMediaQuery('(max-width:600px)');
     const classes = navStyles();
 
     useEffect(() => {
         socket.on('UPDATE_NOTIFICATIONS', (type) => {
-            getNotifications();
+            dispatch(getNotifications());
         });
-    }, [getNotifications, socket]);
-
-    const handleClose = () => {
-        setProfileSettings(null);
-    };
+    }, [socket, dispatch]);
 
     const amount = (amount) => {
         return amount < 100 ? amount : '99+';
     };
 
-    const handleClick = (event) => {
-        setProfileSettings(event.currentTarget);
+    const clickMenu = (menuItem) => {
+        setActive('Profile');
+        handleNavigation(menuItem.pageUrl);
+        setProfileSettings(null);
     };
 
     const profileMenu = [
@@ -58,21 +56,17 @@ const ProfileMenu = ({
                         ? classes.iconButtonActive
                         : classes.iconButton
                 }
-                onClick={handleClick}>
+                onClick={(event) => setProfileSettings(event.currentTarget)}>
                 <Typography variant="button" className={classes.mobileText} color="textPrimary">
                     <Badge
                         className={classes.pr}
                         badgeContent={amount(notifications.visit)}
                         color="primary">
-                        <PersonOutlineIcon />
-                        {/* <Avatar
-              style={{
-                width: '25px',
-                height: '25px',
-                // backgroundColor: active === 'Profile' ? '#ca416e' : 'primary',
-              }}>
-              {user.username.charAt(0)}
-            </Avatar> */}
+                        {isMobile ? (
+                            <PersonOutlineIcon />
+                        ) : (
+                            <Avatar className={classes.avatar}>{user.username.charAt(0)}</Avatar>
+                        )}
                     </Badge>
                     Profile
                 </Typography>
@@ -92,15 +86,12 @@ const ProfileMenu = ({
                 elevation={0}
                 anchorEl={profileSettings}
                 open={Boolean(profileSettings)}
-                onClose={handleClose}>
+                onClose={() => setProfileSettings(null)}>
                 {profileMenu.map((menuItem) => (
                     <MenuItem
                         className={classes.menuItem}
                         key={menuItem.title}
-                        onClick={() => {
-                            setActive('Profile');
-                            handleNavigation(menuItem.pageUrl);
-                        }}>
+                        onClick={() => clickMenu(menuItem)}>
                         {menuItem.title}
                         <Box
                             ml={2}

@@ -1,22 +1,20 @@
 import React from 'react';
 import { Box, Typography } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
-import LuxonUtils from '@date-io/luxon';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
+import LuxonUtils from '@date-io/luxon';
+import { customStyles } from '../../../styles/customStyles';
 
 const BirthdayItem = ({ setFormData, formData, error }) => {
-    const classes = useStyles();
+    const classes = customStyles();
 
-    const handleDate = date => {
+    const handleDate = (date) => {
         setFormData({ ...formData, birth_date: date });
     };
 
     return (
         <MuiPickersUtilsProvider utils={LuxonUtils}>
             <Box py={2}>
-                <Typography variant="h5" className={classes.customHeader}>
-                    When were you born?
-                </Typography>
+                <Typography variant="h5">When were you born?</Typography>
             </Box>
             <DatePicker
                 disableFuture
@@ -26,7 +24,7 @@ const BirthdayItem = ({ setFormData, formData, error }) => {
                 format="yyyy/MM/dd"
                 value={formData.birth_date}
                 onChange={handleDate}
-                className={classes.customInput}
+                className={classes.input}
                 error={error ? true : false}
                 helperText={error}
             />

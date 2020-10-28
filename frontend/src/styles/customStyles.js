@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import BackgroundImage from '../background3.jpg';
 
 export const customStyles = makeStyles((theme) => ({
     mainButton: {
@@ -38,6 +39,10 @@ export const customStyles = makeStyles((theme) => ({
             backgroundColor: 'transparent',
         },
     },
+    googleBtn: {
+        border: 'none',
+        backgroundColor: theme.palette.background.secondary,
+    },
     progress: {
         width: '75%',
         margin: '15px',
@@ -64,6 +69,36 @@ export const customStyles = makeStyles((theme) => ({
         // width: '100%',
         // backgroundColor: 'transparent',
     },
+    bioInput: {
+        // minHeight: '150px',
+        minWidth: '400px',
+        [theme.breakpoints.down('xs')]: {
+            minWidth: '200px',
+        },
+    },
+    ml: {
+        marginLeft: '30px',
+    },
+    infoColor: {
+        color: theme.palette.info.main,
+    },
+    img: {
+        width: '40px',
+        padding: '0 5px',
+    },
+    circle: {
+        overflow: 'hidden',
+        [theme.breakpoints.up('sm')]: {
+            maxWidth: '50%',
+        },
+        alignItems: 'center',
+    },
+    background: {
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(${BackgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+    },
+    spinner: { width: '200px', margin: 'auto', display: 'block' },
     customIconButtonActive: {
         '& span': {
             color: theme.palette.primary.main,
@@ -82,6 +117,13 @@ export const customStyles = makeStyles((theme) => ({
         flex: '0 1 auto',
         [theme.breakpoints.down('xs')]: {
             padding: '15px 5px',
+        },
+    },
+    radio: {
+        maxWidth: '300px',
+        borderRadius: '30px !important',
+        [theme.breakpoints.down('xs')]: {
+            maxWidth: '200px',
         },
     },
 }));

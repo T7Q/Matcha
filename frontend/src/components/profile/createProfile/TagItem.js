@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Box, Typography, TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import profileService from '../../../services/profileService';
 
 const SexPreferenceItem = ({ error, setData, formData }) => {
     const [realTags, setRealTags] = useState([]);
 
     useEffect(() => {
-        let isMounted = true;
-        async function getTags() {
-            const res = await axios.get('profile/tags');
-            isMounted && setRealTags(res.data.map(item => item.tag));
-        }
-        getTags();
-        return () => {
-            isMounted = false;
-        };
+        profileService.getTags().then((tags) => {
+            setRealTags(tags.map((item) => item.tag));
+        });
     }, []);
 
     return (
@@ -29,9 +23,9 @@ const SexPreferenceItem = ({ error, setData, formData }) => {
                 }}
                 multiple
                 options={realTags}
-                getOptionLabel={option => option}
+                getOptionLabel={(option) => option}
                 value={formData.tags}
-                renderInput={params => (
+                renderInput={(params) => (
                     <TextField
                         {...params}
                         error={error ? true : false}

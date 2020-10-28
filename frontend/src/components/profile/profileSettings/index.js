@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Redirect, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Box, Typography, Grid, Tab, Tabs } from '@material-ui/core';
 import { Container } from '@material-ui/core';
 import { NotificationsActive, Lock, Email, Block, Delete, Public } from '@material-ui/icons';
@@ -14,10 +14,10 @@ import { setSnackbar } from '../../../actions/setsnackbar';
 import { settingStyles } from '../../../styles/settingStyles';
 import { chatStyles } from '../../../styles/chatStyles';
 
-const Settings = ({ setSnackbar, history, ...props }) => {
+const Settings = ({ history }) => {
     const classesSetting = settingStyles();
     const classesChat = chatStyles();
-    let route = props.match.params.type;
+    let { type } = useParams();
 
     const indexToTabName = [
         '',
@@ -28,10 +28,10 @@ const Settings = ({ setSnackbar, history, ...props }) => {
         'blocked',
         'delete',
     ];
-    if (!indexToTabName.includes(route)) {
-        route = '';
+    if (!indexToTabName.includes(type)) {
+        type = '';
     }
-    const [tab, setTab] = useState(indexToTabName.indexOf(route));
+    const [tab, setTab] = useState(indexToTabName.indexOf(type));
 
     // const theme = useTheme();
     // const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
@@ -136,8 +136,4 @@ const Settings = ({ setSnackbar, history, ...props }) => {
     );
 };
 
-Settings.propTypes = {
-    setSnackbar: PropTypes.func.isRequired,
-};
-
-export default connect(null, { setSnackbar })(Settings);
+export default Settings;

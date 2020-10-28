@@ -1,46 +1,32 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { TextareaAutosize, FormControl, FormHelperText } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
+
+import { validateField } from '../../../services/validator';
+import { editProfile } from '../../../actions/profile';
+
+import { customStyles } from '../../../styles/customStyles';
 import WizardForm from '../../common/WizardForm';
 
-const Bio = ({ setSnackbar, bioProp }) => {
+const Bio = ({ bioProp }) => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({ bio: bioProp });
-
     const [errors, setErrors] = useState({ bioError: '' });
+
     const { bio } = formData;
     const { bioError } = errors;
-    const classes = useStyles();
+    const classes = customStyles();
 
     const setData = (value) => {
-        validate(value);
+        const error = validateField('bio', value);
+        setErrors({ bioError: error });
         setFormData({ bio: value });
     };
 
-    const handleSubmit = async (event) => {
-        if (validate(bio)) {
-            try {
-                const res = await axios.post('/profile/edit', { key: 'bio', value: bio });
-                if (res.data.error) {
-                    setErrors(res.data.error);
-                } else {
-                    setSnackbar(true, 'success', res.data.msg);
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-    };
-
-    const validate = (value) => {
-        if (!bio) {
-            setErrors({ bioError: 'required field' });
-            return false;
-        } else if (bio.length > 200) {
-            setErrors({ bioError: 'Bio should be between 1 to 200 characters' });
-        } else {
-            setErrors({ bioError: '' });
-            return true;
+    const handleSubmit = async () => {
+        if (validateField('bio', bio) === '') {
+            const res = await dispatch(editProfile({ key: 'bio', value: bio }));
+            if (res && res.error) setErrors({ ...res.error });
         }
     };
 

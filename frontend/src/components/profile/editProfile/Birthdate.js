@@ -1,63 +1,34 @@
+import { useDispatch } from 'react-redux';
 import React, { useState } from 'react';
-import axios from 'axios';
 import LuxonUtils from '@date-io/luxon';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
-import { useStyles } from '../../../styles/custom';
+
+import { validateField } from '../../../services/validator';
+import { editProfile } from '../../../actions/profile';
+
+import { customStyles } from '../../../styles/customStyles';
 import WizardForm from '../../common/WizardForm';
 
-const Birthdate = ({ setSnackbar, birthdateProp }) => {
+const Birthdate = ({ birthdateProp }) => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({ birthDate: birthdateProp });
+    const [errors, setErrors] = useState({ birth_dateError: '' });
 
-    const [errors, setErrors] = useState({ birthdateError: '' });
     const { birthDate } = formData;
-    const { birthdateError } = errors;
-    const classes = useStyles();
+    const { birth_dateError } = errors;
+    const classes = customStyles();
 
-    const handleDate = date => {
-        setFormData({ ...formData, birthDate: date });
+    const handleDate = (date) => {
+        const error = validateField('birth_date', date);
+        setErrors({ birth_dateError: error });
+        setFormData({ birthDate: date });
     };
 
-    const handleSubmit = async event => {
-        if (validate(birthDate)) {
-            try {
-                const res = await axios.post('/profile/edit', { key: 'birth_date', value: birthDate });
-                if (res.data.error) {
-                    setErrors(res.data.error);
-                } else {
-                    setSnackbar(true, 'success', res.data.msg);
-                }
-            } catch (err) {
-                console.log(err);
-            }
+    const handleSubmit = async (event) => {
+        if (validateField('birth_date', birthDate) === '') {
+            const res = await dispatch(editProfile({ key: 'birth_date', value: birthDate }));
+            if (res && res.error) setErrors({ ...res.error });
         }
-    };
-
-    const getAge = dob => {
-        const today = new Date();
-        const birthDate = new Date(dob);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    };
-
-    const validate = value => {
-        if (!value) {
-            setErrors({ birthdateError: 'required field' });
-            return false;
-        }
-        let age = getAge(value);
-        if (age < 18) {
-            setErrors({ birthdateError: '18 years required' });
-            return false;
-        } else if (age > 120) {
-            setErrors({ birthdateError: 'You must be alive' });
-            return false;
-        }
-        setErrors({ birthdateError: '' });
-        return true;
     };
 
     return (
@@ -76,9 +47,9 @@ const Birthdate = ({ setSnackbar, birthdateProp }) => {
                     format="yyyy/MM/dd"
                     value={birthDate}
                     onChange={handleDate}
-                    className={classes.customInput}
-                    error={birthdateError ? true : false}
-                    helperText={birthdateError}
+                    className={classes.input}
+                    error={birth_dateError ? true : false}
+                    helperText={birth_dateError}
                 />
             </MuiPickersUtilsProvider>
         </WizardForm>

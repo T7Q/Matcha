@@ -1,88 +1,41 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { validateField } from '../../../services/validator';
+import { editProfile } from '../../../actions/profile';
 import WizardForm from '../../common/WizardForm';
 import Input from '../../common/Input';
 
-const Name = ({ setSnackbar, firstName, lastName }) => {
+const Name = ({ firstName, lastName }) => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         firstname: firstName,
         lastname: lastName,
     });
-
     const [errors, setErrors] = useState({
         firstnameError: '',
         lastnameError: '',
     });
+
     const { firstname, lastname } = formData;
     const { firstnameError, lastnameError } = errors;
 
     const onChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-        validateLocal(e.target.name, e.target.value);
+        const name = e.target.name;
+        const value = e.target.value;
+        const errorType = [name] + 'Error';
+        const error = validateField(name, value);
+        setErrors({ ...errors, [errorType]: error });
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (event) => {
-        if (validate()) {
-            try {
-                const res = await axios.post('/profile/edit', { key: 'name', value: formData });
-                if (res.data.error) {
-                    setErrors(res.data.error);
-                } else {
-                    setSnackbar(true, 'success', res.data.msg);
-                }
-            } catch (err) {
-                console.log(err);
-            }
+    const handleSubmit = async () => {
+        if (
+            validateField('firstname', firstName) === '' &&
+            validateField('lastname', lastname) === ''
+        ) {
+            const res = await dispatch(editProfile({ key: 'name', value: formData }));
+            if (res && res.error) setErrors({ ...res.error });
         }
-    };
-
-    const validateLocal = (type, value) => {
-        const errorType = [type] + 'Error';
-        if (!value) {
-            setErrors({ ...errors, [errorType]: 'required field' });
-        } else if (value.length > 25) {
-            setErrors({ ...errors, [errorType]: 'Should be between 1 to 25 characthers' });
-        } else {
-            const re = /^[A-Za-z0-9]{0,}$/;
-            if (!re.test(value)) {
-                setErrors({
-                    ...errors,
-                    [errorType]: 'must include letters and numbers only',
-                });
-            } else {
-                setErrors({ ...errors, [errorType]: '' });
-            }
-        }
-    };
-
-    const validate = () => {
-        let errorName = '';
-        if (!firstname) {
-            errorName = 'required field';
-        } else {
-            const re = /^[A-Za-z0-9]{0,}$/;
-            if (!re.test(firstname)) {
-                errorName = 'must include letters and numbers only';
-            }
-        }
-        if (!lastname) {
-            setErrors({ ...errors, firstnameError: errorName, lastnameError: 'required field' });
-        } else {
-            const re = /^[A-Za-z0-9]{0,}$/;
-            if (!re.test(lastname)) {
-                setErrors({
-                    ...errors,
-                    firstnameError: errorName,
-                    lastnameError: 'must include letters and numbers only',
-                });
-            } else if (errorName) {
-                setErrors({ ...errors, firstnameError: errorName });
-            } else {
-                setErrors({ ...errors, firstnameError: '', lastnameError: '' });
-                return true;
-            }
-        }
-        return false;
     };
 
     return (

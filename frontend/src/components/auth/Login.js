@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { Button } from '@material-ui/core';
 
 import authService from '../../services/authService';
@@ -11,11 +11,10 @@ import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 import { customStyles } from '../../styles/customStyles';
 
-const Login = () => {
+const Login = ({ history }) => {
     const { user, isAuthenticated } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const location = useLocation();
-    const history = useHistory();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
     const { username, password } = formData;

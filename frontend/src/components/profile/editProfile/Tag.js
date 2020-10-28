@@ -1,62 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField } from '@material-ui/core';
+
+import { validateField } from '../../../services/validator';
+import profileService from '../../../services/profileService';
+import { editTags } from '../../../actions/profile';
+
 import WizardForm from '../../common/WizardForm';
 
 const Tag = ({ setSnackbar }) => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState([]);
     const [realTags, setRealTags] = useState([]);
     const [errors, setErrors] = useState({ tagsError: '' });
-
-    useEffect(() => {
-        let isMounted = true;
-        async function getTags() {
-            const res = await axios.get('/profile/tags');
-            isMounted && setRealTags(res.data.map(item => item.tag));
-        }
-        async function getUserTags() {
-            const tagsFromApi = await axios.get('/profile/me/tags');
-            isMounted && setFormData(tagsFromApi.data.map(item => item.tag_name));
-        }
-        getTags();
-        getUserTags();
-        return () => {
-            isMounted = false;
-        };
-    }, []);
-
     const { tagsError } = errors;
 
-    const setData = val => {
-        setFormData(val);
+    useEffect(() => {
+        profileService.getTags().then((tags) => {
+            setRealTags(tags.map((item) => item.tag));
+        });
+        profileService.getUserTags().then((tags) => {
+            setFormData(tags.map((item) => item.tag_name));
+        });
+    }, []);
+
+    const setData = (value) => {
+        const error = validateField('tags', value);
+        setErrors({ tagsError: error });
+        setFormData(value);
     };
 
-    const handleSubmit = async event => {
-        if (validate(formData)) {
-            try {
-                const res = await axios.post('/profile/editTags', { key: 'tags', value: formData });
-                if (res.data.error) {
-                    setErrors(res.data.error);
-                } else {
-                    setSnackbar(true, 'success', res.data.msg);
-                }
-            } catch (err) {
-                console.log(err);
-            }
+    const handleSubmit = async () => {
+        if (validateField('tags', formData) === '') {
+            const res = await dispatch(editTags({ key: 'tags', value: formData }));
+            if (res && res.error) setErrors({ ...res.error });
         }
-    };
-
-    const validate = value => {
-        if (formData.length < 5) {
-            setErrors({ tagsError: 'Choose minimum 5 passions' });
-            return false;
-        } else if (formData.length > 10) {
-            setErrors({ tagsError: 'Maximum 10 passions' });
-            return false;
-        }
-        setErrors({ tagsError: '' });
-        return true;
     };
 
     return (
@@ -72,9 +51,9 @@ const Tag = ({ setSnackbar }) => {
                 }}
                 multiple
                 options={realTags}
-                getOptionLabel={option => option}
+                getOptionLabel={(option) => option}
                 value={formData}
-                renderInput={params => (
+                renderInput={(params) => (
                     <TextField
                         {...params}
                         error={tagsError ? true : false}

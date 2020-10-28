@@ -45,7 +45,10 @@ const general = async (req, res) => {
             break;
         case 'password':
             if (await accountHelper.checkPassword(userId, value.oldPassword)) {
-                error = await accountHelper.validatePassword(value.newPassword, value.confirmPassword);
+                error = await accountHelper.validatePassword(
+                    value.newPassword,
+                    value.confirmPassword
+                );
                 value = await bcrypt.hash(value.newPassword, 10);
             } else {
                 error = { oldPasswordError: 'wrong password' };

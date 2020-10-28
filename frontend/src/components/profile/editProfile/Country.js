@@ -1,46 +1,36 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { getCountries } from 'countries-cities';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { TextField, Box } from '@material-ui/core';
-import { getCountries } from 'countries-cities';
-import { useStyles } from '../../../styles/custom';
+
+import { validateField } from '../../../services/validator';
+import { editProfile } from '../../../actions/profile';
+
+import { customStyles } from '../../../styles/customStyles';
 import WizardForm from '../../common/WizardForm';
 
 const Country = ({ setSnackbar, countryProp }) => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({ country: countryProp });
-
-    const countries = getCountries();
     const [errors, setErrors] = useState({ countryError: '' });
+
     const { country } = formData;
     const { countryError } = errors;
-    const classes = useStyles();
+    const countries = getCountries();
+    const classes = customStyles();
 
-    const setData = val => {
-        setFormData({ country: val });
+    const setData = (value) => {
+        const error = validateField('country', value);
+        setErrors({ countryError: error });
+        setFormData({ country: value });
     };
 
-    const handleSubmit = async event => {
-        if (validate(country)) {
-            try {
-                const res = await axios.post('/profile/edit', { key: 'country', value: country });
-                if (res.data.error) {
-                    setErrors(res.data.error);
-                } else {
-                    setSnackbar(true, 'success', res.data.msg);
-                }
-            } catch (err) {
-                console.log(err);
-            }
+    const handleSubmit = async () => {
+        if (validateField('country', country) === '') {
+            const res = await dispatch(editProfile({ key: 'country', value: country }));
+            if (res && res.error) setErrors({ ...res.error });
         }
-    };
-
-    const validate = value => {
-        if (!value) {
-            setErrors({ ...errors, countryError: 'required field' });
-            return false;
-        }
-        setErrors({ ...errors, countryError: '' });
-        return true;
     };
 
     return (
@@ -55,14 +45,14 @@ const Country = ({ setSnackbar, countryProp }) => {
                 <Autocomplete
                     onChange={(e, val) => setData(val)}
                     options={countries}
-                    getOptionLabel={option => option}
-                    getOptionSelected={option => option}
+                    getOptionLabel={(option) => option}
+                    getOptionSelected={(option) => option}
                     value={country}
-                    renderInput={params => (
+                    renderInput={(params) => (
                         <TextField
                             autoFocus
                             {...params}
-                            className={classes.customInput}
+                            className={classes.input}
                             error={countryError ? true : false}
                             helperText={countryError}
                             variant="outlined"

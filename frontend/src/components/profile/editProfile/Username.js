@@ -1,62 +1,50 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import WizardForm from '../../common/WizardForm';
-import Input from '../../common/Input';
-import { editProfile } from '../../../actions/profile';
+import { useSelector, useDispatch } from 'react-redux';
 
-const Username = ({ setSnackbar, editProfile, user }) => {
+import { validateAtBackend, validateField } from '../../../services/validator';
+import { editProfile } from '../../../actions/profile';
+import { updateUser } from '../../../actions/auth';
+import { setSnackbar } from '../../../actions/setsnackbar';
+
+import Input from '../../common/Input';
+import WizardForm from '../../common/WizardForm';
+
+const Username = () => {
+    const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth);
     const [formData, setFormData] = useState({
         username: user.username,
     });
-
     const [errors, setErrors] = useState({
         usernameError: '',
     });
+
     const { username } = formData;
     const { usernameError } = errors;
 
-    const onChange = async (e) => {
-        setFormData({ username: e.target.value });
-        await validate(e.target.value);
+    const onChange = (e) => {
+        const value = e.target.value;
+        const error = validateField('username', value);
+        setErrors({ ...error });
+        setFormData({ username: value });
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async () => {
         if (username === user.username) {
-            setSnackbar(true, 'warning', 'No changes applied');
-        } else if (await validate(username)) {
-            try {
-                const res = await axios.post('/profile/edit', { key: 'username', value: username });
-                if (res.data.error) {
-                    setErrors(res.data.error);
-                } else {
-                    user.username = username;
-                    editProfile(user);
-                    setSnackbar(true, 'success', res.data.msg);
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-    };
-
-    const validate = async (value) => {
-        if (value !== user.username) {
-            const res = await axios.post('/account/validateData', {
-                key: 'username',
-                value: value,
-            });
-            if (res.data.error && Object.keys(res.data.error).length > 0) {
-                setErrors(res.data.error);
-            } else {
-                setErrors({ usernameError: '' });
-                return true;
-            }
+            dispatch(setSnackbar(true, 'warning', 'No changes applied'));
         } else {
-            setErrors({ usernameError: '' });
+            const error = await validateAtBackend('username', username);
+            if (error === '') {
+                const res = await dispatch(editProfile({ key: 'username', value: username }));
+                if (res && res.error) {
+                    setErrors({ ...res.error });
+                } else {
+                    dispatch(updateUser({ ...user, username: username }));
+                }
+            } else {
+                setErrors({ ...error });
+            }
         }
-        return false;
     };
 
     return (
@@ -77,12 +65,4 @@ const Username = ({ setSnackbar, editProfile, user }) => {
     );
 };
 
-Username.propTypes = {
-    editProfile: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { editProfile })(Username);
+export default Username;

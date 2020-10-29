@@ -79,9 +79,15 @@ export const chatStyles = makeStyles((theme) => ({
         backgroundColor: '#10183c',
         // alignItems: 'flex-start',
     },
-    conversationActive: {
+    conversationList: {
         borderBottom: '1px solid #252839',
         backgroundColor: 'inherit',
         // alignItems: 'flex-start',
+    },
+    active: {
+        color: theme.palette.primary.main,
+    },
+    nonActive: {
+        color: theme.palette.info.main,
     },
 }));

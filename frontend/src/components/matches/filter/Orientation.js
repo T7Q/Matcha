@@ -30,7 +30,7 @@ const Orientation = () => {
         if (newValue !== null) {
             value = newValue.db;
             console.log("handle change", newValue.label);
-            setFormData(newValue.label);
+            setFormData(newValue);
         } else {
             console.log("reset form");
             setFormData("");
@@ -46,7 +46,7 @@ const Orientation = () => {
             onChange={handleOrientationChange}
             options={orientation}
             getOptionLabel={(option) => option.label}
-            value={formData}
+            // value={formData}
             getOptionSelected={(option) => option}
             renderInput={(params) => (
                 <TextField {...params} label="I'm looking for ..." />

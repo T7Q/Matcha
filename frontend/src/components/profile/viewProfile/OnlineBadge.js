@@ -80,7 +80,6 @@ const StyledOfflineBadge = withStyles((theme) => ({
 const OnlineBadge = ({ profile, handleClickOpen }) => {
     const classesProf = profileStyles();
     const date = new Date(profile.last_seen).toLocaleString();
-    console.log("date", date);
 
     if (profile.online === 0)
         return (

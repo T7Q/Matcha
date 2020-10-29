@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Typography, Avatar, Box, Grid } from '@material-ui/core';
+import { Typography, Box, Grid } from '@material-ui/core';
 
 import { profileStyles } from '../../../styles/profileStyles';
 import UserRating from './UserRating';
@@ -13,9 +13,8 @@ import CustomizedDialog from './CustomizedDialog';
 
 const Header = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
-    const [open, setOpen] = useState(false);
 
-    const avatarAlt = profile.first_name + ' ' + profile.last_name;
+    const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -55,12 +54,10 @@ const Header = ({ type }) => {
                         <UserRating profile={profile} />
                     </Box>
                 </Grid>
-                {type === 'otherUser' ? (
+                {type === 'otherUser' && (
                     <Grid item xs={12} sm={4} md={6}>
                         <Buttons card={profile} />
                     </Grid>
-                ) : (
-                    ''
                 )}
             </Grid>
 

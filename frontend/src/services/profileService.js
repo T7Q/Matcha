@@ -53,6 +53,11 @@ const getTags = async () => {
     return res.data;
 };
 
+const getBlockedUsers = async () => {
+    const res = await axios.get('/profile/blockedUsers');
+    return res.data;
+};
+
 const getUserTags = async () => {
     const res = await axios.get('/profile/me/tags');
     return res.data;
@@ -70,5 +75,6 @@ export default {
     unblockUser,
     getTags,
     getUserTags,
+    getBlockedUsers,
     editTags,
 };

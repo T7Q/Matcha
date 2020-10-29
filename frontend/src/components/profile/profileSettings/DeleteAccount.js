@@ -1,17 +1,19 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Box, Button, Typography, Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
+import { Box, Button, Typography } from '@material-ui/core';
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import { customStyles } from '../../../styles/customStyles';
 import { deleteProfile } from '../../../actions/profile';
 
-const DeleteAccount = ({ deleteProfile, history }) => {
-    const [open, setOpen] = React.useState(false);
+const DeleteAccount = () => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const [open, setOpen] = useState(false);
+    const classes = customStyles();
 
-    const classes = useStyles();
-
-    const handleSubmit = event => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         setOpen(true);
     };
@@ -21,26 +23,30 @@ const DeleteAccount = ({ deleteProfile, history }) => {
     };
 
     const deleteAccount = () => {
-        deleteProfile(history);
+        dispatch(deleteProfile(history));
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <Box 
-            // m={{ xs: 2, sm: 0 }} mr={{ sm: 6 }} 
-            textAlign="center">
-                <Typography variant="body1">When you delete your account, everything is permanently gone.</Typography>
-                <Typography variant="body1">Your account will no longer appear to other people on Astro Matcha.</Typography>
+            <Box textAlign="center">
+                <Typography variant="body1">
+                    When you delete your account, everything is permanently gone.
+                </Typography>
+                <Typography variant="body1">
+                    Your account will no longer appear to other people on Astro Matcha.
+                </Typography>
                 <Button
                     type="submit"
                     size="small"
                     variant="contained"
                     color="primary"
-                    className={`${classes.customButton} ${classes.p2}`}>
+                    className={`${classes.mainButton} ${classes.p2}`}>
                     Delete
                 </Button>
                 <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle id="alert-dialog-title">Are you sure you want to delete account?</DialogTitle>
+                    <DialogTitle id="alert-dialog-title">
+                        Are you sure you want to delete account?
+                    </DialogTitle>
                     <DialogContent>You can't undo this action</DialogContent>
                     <DialogActions>
                         <Button onClick={deleteAccount} variant="contained">
@@ -56,8 +62,4 @@ const DeleteAccount = ({ deleteProfile, history }) => {
     );
 };
 
-DeleteAccount.propTypes = {
-    deleteProfile: PropTypes.func.isRequired,
-};
-
-export default connect(null, { deleteProfile })(withRouter(DeleteAccount));
+export default DeleteAccount;

@@ -187,18 +187,18 @@ export const deleteProfile = (history) => async (dispatch) => {
     }
 };
 
-export const editProfile = ({ key, value }) => async (dispatch) => {
+export const editProfile = ({ key, value }, update = false) => async (dispatch) => {
     const res = await profileService.editProfile({ key, value });
 
     if (res.error) {
         return res;
-    } else {
+    } else if (update) {
         dispatch({
             type: UPDATE_PROFILE,
             payload: { key, value },
         });
-        dispatch(setSnackbar(true, 'success', res.msg));
     }
+    dispatch(setSnackbar(true, 'success', res.msg));
 };
 
 export const editTags = (data) => async (dispatch) => {

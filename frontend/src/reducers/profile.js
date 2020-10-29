@@ -31,9 +31,6 @@ export default function (state = initialState, action) {
         case UPDATE_PROFILE:
             const updatedProfile = state.profile;
             let { key, value } = payload;
-            if (key === 'sex_preference' || key === 'name') {
-                return state;
-            }
             updatedProfile[[key]] = value;
             return {
                 ...state,

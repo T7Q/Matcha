@@ -216,7 +216,6 @@ export const useStyles = makeStyles((theme) => ({
             maxWidth: '200px',
         },
     },
-
     customButton: {
         margin: '10px',
         fontSize: '16px',

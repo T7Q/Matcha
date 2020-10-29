@@ -1,21 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ToggleIcon from 'material-ui-toggle-icon';
 import { ListItem, ListItemSecondaryAction } from '@material-ui/core';
 import { ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
-
-import ToggleIcon from 'material-ui-toggle-icon';
-import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { RemoveCircleOutline, CheckCircle } from '@material-ui/icons/';
+import { settingStyles } from '../../../styles/settingStyles';
 
 const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) => {
+    const classes = settingStyles();
+
     return (
         <>
             <ListItem
                 button
                 component={Link}
                 to={`/profile/${value.user_id}`}
-                style={{ borderBottom: '1px solid #252839' }}>
+                className={classes.borderBottom}>
                 <ListItemAvatar>
                     <Avatar
                         alt={`Avatar n°${value.profile_pic_path + 1}`}
@@ -27,8 +28,8 @@ const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) =>
                     <IconButton onClick={handleBlock(index)} style={{ padding: 0 }}>
                         <ToggleIcon
                             on={blockedList[index].blocked}
-                            onIcon={<RemoveCircleOutlineIcon color="primary" />}
-                            offIcon={<CheckCircleIcon />}
+                            onIcon={<RemoveCircleOutline color="primary" />}
+                            offIcon={<CheckCircle />}
                         />
                     </IconButton>
                 </ListItemSecondaryAction>

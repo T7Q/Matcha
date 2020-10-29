@@ -35,7 +35,7 @@ const Username = () => {
         } else {
             const error = await validateAtBackend('username', username);
             if (error === '') {
-                const res = await dispatch(editProfile({ key: 'username', value: username }));
+                const res = await dispatch(editProfile({ key: 'username', value: username }, true));
                 if (res && res.error) {
                     setErrors({ ...res.error });
                 } else {

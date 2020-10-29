@@ -25,7 +25,7 @@ const Bio = ({ bioProp }) => {
 
     const handleSubmit = async () => {
         if (validateField('bio', bio) === '') {
-            const res = await dispatch(editProfile({ key: 'bio', value: bio }));
+            const res = await dispatch(editProfile({ key: 'bio', value: bio }, true));
             if (res && res.error) setErrors({ ...res.error });
         }
     };

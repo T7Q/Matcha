@@ -150,4 +150,7 @@ export const customStyles = makeStyles((theme) => ({
             maxWidth: '200px',
         },
     },
+    alignCenter: {
+        textAlign: 'center',
+    },
 }));

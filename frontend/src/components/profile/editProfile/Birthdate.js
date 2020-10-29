@@ -26,7 +26,7 @@ const Birthdate = ({ birthdateProp }) => {
 
     const handleSubmit = async (event) => {
         if (validateField('birth_date', birthDate) === '') {
-            const res = await dispatch(editProfile({ key: 'birth_date', value: birthDate }));
+            const res = await dispatch(editProfile({ key: 'birth_date', value: birthDate }, true));
             if (res && res.error) setErrors({ ...res.error });
         }
     };

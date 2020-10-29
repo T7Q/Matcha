@@ -28,7 +28,7 @@ const Country = ({ setSnackbar, countryProp }) => {
 
     const handleSubmit = async () => {
         if (validateField('country', country) === '') {
-            const res = await dispatch(editProfile({ key: 'country', value: country }));
+            const res = await dispatch(editProfile({ key: 'country', value: country }, true));
             if (res && res.error) setErrors({ ...res.error });
         }
     };

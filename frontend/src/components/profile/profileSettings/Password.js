@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
-// import { editProfile } from '../../../actions/profile';
 
-const Password = ({ setSnackbar }) => {
+import { editProfile } from '../../../actions/profile';
+import { validateField } from '../../../services/validator';
+import { customStyles } from '../../../styles/customStyles';
+
+const Password = () => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         oldPassword: '',
-        newPassword: '',
+        password: '',
         confirmPassword: '',
     });
     const [errors, setErrors] = useState({
@@ -16,95 +19,42 @@ const Password = ({ setSnackbar }) => {
         confirmPasswordError: '',
     });
 
-    const { oldPassword, newPassword, confirmPassword } = formData;
+    const { oldPassword, password, confirmPassword } = formData;
     const { oldPasswordError, passwordError, confirmPasswordError } = errors;
-    const classes = useStyles();
+    const classes = customStyles();
 
-    const onChange = e => {
-        const changedValue = e.target.value;
-        const typeError = e.target.name === 'newPassword' ? 'passwordError' : [e.target.name] + 'Error';
-        if (!changedValue) {
-            setErrors({ ...errors, [typeError]: 'required field' });
-        } else if (changedValue.length < 6) {
-            setErrors({ ...errors, [typeError]: 'Password must be at least 6 characters' });
-        } else {
-            const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
-            if (!re.test(changedValue) && [typeError] !== 'oldPassword') {
-                setErrors({
-                    ...errors,
-                    [typeError]: 'At least 1 uppercase, 1 lowercase letter and 1 number required',
-                });
-            } else if ([typeError] === 'confirmPassword' && changedValue !== newPassword) {
-                setErrors({ ...errors, confirmPasswordError: 'Passwords do not match' });
-            } else {
-                setErrors({ ...errors, [typeError]: '' });
-            }
-        }
-        setFormData({ ...formData, [e.target.name]: changedValue });
+    const onChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        const errorType = [name] + 'Error';
+        const error = validateField(name, value, password);
+
+        setErrors({ ...errors, [errorType]: error });
+        setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async event => {
+    const validate = () => {
+        return (
+            validateField('password', password) === '' &&
+            validateField('oldPassword', oldPassword) === '' &&
+            validateField('confirmPassword', confirmPassword, password) === ''
+        );
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if (validate(oldPassword, newPassword, confirmPassword)) {
-            try {
-                const res = await axios.post('/profile/edit', { key: 'password', value: formData });
-                if (res.data.error) {
-                    setErrors(res.data.error);
-                } else {
-                    setFormData({ oldPassword: '', newPassword: '', confirmPassword: '' });
-                    setSnackbar(true, 'success', res.data.msg);
-                }
-            } catch (err) {
-                console.log(err);
+        if (validate()) {
+            const res = await dispatch(editProfile({ key: 'password', value: formData }));
+            if (res && res.error) {
+                setErrors({ ...res.error });
+            } else {
+                setFormData({ oldPassword: '', password: '', confirmPassword: '' });
             }
         }
-    };
-
-    const validate = (oldPwd, newPwd, confirmPwd) => {
-        let oldPwdError = '';
-        let newPwdError = '';
-        if (!oldPwd) {
-            oldPwdError = 'required field';
-        }
-        if (!newPwd) {
-            newPwdError = 'required field';
-        } else if (newPwd.length < 6) {
-            newPwdError = 'Password must be at least 6 characters';
-        } else {
-            const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
-            if (!re.test(newPwd)) {
-                newPwdError = 'At least 1 uppercase, 1 lowercase letter and 1 number required';
-            }
-        }
-        if (!confirmPwd) {
-            setErrors({
-                oldPasswordError: oldPwdError,
-                passwordError: newPwdError,
-                confirmPasswordError: 'required field',
-            });
-        } else if (confirmPwd !== newPwd) {
-            setErrors({
-                oldPasswordError: oldPwdError,
-                passwordError: newPwdError,
-                confirmPasswordError: 'Passwords do not match',
-            });
-        } else if (oldPwdError) {
-            setErrors({
-                oldPasswordError: oldPwdError,
-                passwordError: newPwdError,
-            });
-        } else if (newPwdError) {
-            setErrors({
-                passwordError: newPwdError,
-            });
-        } else {
-            return true;
-        }
-        return false;
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={classes.alignCenter}>
             <FormGroup>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>
@@ -112,7 +62,7 @@ const Password = ({ setSnackbar }) => {
                             variant="outlined"
                             name="oldPassword"
                             type="password"
-                            className={classes.customInput}
+                            className={classes.input}
                             placeholder="old password"
                             value={oldPassword}
                             error={oldPasswordError ? true : false}
@@ -122,12 +72,12 @@ const Password = ({ setSnackbar }) => {
                     </Grid>
                     <Grid item>
                         <TextField
-                            className={classes.customInput}
+                            className={classes.input}
                             variant="outlined"
                             type="password"
-                            name="newPassword"
+                            name="password"
                             placeholder="new password"
-                            value={newPassword}
+                            value={password}
                             error={passwordError ? true : false}
                             helperText={passwordError}
                             onChange={onChange}
@@ -135,7 +85,7 @@ const Password = ({ setSnackbar }) => {
                     </Grid>
                     <Grid item>
                         <TextField
-                            className={classes.customInput}
+                            className={classes.input}
                             variant="outlined"
                             type="password"
                             name="confirmPassword"
@@ -152,7 +102,7 @@ const Password = ({ setSnackbar }) => {
                     size="small"
                     variant="contained"
                     color="primary"
-                    className={`${classes.customButton} ${classes.p2}`}>
+                    className={`${classes.mainButton} ${classes.p2}`}>
                     Save
                 </Button>
             </FormGroup>

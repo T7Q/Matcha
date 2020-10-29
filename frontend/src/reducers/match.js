@@ -8,7 +8,7 @@ import {
     UPDATE_ERROR
 } from "../actions/types";
 
-const filter = {
+const filterBase = {
     type: "",
     min_age: 18,
     max_age: 120,
@@ -31,7 +31,7 @@ const initialState = {
     iEnd: 0,
     loading: true,
     error: {},
-    filter: filter,
+    filter: filterBase,
 };
 
 export default function (state = initialState, action) {
@@ -64,7 +64,7 @@ export default function (state = initialState, action) {
         case FILTER_RESET:
             return {
                 ...state,
-                filter: filter,
+                filter: filterBase,
                 loading: false,
             };
         case FILTER_UPDATE:

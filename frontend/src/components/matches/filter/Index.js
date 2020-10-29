@@ -1,50 +1,19 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import clsx from 'clsx';
-import { Button, Collapse, Grid, IconButton } from '@material-ui/core';
-import { makeStyles, Box } from '@material-ui/core';
 
+import { Button, Collapse, Grid, IconButton, Box } from '@material-ui/core';
 import { HighlightOff, ExpandMore, SyncAlt } from '@material-ui/icons';
 
 import { updateFilter, resetFilter } from '../../../actions/match';
 import GetMatches from '../../common/matchGallery/GetMatches';
-import Toggle from './Toggle';
-import Country from './Country';
-import CustomSlider from './CustomSlider';
-import Orientation from './Orientation';
-import Tags from './Tags';
 import Sort from './Sort';
+import Row from './Row';
 
 import { filterStyles } from '../../../styles/filterStyles';
 import { useStyles } from '../../../styles/custom';
 
-const localStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        width: '100%',
-        backgroundColor: theme.palette.background.default,
-    },
-    expand: {
-        transform: 'rotate(0deg)',
-        marginLeft: 'auto',
-        transition: theme.transitions.create('transform', {
-            duration: theme.transitions.duration.shortest,
-        }),
-    },
-    expandOpen: {
-        transform: 'rotate(180deg)',
-    },
-
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
-}));
-
-const Filter = ({ route, setting }) => {
+const Filter = ({ setting }) => {
     const dispatch = useDispatch();
     const { filter } = useSelector((state) => state.match);
 
@@ -54,12 +23,16 @@ const Filter = ({ route, setting }) => {
         dispatch(updateFilter(filter));
     }, [dispatch, filter]);
 
+    // const handleClickReset = () => () => {
+    //     console.log("handle click");
+    //     dispatch(resetFilter());
+    //     setFilter(0);
+    // };
     const handleClickReset = (e) => {
         dispatch(resetFilter());
         setFilter(0);
     };
 
-    const classes = localStyles();
     const classesCustom = useStyles();
     const classesFilter = filterStyles();
     const [expanded, setExpanded] = React.useState(setting);
@@ -87,26 +60,25 @@ const Filter = ({ route, setting }) => {
                             Filter&emsp;&emsp;
                         </Button>
 
-                        {filterIsOn > 1 ? (
+                        {filterIsOn > 1 && (
                             <IconButton
                                 onClick={() => {
                                     handleClickReset();
                                 }}
-                                aria-label="close"
+                                onClick={() => {
+                                    handleClickReset();
+                                }}
                                 size="small"
                                 style={{ padding: 0 }}>
                                 <HighlightOff style={{ color: 'white' }} />
                             </IconButton>
-                        ) : (
-                            ''
                         )}
                         <IconButton
-                            className={clsx(classes.expand, {
-                                [classes.expandOpen]: expanded,
+                            className={clsx(classesFilter.expand, {
+                                [classesFilter.expandOpen]: expanded,
                             })}
                             onClick={handleExpandClick}
                             aria-expanded={expanded}
-                            aria-label="show more"
                             style={{ padding: 0, margin: 0 }}>
                             <ExpandMore style={{ color: 'white' }} />
                         </IconButton>
@@ -131,79 +103,24 @@ const Filter = ({ route, setting }) => {
 
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <Grid container direction="column" justify="center" alignItems="center">
-                    <Grid
-                        item
-                        xs={12}
-                        container
-                        spacing={3}
-                        justify="center"
-                        alignItems="center"
-                        style={{ marginTop: '10px' }}>
-                        <Grid item xs={12} sm={4} md={3}>
-                            <Toggle name="believe_west" labelText="Western" />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3}>
-                            <Toggle name="believe_cn" labelText="Chinese" />
-                        </Grid>
-                    </Grid>
-                    <Grid
-                        item
-                        xs={12}
-                        container
-                        spacing={3}
-                        justify="center"
-                        alignItems="center"
-                        style={{ marginTop: '10px' }}>
-                        <Grid item xs={12} sm={4} md={3}>
-                            <CustomSlider type="distance" />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3}>
-                            <CustomSlider type="fame" />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3}>
-                            <CustomSlider type="age" />
-                        </Grid>
-                    </Grid>
-
-                    <Grid
-                        item
-                        xs={12}
-                        container
-                        spacing={3}
-                        justify="center"
-                        alignItems="center"
-                        style={{ marginTop: '10px' }}>
-                        <Grid item xs={12} sm={4} md={3}>
-                            <Orientation />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3}>
-                            <Country />
-                        </Grid>
-                        <Grid item xs={12} sm={4} md={3}>
-                            <Tags />
-                        </Grid>
-                    </Grid>
-
-                    <Grid
-                        item
-                        xs={12}
-                        container
-                        spacing={3}
-                        direction="row"
-                        style={{ marginTop: '10px' }}>
+                    <Row row={1} />
+                    <Row row={2} />
+                    <Row row={3} />
+                    <Grid item xs={12} container spacing={3} className={classesFilter.row}>
                         <Button
-                            id="filterBtn"
                             size="small"
                             variant="contained"
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
+                            
                             className={classesCustom.customButton}>
                             See results
                         </Button>
                         <Button
-                            variant="contained"
                             size="small"
+                            variant="contained"
+                            // onClick={handleClickReset}
                             onClick={() => {
                                 handleClickReset();
                             }}

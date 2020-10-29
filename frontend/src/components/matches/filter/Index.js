@@ -190,8 +190,6 @@ const Filter = ({ route, setting }) => {
                         container
                         spacing={3}
                         direction="row"
-                        justify="center"
-                        alignItems="center"
                         style={{ marginTop: '10px' }}>
                         <Button
                             id="filterBtn"

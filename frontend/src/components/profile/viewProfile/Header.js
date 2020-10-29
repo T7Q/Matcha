@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+
 import { Typography, Avatar, Box, Grid } from '@material-ui/core';
+
 import { profileStyles } from '../../../styles/profileStyles';
 import UserRating from './UserRating';
 import Buttons from './Buttons';
+import UserAvatar from './UserAvatar';
 import Dropdown from './DropdownItem';
 import OnlineBadge from './OnlineBadge';
 import CustomizedDialog from './CustomizedDialog';
 
-const Header = ({ profile, type }) => {
+const Header = ({ type }) => {
+    const { profile } = useSelector((state) => state.profile);
     const [open, setOpen] = useState(false);
+
     const avatarAlt = profile.first_name + ' ' + profile.last_name;
     const handleClickOpen = () => {
         setOpen(true);
@@ -31,30 +37,19 @@ const Header = ({ profile, type }) => {
                 <Grid item xs={12} sm={4} md={3}>
                     {type === 'otherUser' ? (
                         <OnlineBadge profile={profile} handleClickOpen={handleClickOpen} />
-                    ) : type === 'myProfile' ? (
-                        <Avatar
-                            className={classesProf.avatarImageStyle}
-                            onClick={handleClickOpen}
-                            alt={avatarAlt}
-                            src={profile.profile_pic_path}
-                            p={10}
-                        />
                     ) : (
-                        ''
+                        <UserAvatar handleClickOpen={handleClickOpen} />
                     )}
                 </Grid>
-
                 <Grid item xs={12} sm={4} md={3}>
                     <Typography variant="h4" className={classesProf.name}>
                         {profile.first_name}
                     </Typography>
-                    {type === 'otherUser' ? (
+                    {type === 'otherUser' && (
                         <Typography variant="body1" className={classesProf.description}>
                             {description}
                             <Dropdown userId={profile.user_id} blocked={profile.blocked} />
                         </Typography>
-                    ) : (
-                        ''
                     )}
                     <Box className={classesProf.ratingPosition}>
                         <UserRating profile={profile} />

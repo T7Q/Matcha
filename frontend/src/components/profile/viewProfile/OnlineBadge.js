@@ -5,32 +5,34 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import { profileStyles } from '../../../styles/profileStyles';
+import UserAvatar from './UserAvatar';
 
 // calcuate number of days until now
-const days = (lastSeen) => {
-    const today = new Date();
-    const date = new Date(lastSeen);
-    let differenceInTime = today.getTime() - date.getTime();
-    let differenceInDays = parseInt(differenceInTime / (1000 * 3600 * 24));
-    const str =
-        differenceInDays > 365
-            ? 'more than a year ago'
-            : differenceInDays > 365
-            ? '6 months ago'
-            : differenceInDays > 91
-            ? '3 months ago'
-            : differenceInDays > 31
-            ? 'a months ago'
-            : (differenceInDays = 0
-                  ? 'today'
-                  : (differenceInDays = 1 ? 'yesterday' : `a ${differenceInDays} day(s) ago`));
-    return str;
-};
+// const days = (lastSeen) => {
+//     const today = new Date();
+//     const date = new Date(lastSeen);
+//     let differenceInTime = today.getTime() - date.getTime();
+//     let differenceInDays = parseInt(differenceInTime / (1000 * 3600 * 24));
+//     const str =
+//         differenceInDays > 365
+//             ? 'more than a year ago'
+//             : differenceInDays > 365
+//             ? '6 months ago'
+//             : differenceInDays > 91
+//             ? '3 months ago'
+//             : differenceInDays > 31
+//             ? 'a months ago'
+//             : (differenceInDays = 0
+//                   ? 'today'
+//                   : (differenceInDays = 1 ? 'yesterday' : `a ${differenceInDays} day(s) ago`));
+//     return str;
+// };
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
         backgroundColor: '#44b700',
         color: '#44b700',
+        marginBottom: '-20px',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
         '&::after': {
             position: 'absolute',
@@ -60,6 +62,7 @@ const StyledOfflineBadge = withStyles((theme) => ({
     badge: {
         backgroundColor: 'black',
         color: 'black',
+        marginBottom: '-20px',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
         '&::after': {
             position: 'absolute',
@@ -76,10 +79,11 @@ const StyledOfflineBadge = withStyles((theme) => ({
 
 const OnlineBadge = ({ profile, handleClickOpen }) => {
     const classesProf = profileStyles();
+    const date = new Date(profile.last_seen).toLocaleString();
 
     if (profile.online === 0)
         return (
-            <Tooltip title={`last seen ${days(profile.last_seen)}`}>
+            <Tooltip title={`last seen ${date}`}>
                 <StyledOfflineBadge
                     className={classesProf.avatarImageStyle}
                     overlap="circle"
@@ -88,12 +92,7 @@ const OnlineBadge = ({ profile, handleClickOpen }) => {
                         horizontal: 'right',
                     }}
                     variant="dot">
-                    <Avatar
-                        className={classesProf.avatarImageStyle}
-                        onClick={handleClickOpen}
-                        alt="user profile"
-                        src={profile.profile_pic_path}
-                    />
+                    <UserAvatar handleClickOpen={handleClickOpen} />
                 </StyledOfflineBadge>
             </Tooltip>
         );

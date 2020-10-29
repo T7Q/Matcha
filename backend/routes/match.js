@@ -31,6 +31,6 @@ router.get('/visitedbyme', middleware.authRequired, display.visitedByMe);
 // @route   GET /match/recommend
 // @desc    Display all who liked me
 // @access  Private
-router.get('/recommend', middleware.authRequired, display.recommend);
+router.get('/recommend', middleware.authRequired, display.recommend); // here is not using this route tanya
 
 module.exports = router;

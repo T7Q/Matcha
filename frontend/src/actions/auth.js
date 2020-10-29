@@ -98,7 +98,5 @@ export const googleLogin = (googleUser) => async (dispatch) => {
             dispatch({ type: LOGIN_SUCCESS, payload: res });
             dispatch(loadUser());
         }
-    } catch (error) {
-        console.log(error);
-    }
+    } catch (error) {}
 };

@@ -59,7 +59,7 @@ const convertImages = (images, profile = 'base1') => {
 export const createProfile = (formData, images, history) => async (dispatch) => {
     try {
         const imagesToSubmit = convertImages(images);
-        const res = await axios.post('profile/create', formData);
+        const res = await axios.post('/profile/create', formData);
 
         if (res.data.error) {
             const errors = res.data.error;

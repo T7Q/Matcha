@@ -1,6 +1,5 @@
 const db = require('./db');
 
-// console.log("\u001b[32m" +
 const registerProfile = async (user_id, req) => {
     const { gender, sex_preference, bio, birth_date, country } = req.body;
     await db.query(

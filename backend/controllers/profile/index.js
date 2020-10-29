@@ -3,7 +3,7 @@ const deleteAccount = require('./delete');
 const edit = require('./edit');
 const interaction = require('./interaction');
 const notifications = require('./notifications');
-const photo = require('./photo');
+const uploadPhoto = require('./uploadPhoto');
 const show = require('./show');
 
 module.exports = {
@@ -12,6 +12,6 @@ module.exports = {
     edit,
     interaction,
     notifications,
-    photo,
+    uploadPhoto,
     show,
 };

@@ -9,9 +9,6 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// console.log(req.protocol);
-// console.log(req.get('host'));
-
 const activateAccountEmail = (recipient, userId, username, token) => {
     const link = `${developmentUrl}/account/activate?user=${userId}&token=${token}`;
     const subject = 'Matcha: account activation';
@@ -26,12 +23,8 @@ const activateAccountEmail = (recipient, userId, username, token) => {
             <p style="color:#735fc7;"><small>Matcha team</p>
         </div>`;
 
-    try {
-        sendMail(recipient, subject, content);
-        return { msg: 'Activation link has been send to your email' };
-    } catch {
-        return { error: 'Could not sent an email' };
-    }
+    sendMail(recipient, subject, content);
+    return { msg: 'Activation link has been send to your email' };
 };
 
 const pwdResetEmail = (recipient, userId, username, token, req) => {
@@ -52,12 +45,8 @@ const pwdResetEmail = (recipient, userId, username, token, req) => {
             <p style="color:#735fc7;"><small>Matcha team</p>
         </div>`;
 
-    try {
-        sendMail(recipient, subject, content);
-        return { msg: 'Password reset link has been sent to your email' };
-    } catch {
-        return { error: 'Could not sent an email' };
-    }
+    sendMail(recipient, subject, content);
+    return { msg: 'Password reset link has been sent to your email' };
 };
 
 const sendMail = (recipient, subject, content) => {

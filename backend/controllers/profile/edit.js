@@ -7,7 +7,6 @@ const { isValidLatitude, isValidLongitude } = require('../../utils/location');
 const general = async (req, res) => {
     let { key, value } = req.body;
     const userId = req.user.userId;
-    // console.log('body', req.body);
 
     let error = {};
 
@@ -56,11 +55,11 @@ const general = async (req, res) => {
         default:
             return res.json({ error: 'Invalid parameters' });
     }
+
     // Check for validation errors
     if (Object.keys(error).length !== 0) {
         return res.json({ error: error });
     }
-    // console.log('error', error);
     // Update profile parameter
     if (key === 'name') {
         await profileModel.editProfile(userId, 'first_name', value.firstname);
@@ -74,18 +73,22 @@ const general = async (req, res) => {
     } else {
         const r = await profileModel.editProfile(userId, key, value);
     }
+
     return res.json({ msg: 'Your profile was successfully updated' });
 };
 
 const tags = async (req, res) => {
     const { value } = req.body;
     let tagsError = profileHelper.validateTags(value);
+
     if (tagsError.error) return res.json(tagsError);
+
     // Crosscheck the list of new tags with default tags in the database
     let validateTagsInDb = await profileModel.validateTagsInDb(value);
     if (!validateTagsInDb) {
         return res.json({ error: 'Invalid tags, some of them dont exist' });
     }
+
     // Remove old tags if user has any
     const userTags = await profileModel.userHasTags(req.user.userId);
     if (userTags) {

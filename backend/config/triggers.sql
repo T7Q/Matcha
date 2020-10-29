@@ -154,9 +154,7 @@ BEGIN
     BEGIN
         IF EXISTS (SELECT from_user_id FROM likes
             WHERE to_user_id = NEW.from_user_id AND from_user_id = NEW.to_user_id
-        ) AND NOT EXISTS (SELECT block_id FROM blocked WHERE (from_user_id = NEW.from_user_id
-                AND to_user_id = NEW.to_user_id) OR (to_user_id = NEW.from_user_id
-                AND from_user_id = NEW.to_user_id))
+        )
         THEN
             IF NOT EXISTS (SELECT chat_id FROM chats WHERE (user_1 = NEW.from_user_id
                 AND user_2 = NEW.to_user_id) OR (user_2 = NEW.from_user_id
@@ -180,16 +178,12 @@ CREATE TRIGGER create_chat
     EXECUTE PROCEDURE create_chat();
 
 
-CREATE FUNCTION deactivate_chat_on_block_user()
+CREATE FUNCTION delete_from_likes()
     RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-    UPDATE chats SET active = FALSE
-    WHERE (chats.user_1 = NEW.from_user_id AND chats.user_2 = NEW.to_user_id)
-        OR (chats.user_2 = NEW.from_user_id AND chats.user_1 = NEW.to_user_id);
-    DELETE FROM notifications
-    WHERE notifications.from_user_id = NEW.to_user_id
-        AND notifications.to_user_id = NEW.from_user_id;
+    DELETE FROM likes
+    WHERE likes.from_user_id = NEW.from_user_id AND likes.to_user_id = NEW.to_user_id;
 RETURN NEW;
 END;
 $BODY$;
@@ -197,7 +191,7 @@ $BODY$;
 CREATE TRIGGER block_user
     AFTER INSERT
     ON blocked FOR EACH ROW
-    EXECUTE PROCEDURE deactivate_chat_on_block_user();
+    EXECUTE PROCEDURE delete_from_likes();
 
 
 CREATE FUNCTION deactivate_chat_on_unlike_user()
@@ -215,23 +209,6 @@ CREATE TRIGGER unlike_user
     AFTER DELETE
     ON likes FOR EACH ROW
     EXECUTE PROCEDURE deactivate_chat_on_unlike_user();
-
-
-CREATE FUNCTION activate_chat_on_unblock_user()
-    RETURNS trigger LANGUAGE 'plpgsql' COST 100 VOLATILE NOT LEAKPROOF
-AS $BODY$
-BEGIN
-    UPDATE chats SET active = TRUE
-    WHERE (chats.user_1 = OLD.from_user_id AND chats.user_2 = OLD.to_user_id)
-        OR (chats.user_2 = OLD.from_user_id AND chats.user_1 = OLD.to_user_id);
-RETURN OLD;
-END;
-$BODY$;
-
-CREATE TRIGGER unblock_user
-    AFTER DELETE
-    ON blocked FOR EACH ROW
-    EXECUTE PROCEDURE activate_chat_on_unblock_user();
 
 
 -- Triggers: notifications
@@ -255,6 +232,11 @@ RETURN NEW;
 END;
 $BODY$;
 
+CREATE TRIGGER notify_on_like
+    AFTER INSERT
+    ON likes FOR EACH ROW
+    EXECUTE PROCEDURE add_notification_on_like();
+
 CREATE FUNCTION add_notification_on_visit()
     RETURNS trigger
     LANGUAGE 'plpgsql'
@@ -273,11 +255,6 @@ BEGIN
 RETURN NEW;
 END;
 $BODY$;
-
-CREATE TRIGGER notify_on_like
-    AFTER INSERT
-    ON likes FOR EACH ROW
-    EXECUTE PROCEDURE add_notification_on_like();
 
 CREATE TRIGGER notify_on_visit
     AFTER INSERT

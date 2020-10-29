@@ -1,6 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { show, create, edit, deleteAccount, interaction, notifications, photo } = require('../controllers/profile');
+const {
+    show,
+    create,
+    edit,
+    deleteAccount,
+    interaction,
+    notifications,
+    uploadPhoto,
+} = require('../controllers/profile');
 const middleware = require('../utils/middleware');
 const profileModel = require('../models/profile');
 
@@ -77,7 +85,7 @@ router.post('/delete', middleware.authRequired, deleteAccount);
 // @route   POST /profile/uploadphoto
 // @desc    Upload (profile) photo
 // @access  Private
-router.post('/uploadphoto', middleware.authRequired, photo.upload);
+router.post('/uploadphoto', middleware.authRequired, uploadPhoto);
 
 // @route   POST /profile/connected
 // @desc    Check if users are connected

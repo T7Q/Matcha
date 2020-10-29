@@ -6,11 +6,6 @@ const middleware = require('../utils/middleware');
 // @route   GET /account
 // @desc    Return all users
 // @access  Public
-router.get('/', middleware.authRequired, account.getAll);
-
-// @route   GET /account
-// @desc    Return all users
-// @access  Public
 router.get('/auth', middleware.authWithStatus1, account.auth);
 
 // @route   POST /account/register
@@ -43,15 +38,10 @@ router.get('/activate', middleware.authForbidden, account.activate);
 // @access  Public
 router.post('/validateData', account.validateData);
 
-// @route   GET /account/notifications
-// @desc    Get all tags
+// @route   GET /account/logout
+// @desc    Logout active user
 // @access  Public
-router.get('/notifications', middleware.authRequired, account.getNotifications);
-
-// @route   POST /account/notifications
-// @desc    Edit notification settings: email, push
-// @access  Private
-router.post('/notifications', middleware.authRequired, account.editNotifications);
+router.post('/logout', account.logout);
 
 // @route   GET /account/auth/google/login
 // @desc    Login via google
@@ -67,10 +57,5 @@ router.get('/auth/google', middleware.authForbidden, account.googleLogin);
 // @desc    Login via google
 // @access  Public
 router.post('/auth/google/register', middleware.authForbidden, account.registerGoogle);
-
-// @route   GET /account/logout
-// @desc    Logout active user
-// @access  Public
-router.post('/logout', account.logout);
 
 module.exports = router;

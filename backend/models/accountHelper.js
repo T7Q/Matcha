@@ -77,8 +77,13 @@ const validatePassword = (password, confirmPassword) => {
     return errors;
 };
 
-const checkPassword = async (userId, password) => {
-    const user = await findUserInfo('user_id', userId, 'password');
+const checkPassword = async (userId, password, username = null) => {
+    let user;
+    if (userId) {
+        user = await findUserInfo('user_id', userId, 'password');
+    } else {
+        user = await findUserInfo('username', username, 'password');
+    }
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
         return false;

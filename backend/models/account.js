@@ -13,12 +13,8 @@ const register = async (data) => {
         VALUES($1, $2, $3, $4, $5, $6) RETURNING *;`,
         [email, password, username, firstname, lastname, token]
     );
-    return result.rows[0];
-};
 
-const getAll = async (req, res) => {
-    const result = await db.query('SELECT * FROM users', '');
-    return res.json(result.rows);
+    return result.rows[0];
 };
 
 const updateTime = async (userId, time) => {
@@ -26,6 +22,7 @@ const updateTime = async (userId, time) => {
         `UPDATE users SET last_seen = to_timestamp($1) WHERE user_id = $2`,
         [time / 1000, userId]
     );
+
     return result.rowCount;
 };
 
@@ -40,28 +37,13 @@ const updateAccount = async (user_id, data) => {
         WHERE user_id = $${keys.length + 1}`,
         [...values, user_id]
     );
+
     return res.rowCount;
 };
 
-const getNotifications = async (userId) => {
-    try {
-        const result = await db.query(
-            `
-            SELECT email_notification AS email, real_time_notification AS push
-            FROM users WHERE user_id = $1`,
-            [userId]
-        );
-        return result.rows[0];
-    } catch (e) {
-        console.log(e);
-    }
-};
-
 module.exports = {
-    getAll,
     register,
     updateTime,
     findUserInfo,
     updateAccount,
-    getNotifications,
 };

@@ -143,6 +143,7 @@ const setFame = (minFame, maxFame) => {
 };
 
 const setTags = (tags, index, values) => {
+    if (tags.length === 0) return "";
     filter = "";
     for (const element of tags) {
         filter +=
@@ -159,7 +160,7 @@ const setTags = (tags, index, values) => {
 };
 
 const setCountry = (country, index, values) => {
-    if (country.length < 0) return "";
+    if (country.length === 0) return "";
     let filter = " AND (users.country IN (";
     for (j = 0; j < country.length - 1; j++) {
         filter += "$" + index.i + ", ";

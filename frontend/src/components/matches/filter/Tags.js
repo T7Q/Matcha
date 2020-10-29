@@ -12,12 +12,14 @@ const Tags = () => {
     const { filter } = useSelector((state) => state.match);
     const classesSetting = settingStyles();
     const [realTags, setRealTags] = useState([]);
+    const [formData, setFormData] = useState([]);
     useEffect(() => {
         let isMounted = true;
         async function getTags() {
             const res = await axios.get('/profile/tags');
-            isMounted && setRealTags(res.data);
+            isMounted && setRealTags(res.data.map(item => item.tag));
         }
+        setFormData(filter['tags']);
         getTags();
         return () => {
             isMounted = false;
@@ -29,9 +31,10 @@ const Tags = () => {
         if (newValue.length !== 0) {
             const temp = Object.entries(newValue);
             temp.forEach(([key, value]) => {
-                selectedTags.push(value.tag);
+                selectedTags.push(value);
             });
         }
+        setFormData(selectedTags);
         dispatch(updateFilter({
             ...filter,
             tags: selectedTags,
@@ -44,8 +47,9 @@ const Tags = () => {
             id="interest-standard"
             onChange={handleInterestChange}
             options={realTags}
-            getOptionLabel={(option) => option.tag}
-            defaultValue={[]}
+            getOptionLabel={(option) => option}
+            // defaultValue={[]}
+            value={formData}
             renderInput={(params) => (
                 <TextField
                     className={classesSetting.tags}

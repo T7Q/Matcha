@@ -1,19 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
-import BackgroundImage from "../background2.jpg";
+import BackgroundImage from '../background2.jpg';
 
 export const chatStyles = makeStyles((theme) => ({
-    header:{
-        height: "150px",
+    header: {
+        height: '150px',
         background: `url(${BackgroundImage}) no-repeat center center fixed`,
-        backgroundSize: "cover",
-
+        backgroundSize: 'cover',
     },
     headerText: {
         color: theme.palette.info.main,
     },
     chatGrid: {
         justifyContent: 'space-around',
-        alignItems: "center",
+        alignItems: 'center',
     },
     leftSide: {
         minHeight: '60vh',
@@ -71,5 +70,65 @@ export const chatStyles = makeStyles((theme) => ({
                 border: '1px solid ' + theme.palette.primary.main,
             },
         },
+    },
+    floatRight: {
+        float: 'right',
+    },
+    conversationActiveList: {
+        borderBottom: '1px solid #252839',
+        backgroundColor: '#10183c',
+    },
+    borderBottm: {
+        borderBottom: '1px solid #252839',
+    },
+    conversationList: {
+        borderBottom: '1px solid #252839',
+        backgroundColor: 'inherit',
+    },
+    active: {
+        color: theme.palette.primary.main,
+    },
+    nonActive: {
+        color: theme.palette.info.main,
+    },
+    marginAuto: {
+        margin: 'auto',
+    },
+    fill: {
+        fill: theme.palette.text.primary,
+    },
+    overflowY: {
+        overflowY: 'auto',
+    },
+    mine: {
+        backgroundColor: '#0c1023',
+        borderRadius: '14px 14px 0 14px',
+        border: '1px solid #ff749c',
+        padding: '16px',
+        margin: '8px 0px 8px 80px',
+        [theme.breakpoints.down('sm')]: {
+            margin: '8px 0px 8px 15px',
+        },
+    },
+    other: {
+        backgroundColor: '#0c1023',
+        borderRadius: '14px 14px 14px 0',
+        border: '1px solid #ff749c',
+        padding: '16px',
+        margin: '8px 80px 8px 0',
+        [theme.breakpoints.down('sm')]: {
+            margin: '8px 15px 8px 0',
+        },
+    },
+    marginLeft: {
+        marginLeft: '20px',
+    },
+    date: {
+        color: '#b5bad3',
+        fontSize: 'small',
+    },
+    closeBlock: {
+        position: 'absolute',
+        left: '80%',
     },
 }));

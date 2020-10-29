@@ -71,14 +71,6 @@ const setupDatabase = async () => {
         })
         .catch((err) => {
             console.log('\x1b[31m' + err + '\x1b[0m');
-        });
-    await poolMatcha
-        .query(data)
-        .then((res) => {
-            console.log('\x1b[32m' + 'Tables are filled' + '\x1b[0m');
-        })
-        .catch((err) => {
-            console.log('\x1b[31m' + err + '\x1b[0m');
         })
         .finally(() => {
             poolMatcha.end();

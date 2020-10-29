@@ -1,31 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { withRouter } from 'react-router-dom';
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Box, Typography, Link, Button, TextField, IconButton } from '@material-ui/core';
-import { getMessages } from '../../actions/chat';
-import { Send } from '@material-ui/icons';
-import { Avatar } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Box, Typography, Link, Button, TextField, IconButton, Avatar } from '@material-ui/core';
 import HighlightOffOutlined from '@material-ui/icons/HighlightOff';
-import Dropdown from '../profile/viewProfile/DropdownItem';
+import { Send } from '@material-ui/icons';
+
+import chatService from '../../services/chatService';
+import { getMessages } from '../../actions/chat';
 import { getProfile } from '../../actions/profile';
 import { chatStyles } from '../../styles/chatStyles';
-import { useTheme } from '@material-ui/core/styles';
-// import { useStyles } from '../../styles/custom';
+import Dropdown from '../profile/viewProfile/DropdownItem';
 
-const PrivateChat = ({
-    getProfile,
-    getMessages,
-    currentConversation,
-    chat: { messages, conversations },
-    profile: { profile },
-    auth: { user, socket },
-    history,
-    handleChange,
-}) => {
-    const theme = useTheme();
-    const classesChat = chatStyles();
+const PrivateChat = ({ currentConversation, handleChange }) => {
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const { user, socket } = useSelector((state) => state.auth);
+    const { profile } = useSelector((state) => state.profile);
+    const { messages, conversations } = useSelector((state) => state.chat);
+    const classes = chatStyles();
     const [textMessage, setTextMessage] = useState('');
     const chat = currentConversation
         ? conversations.filter((chat) => chat.partner_id === currentConversation)[0]
@@ -42,12 +34,12 @@ const PrivateChat = ({
     useEffect(() => {
         let isMounted = true;
         if (partnerId !== 0) {
-            getMessages(chat.chat_id);
-            getProfile('otherUser', partnerId, false);
+            dispatch(getMessages(chat.chat_id));
+            dispatch(getProfile('otherUser', partnerId, false));
             socket.emit('JOIN_CHAT', chat.chat_id);
             socket.on('MESSAGE', (chatId) => {
                 if (isMounted && chat.chat_id === chatId) {
-                    getMessages(chatId);
+                    dispatch(getMessages(chatId));
                     socket.emit('SEE_CONVERSATION', user.userId, partnerId);
                 }
             });
@@ -57,7 +49,7 @@ const PrivateChat = ({
             socket.off('MESSAGE');
             socket.emit('TYPING_NOTIFICATION', chat.chat_id, false, partnerId);
         };
-    }, [currentConversation, getMessages, partnerId, getProfile, socket, chat, user.userId]);
+    }, [currentConversation, dispatch, partnerId, socket, chat, user.userId]);
 
     const goTo = (newRoute) => {
         history.push(newRoute);
@@ -72,7 +64,7 @@ const PrivateChat = ({
     const postMessage = async (e) => {
         e.preventDefault();
         if (textMessage) {
-            await axios.post('/chat/message', {
+            chatService.postMessage({
                 senderId: user.userId,
                 receiverId: partnerId,
                 content: textMessage,
@@ -92,35 +84,35 @@ const PrivateChat = ({
             position="relative"
             display="flex"
             flexDirection="column"
-            // p="5px"
             pl={0}
             pr={0}
             minWidth="100%"
-            className={classesChat.chat}>
-            <Box display="flex" alignItems="center" style={{ borderBottom: '1px solid #252839' }}>
+            className={classes.chat}>
+            <Box display="flex" alignItems="center" className={classes.borderBottom}>
                 <Box flexGrow={1} textAlign="center" flexDirection="row">
                     <Link
                         onClick={() => goTo(`/profile/${partnerId}`)}
                         component="button"
                         underline="none"
                         color="secondary">
-                        <Avatar style={{ margin: 'auto' }} alt="N" src={profile.profile_pic_path} />
-                        <Typography variant="body1" style={{ color: theme.palette.primary.main }}>
+                        <Avatar
+                            className={classes.marginAuto}
+                            alt="N"
+                            src={profile.profile_pic_path}
+                        />
+                        <Typography variant="body1" className={classes.active}>
                             {profile.first_name}
                         </Typography>
                     </Link>
                 </Box>
-                <Box style={{ position: 'absolute', left: '80%' }}>
+                <Box className={classes.closeBlock}>
                     <Dropdown />
                     <Button onClick={(e) => handleChange(e, 0)}>
-                        <HighlightOffOutlined
-                            fontSize="small"
-                            style={{ fill: theme.palette.text.primary }}
-                        />
+                        <HighlightOffOutlined fontSize="small" className={classes.fill} />
                     </Button>
                 </Box>
             </Box>
-            <Box ref={messageRef} mb={10} maxHeight="40vh" style={{ overflowY: 'auto' }}>
+            <Box ref={messageRef} mb={10} maxHeight="40vh" className={classes.overflowY}>
                 {messages.length > 0 &&
                     messages.map((element) => {
                         const options = { month: 'short', day: 'numeric' };
@@ -130,23 +122,10 @@ const PrivateChat = ({
                         );
                         return (
                             <Box p={1} key={element.id} textAlign={element.mine ? 'right' : 'left'}>
-                                <Box
-                                    borderRadius={
-                                        element.mine ? '14px 14px 0 14px' : '14px 14px 14px 0'
-                                    }
-                                    bgcolor="#0c1023"
-                                    border={
-                                        element.mine ? '1px solid #ff749c' : '1px solid #b5bad3'
-                                    }
-                                    m={1}
-                                    mr={element.mine ? 0 : 10}
-                                    ml={element.mine ? 10 : 0}
-                                    p={2}>
+                                <Box className={element.mine ? classes.mine : classes.other}>
                                     <Typography>{element.message}</Typography>
                                 </Box>
-                                <Typography style={{ color: '#b5bad3', fontSize: 'small' }}>
-                                    {date}
-                                </Typography>
+                                <Typography className={classes.date}>{date}</Typography>
                             </Box>
                         );
                     })}
@@ -154,18 +133,18 @@ const PrivateChat = ({
             <Box position="absolute" bottom={2} width="95%" m="5px">
                 <form onSubmit={postMessage}>
                     <Box display="flex" px={2} py={1}>
-                        <Box style={{ width: '90%' }}>
+                        <Box width="90%">
                             <TextField
                                 autoComplete="off"
                                 variant="outlined"
-                                className={classesChat.inputField}
+                                className={classes.inputField}
                                 type="text"
                                 name="textMessage"
                                 value={textMessage}
                                 onChange={onChange}
                             />
                         </Box>
-                        <IconButton color="primary" type="submit" style={{ marginLeft: '20px' }}>
+                        <IconButton color="primary" type="submit" className={classes.marginLeft}>
                             <Send />
                         </IconButton>
                     </Box>
@@ -175,18 +154,4 @@ const PrivateChat = ({
     );
 };
 
-PrivateChat.propTypes = {
-    getProfile: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired,
-    getMessages: PropTypes.func.isRequired,
-    chat: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    profile: state.profile,
-    chat: state.chat,
-    auth: state.auth,
-});
-
-export default connect(mapStateToProps, { getMessages, getProfile })(withRouter(PrivateChat));
+export default PrivateChat;

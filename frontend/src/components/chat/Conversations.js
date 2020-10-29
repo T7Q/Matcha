@@ -28,9 +28,7 @@ const Conversations = ({
         );
     });
 
-    return <List
-    className={classesChat.list}
-    >{conversationItems}</List>;
+    return <List className={classesChat.list}>{conversationItems}</List>;
 };
 
 export default Conversations;

@@ -34,6 +34,7 @@ const Chat = () => {
 
     useEffect(() => {
         // console.log('use ef 2');
+        // let isMounted = true;
         auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
             setPartnerTyping({ typing: typing, chatId: chatId });
         });
@@ -41,10 +42,12 @@ const Chat = () => {
 
     useEffect(() => {
         // console.log('use ef 3');
+        let isMounted = true;
+
         dispatch(getConversations());
         dispatch(getMessageNotifications());
         auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
-            if (type === 'message') {
+            if (isMounted && type === 'message') {
                 if (text) setLastMessage({ text: text, chatId: chatId });
                 dispatch(getMessageNotifications());
             }
@@ -52,6 +55,7 @@ const Chat = () => {
 
         return () => {
             auth.socket.off('TYPING_NOTIFICATION');
+            isMounted = false;
         };
     }, [auth.socket, dispatch]);
 

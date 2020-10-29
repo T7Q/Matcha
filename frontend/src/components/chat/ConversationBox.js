@@ -19,16 +19,20 @@ const ConversationBox = ({
     const classes = chatStyles();
 
     useEffect(() => {
+        let isMounted = true;
         socket.on('ONLINE', (userId, online) => {
-            setPartnerIsOnline({ online: online, partnerId: userId });
+            if (isMounted) setPartnerIsOnline({ online: online, partnerId: userId });
         });
+
+        return () => {
+            isMounted = false;
+        };
     }, [partnerIsOnline, socket]);
 
     const handleClick = () => {
         history.push(`/profile/${conversation.partner_id}`);
     };
-    {
-        /* <OnlineBadge
+    /* <OnlineBadge
                                 lastSeen={
                                     partnerIsOnline.partnerId === conversation.partner_id &&
                                     partnerIsOnline.online
@@ -36,7 +40,6 @@ const ConversationBox = ({
                                         : conversation.last_seen
                                 }
                             /> */
-    }
 
     return (
         <ListItem
@@ -55,25 +58,31 @@ const ConversationBox = ({
                 className={active === conversation.partner_id ? classes.active : classes.nonActive}
                 onClick={(e) => handleChange(e, conversation.partner_id, conversation.sender_id)}
                 primary={
-                    <>
-                        {conversation.partner_name} {conversation.partner_surname}{' '}
-                    </>
+                    <span>
+                        {conversation.partner_name} {conversation.partner_surname}
+                    </span>
                 }
                 secondary={
-                    <Box component="span" display="block" textOverflow="ellipsis" overflow="hidden">
-                        {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id
-                            ? 'is typing...'
-                            : lastMessage.chatId === conversation.chat_id
-                            ? lastMessage.text
-                            : conversation.last_message}{' '}
-                        {unread ? (
+                    <Box display="flex">
+                        <Box
+                            flexGrow={1}
+                            component="span"
+                            display="block"
+                            textOverflow="ellipsis"
+                            overflow="hidden">
+                            {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id
+                                ? 'is typing...'
+                                : lastMessage.chatId === conversation.chat_id
+                                ? lastMessage.text
+                                : conversation.last_message}{' '}
+                        </Box>
+                        {unread !== 0 && (
                             <Badge
                                 badgeContent={unread}
                                 max={99}
                                 color="primary"
-                                className={classes.floatRight}></Badge>
-                        ) : (
-                            <></>
+                                className={classes.floatRight}
+                            />
                         )}
                     </Box>
                 }

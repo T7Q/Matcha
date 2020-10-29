@@ -90,4 +90,40 @@ export const chatStyles = makeStyles((theme) => ({
     nonActive: {
         color: theme.palette.info.main,
     },
+    marginAuto: {
+        margin: 'auto',
+    },
+    fill: {
+        fill: theme.palette.text.primary,
+    },
+    overflowY: {
+        overflowY: 'auto',
+    },
+    mine: {
+        backgroundColor: '#0c1023',
+        borderRadius: '14px 14px 0 14px',
+        border: '1px solid #ff749c',
+        padding: '16px',
+        margin: '8px 0px 8px 80px',
+        [theme.breakpoints.down('sm')]: {
+            margin: '8px 0px 8px 15px',
+        },
+    },
+    other: {
+        backgroundColor: '#0c1023',
+        borderRadius: '14px 14px 14px 0',
+        border: '1px solid #ff749c',
+        padding: '16px',
+        margin: '8px 80px 8px 0',
+        [theme.breakpoints.down('sm')]: {
+            margin: '8px 15px 8px 0',
+        },
+    },
+    marginLeft: {
+        marginLeft: '20px',
+    },
+    date: {
+        color: '#b5bad3',
+        fontSize: 'small',
+    },
 }));

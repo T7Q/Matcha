@@ -1,5 +1,4 @@
 const register = require('./register');
-const getAll = require('./getAll');
 const login = require('./login');
 const pwdReset = require('./pwdReset');
 const pwdUpdate = require('./pwdUpdate');
@@ -8,12 +7,10 @@ const activate = require('./activate');
 const logout = require('./logout');
 const auth = require('./auth');
 const { getGoogleLink, googleLogin, registerGoogle } = require('./google');
-const { getNotifications, editNotifications } = require('./notification');
 
 module.exports = {
     auth,
     register,
-    getAll,
     login,
     pwdReset,
     pwdUpdate,
@@ -23,6 +20,4 @@ module.exports = {
     logout,
     getGoogleLink,
     registerGoogle,
-    getNotifications,
-    editNotifications,
 };

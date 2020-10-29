@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { validateTagsInDb } = require('./profile');
+const { validateTagsInDb, getDataOneCondition, deleteRowOneCondition } = require('./profile');
 
 const validateGender = (gender) => {
     let errors = {};
@@ -140,6 +140,18 @@ const buildQueryForSavingTags = (tags, user_id) => {
     return query;
 };
 
+const removePhoto = async (imageId) => {
+    // get old image path form db and remove it
+    let filename = await getDataOneCondition('images', 'image_path', 'image_id', imageId);
+
+    if (filename.length > 0) {
+        deleteFromFile(filename[0].image_path);
+
+        // delete old photo from db
+        await deleteRowOneCondition('images', 'image_id', imageId);
+    }
+};
+
 module.exports = {
     validateGender,
     validateSexPreferences,
@@ -151,4 +163,5 @@ module.exports = {
     saveToFile,
     deleteFromFile,
     buildQueryForSavingTags,
+    removePhoto,
 };

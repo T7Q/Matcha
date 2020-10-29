@@ -22,6 +22,7 @@ module.exports = async (req, res) => {
         if (result.status != 0) {
             await accountModel.updateAccount(userId, { token: null });
         }
+
         return res.json({ error: ['Token is not valid, please, resent the link'] });
     }
 
@@ -29,5 +30,6 @@ module.exports = async (req, res) => {
         password: await bcrypt.hash(password, 10),
         token: null,
     });
+
     return res.json({ msg: 'Your password was updated.' });
 };

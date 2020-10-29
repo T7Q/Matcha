@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
 
     // create new token to reset password
     const token = crypto.randomBytes(42).toString('hex');
-
     await accountModel.updateAccount(user.user_id, { token: token });
+
     return res.json(mail.pwdResetEmail(email, user.user_id, user.username, token, req));
 };

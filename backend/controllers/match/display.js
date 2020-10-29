@@ -36,7 +36,6 @@ const recommend = async (req, res) => {
 
     // add filter to match correct sex orintation
     settings.filter += matchHelper.setSexPreference(userDbData.sex_orientation, '');
-    // console.log(settings.filter);
     // get match from db
     let matches = await matchModel.getMatch(userDbData, settings);
     return res.json(matches);

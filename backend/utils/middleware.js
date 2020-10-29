@@ -8,12 +8,13 @@ const authentication = async (req, res, next) => {
             if (err) {
                 req.user = undefined;
             } else {
-                try {
-                    let user = await accountModel.findUserInfo('user_id', decode.userId, 'online', 'status');
-                    req.user = user && user.online !== 0 ? decode : undefined;
-                } catch {
-                    return res.json({ error: 'something went wrong' });
-                }
+                let user = await accountModel.findUserInfo(
+                    'user_id',
+                    decode.userId,
+                    'online',
+                    'status'
+                );
+                req.user = user && user.online !== 0 ? decode : undefined;
             }
             return next();
         });
@@ -25,19 +26,19 @@ const authentication = async (req, res, next) => {
 
 const authRequired = async (req, res, next) => {
     if (req.user) {
-        try {
-            const user = await accountModel.findUserInfo('user_id', req.user.userId, 'online', 'status');
+        const user = await accountModel.findUserInfo(
+            'user_id',
+            req.user.userId,
+            'online',
+            'status'
+        );
 
-            if (user && user.online === 1) {
-                if (user.status === 1) {
-                    return res.json({ error: 'Fill your account' });
-                }
-                await accountModel.updateTime(req.user.userId, Date.now());
-                return next();
+        if (user && user.online === 1) {
+            if (user.status === 1) {
+                return res.json({ error: 'Fill your account' });
             }
-        } catch (e) {
-            console.log(e);
-            return res.json({ error: 'something went wrong' });
+            await accountModel.updateTime(req.user.userId, Date.now());
+            return next();
         }
     }
     return res.json({ error: 'Unauthorized user!' });
@@ -45,18 +46,18 @@ const authRequired = async (req, res, next) => {
 
 const authWithStatus1 = async (req, res, next) => {
     if (req.user) {
-        try {
-            const user = await accountModel.findUserInfo('user_id', req.user.userId, 'online', 'status');
+        const user = await accountModel.findUserInfo(
+            'user_id',
+            req.user.userId,
+            'online',
+            'status'
+        );
 
-            if (user && user.online === 1) {
-                await accountModel.updateTime(req.user.userId, Date.now());
-                return next();
-            } else {
-                return res.json({ error: "You don't have priviliges" });
-            }
-        } catch (e) {
-            console.log(e);
-            return res.json({ error: 'something went wrong' });
+        if (user && user.online === 1) {
+            await accountModel.updateTime(req.user.userId, Date.now());
+            return next();
+        } else {
+            return res.json({ error: "You don't have priviliges" });
         }
     }
     return res.json({ error: 'Unauthorized user!' });

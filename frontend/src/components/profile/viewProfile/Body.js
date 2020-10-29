@@ -20,7 +20,7 @@ const Body = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
     const temp = store.getState().profile.profile.blocked;
     // const temp = store.getState().profile;
-    console.log('temp', temp);
+    // console.log('temp', temp);
 
     const theme = useTheme();
     const classesProf = profileStyles();

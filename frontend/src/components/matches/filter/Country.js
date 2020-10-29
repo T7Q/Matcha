@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField } from "@material-ui/core";
 import { getCountries } from "countries-cities";
@@ -8,6 +8,8 @@ import { updateFilter } from '../../../actions/match';
 const Country = () => {
     const dispatch = useDispatch();
     const { filter } = useSelector((state) => state.match);
+    // const [formData, setFormData] = useState([]);
+    const [formData, setFormData] = useState(filter['country']);
 
     const countries = getCountries();
     const handleCountryChange = (event, newValue) => {
@@ -15,6 +17,7 @@ const Country = () => {
         if (newValue !== null) {
             value = newValue;
         }
+        setFormData(value);
         dispatch(updateFilter({
             ...filter,
             country: value,
@@ -28,7 +31,7 @@ const Country = () => {
             onChange={handleCountryChange}
             options={countries}
             getOptionLabel={(option) => option}
-            defaultValue={[]}
+            value={formData}
             renderInput={(params) => (
                 <TextField
                     {...params}

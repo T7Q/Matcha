@@ -191,7 +191,7 @@ const buildFilter = (req, userDbData, values) => {
 
 const buildOrder = (userSuppliedOrder, order) => {
     let defaultOrder = "match desc, distance desc, fame desc";
-    let userOrder = !userSuppliedOrder
+    let userOrder = userSuppliedOrder.length === 0
         ? ""
         : " " + userSuppliedOrder.join(", ").replace(/_/g, " ");
     order = order === "" ? "" : " " + order + ", ";

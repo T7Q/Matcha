@@ -123,34 +123,6 @@ const visitedMe = async (req, res) => {
     return res.json(matches);
 };
 
-const visitedMeNew = async (req, res) => {
-    // NOT FINALIZED
-    // need to add reference to DATE_FROM_NOTIFICATIONS
-    let userDbData = await accountModel.findUserInfo(
-        'user_id',
-        req.user.userId,
-        'user_id',
-        'geolocation',
-        'chinese_horo',
-        'western_horo'
-    );
-    userDbData['userHasTags'] = await profileModel.userHasTags(req.user.userId);
-
-    let settings = {
-        weight: { tag: 0.1, cn: 0.45, west: 0.45 },
-        dateColumn: ', views.date_created AS date ',
-        join: ' LEFT JOIN views ON views.from_user_id = users.user_id ',
-        filter:
-            ' AND views.to_user_id = $1\
-                        AND views.date_created  = DATE_FROM_NOTIFICATIONS',
-        order: 'date desc, match desc, distance desc',
-        limit: '',
-        values: [userDbData.user_id, userDbData.geolocation],
-    };
-    let matches = await matchModel.getMatch(userDbData, settings);
-    return res.json(matches);
-};
-
 const visitedByMe = async (req, res) => {
     let userDbData = await accountModel.findUserInfo(
         'user_id',
@@ -180,6 +152,5 @@ module.exports = {
     connected,
     recommend,
     visitedMe,
-    visitedMeNew,
     visitedByMe,
 };

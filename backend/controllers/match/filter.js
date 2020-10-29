@@ -24,10 +24,6 @@ module.exports = async (req, res) => {
     let errorOrientation = matchHelper.validateOrientation(req.body.sex_orientation);
     if (errorOrder || errorOrientation) return res.json({ error: 'Invalid parameters or values' });
 
-    // let tagsAreValid = await profileModel.validateTagsInDb(req.body.tags);
-    // if (!tagsAreValid)
-    //     return res.status(400).json({ msg: "Invalid tags" });
-
     // get loggedIn user data from Db
     let userDbData = await accountModel.findUserInfo(
         'user_id',
@@ -50,7 +46,9 @@ module.exports = async (req, res) => {
         filter:
             ' AND (SELECT count(likes.like_id) AS to_likes FROM likes\
                         WHERE likes.from_user_id = $1\
-                        AND likes.to_user_id = users.user_id) = 0 ',
+                        AND likes.to_user_id = users.user_id) = 0\
+                AND (SELECT count(blocked.to_user_id) FROM blocked\
+                    WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
         order: '',
         limit: '',
         dateColumn: ', users.created_at as date ',

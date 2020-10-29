@@ -56,7 +56,7 @@ const deleteRowOneCondition = async (table, column, value) => {
     );
 };
 
-const placeholderValues = array => {
+const placeholderValues = (array) => {
     let placeholder = '';
     for (i = 1; i < array.length + 1; i++) {
         placeholder += '$' + i;
@@ -65,7 +65,7 @@ const placeholderValues = array => {
     return placeholder;
 };
 
-const validateTagsInDb = async tags => {
+const validateTagsInDb = async (tags) => {
     let placeholder = placeholderValues(tags);
     let res = await db.query(
         `SELECT count(tag_id)\
@@ -86,7 +86,7 @@ const getDataOneCondition = async (table, select, condition, value) => {
     return res.rows;
 };
 
-const saveTags = async query => {
+const saveTags = async (query) => {
     const { values, placeholder } = query;
     await db.query(
         `INSERT INTO public.user_tags(user_id, tag_id)
@@ -95,7 +95,7 @@ const saveTags = async query => {
     );
 };
 
-const userHasTags = async user_id => {
+const userHasTags = async (user_id) => {
     const res = await db.query(
         `SELECT count(tag_id)
         FROM user_tags
@@ -105,7 +105,7 @@ const userHasTags = async user_id => {
     return res.rows[0].count == 0 ? false : true;
 };
 
-const getUserTags = async user_id => {
+const getUserTags = async (user_id) => {
     const res = await db.query(
         `SELECT tags.tag_name
         FROM public.user_tags
@@ -116,7 +116,7 @@ const getUserTags = async user_id => {
     return res;
 };
 
-const getUserPhotos = async user_id => {
+const getUserPhotos = async (user_id) => {
     const res = await db.query(
         `SELECT image_path
         FROM images
@@ -137,7 +137,7 @@ const getTags = async (req, res) => {
     }
 };
 
-const getNotifications = async userId => {
+const getNotifications = async (userId) => {
     try {
         const result = await db.query(
             `
@@ -168,7 +168,7 @@ const deleteMessageNotifications = async (userId, fromUserId) => {
     return res.rowCount;
 };
 
-const getMessageNotifications = async userId => {
+const getMessageNotifications = async (userId) => {
     try {
         const result = await db.query(
             `
@@ -183,7 +183,7 @@ const getMessageNotifications = async userId => {
     }
 };
 
-const userHasPhotos = async user_id => {
+const userHasPhotos = async (user_id) => {
     const res = await db.query(
         `SELECT count(image_id)
         FROM images WHERE user_id=$1`,
@@ -230,7 +230,7 @@ const usersConnected = async (fromUserId, toUserId) => {
     return res.rows[0].connected;
 };
 
-const getUserAge = async userId => {
+const getUserAge = async (userId) => {
     const res = await db.query(
         `SELECT (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age
         FROM users where user_id =$1`,
@@ -260,7 +260,7 @@ const getBlockedValue = async (authUserId, otherUserId) => {
     return res.rows[0].blocked;
 };
 
-const getBlockedUsers = async authUserId => {
+const getBlockedUsers = async (authUserId) => {
     const res = await db.query(
         `SELECT blocked.to_user_id as user_id, users.profile_pic_path, users.first_name,(EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
             blocked.created_at FROM blocked
@@ -272,7 +272,7 @@ const getBlockedUsers = async authUserId => {
     return res.rows;
 };
 
-const userExists = async userId => {
+const userExists = async (userId) => {
     const res = await db.query(
         `SELECT count(user_id)
         FROM users WHERE user_id=$1`,

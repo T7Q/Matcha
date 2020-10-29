@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
 import { editProfile } from '../../../actions/profile';
+import { validateField } from '../../../services/validator';
+import { customStyles } from '../../../styles/customStyles';
+import { updateUser } from '../../../actions/auth';
 
-const Email = ({ setSnackbar, editProfile, user }) => {
+const Email = ({ setSnackbar }) => {
+    const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth);
     const [formData, setFormData] = useState({
         email: user.email,
         password: '',
@@ -19,53 +21,30 @@ const Email = ({ setSnackbar, editProfile, user }) => {
 
     const { email, password } = formData;
     const { emailError, passwordError } = errors;
-    const classes = useStyles();
+    const classes = customStyles();
 
     const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const validate = () => {
-        let errorPassword = '';
-        if (!password) {
-            errorPassword = 'required field';
-        }
-        if (!email) {
-            setErrors({ ...errors, passwordError: errorPassword, emailError: 'required field' });
-        } else if (email.length > 63) {
-            setErrors({ ...errors, passwordError: errorPassword, emailError: 'email is too long' });
-        } else if (errorPassword) {
-            setErrors({ ...errors, passwordError: errorPassword, emailError: '' });
-        } else {
-            setErrors({ passwordError: '', emailError: '' });
-            return true;
-        }
-        return false;
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!validate()) {
-            return;
+        const error = validateField('email', email);
+        if (error) {
+            setErrors({ emailError: error });
         } else if (user.email === email) {
             setSnackbar(true, 'warning', 'No changes applied');
             return;
         }
-        try {
-            const res = await axios.post('/profile/edit', { key: 'email', value: formData });
-            if (res.data.error) {
-                setErrors(res.data.error);
-            } else {
-                user.email = email;
-                editProfile(user);
-                setSnackbar(true, 'success', res.data.msg);
-                setFormData({ email: email, password: '' });
-            }
-        } catch (error) {
-            console.log(error);
+        const res = await dispatch(editProfile({ key: 'email', value: formData }));
+        if (res && res.error) {
+            setErrors({ ...res.error });
+        } else {
+            setFormData({ email: email, password: '' });
+            dispatch(updateUser({ ...user, email: email }));
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={classes.alignCenter}>
             <FormGroup>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>
@@ -73,7 +52,7 @@ const Email = ({ setSnackbar, editProfile, user }) => {
                             variant="outlined"
                             name="email"
                             type="email"
-                            className={classes.customInput}
+                            className={classes.input}
                             placeholder="new email"
                             value={email}
                             onChange={onChange}
@@ -83,7 +62,7 @@ const Email = ({ setSnackbar, editProfile, user }) => {
                     </Grid>
                     <Grid item>
                         <TextField
-                            className={classes.customInput}
+                            className={classes.input}
                             variant="outlined"
                             type="password"
                             name="password"
@@ -100,7 +79,7 @@ const Email = ({ setSnackbar, editProfile, user }) => {
                     size="small"
                     variant="contained"
                     color="primary"
-                    className={`${classes.customButton} ${classes.p2}`}>
+                    className={`${classes.mainButton} ${classes.p2}`}>
                     Save
                 </Button>
             </FormGroup>
@@ -108,12 +87,4 @@ const Email = ({ setSnackbar, editProfile, user }) => {
     );
 };
 
-Email.propTypes = {
-    editProfile: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-    user: state.auth.user,
-});
-
-export default connect(mapStateToProps, { editProfile })(Email);
+export default Email;

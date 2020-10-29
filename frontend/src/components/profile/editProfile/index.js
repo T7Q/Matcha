@@ -1,26 +1,27 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Box, Grid } from '@material-ui/core';
+
 import { getProfile } from '../../../actions/profile';
-import Spinner from '../../layout/Spinner';
 import Bio from './Bio';
 import Birthdate from './Birthdate';
 import Name from './Name';
 import Tag from './Tag';
 import Username from './Username';
 import SexPreference from './SexPreference';
-// import Photos from './Photos';
 import Country from './Country';
+import Spinner from '../../layout/Spinner';
 import Header from '../viewProfile/Header';
-import { setSnackbar } from '../../../actions/setsnackbar';
 
-const Edit = ({ setSnackbar, getProfile, profile: { profile, loading }, ...props }) => {
-    let type = props.match.params.type;
+const Edit = () => {
+    const { profile, loading } = useSelector((state) => state.profile);
+    const dispatch = useDispatch();
+    let { type } = useParams();
 
     useEffect(() => {
-        getProfile('myProfile');
-    }, [getProfile]);
+        dispatch(getProfile('myProfile'));
+    }, [dispatch]);
 
     return loading ? (
         <Spinner />
@@ -34,31 +35,29 @@ const Edit = ({ setSnackbar, getProfile, profile: { profile, loading }, ...props
                     {(() => {
                         switch (type) {
                             case 'bio':
-                                return <Bio bioProp={profile.bio} setSnackbar={setSnackbar} />;
+                                return <Bio bioProp={profile.bio} />;
                             case 'tags':
-                                return <Tag setSnackbar={setSnackbar} />;
+                                return <Tag />;
                             case 'name':
                                 return (
                                     <Name
                                         firstName={profile.first_name}
                                         lastName={profile.last_name}
-                                        setSnackbar={setSnackbar}
                                     />
                                 );
                             case 'username':
-                                return <Username setSnackbar={setSnackbar} />;
+                                return <Username />;
                             case 'birthdate':
-                                return <Birthdate birthdateProp={profile.birth_date} setSnackbar={setSnackbar} />;
+                                return <Birthdate birthdateProp={profile.birth_date} />;
                             case 'sexPreference':
                                 return (
                                     <SexPreference
                                         genderProp={profile.gender}
                                         sexPreferenceProp={profile.sex_preference}
-                                        setSnackbar={setSnackbar}
                                     />
                                 );
                             case 'country':
-                                return <Country countryProp={profile.country} setSnackbar={setSnackbar} />;
+                                return <Country countryProp={profile.country} />;
                             default:
                                 return <>Page not found</>;
                         }
@@ -69,14 +68,4 @@ const Edit = ({ setSnackbar, getProfile, profile: { profile, loading }, ...props
     );
 };
 
-Edit.propTypes = {
-    getProfile: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired,
-    setSnackbar: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-    profile: state.profile,
-});
-
-export default connect(mapStateToProps, { getProfile, setSnackbar })(Edit);
+export default Edit;

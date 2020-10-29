@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { validateField } from '../../../services/validator';
+import { editProfile } from '../../../actions/profile';
+
 import { Autocomplete } from '@material-ui/lab';
 import { TextField } from '@material-ui/core';
-import { useStyles } from '../../../styles/custom';
+import { customStyles } from '../../../styles/customStyles';
 import WizardForm from '../../common/WizardForm';
 
-const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
+const SexPreference = ({ genderProp, sexPreferenceProp }) => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         gender: genderProp,
         sexPreference: sexPreferenceProp,
@@ -14,37 +18,24 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
     const [errors, setErrors] = useState({ genderError: '', sexPreferenceError: '' });
     const { gender, sexPreference } = formData;
     const { genderError, sexPreferenceError } = errors;
-    const classes = useStyles();
+    const classes = customStyles();
 
     const setData = (value, type) => {
-        validate(value, type);
+        const errorType = [type] + 'Error';
+        const error = validateField(type, value);
+        setErrors({ ...errors, [errorType]: error });
         setFormData({ ...formData, [type]: value });
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async () => {
         if (gender && sexPreference) {
-            try {
-                const res = await axios.post('/profile/edit', {
+            const res = await dispatch(
+                editProfile({
                     key: 'sex_preference',
                     value: formData,
-                });
-                if (res.data.error) {
-                    setErrors(res.data.error);
-                } else {
-                    setSnackbar(true, 'success', res.data.msg);
-                }
-            } catch (err) {
-                console.log(err);
-            }
-        }
-    };
-
-    const validate = (value, type) => {
-        const errorType = type + 'Error';
-        if (!value) {
-            setErrors({ ...errors, [errorType]: 'required field' });
-        } else {
-            setErrors({ ...errors, [errorType]: '' });
+                })
+            );
+            if (res && res.error) setErrors({ ...res.error });
         }
     };
 
@@ -56,11 +47,6 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
             setFormData={setFormData}
             onSubmit={handleSubmit}>
             <>
-                {/* <Box width={{ md: '300px' }} py={2}>
-                    <Typography variant="h6" >
-                        I am ...
-                    </Typography>
-                </Box> */}
                 <Autocomplete
                     onChange={(e, val) => setData(val, 'gender')}
                     options={['man', 'woman']}
@@ -71,7 +57,7 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
                         <TextField
                             autoFocus
                             {...params}
-                            className={classes.customInput2}
+                            className={classes.input2}
                             error={genderError ? true : false}
                             helperText={genderError}
                             variant="outlined"
@@ -80,11 +66,6 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
                         />
                     )}
                 />
-                {/* <Box width={{ md: '300px' }} py={2}>
-                    <Typography variant="h6" >
-                        I am looking for ...
-                    </Typography>
-                </Box> */}
                 <Autocomplete
                     onChange={(e, val) => setData(val, 'sexPreference')}
                     options={['man', 'woman', 'both']}
@@ -95,7 +76,7 @@ const SexPreference = ({ setSnackbar, genderProp, sexPreferenceProp }) => {
                         <TextField
                             autoFocus
                             {...params}
-                            className={classes.customInput2}
+                            className={classes.input2}
                             error={sexPreferenceError ? true : false}
                             helperText={sexPreferenceError}
                             variant="outlined"

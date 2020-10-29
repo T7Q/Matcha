@@ -31,10 +31,6 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
         }
     }, [isAuthenticated, socket, user.userId, dispatch]);
 
-    const amount = (amount) => {
-        return amount < 100 ? amount : '99+';
-    };
-
     const menuItems = [
         {
             title: 'Matches',
@@ -45,7 +41,7 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
         {
             title: 'Messages',
             pageUrl: '/messages',
-            amount: amount(Number(notifications.message)),
+            amount: Number(notifications.message),
             icon: <MessageOutlined />,
             color: 'primary',
             active: active === 'messages',
@@ -53,11 +49,10 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
         {
             title: 'Likes',
             pageUrl: '/likes',
-            amount: amount(
+            amount:
                 Number(notifications.like) +
-                    Number(notifications.unlike) +
-                    Number(notifications.match)
-            ),
+                Number(notifications.unlike) +
+                Number(notifications.match),
             icon: <FavoriteBorder />,
             color: 'primary',
             active: active === 'likes',
@@ -85,6 +80,7 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
                             <Badge
                                 badgeContent={menu.amount}
                                 className={classes.pr}
+                                max={99}
                                 color={menu.color}>
                                 {menu.icon}
                             </Badge>{' '}

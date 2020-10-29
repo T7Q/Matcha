@@ -1,7 +1,7 @@
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
-    UPDATE_PROFILE,
+    UPDATE_USER,
     LOGIN_SUCCESS,
     AUTH_SUCCESS,
     AUTH_FAIL,
@@ -43,10 +43,10 @@ export default (state = initialState, action) => {
                 loading: false,
                 isAuthenticated: false,
             };
-        case UPDATE_PROFILE:
+        case UPDATE_USER:
             return {
                 ...state,
-                user: payload.user,
+                user: payload,
             };
         case LOAD_SOCKET:
             return {

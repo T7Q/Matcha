@@ -30,7 +30,9 @@ export const validateField = (name, value, password = '') => {
     switch (name) {
         case 'tags':
             if (value.length < 5) {
-                return 'Choose minimum 5 tags';
+                return 'Choose minimum 5 passions';
+            } else if (value.length > 10) {
+                return 'Choose maximum 10 passions';
             }
             return '';
         case 'email':
@@ -64,7 +66,7 @@ export const validateField = (name, value, password = '') => {
                 return 'Passwords do not match';
             }
             return '';
-        case 'birthdate':
+        case 'birth_date':
             let age = getAge(value);
             if (age < 18) {
                 return '18 years required';

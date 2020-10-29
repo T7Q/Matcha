@@ -1,13 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Box, Button, Typography, useMediaQuery } from '@material-ui/core';
 
 import { customStyles } from '../../styles/customStyles';
 
-const Landing = () => {
+const Landing = ({ history }) => {
     const { isAuthenticated, loading } = useSelector((state) => state.auth);
-    const history = useHistory();
     const classes = customStyles();
     const isMobile = useMediaQuery('(max-width:600px)');
 

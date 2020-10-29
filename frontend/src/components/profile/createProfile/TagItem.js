@@ -3,7 +3,7 @@ import { Box, Typography, TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import profileService from '../../../services/profileService';
 
-const SexPreferenceItem = ({ error, setData, formData }) => {
+const TagItem = ({ error, setData, formData }) => {
     const [realTags, setRealTags] = useState([]);
 
     useEffect(() => {
@@ -39,4 +39,4 @@ const SexPreferenceItem = ({ error, setData, formData }) => {
     );
 };
 
-export default SexPreferenceItem;
+export default TagItem;

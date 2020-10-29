@@ -69,6 +69,30 @@ export const customStyles = makeStyles((theme) => ({
         // width: '100%',
         // backgroundColor: 'transparent',
     },
+    input2: {
+        width: '95%',
+        margin: '10px',
+        alignItems: 'center',
+        '& label': {
+            color: theme.palette.primary.light,
+            fontSize: '16px',
+            // marginLeft: '25%',
+        },
+        '& input': {
+            textAlign: 'center',
+        },
+        '& label.Mui-focused': {
+            // marginLeft: 0,
+        },
+        '& .MuiOutlinedInput-root': {
+            borderRadius: '30px',
+            width: '100%',
+            fontSize: '16px',
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+            border: '1px solid ' + theme.palette.primary.light,
+        },
+    },
     bioInput: {
         // minHeight: '150px',
         minWidth: '400px',
@@ -125,5 +149,8 @@ export const customStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             maxWidth: '200px',
         },
+    },
+    alignCenter: {
+        textAlign: 'center',
     },
 }));

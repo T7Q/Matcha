@@ -1,20 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { GridList, GridListTile } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
-    },
-}));
+import { GridList, GridListTile } from '@material-ui/core';
+import { profileStyles } from '../../../styles/profileStyles';
 
 const ImageGridList = () => {
-    const classes = useStyles();
+    const classes = profileStyles();
     const { profile } = useSelector((state) => state.profile);
 
     if (profile['photos'].length === 0) {

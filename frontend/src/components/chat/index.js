@@ -9,11 +9,8 @@ import PrivateChat from './PrivateChat';
 import { chatStyles } from '../../styles/chatStyles';
 
 const Chat = () => {
-    const {
-        auth,
-        notifications,
-        chat: { conversations },
-    } = useSelector((state) => state);
+    const { auth, notifications, chat } = useSelector((state) => state);
+    const { conversations } = chat;
     const history = useHistory();
     const dispatch = useDispatch();
     const [currentConversation, setCurrentConversation] = useState(0);
@@ -33,7 +30,7 @@ const Chat = () => {
         if (userId !== 0 && conversations.some((el) => el.partner_id === userId)) {
             setCurrentConversation(userId);
         }
-    }, [userId, conversations]);
+    }, [userId, conversations, currentConversation]);
 
     useEffect(() => {
         // console.log('use ef 2');
@@ -59,7 +56,7 @@ const Chat = () => {
             isMounted = false;
             auth.socket.off('TYPING_NOTIFICATION');
         };
-    }, [getConversations, getMessageNotifications, auth.socket, dispatch]);
+    }, [auth.socket, dispatch]);
 
     const handleChange = (event, newUserId, senderId) => {
         setCurrentConversation(newUserId);

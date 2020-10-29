@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
-
 import { customStyles } from '../../styles/customStyles';
 import { profileStyles } from '../../styles/profileStyles';
 

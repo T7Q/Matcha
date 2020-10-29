@@ -5,6 +5,7 @@ import { setSnackbar } from './setsnackbar';
 import {
     LOGIN_SUCCESS,
     AUTH_SUCCESS,
+    UPDATE_USER,
     AUTH_FAIL,
     REGISTER_FAIL,
     REGISTER_SUCCESS,
@@ -77,4 +78,11 @@ export const logout = (history) => async (dispatch) => {
 
 export const loadSocket = (socket) => async (dispatch) => {
     dispatch({ type: LOAD_SOCKET, payload: socket });
+};
+
+export const updateUser = (user) => async (dispatch) => {
+    dispatch({
+        type: UPDATE_USER,
+        payload: user,
+    });
 };

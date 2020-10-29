@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import authService from '../../services/authService';
 import { setSnackbar } from '../../actions/setsnackbar';
@@ -8,10 +8,9 @@ import { setSnackbar } from '../../actions/setsnackbar';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 
-const ForgetPwd = () => {
+const ForgetPwd = ({ history }) => {
     const { user, isAuthenticated } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-    const history = useHistory();
     const [formData, setFormData] = useState({ email: '' });
     const [error, setError] = useState('');
     const { email } = formData;

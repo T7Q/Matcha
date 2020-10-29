@@ -1,4 +1,10 @@
-import { CREATE_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_BlOCKED } from '../actions/types';
+import {
+    CREATE_PROFILE,
+    GET_PROFILE,
+    PROFILE_ERROR,
+    UPDATE_PROFILE,
+    UPDATE_BlOCKED,
+} from '../actions/types';
 
 const initialState = {
     profile: null,
@@ -20,6 +26,15 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 profile: payload,
+                loading: false,
+            };
+        case UPDATE_PROFILE:
+            const updatedProfile = state.profile;
+            let { key, value } = payload;
+            updatedProfile[[key]] = value;
+            return {
+                ...state,
+                profile: updatedProfile,
                 loading: false,
             };
         case PROFILE_ERROR:

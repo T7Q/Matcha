@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect, useHistory, useLocation } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 
 import { setSnackbar } from '../../actions/setsnackbar';
 import authService from '../../services/authService';
@@ -9,9 +9,8 @@ import { validateField } from '../../services/validator';
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 
-const UpdatePwd = () => {
+const UpdatePwd = ({ history }) => {
     const { user, isAuthenticated } = useSelector((state) => state.auth);
-    const history = useHistory();
     const location = useLocation();
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({ password: '', confirmPassword: '' });

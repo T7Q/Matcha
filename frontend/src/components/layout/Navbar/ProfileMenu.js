@@ -21,9 +21,7 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
         });
     }, [socket, dispatch]);
 
-    const amount = (amount) => {
-        return amount < 100 ? amount : '99+';
-    };
+    const amount = (number) => (number > 99 ? '99+' : number);
 
     const clickMenu = (menuItem) => {
         setActive('Profile');
@@ -60,7 +58,8 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
                 <Typography variant="button" className={classes.mobileText} color="textPrimary">
                     <Badge
                         className={classes.pr}
-                        badgeContent={amount(notifications.visit)}
+                        badgeContent={notifications.visit}
+                        max={99}
                         color="primary">
                         {isMobile ? (
                             <PersonOutlineIcon />

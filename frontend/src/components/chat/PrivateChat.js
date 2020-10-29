@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography, Link, Button, TextField, IconButton, Avatar } from '@material-ui/core';
 import HighlightOffOutlined from '@material-ui/icons/HighlightOff';
@@ -10,8 +11,9 @@ import { getProfile } from '../../actions/profile';
 import { chatStyles } from '../../styles/chatStyles';
 import Dropdown from '../profile/viewProfile/DropdownItem';
 
-const PrivateChat = ({ currentConversation, history, handleChange }) => {
+const PrivateChat = ({ currentConversation, handleChange }) => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { user, socket } = useSelector((state) => state.auth);
     const { profile } = useSelector((state) => state.profile);
     const { messages, conversations } = useSelector((state) => state.chat);

@@ -1,22 +1,19 @@
-import { IconButton } from '@material-ui/core';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
-import React from 'react';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import { addInteraction, unblockUser } from '../../../actions/profile';
-
-import { useStyles } from '../../../styles/custom';
+import { navStyles } from '../../../styles/navStyles';
 
 const Dropdown = () => {
     const dispatch = useDispatch();
     const { profile } = useSelector((state) => state.profile);
+    const classes = navStyles();
 
     const userId = profile.user_id;
     const blocked = profile.blocked;
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -29,10 +26,10 @@ const Dropdown = () => {
     const handleClickUnblock = () => {
         dispatch(unblockUser('profile', [{ user_id: userId }]));
     };
+
     const handleClickInteraction = (type) => () => {
         dispatch(addInteraction(type, userId));
     };
-    const classes = useStyles();
 
     const menu = [
         {
@@ -52,7 +49,7 @@ const Dropdown = () => {
     return (
         <>
             <IconButton aria-haspopup="true" onClick={handleClick}>
-                <MoreHorizIcon style={{ fill: 'white' }} fontSize="small" />
+                <MoreHorizIcon className={classes.fillWhite} fontSize="small" />
             </IconButton>
             <Menu
                 id="actions-menu"

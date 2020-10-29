@@ -62,4 +62,7 @@ export const navStyles = makeStyles((theme) => ({
         width: '25px',
         height: '25px',
     },
+    fillWhite: {
+        fill: 'white',
+    },
 }));

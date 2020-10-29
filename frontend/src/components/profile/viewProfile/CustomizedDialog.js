@@ -1,73 +1,32 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import IconButton from "@material-ui/core/IconButton";
-import CloseIcon from "@material-ui/icons/Close";
-import Typography from "@material-ui/core/Typography";
-import ImageGridList from "./ImageGridList";
-import ImageGridListOwn from "./ImageGridListOwn";
-
-const styles = (theme) => ({
-    root: {
-        margin: 0,
-        padding: theme.spacing(2),
-    },
-    closeButton: {
-        position: "absolute",
-        right: theme.spacing(1),
-        top: theme.spacing(1),
-        color: theme.palette.grey[500],
-    },
-});
-
-const DialogTitle = withStyles(styles)((props) => {
-    const { children, classes, onClose, ...other } = props;
-    return (
-        <MuiDialogTitle disableTypography className={classes.root} {...other}>
-            <Typography variant="h6">{children}</Typography>
-            {onClose ? (
-                <IconButton
-                    aria-label="close"
-                    className={classes.closeButton}
-                    onClick={onClose}
-                >
-                    <CloseIcon />
-                </IconButton>
-            ) : null}
-        </MuiDialogTitle>
-    );
-});
-
-const DialogContent = withStyles((theme) => ({
-    root: {
-        padding: theme.spacing(2),
-    },
-}))(MuiDialogContent);
+import React from 'react';
+import { Dialog, DialogTitle, DialogContent, IconButton } from '@material-ui/core/';
+import CloseIcon from '@material-ui/icons/Close';
+import ImageGridList from './ImageGridList';
+import ImageGridListOwn from './ImageGridListOwn';
+import { profileStyles } from '../../../styles/profileStyles';
 
 export default function CustomizedDialog({ open, setOpen, profile, type }) {
+    const classes = profileStyles();
     const handleClose = () => {
         setOpen(false);
     };
 
     return (
         <div>
-            <Dialog
-                onClose={handleClose}
-                aria-labelledby="customized-dialog-title"
-                open={open}
-            >
-                <DialogTitle
-                    id="customized-dialog-title"
-                    onClose={handleClose}
-                ></DialogTitle>
+            <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+                <DialogTitle disableTypography className={classes.dialog}>
+                    {open && (
+                        <IconButton
+                            aria-label="close"
+                            className={classes.closeButton}
+                            onClick={handleClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    )}
+                </DialogTitle>
                 <DialogContent dividers>
-                    {type === "myProfile" ? (
-                        <ImageGridListOwn
-                            handleClose={handleClose}
-                            profile={profile}
-                        />
+                    {type === 'myProfile' ? (
+                        <ImageGridListOwn handleClose={handleClose} profile={profile} />
                     ) : (
                         <ImageGridList profile={profile} />
                     )}

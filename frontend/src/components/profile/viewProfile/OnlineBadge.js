@@ -1,10 +1,10 @@
-import React from "react";
-import { Badge, Avatar } from "@material-ui/core";
+import React from 'react';
+import { Badge, Avatar } from '@material-ui/core';
 
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
-import Tooltip from "@material-ui/core/Tooltip";
-import { profileStyles } from "../../../styles/profileStyles";
+import Tooltip from '@material-ui/core/Tooltip';
+import { profileStyles } from '../../../styles/profileStyles';
 
 // calcuate number of days until now
 const days = (lastSeen) => {
@@ -14,45 +14,43 @@ const days = (lastSeen) => {
     let differenceInDays = parseInt(differenceInTime / (1000 * 3600 * 24));
     const str =
         differenceInDays > 365
-            ? "more than a year ago"
+            ? 'more than a year ago'
             : differenceInDays > 365
-            ? "6 months ago"
+            ? '6 months ago'
             : differenceInDays > 91
-            ? "3 months ago"
+            ? '3 months ago'
             : differenceInDays > 31
-            ? "a months ago"
+            ? 'a months ago'
             : (differenceInDays = 0
-                  ? "today"
-                  : (differenceInDays = 1
-                        ? "yesterday"
-                        : `a ${differenceInDays} day(s) ago`));
+                  ? 'today'
+                  : (differenceInDays = 1 ? 'yesterday' : `a ${differenceInDays} day(s) ago`));
     return str;
 };
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
-        backgroundColor: "#44b700",
-        color: "#44b700",
+        backgroundColor: '#44b700',
+        color: '#44b700',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-        "&::after": {
-            position: "absolute",
+        '&::after': {
+            position: 'absolute',
             top: 0,
             left: 0,
-            width: "100%",
-            height: "100%",
-            borderRadius: "50%",
-            animation: "$ripple 1.2s infinite ease-in-out",
-            border: "1px solid currentColor",
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: '$ripple 1.2s infinite ease-in-out',
+            border: '1px solid currentColor',
             content: '""',
         },
     },
-    "@keyframes ripple": {
-        "0%": {
-            transform: "scale(.8)",
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
             opacity: 1,
         },
-        "100%": {
-            transform: "scale(2.4)",
+        '100%': {
+            transform: 'scale(2.4)',
             opacity: 0,
         },
     },
@@ -60,25 +58,25 @@ const StyledBadge = withStyles((theme) => ({
 
 const StyledOfflineBadge = withStyles((theme) => ({
     badge: {
-        backgroundColor: "black",
-        color: "black",
+        backgroundColor: 'black',
+        color: 'black',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-        "&::after": {
-            position: "absolute",
+        '&::after': {
+            position: 'absolute',
             top: 0,
             left: 0,
-            width: "100%",
-            height: "100%",
-            borderRadius: "50%",
-            border: "1px solid grey",
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            border: '1px solid grey',
             content: '""',
         },
     },
 }))(Badge);
 
 const OnlineBadge = ({ profile, handleClickOpen }) => {
-
     const classesProf = profileStyles();
+
     if (profile.online === 0)
         return (
             <Tooltip title={`last seen ${days(profile.last_seen)}`}>
@@ -86,11 +84,10 @@ const OnlineBadge = ({ profile, handleClickOpen }) => {
                     className={classesProf.avatarImageStyle}
                     overlap="circle"
                     anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
+                        vertical: 'bottom',
+                        horizontal: 'right',
                     }}
-                    variant="dot"
-                >
+                    variant="dot">
                     <Avatar
                         className={classesProf.avatarImageStyle}
                         onClick={handleClickOpen}
@@ -103,16 +100,13 @@ const OnlineBadge = ({ profile, handleClickOpen }) => {
     else {
         return (
             <StyledBadge
-                className={
-                    profile.online === 1 ? classesProf.avatarImageStyle : ""
-                }
+                className={profile.online === 1 ? classesProf.avatarImageStyle : ''}
                 overlap="circle"
                 anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "right",
+                    vertical: 'bottom',
+                    horizontal: 'right',
                 }}
-                variant="dot"
-            >
+                variant="dot">
                 <Avatar
                     className={classesProf.avatarImageStyle}
                     onClick={handleClickOpen}

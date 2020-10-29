@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, useHistory, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box } from '@material-ui/core';
 
@@ -8,19 +8,19 @@ import Spinner from '../../layout/Spinner';
 import Header from './Header';
 import Body from './Body';
 
-const ProfileView = ({ socket }) => {
+const ProfileView = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const { profile, loading } = useSelector((state) => state.profile);
-    const { authUserId } = useSelector((state) => state.auth.user);
+    const { user, socket } = useSelector((state) => state.auth);
     const { user_id } = useParams();
     // get the type the profile (my or other user) based on url param
     let type = location.pathname === '/profile/me' ? 'myProfile' : 'otherUser';
     // map other user id from url param
-    const otherUserId = location.pathname === '/profile/me' ? authUserId : user_id;
+    const otherUserId = location.pathname === '/profile/me' ? user.user_id : user_id;
 
     // to redirect to authed user profile if auth user enteres his user id in params
-    type = otherUserId === authUserId ? 'myProfile' : type;
+    type = otherUserId === user.user_id ? 'myProfile' : type;
 
     useEffect(() => {
         dispatch(getProfile(type, otherUserId, type !== 'myProfile'));

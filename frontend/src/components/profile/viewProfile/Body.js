@@ -1,23 +1,21 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { Typography, Grid, IconButton, Divider, Container, Paper } from '@material-ui/core';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { Timeline, AssignmentIndOutlined, Favorite, VpnKeyOutlined } from '@material-ui/icons';
 import { ArrowForwardIos, BubbleChartOutlined, Chat, LocationOnOutlined } from '@material-ui/icons';
-import { useTheme } from '@material-ui/core/styles';
 
 import { profileStyles } from '../../../styles/profileStyles';
-import store from '../../../store';
+// import store from '../../../store';
 
 const Body = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
-    const temp = store.getState().profile.profile.blocked;
+    // const temp = profile.blocked;
     // const temp = store.getState().profile;
     // console.log('temp', temp);
 
-    const theme = useTheme();
     const classesProf = profileStyles();
 
     const userDescription = [
@@ -84,13 +82,7 @@ const Body = ({ type }) => {
                             return (
                                 <div key={'title' + index}>
                                     <Divider light />
-                                    <Paper
-                                        style={{
-                                            background: theme.palette.background.secondary,
-                                            color: theme.palette.text.secondary,
-                                            marginBottom: '20px',
-                                        }}
-                                        elevation={4}>
+                                    <Paper className={classesProf.paper} elevation={4}>
                                         <ListItem>
                                             <Typography variant="h6" style={{ color: 'white' }}>
                                                 {value.title}
@@ -119,18 +111,23 @@ const Body = ({ type }) => {
                     </List>
                 </Grid>
                 <Grid container item xs={10} sm={4} justify="center">
-                    <List key="desc2" style={{ backgroundColor: 'inherit', overflow: 'hidden' }}>
+                    <List
+                        key="desc2"
+                        // style={{ backgroundColor: 'inherit', overflow: 'hidden' }}
+                    >
                         {type === 'otherUser' &&
                         profile.connected === 1 &&
                         profile.blocked !== '1' ? (
                             <>
-                                <ListItem style={{ justifyContent: 'center' }}>
+                                <ListItem
+                                // style={{ justifyContent: 'center' }}
+                                >
                                     <Favorite className={classesProf.connectionStyle} />
                                     <Typography style={{ display: 'flex' }}>
                                         You like them!
                                     </Typography>
                                 </ListItem>
-                                <Divider style={{ backgroundColor: theme.palette.primary.main }} />
+                                <Divider className={classesProf.divider} />
                             </>
                         ) : (
                             ''
@@ -141,11 +138,13 @@ const Body = ({ type }) => {
                             <>
                                 <ListItem style={{ justifyContent: 'center' }}>
                                     <Chat className={classesProf.connectionStyle} />
-                                    <Typography style={{ display: 'flex' }}>
+                                    <Typography
+                                    //  style={{ display: 'flex' }}
+                                    >
                                         You are connected!
                                     </Typography>
                                 </ListItem>
-                                <Divider style={{ backgroundColor: theme.palette.primary.main }} />
+                                <Divider className={classesProf.divider} />
                             </>
                         ) : (
                             ''

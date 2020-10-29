@@ -7,6 +7,7 @@ import { getProfile } from '../../../actions/profile';
 import Spinner from '../../layout/Spinner';
 import Header from './Header';
 import Body from './Body';
+// import { AssignmentReturn } from '@material-ui/icons';
 
 const ProfileView = () => {
     const dispatch = useDispatch();
@@ -30,13 +31,11 @@ const ProfileView = () => {
         dispatch({ type: 'UPDATE_PATH', payload: type });
     }, [type, otherUserId, socket, dispatch]);
 
-    if (profile === null) {
+    if (profile === null || loading) {
         return loading ? <Spinner /> : <div>Page is not found</div>;
     }
 
-    return loading ? (
-        <Spinner />
-    ) : (
+    return (
         <>
             <Header profile={profile} type={type} />
             <Box pt={8}>

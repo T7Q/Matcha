@@ -45,10 +45,7 @@ const Header = ({ profile, type }) => {
                 </Grid>
 
                 <Grid item xs={12} sm={4} md={3}>
-                    <Typography
-                        variant="h4"
-                        // nowrap
-                        className={classesProf.name}>
+                    <Typography variant="h4" className={classesProf.name}>
                         {profile.first_name}
                     </Typography>
                     {type === 'otherUser' ? (

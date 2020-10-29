@@ -74,7 +74,7 @@ const unknownEndpoint = (req, res) => {
     res.json({ error: 'unknown endpoint' });
 };
 
-const errorHandler = (error, req, res) => {
+const errorHandler = (error, req, res, next) => {
     console.log('error here', error);
     res.json({ error: 'something went wrong' });
 };

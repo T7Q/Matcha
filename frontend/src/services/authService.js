@@ -20,4 +20,9 @@ const activate = async (query) => {
     return res.data;
 };
 
-export default { forgetPwd, updatePwd, login, activate };
+const google = async (token) => {
+    const res = await axios.post('/account/auth/google', { token });
+    return res.data;
+};
+
+export default { forgetPwd, updatePwd, login, activate, google };

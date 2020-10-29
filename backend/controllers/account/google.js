@@ -1,159 +1,70 @@
-const axios = require('axios');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const queryString = require('query-string');
+const { OAuth2Client } = require('google-auth-library');
 const accountModel = require('../../models/account');
 const helper = require('../../models/accountHelper');
 const { google, jwtSecret } = require('../../config');
-const { getLocation } = require('../../utils/location'); // change naming to locate
+const { getLocation } = require('../../utils/location');
+const client = new OAuth2Client(google.id);
 
-// url parameters for login url
-const stringifiedParams = queryString.stringify({
-    client_id: google.id,
-    scope: [
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/userinfo.profile',
-    ].join(' '),
-    redirect_uri: 'http://localhost:5000/account/auth/google',
-    response_type: 'code',
-    access_type: 'offline',
-    prompt: 'consent',
-});
-
-// endpoint for retrieving google login link
-const getGoogleLink = (req, res) => {
-    // login url, should be on the client side
-    const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
-    return res.json(googleLoginUrl);
-};
-
-const getAccessToken = async code => {
-    const { data } = await axios({
-        url: 'https://oauth2.googleapis.com/token',
-        method: 'post',
-        data: {
-            client_id: google.id,
-            client_secret: google.secret,
-            redirect_uri: 'http://localhost:5000/account/auth/google',
-            grant_type: 'authorization_code',
-            code,
-        },
+async function verify(token) {
+    const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: google.id,
     });
-    return data.access_token;
-};
+    const payload = ticket.getPayload();
+    return payload;
+}
 
-const getUserInfo = async code => {
-    const token = await getAccessToken(code);
-    const { data } = await axios(
-        {
-            url: 'https://www.googleapis.com/oauth2/v2/userinfo',
-            method: 'get',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        },
-        (error, result) => {
-            if (error) return error;
-            return result;
-        }
-    );
-    return data;
-};
-
-// Need to change google redirect url to client url
-// if from here response register, need to render register for google
 const googleLogin = async (req, res) => {
-    // after frontend change code to req.body;
-    const code = req.query.code;
-    const userInfo = await getUserInfo(code);
-    const user = await accountModel.findUserInfo(
-        'email',
-        userInfo.email,
-        'user_id',
-        'username',
-        'status',
-        'longitude',
-        'latitude'
-    );
+    const token = req.body.token;
+    const userInfo = await verify(token).catch();
+    const user = await accountModel.findUserInfo('email', userInfo.email, 'user_id', 'status');
 
     if (!user) {
-        return res.json({
-            msg: 'register',
-            google: jwt.sign(
-                {
-                    email: userInfo.email,
-                    id: userInfo.id,
-                },
-                jwtSecret,
-                { expiresIn: 60 * 60 }
-            ),
-        });
+        return registerGoogle(userInfo, req, res);
     }
 
     const location = await getLocation(req, user);
+    await accountModel.updateAccount(user.user_id, { ...location, online: 1 });
 
-    await accountModel.updateAccount(user.user_id, location);
     return res.json({
-        status: user.status,
-        username: user.username,
-        tkn: jwt.sign(
-            {
-                userId: user.user_id,
-                status: user.status,
-            },
-            jwtSecret,
-            { expiresIn: 10 * 60 }
-        ),
+        user: { status: user.status, userId: user.user_id },
+        tkn: jwt.sign({ userId: user.user_id, status: user.status }, jwtSecret, {
+            expiresIn: 1000 * 60 * 60,
+        }),
     });
 };
 
-const registerGoogle = async (req, res) => {
-    const { google, username, lastname, firstname } = req.body;
-    const userInfo = jwt.verify(google, jwtSecret, (err, decode) => {
-        if (err) return res.status(400).json({ error: 'Token time expired. Try to login again' });
-        return decode;
-    });
+const len = (word) => {
+    if (!word) return null;
+    return word.length > 30 ? word.substring(0, 30) : word;
+};
 
-    let errors = [];
-    errors.push(await helper.validateEmail(userInfo.email));
-    errors.push(await helper.validateUsername(username));
-    errors.push(helper.validateName(firstname));
-    errors.push(helper.validateName(lastname));
+const registerGoogle = async (info, req, res) => {
+    const data = {
+        email: info.email,
+        password: await bcrypt.hash(info.sub, 10),
+        username: len(info.name) || len(info.given_name) || len(info.email.split('@')[0]),
+        firstname: len(info.given_name) || len(info.email.split('@')[0]),
+        lastname: len(info.family_name) || len(info.email.split('@')[0]),
+    };
 
-    // remove empty objects from errors
-    errors = errors.filter(error => Object.keys(error).length != 0);
+    const result = await accountModel.register(data);
+    const location = await getLocation(req, result);
 
-    // check if we have errors
-    if (errors.length != 0) {
-        return res.status(400).json(errors);
-    }
+    // set status, online and location
+    await accountModel.updateAccount(result.user_id, { ...location, online: 1, status: 1 });
 
-    req.body.password = await bcrypt.hash(userInfo.id, 10);
-    req.body.email = userInfo.email;
-
-    const result = await accountModel.register(req.body);
-    const data = await getLocation(req, result);
-    // set status and online
-    data.online = 1;
-    data.status = 1;
-
-    await accountModel.updateAccount(result.user_id, data);
     return res.json({
-        status: 1,
-        username: result.username,
-        tkn: jwt.sign(
-            {
-                userId: result.user_id,
-                status: 1,
-            },
-            jwtSecret,
-            { expiresIn: 60 * 60 }
-        ),
+        user: { status: 1, userId: result.user_id },
+        tkn: jwt.sign({ userId: result.user_id, status: 1 }, jwtSecret, {
+            expiresIn: 1000 * 60 * 60,
+        }),
     });
 };
 
 module.exports = {
-    getGoogleLink,
     googleLogin,
     registerGoogle,
 };

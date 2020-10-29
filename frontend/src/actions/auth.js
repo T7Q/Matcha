@@ -86,3 +86,19 @@ export const updateUser = (user) => async (dispatch) => {
         payload: user,
     });
 };
+
+export const googleLogin = (googleUser) => async (dispatch) => {
+    try {
+        const res = await authService.google(googleUser.getAuthResponse().id_token);
+
+        if (res.error) {
+            dispatch({ type: AUTH_FAIL });
+            return res;
+        } else {
+            dispatch({ type: LOGIN_SUCCESS, payload: res });
+            dispatch(loadUser());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};

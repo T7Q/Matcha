@@ -43,19 +43,9 @@ router.post('/validateData', account.validateData);
 // @access  Public
 router.post('/logout', account.logout);
 
-// @route   GET /account/auth/google/login
+// @route   GET /account/auth/google
 // @desc    Login via google
 // @access  Public
-router.get('/auth/google/login', middleware.authForbidden, account.getGoogleLink);
-
-// @route   GET /account/google/login
-// @desc    Login via google
-// @access  Public
-router.get('/auth/google', middleware.authForbidden, account.googleLogin);
-
-// @route   GET /account/google/register
-// @desc    Login via google
-// @access  Public
-router.post('/auth/google/register', middleware.authForbidden, account.registerGoogle);
+router.post('/auth/google', account.googleLogin);
 
 module.exports = router;

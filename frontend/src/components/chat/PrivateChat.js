@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, Typography, Link, Button, TextField, IconButton, Avatar } from '@material-ui/core';
 import HighlightOffOutlined from '@material-ui/icons/HighlightOff';
 import { Send } from '@material-ui/icons';
 
+import chatService from '../../services/chatService';
 import { getMessages } from '../../actions/chat';
 import { getProfile } from '../../actions/profile';
 import { chatStyles } from '../../styles/chatStyles';
@@ -62,7 +62,7 @@ const PrivateChat = ({ currentConversation, history, handleChange }) => {
     const postMessage = async (e) => {
         e.preventDefault();
         if (textMessage) {
-            await axios.post('/chat/message', {
+            chatService.postMessage({
                 senderId: user.userId,
                 receiverId: partnerId,
                 content: textMessage,
@@ -82,12 +82,11 @@ const PrivateChat = ({ currentConversation, history, handleChange }) => {
             position="relative"
             display="flex"
             flexDirection="column"
-            // p="5px"
             pl={0}
             pr={0}
             minWidth="100%"
             className={classes.chat}>
-            <Box display="flex" alignItems="center" className={classes.conversationList}>
+            <Box display="flex" alignItems="center" className={classes.borderBottom}>
                 <Box flexGrow={1} textAlign="center" flexDirection="row">
                     <Link
                         onClick={() => goTo(`/profile/${partnerId}`)}
@@ -104,7 +103,7 @@ const PrivateChat = ({ currentConversation, history, handleChange }) => {
                         </Typography>
                     </Link>
                 </Box>
-                <Box style={{ position: 'absolute', left: '80%' }}>
+                <Box className={classes.closeBlock}>
                     <Dropdown />
                     <Button onClick={(e) => handleChange(e, 0)}>
                         <HighlightOffOutlined fontSize="small" className={classes.fill} />

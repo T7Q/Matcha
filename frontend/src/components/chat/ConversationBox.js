@@ -63,7 +63,7 @@ const ConversationBox = ({
                     </span>
                 }
                 secondary={
-                    <Box display="flex">
+                    <Box component="span" display="flex">
                         <Box
                             flexGrow={1}
                             component="span"

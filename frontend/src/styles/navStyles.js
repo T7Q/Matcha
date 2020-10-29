@@ -5,6 +5,9 @@ export const navStyles = makeStyles((theme) => ({
         '& span': {
             color: theme.palette.primary.main,
         },
+        '& span.MuiBadge-badge': {
+            color: theme.palette.primary.contrastText,
+        },
         borderRadius: '5px',
         flex: '0 1 auto',
         [theme.breakpoints.down('xs')]: {
@@ -14,6 +17,9 @@ export const navStyles = makeStyles((theme) => ({
     iconButton: {
         '&:hover span': {
             color: theme.palette.primary.main,
+        },
+        '& span.MuiBadge-badge': {
+            color: theme.palette.primary.contrastText,
         },
         borderRadius: '5px',
         flex: '0 1 auto',

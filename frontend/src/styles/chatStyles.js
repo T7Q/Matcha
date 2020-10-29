@@ -77,12 +77,13 @@ export const chatStyles = makeStyles((theme) => ({
     conversationActiveList: {
         borderBottom: '1px solid #252839',
         backgroundColor: '#10183c',
-        // alignItems: 'flex-start',
+    },
+    borderBottm: {
+        borderBottom: '1px solid #252839',
     },
     conversationList: {
         borderBottom: '1px solid #252839',
         backgroundColor: 'inherit',
-        // alignItems: 'flex-start',
     },
     active: {
         color: theme.palette.primary.main,
@@ -125,5 +126,9 @@ export const chatStyles = makeStyles((theme) => ({
     date: {
         color: '#b5bad3',
         fontSize: 'small',
+    },
+    closeBlock: {
+        position: 'absolute',
+        left: '80%',
     },
 }));

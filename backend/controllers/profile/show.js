@@ -1,5 +1,4 @@
 const profileModel = require('../../models/profile');
-const profileHelper = require('../../models/profileHelper');
 const accountModel = require('../../models/account');
 const matchModel = require('../../models/match');
 
@@ -36,7 +35,7 @@ const userProfile = async (req, res) => {
     let tags = await profileModel.getUserTags(userId);
     if (tags.rowCount > 0) {
         userInfo['tags'] = [];
-        tags['rows'].forEach(value => {
+        tags['rows'].forEach((value) => {
             userInfo['tags'].push(value.tag_name);
         });
     }
@@ -82,7 +81,7 @@ const myProfile = async (req, res) => {
     let tags = await profileModel.getUserTags(userId);
     if (tags.rowCount > 0) {
         userInfo['tags'] = [];
-        tags['rows'].forEach(value => {
+        tags['rows'].forEach((value) => {
             userInfo['tags'].push(value.tag_name);
         });
     }
@@ -92,7 +91,7 @@ const myProfile = async (req, res) => {
         'user_id',
         userId
     );
-    photos.map(element => {
+    photos.map((element) => {
         if (element.image_path === userInfo.profile_pic_path) element.type = 'profile';
         else element.type = 'photo';
         element.data = '';
@@ -104,7 +103,7 @@ const myProfile = async (req, res) => {
 const blockedUsers = async (req, res) => {
     const userId = req.user.userId;
     let blockedList = await profileModel.getBlockedUsers(userId);
-    blockedList.map(item => (item.blocked = true));
+    blockedList.map((item) => (item.blocked = true));
     return res.json(blockedList);
 };
 
@@ -117,8 +116,10 @@ const userTags = async (req, res) => {
 const visitOtherProfile = async (req, res) => {
     const userId = req.params.user_id;
     const authUserId = req.user.userId;
-    await profileModel.deleteRow('views', authUserId, userId);
-    await profileModel.insertRow('views', authUserId, userId);
+    if (userId !== authUserId) {
+        await profileModel.deleteRow('views', authUserId, userId);
+        await profileModel.insertRow('views', authUserId, userId);
+    }
     return res.json();
 };
 

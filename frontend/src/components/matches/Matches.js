@@ -10,6 +10,7 @@ import { Help, QueryBuilder, WbIncandescent } from '@material-ui/icons';
 import GetMatches from '../common/matchGallery/GetMatches';
 import Filter from './filter/Index';
 import { resetFilter } from '../../actions/match';
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -51,6 +52,12 @@ const Matches = () => {
     const indexToTabName = ['recommend', 'search', 'online', 'new', 'popular', 'random', 'nearby'];
     const [value, setValue] = React.useState(indexToTabName.indexOf(page));
 
+    const handleChange = (event, newValue) => {
+        history.push(`/matches/${indexToTabName[newValue]}`);
+        setValue(newValue);
+        dispatch(resetFilter());
+    };
+    
     useEffect(() => {
         if (previousPath === '') {
             dispatch(resetFilter());
@@ -59,11 +66,7 @@ const Matches = () => {
         }
     }, [dispatch, previousPath]);
 
-    const handleChange = (event, newValue) => {
-        history.push(`/matches/${indexToTabName[newValue]}`);
-        setValue(newValue);
-        dispatch(resetFilter());
-    };
+    
 
     // window.onpopstate = e => {
     //     setBack(true);

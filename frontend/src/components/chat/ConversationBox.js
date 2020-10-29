@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import {
-    ListItem,
-    ListItemText,
-    ListItemAvatar,
-    Avatar,
-    Link,
-    Badge,
-    Box,
-} from '@material-ui/core';
+import { Avatar, Link, Badge, Box } from '@material-ui/core';
+import { ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
 // import OnlineBadge from './OnlineBadge';
+import { chatStyles } from '../../styles/chatStyles';
 
 const ConversationBox = ({
     unread,
@@ -22,30 +16,24 @@ const ConversationBox = ({
 }) => {
     const [partnerIsOnline, setPartnerIsOnline] = useState({ online: false, partnerId: 0 });
     const history = useHistory();
+    const classes = chatStyles();
 
     useEffect(() => {
-        let isMounted = true;
         socket.on('ONLINE', (userId, online) => {
-            if (isMounted) {
-                setPartnerIsOnline({ online: online, partnerId: userId });
-            }
+            setPartnerIsOnline({ online: online, partnerId: userId });
         });
-        return () => {
-            isMounted = false;
-        };
     }, [partnerIsOnline, socket]);
 
-    const amount = (amount) => {
-        return amount < 100 ? amount : '99+';
-    };
     return (
         <ListItem
-            style={{
-                borderBottom: '1px solid #252839',
-                backgroundColor: active === conversation.partner_id ? '#10183c' : 'inherit',
-            }}
+            className={
+                active === conversation.partner_id
+                    ? classes.conversationActiveList
+                    : classes.conversationList
+            }
             button
-            alignItems="flex-start">
+            // alignItems="flex-start"
+        >
             <Link
                 onClick={() => history.push(`/profile/${conversation.partner_id}`)}
                 component="button">
@@ -78,13 +66,12 @@ const ConversationBox = ({
                             : lastMessage.chatId === conversation.chat_id
                             ? lastMessage.text
                             : conversation.last_message}{' '}
-                        {unread ? (
+                        {unread && (
                             <Badge
-                                badgeContent={amount(unread)}
+                                badgeContent={unread}
+                                max={99}
                                 color="primary"
-                                style={{ float: 'right' }}></Badge>
-                        ) : (
-                            ''
+                                className={classes.floatRight}></Badge>
                         )}
                     </Box>
                 }

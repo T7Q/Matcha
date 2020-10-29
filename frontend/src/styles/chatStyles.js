@@ -1,19 +1,18 @@
 import { makeStyles } from '@material-ui/core/styles';
-import BackgroundImage from "../background2.jpg";
+import BackgroundImage from '../background2.jpg';
 
 export const chatStyles = makeStyles((theme) => ({
-    header:{
-        height: "150px",
+    header: {
+        height: '150px',
         background: `url(${BackgroundImage}) no-repeat center center fixed`,
-        backgroundSize: "cover",
-
+        backgroundSize: 'cover',
     },
     headerText: {
         color: theme.palette.info.main,
     },
     chatGrid: {
         justifyContent: 'space-around',
-        alignItems: "center",
+        alignItems: 'center',
     },
     leftSide: {
         minHeight: '60vh',
@@ -71,5 +70,18 @@ export const chatStyles = makeStyles((theme) => ({
                 border: '1px solid ' + theme.palette.primary.main,
             },
         },
+    },
+    floatRight: {
+        float: 'right',
+    },
+    conversationActiveList: {
+        borderBottom: '1px solid #252839',
+        backgroundColor: '#10183c',
+        // alignItems: 'flex-start',
+    },
+    conversationActive: {
+        borderBottom: '1px solid #252839',
+        backgroundColor: 'inherit',
+        // alignItems: 'flex-start',
     },
 }));

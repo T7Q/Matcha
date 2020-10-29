@@ -29,17 +29,19 @@ const Email = ({ setSnackbar }) => {
         event.preventDefault();
         const error = validateField('email', email);
         if (error) {
-            setErrors({ emailError: error });
+            setErrors({ ...errors, emailError: error });
+        } else if (!password) {
+            setErrors({ ...errors, passwordError: 'required field' });
         } else if (user.email === email) {
             setSnackbar(true, 'warning', 'No changes applied');
-            return;
-        }
-        const res = await dispatch(editProfile({ key: 'email', value: formData }));
-        if (res && res.error) {
-            setErrors({ ...res.error });
         } else {
-            setFormData({ email: email, password: '' });
-            dispatch(updateUser({ ...user, email: email }));
+            const res = await dispatch(editProfile({ key: 'email', value: formData }));
+            if (res && res.error) {
+                setErrors({ ...res.error });
+            } else {
+                setFormData({ email: email, password: '' });
+                dispatch(updateUser({ ...user, email: email }));
+            }
         }
     };
 

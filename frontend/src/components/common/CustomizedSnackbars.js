@@ -32,7 +32,7 @@ const CustomizedSnackbars = () => {
         if (reason === 'clickaway') {
             return;
         }
-        dispatch(setSnackbar(false, 'success', ''));
+        dispatch(setSnackbar(false, snackbarType, snackbarMessage));
     };
 
     return (

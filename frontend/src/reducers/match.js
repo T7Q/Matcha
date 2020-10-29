@@ -18,7 +18,7 @@ const filter = {
     max_fame: 5,
     tags: [],
     country: [],
-    order: "",
+    order: [],
     believe_cn: true,
     believe_west: true,
     sex_orientation: "",

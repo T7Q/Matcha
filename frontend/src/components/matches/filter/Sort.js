@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { TextField } from "@material-ui/core";
@@ -12,7 +12,6 @@ const Sort = ({ setFilter, filterIsOn }) => {
     const { filter } = useSelector((state) => state.match);
 
     const sort = [
-
         { label: "Yongest First", db: "age_asc" },
         { label: "Oldest first", db: "age_desc" },
         { label: "Best rating", db: "fame_desc" },
@@ -21,13 +20,21 @@ const Sort = ({ setFilter, filterIsOn }) => {
         { label: "Furtherst away", db: "distance_desc" },
         { label: "Most common interest", db: "commonTag_desc" },
         { label: "Least common interest", db: "commonTag_asc" },
-
     ];
+    const initial = filter['order'][0] ? sort.find((n) => n.db === filter['order'][0]) : "";
+    const [formData, setFormData] = useState({
+        label: filter.order[0] ? initial.label : "",
+        db: filter.order[0] ? filter.order[0]: "",
+    });
 
     const handleSortChange = (event, newValue) => {
         let value = [];
         if (newValue !== null) {
             value[0] = newValue.db;
+            setFormData(newValue);
+        } else {
+            setFormData({label: "",
+            db: filter.order[0],});
         }
         dispatch(updateFilter({
             ...filter,
@@ -36,28 +43,17 @@ const Sort = ({ setFilter, filterIsOn }) => {
         setFilter(filterIsOn + 1);
     };
 
-    const findValue = () => {
-        if (filter.order === '') {
-            return '';
-        } else {
-            console.log('changed here');
-            return sort.filter(element => {
-                if (element.db === filter.order) return element.label;
-                return false; // changed here;
-            });
-        }
-    };
-
     return (
         <Autocomplete
             id="combo-sort"
             onChange={handleSortChange}
             options={sort}
-
             getOptionLabel={(option) => option.label}
+            value={formData}
             getOptionSelected={(option) => option}
             className={classesFilter.sort}
-            renderInput={(params) => <TextField {...params} value={findValue} label="Sort" 
+            renderInput={(params) => <TextField {...params} 
+            label="Sort" 
             />}
 
         />

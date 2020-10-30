@@ -32,6 +32,7 @@
         "material-ui-dropzone": "^3.5.0",
         "material-ui-toggle-icon": "^1.1.1",
         "react-country-region-selector": "^3.0.1",
+        "react-google-login": "^5.1.22",
         "react-image-gallery": "^1.0.8",
         "react-material-ui-carousel": "^2.0.1",
         "react-responsive-carousel": "^3.2.10",

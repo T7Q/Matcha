@@ -10,11 +10,12 @@ const accountModel = require('../../models/account');
         max_age: values ("", 50), default 120
         min_distance: values ("", 0), default 0
         max_distance: values ("", 5000), default 10000000
-        tags: values ("", ["Art", "Foodie"....)
-        country: values ("", ["Finland", "Belgium"....)
-        sort: values ("", ["filter_asc", "filter_desc"....)
+        tags: values ([], ["Art", "Foodie"....)
+        country: values ([], ["Finland", "Belgium"....)
+        order: values ([], ["filter_asc", "filter_desc"....)
         believe_cn: values (options "", false, true)
         believe_west: values (options "", false, true)
+        sex_orientation: ("" (options "", gay, straight_man)
     }
 */
 
@@ -57,7 +58,11 @@ module.exports = async (req, res) => {
 
     matchHelper.buildBase(req, settings);
     settings.order = matchHelper.buildOrder(req.body.order, settings.order);
-    settings.weight = matchHelper.setWeights(req.body.believe_cn, req.body.believe_west, userDbData.userHasTags);
+    settings.weight = matchHelper.setWeights(
+        req.body.believe_cn,
+        req.body.believe_west,
+        userDbData.userHasTags
+    );
     settings.filter += matchHelper.buildFilter(req, userDbData, values);
 
     // get matches from db

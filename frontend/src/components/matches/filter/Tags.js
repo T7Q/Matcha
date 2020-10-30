@@ -12,7 +12,6 @@ const Tags = () => {
     const { filter } = useSelector((state) => state.match);
     const classesSetting = settingStyles();
     const [realTags, setRealTags] = useState([]);
-    const [formData, setFormData] = useState(filter['tags']);
     useEffect(() => {
         let isMounted = true;
         async function getTags() {
@@ -23,7 +22,7 @@ const Tags = () => {
         return () => {
             isMounted = false;
         };
-    }, []);
+    }, [filter]);
 
     const handleInterestChange = (event, newValue) => {
         let selectedTags = [];
@@ -33,7 +32,6 @@ const Tags = () => {
                 selectedTags.push(value);
             });
         }
-        setFormData(selectedTags);
         dispatch(updateFilter({
             ...filter,
             tags: selectedTags,
@@ -47,7 +45,7 @@ const Tags = () => {
             onChange={handleInterestChange}
             options={realTags}
             getOptionLabel={(option) => option}
-            value={formData}
+            value={filter['tags']}
             renderInput={(params) => (
                 <TextField
                     className={classesSetting.tags}

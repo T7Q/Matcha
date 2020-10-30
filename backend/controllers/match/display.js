@@ -3,44 +3,6 @@ const matchHelper = require('../../models/matchHelper');
 const profileModel = require('../../models/profile');
 const accountModel = require('../../models/account');
 
-const recommend = async (req, res) => {
-    const userId = req.user.userId;
-
-    let userDbData = await accountModel.findUserInfo(
-        'user_id',
-        userId,
-        'user_id',
-        'sex_orientation',
-        'geolocation',
-        'chinese_horo',
-        'western_horo'
-    );
-    userDbData['userHasTags'] = await profileModel.userHasTags(userId);
-
-    let settings = {
-        weight: { tag: 0.1, cn: 0.45, west: 0.45 },
-        join: '',
-        filter:
-            ' AND (SELECT count(likes.like_id) AS to_likes FROM likes\
-                        WHERE likes.from_user_id = $1\
-                        AND likes.to_user_id = users.user_id) = 0\
-                        AND (SELECT count(blocked.to_user_id) FROM blocked\
-                        WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
-        order: 'match desc, distance desc, fame desc',
-        limit: '',
-        dateColumn: ', users.created_at as date ',
-        values: [userDbData.user_id, userDbData.geolocation],
-    };
-    // get more filters for nearby, popular, online, new, random
-    matchHelper.buildBase(req, settings);
-
-    // add filter to match correct sex orintation
-    settings.filter += matchHelper.setSexPreference(userDbData.sex_orientation, '');
-    // get match from db
-    let matches = await matchModel.getMatch(userDbData, settings);
-    return res.json(matches);
-};
-
 const likedMe = async (req, res) => {
     let userDbData = await accountModel.findUserInfo(
         'user_id',
@@ -149,7 +111,6 @@ const visitedByMe = async (req, res) => {
 module.exports = {
     likedMe,
     connected,
-    recommend,
     visitedMe,
     visitedByMe,
 };

@@ -29,7 +29,10 @@ const totalUserTags = `
 const getCompatibilityValue = (signUser1, signUser2, table) => {
     let defaultUser = table === 'western' ? 'users.western_horo' : 'users.chinese_horo';
     signUser1 = signUser1 === 'default' ? defaultUser : "'" + signUser1 + "'";
-    table = table === 'western' ? 'public.western_horo_compatibility' : 'public.chinese_horo_compatibility';
+    table =
+        table === 'western'
+            ? 'public.western_horo_compatibility'
+            : 'public.chinese_horo_compatibility';
 
     let query =
         '(\
@@ -96,34 +99,7 @@ const getMatch = async (user, settings) => {
     const cnHoroscopeCompValue = getCompatibilityValue('default', user.chinese_horo, 'chinese');
     const westHoroscopeCompValue = getCompatibilityValue('default', user.western_horo, 'western');
     const connected = getConnectionValue('', user.user_id);
-    // console.log(
-    //     `
-    //     SELECT
-    //         users.user_id,
-    //         users.first_name,
-    //         (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age,
-    //         users.fame_rating as fame,
-    //         users.profile_pic_path,
-    //         (ST_Distance(users.geolocation, $2)::integer / 1000) as distance,
-    //         ${numberOfCommonTags},
-    //         ${connected},
-    //         (
-    //             ${tagsCompValue} * ${settings.weight.tag} +
-    //             ${cnHoroscopeCompValue} * ${settings.weight.cn} +
-    //             ${westHoroscopeCompValue} * ${settings.weight.west}
-    //         ) as match
-    //         ${settings.dateColumn}
-    //     FROM public.users
-    //     ${settings.join}
-    //     WHERE
-    //         users.user_id <> $1
-    //         and users.status = 2
-    //         ${settings.filter}
-    //     ORDER BY
-    //         ${settings.order}
-    //     ${settings.limit}
-    //     `
-    // )
+
     const res = await db.query(
         `
         SELECT
@@ -156,21 +132,21 @@ const getMatch = async (user, settings) => {
     return res.rows;
 };
 
-const numberOfCommonTags2 = () => {
-    let query = `
-        (
-            select count(*)::float as commonTag from
-            (
-                select tag_id from user_tags
-                where user_tags.user_id = users.user_id
-                intersect
-                select tag_id from user_tags
-                where user_tags.user_id = $1
-            ) as temp
-        )
-    `;
-    return query;
-};
+// const numberOfCommonTags2 = () => {
+//     let query = `
+//         (
+//             select count(*)::float as commonTag from
+//             (
+//                 select tag_id from user_tags
+//                 where user_tags.user_id = users.user_id
+//                 intersect
+//                 select tag_id from user_tags
+//                 where user_tags.user_id = $1
+//             ) as temp
+//         )
+//     `;
+//     return query;
+// };
 
 const getCompatibility = async (authUser, otherUser, weight) => {
     const commonTags = `
@@ -187,8 +163,16 @@ const getCompatibility = async (authUser, otherUser, weight) => {
 
     const tagsCompValue = authUser.hasTags ? `${commonTags} / ${totalUserTags} * 100` : 0;
 
-    const cnHoroscopeCompValue = getCompatibilityValue(authUser.chinese_horo, otherUser.chinese_horo, 'chinese');
-    const westHoroscopeCompValue = getCompatibilityValue(authUser.western_horo, otherUser.western_horo, 'western');
+    const cnHoroscopeCompValue = getCompatibilityValue(
+        authUser.chinese_horo,
+        otherUser.chinese_horo,
+        'chinese'
+    );
+    const westHoroscopeCompValue = getCompatibilityValue(
+        authUser.western_horo,
+        otherUser.western_horo,
+        'western'
+    );
 
     const res = await db.query(
         `

@@ -20,7 +20,7 @@ const UserCard = ({ card }) => {
 
     card.fame = parseFloat(card.fame);
     const linkToProfile = `/profile/${card.user_id}`;
-    const onMediaFallback = (event) => (event.target.src = '/Photo_1601037282389_683.png');
+    const onMediaFallback = (event) => (event.target.src = '/default.png');
 
     return (
         <Grid item xs={12} sm={6} md={4} lg={3}>

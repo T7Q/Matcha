@@ -11,7 +11,7 @@ import Sort from './Sort';
 import Row from './Row';
 
 import { filterStyles } from '../../../styles/filterStyles';
-import { useStyles } from '../../../styles/custom';
+import { customStyles } from '../../../styles/customStyles';
 
 const Filter = ({ setting }) => {
     const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Filter = ({ setting }) => {
         setReset(!reset);
     };
 
-    const classesCustom = useStyles();
+    const classesCustom = customStyles();
     const classesFilter = filterStyles();
     const [expanded, setExpanded] = React.useState(setting);
 
@@ -95,7 +95,7 @@ const Filter = ({ setting }) => {
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
-                            className={classesCustom.customButton}>
+                            className={classesCustom.mainButton}>
                             See results
                         </Button>
                         <Button
@@ -104,7 +104,7 @@ const Filter = ({ setting }) => {
                             onClick={() => {
                                 handleClickReset();
                             }}
-                            className={classesCustom.customTransparentButton}>
+                            className={`${classesCustom.mainButton} ${classesCustom.secondButton}`}>
                             Reset
                         </Button>
                     </Grid>

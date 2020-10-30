@@ -39,9 +39,6 @@ export const profileStyles = makeStyles((theme) => ({
         display: 'flex',
         marginBottom: '-20px',
     },
-    ratingColor: {
-        color: theme.palette.text.secondary,
-    },
     buttonSize: {
         marginRight: '10px',
         size: 'large',
@@ -86,9 +83,6 @@ export const profileStyles = makeStyles((theme) => ({
         },
         marginLeft: '10px',
     },
-    editBtn: {
-        color: theme.palette.text.secondary,
-    },
     editBox: {
         minWidth: '300px',
         [theme.breakpoints.down('sm')]: {
@@ -102,9 +96,6 @@ export const profileStyles = makeStyles((theme) => ({
     },
     divider: {
         backgroundColor: theme.palette.primary.main,
-    },
-    fill: {
-        fill: theme.palette.info.main,
     },
     gridList: {
         display: 'flex',

@@ -43,9 +43,6 @@ export const navStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
-    pr: {
-        paddingRight: '5px',
-    },
     menuItem: {
         color: '#fff',
         '&:hover': {
@@ -67,8 +64,5 @@ export const navStyles = makeStyles((theme) => ({
     avatar: {
         width: '25px',
         height: '25px',
-    },
-    fillWhite: {
-        fill: 'white',
     },
 }));

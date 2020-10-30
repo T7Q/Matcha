@@ -8,6 +8,7 @@ import { Send } from '@material-ui/icons';
 import chatService from '../../services/chatService';
 import { getMessages } from '../../actions/chat';
 import { getProfile } from '../../actions/profile';
+import { systemStyles } from '../../styles/systemStyles';
 import { chatStyles } from '../../styles/chatStyles';
 import Dropdown from '../profile/viewProfile/DropdownItem';
 import Spinner from '../layout/Spinner';
@@ -18,7 +19,8 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
     const { user, socket } = useSelector((state) => state.auth);
     const { profile } = useSelector((state) => state.profile);
     const { messages, conversations, loading } = useSelector((state) => state.chat);
-    const classes = chatStyles();
+    const classesChat = chatStyles();
+    const classes = systemStyles();
     const [textMessage, setTextMessage] = useState('');
     const chat = currentConversation
         ? conversations.filter((chat) => chat.partner_id === currentConversation)[0]
@@ -88,7 +90,7 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
             display="flex"
             flexDirection="column"
             minWidth="100%"
-            className={classes.chat}>
+            className={classesChat.chat}>
             <Box display="flex" alignItems="center" className={classes.borderBottom}>
                 <Box flexGrow={1} textAlign="center" flexDirection="row">
                     <Link
@@ -101,15 +103,15 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                             alt="N"
                             src={profile.profile_pic_path}
                         />
-                        <Typography variant="body1" className={classes.active}>
+                        <Typography variant="body1" className={classes.primaryColor}>
                             {profile.first_name}
                         </Typography>
                     </Link>
                 </Box>
-                <Box className={classes.closeBlock}>
+                <Box className={classesChat.closeBlock}>
                     <Dropdown />
                     <Button onClick={(e) => handleChange(e, 0)}>
-                        <HighlightOffOutlined fontSize="small" className={classes.fill} />
+                        <HighlightOffOutlined fontSize="small" className={classes.fillPrimary} />
                     </Button>
                 </Box>
             </Box>
@@ -123,10 +125,11 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                         );
                         return (
                             <Box p={1} key={element.id} textAlign={element.mine ? 'right' : 'left'}>
-                                <Box className={element.mine ? classes.mine : classes.other}>
+                                <Box
+                                    className={element.mine ? classesChat.mine : classesChat.other}>
                                     <Typography>{element.message}</Typography>
                                 </Box>
-                                <Typography className={classes.date}>{date}</Typography>
+                                <Typography className={classesChat.date}>{date}</Typography>
                             </Box>
                         );
                     })}
@@ -138,14 +141,14 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                             <TextField
                                 autoComplete="off"
                                 variant="outlined"
-                                className={classes.inputField}
+                                className={classesChat.inputField}
                                 type="text"
                                 name="textMessage"
                                 value={textMessage}
                                 onChange={onChange}
                             />
                         </Box>
-                        <IconButton color="primary" type="submit" className={classes.marginLeft}>
+                        <IconButton color="primary" type="submit" className={classes.mLeft20}>
                             <Send />
                         </IconButton>
                     </Box>

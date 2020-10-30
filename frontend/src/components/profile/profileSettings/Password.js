@@ -5,6 +5,7 @@ import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
 import { editProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
 import { customStyles } from '../../../styles/customStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Password = () => {
     const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Password = () => {
     const { oldPassword, password, confirmPassword } = formData;
     const { oldPasswordError, passwordError, confirmPasswordError } = errors;
     const classes = customStyles();
+    const classesSystem = systemStyles();
 
     const onChange = (e) => {
         const name = e.target.name;
@@ -64,7 +66,7 @@ const Password = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className={classes.alignCenter}>
+        <form onSubmit={handleSubmit} className={classesSystem.alignCenter}>
             <FormGroup>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>
@@ -112,7 +114,7 @@ const Password = () => {
                     size="small"
                     variant="contained"
                     color="primary"
-                    className={`${classes.mainButton} ${classes.p2}`}>
+                    className={classes.mainButton}>
                     Save
                 </Button>
             </FormGroup>

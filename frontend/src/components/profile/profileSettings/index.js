@@ -10,9 +10,11 @@ import BlockedUsersTab from './BlockedUsers';
 import DeleteAccountTab from './DeleteAccount';
 import { setSnackbar } from '../../../actions/setsnackbar';
 import { settingStyles } from '../../../styles/settingStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Settings = ({ history }) => {
     const classes = settingStyles();
+    const classesSystem = systemStyles();
     let { type } = useParams();
 
     const indexToTabName = ['', 'password', 'email', 'location', 'blocked', 'delete'];
@@ -62,7 +64,7 @@ const Settings = ({ history }) => {
                                 orientation="vertical"
                                 value={tab}
                                 onChange={handleChange}>
-                                <Tab className={classes.dNone} label="hidden" />
+                                <Tab className={classesSystem.dNone} label="hidden" />
                                 <Tab
                                     label="&emsp;Change password"
                                     icon={<Lock />}

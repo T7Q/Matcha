@@ -5,11 +5,13 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import { addInteraction, unblockUser } from '../../../actions/profile';
 import { navStyles } from '../../../styles/navStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Dropdown = () => {
     const dispatch = useDispatch();
     const { profile } = useSelector((state) => state.profile);
     const classes = navStyles();
+    const classesSystem = systemStyles();
 
     const userId = profile.user_id;
     const blocked = profile.blocked;
@@ -49,7 +51,7 @@ const Dropdown = () => {
     return (
         <>
             <IconButton aria-haspopup="true" onClick={handleClick}>
-                <MoreHorizIcon className={classes.fillWhite} fontSize="small" />
+                <MoreHorizIcon className={classesSystem.fillPrimary} fontSize="small" />
             </IconButton>
             <Menu
                 id="actions-menu"

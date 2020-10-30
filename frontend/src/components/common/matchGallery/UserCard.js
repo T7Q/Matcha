@@ -8,7 +8,7 @@ import Rating from '@material-ui/lab/Rating';
 
 import LikeButton from './LikeButton';
 import { galleryStyles } from '../../../styles/galleryStyles';
-import { profileStyles } from '../../../styles/profileStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -16,7 +16,7 @@ const numberWithCommas = (x) => {
 
 const UserCard = ({ card }) => {
     const classesGallery = galleryStyles();
-    const classesProf = profileStyles();
+    const classes = systemStyles();
 
     card.fame = parseFloat(card.fame);
     const linkToProfile = `/profile/${card.user_id}`;
@@ -45,8 +45,8 @@ const UserCard = ({ card }) => {
                 <CardActions className={classesGallery.cardActions}>
                     <Box className={classesGallery.cardActionBox}>
                         <Tooltip title="Your astro compatibility level" placement="top">
-                            <IconButton className={classesGallery.bgIcon}>
-                                <Brightness1 className={classesGallery.textOverIcon} />
+                            <IconButton className={classes.p5}>
+                                <Brightness1 className={classes.fillPrimary} />
                             </IconButton>
                         </Tooltip>
                         <IconButton className={classesGallery.textOver} disabled>
@@ -55,7 +55,7 @@ const UserCard = ({ card }) => {
                     </Box>
                     <Box className={classesGallery.cardActionBox}>
                         <Tooltip title={`User fame rating ${card.fame.toFixed(1)}`} placement="top">
-                            <IconButton className={classesGallery.bgIcon}>
+                            <IconButton className={classes.p5}>
                                 <Rating
                                     name="customized-10"
                                     max={1}
@@ -63,7 +63,7 @@ const UserCard = ({ card }) => {
                                     precision={0.2}
                                     className={classesGallery.rating}
                                     readOnly
-                                    emptyIcon={<StarBorder className={classesProf.ratingColor} />}
+                                    emptyIcon={<StarBorder className={classes.someColor} />}
                                 />
                             </IconButton>
                         </Tooltip>

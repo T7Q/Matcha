@@ -7,9 +7,6 @@ export const settingStyles = makeStyles((theme) => ({
         background: `url(${BackgroundImage}) no-repeat center center fixed`,
         backgroundSize: 'cover',
     },
-    title: {
-        color: '#219bf1',
-    },
     tabs: {
         padding: 0,
         '& .MuiTab-wrapper': {
@@ -24,12 +21,6 @@ export const settingStyles = makeStyles((theme) => ({
         justifyContent: 'space-between',
         marginLeft: 0,
         marginRight: 0,
-    },
-    dNone: {
-        display: 'none',
-    },
-    borderBottom: {
-        borderBottom: '1px solid #252839',
     },
     list: {
         maxHeight: 350,

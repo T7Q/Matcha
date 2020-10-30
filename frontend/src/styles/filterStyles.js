@@ -26,9 +26,6 @@ export const filterStyles = makeStyles((theme) => ({
         },
         fontSize: 'medium',
     },
-    padding: {
-        padding: 0,
-    },
     sort: {
         maxWidth: '160px',
         borderBottom: `1px solid #10183c`,

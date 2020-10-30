@@ -6,6 +6,7 @@ import { Box, Typography, Grid, Container } from '@material-ui/core';
 import { getConversations } from '../../actions/chat';
 import { getMessageNotifications } from '../../actions/notifications';
 import { chatStyles } from '../../styles/chatStyles';
+import { systemStyles } from '../../styles/systemStyles';
 import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
 
@@ -22,6 +23,7 @@ const Chat = () => {
         chatId: 0,
     });
     const classesChat = chatStyles();
+    const classes = systemStyles();
     let { userId } = useParams();
 
     useEffect(() => {
@@ -99,7 +101,7 @@ const Chat = () => {
                     {conversations.length === 0 ? (
                         <Box textAlign="center">No conversations yet</Box>
                     ) : (
-                        <Grid container spacing={4} className={classesChat.chatGrid}>
+                        <Grid container spacing={4} className={classes.justifySpaceAround}>
                             <Grid
                                 container
                                 item

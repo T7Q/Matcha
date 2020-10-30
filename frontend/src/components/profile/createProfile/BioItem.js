@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 import { Box, TextareaAutosize, Typography, FormHelperText, FormControl } from '@material-ui/core';
+import { systemStyles } from '../../../styles/systemStyles';
 import { customStyles } from '../../../styles/customStyles';
 
 const BioItem = ({ bio, setData, error }) => {
-    const classes = customStyles();
+    const classes = systemStyles();
+    const classesCustom = customStyles();
 
     return (
         <Fragment>
@@ -14,11 +16,11 @@ const BioItem = ({ bio, setData, error }) => {
                 name="bio"
                 rowsMin={15}
                 value={bio}
-                className={classes.bioInput}
+                className={classesCustom.bioInput}
                 onChange={(e) => setData(e.target.value, 'bio')}
                 placeholder="For example, how would your best friend discribe you"
             />
-            <FormControl className={classes.ml} error={error ? true : false}>
+            <FormControl className={classes.mLeft20} error={error ? true : false}>
                 <FormHelperText>{error}</FormHelperText>
             </FormControl>
         </Fragment>

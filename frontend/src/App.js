@@ -13,7 +13,7 @@ import Navbar from './components/layout/Navbar/';
 import Footer from './components/layout/Footer';
 import Background from './components/layout/Background';
 import CustomizedSnackbars from './components/common/CustomizedSnackbars';
-import { theme } from './styles/custom';
+import theme from './styles/theme';
 import './App.css';
 
 const socket = io('http://localhost:5000');

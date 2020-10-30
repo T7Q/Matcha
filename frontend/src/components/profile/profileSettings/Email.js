@@ -6,6 +6,7 @@ import { updateUser } from '../../../actions/auth';
 import { editProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
 import { customStyles } from '../../../styles/customStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Email = ({ setSnackbar }) => {
     const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Email = ({ setSnackbar }) => {
     const { email, password } = formData;
     const { emailError, passwordError } = errors;
     const classes = customStyles();
+    const classesSystem = systemStyles();
 
     const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -47,7 +49,7 @@ const Email = ({ setSnackbar }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className={classes.alignCenter}>
+        <form onSubmit={handleSubmit} className={classesSystem.alignCenter}>
             <FormGroup>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>
@@ -82,7 +84,7 @@ const Email = ({ setSnackbar }) => {
                     size="small"
                     variant="contained"
                     color="primary"
-                    className={`${classes.mainButton} ${classes.p2}`}>
+                    className={classes.mainButton}>
                     Save
                 </Button>
             </FormGroup>

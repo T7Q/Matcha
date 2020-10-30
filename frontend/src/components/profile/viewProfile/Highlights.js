@@ -9,11 +9,12 @@ import { ArrowForwardIos, BubbleChartOutlined, LocationOnOutlined } from '@mater
 
 import Status from './Status';
 import { profileStyles } from '../../../styles/profileStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Highlights = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
     const classesProf = profileStyles();
-
+    const classes = systemStyles();
     const date = new Date(profile.birth_date).toLocaleDateString();
 
     const orientation =
@@ -71,7 +72,7 @@ const Highlights = ({ type }) => {
                                     edge="end"
                                     component={Link}
                                     to={value.link}
-                                    className={classesProf.editBtn}>
+                                    className={classes.someColor}>
                                     <ArrowForwardIos fontSize="small" />
                                 </IconButton>
                             ) : (

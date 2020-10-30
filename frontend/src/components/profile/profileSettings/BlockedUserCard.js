@@ -7,10 +7,10 @@ import { ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import { RemoveCircleOutline, CheckCircle } from '@material-ui/icons/';
 
-import { settingStyles } from '../../../styles/settingStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) => {
-    const classes = settingStyles();
+    const classes = systemStyles();
 
     return (
         <ListItem

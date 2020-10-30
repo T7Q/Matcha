@@ -7,11 +7,12 @@ import { List, ListItem, ListItemText, ListItemSecondaryAction } from '@material
 import { ArrowForwardIos } from '@material-ui/icons';
 
 import { profileStyles } from '../../../styles/profileStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Description = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
     const classesProf = profileStyles();
-
+    const classes = systemStyles();
     const userDescription = [
         {
             key: `desc1`,
@@ -44,7 +45,7 @@ const Description = ({ type }) => {
                                             edge="end"
                                             component={Link}
                                             to={value.link}
-                                            className={classesProf.editBtn}>
+                                            className={classes.someColor}>
                                             <ArrowForwardIos fontSize="small" />
                                         </IconButton>
                                     ) : (

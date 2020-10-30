@@ -103,12 +103,6 @@ export const customStyles = makeStyles((theme) => ({
             minWidth: '200px',
         },
     },
-    ml: {
-        marginLeft: '30px',
-    },
-    infoColor: {
-        color: theme.palette.info.main,
-    },
     img: {
         width: '40px',
         padding: '0 5px',
@@ -152,8 +146,5 @@ export const customStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             maxWidth: '200px',
         },
-    },
-    alignCenter: {
-        textAlign: 'center',
     },
 }));

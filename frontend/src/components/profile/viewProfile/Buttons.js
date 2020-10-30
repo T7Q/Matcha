@@ -7,11 +7,13 @@ import { Link } from 'react-router-dom';
 import { addLike, removeLike } from '../../../actions/profile';
 import { setSnackbar } from '../../../actions/setsnackbar';
 import { profileStyles } from '../../../styles/profileStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Buttons = ({ card }) => {
     const dispatch = useDispatch();
     const { match, auth, profile } = useSelector((state) => state);
     const classesProf = profileStyles();
+    const classes = systemStyles();
 
     const handleLike = () => {
         if (auth.user.userHasPhotos > 0) {
@@ -40,7 +42,7 @@ const Buttons = ({ card }) => {
         return (
             <Box display="flex" alignItems="center" justifyContent="center">
                 <Tooltip title="You have blocked this user">
-                    <Block className={classesProf.fill} fontSize="large" />
+                    <Block className={classes.fillInfo} fontSize="large" />
                 </Tooltip>
             </Box>
         );

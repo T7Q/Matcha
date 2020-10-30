@@ -6,6 +6,7 @@ import { Box, Button, Typography, useMediaQuery } from '@material-ui/core';
 
 import { googleLogin } from '../../actions/auth';
 import { customStyles } from '../../styles/customStyles';
+import { systemStyles } from '../../styles/systemStyles';
 import { setSnackbar } from '../../actions/setsnackbar';
 import google from '../../images/google.png';
 
@@ -13,6 +14,7 @@ const Landing = ({ history }) => {
     const dispatch = useDispatch();
     const { isAuthenticated, loading } = useSelector((state) => state.auth);
     const classes = customStyles();
+    const classesSystem = systemStyles();
     const isMobile = useMediaQuery('(max-width:600px)');
 
     const handleRedirect = (newRoute) => {
@@ -34,7 +36,7 @@ const Landing = ({ history }) => {
         <>Loading</>
     ) : (
         <Box pt="200px" display="flex" flexDirection="column" textAlign="center">
-            <Typography variant={isMobile ? 'h5' : 'h4'} className={classes.infoColor}>
+            <Typography variant={isMobile ? 'h5' : 'h4'} className={classesSystem.infoColor}>
                 Your love Is Written
             </Typography>
             <Typography variant={isMobile ? 'h4' : 'h3'}>In The Stars</Typography>
@@ -54,11 +56,7 @@ const Landing = ({ history }) => {
                     <Button
                         onClick={renderProps.onClick}
                         className={`${classes.mainButton} ${classes.googleBtn}`}>
-                        <img
-                            className={classes.img}
-                            alt="google"
-                            src={google}
-                        />
+                        <img className={classes.img} alt="google" src={google} />
                         Log in with Google
                     </Button>
                 )}

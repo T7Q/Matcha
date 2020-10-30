@@ -4,6 +4,7 @@ import { Avatar, Link, Badge, Box } from '@material-ui/core';
 import { ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
 // import OnlineBadge from './OnlineBadge';
 import { chatStyles } from '../../styles/chatStyles';
+import { systemStyles } from '../../styles/systemStyles';
 
 const ConversationBox = ({
     unread,
@@ -16,7 +17,8 @@ const ConversationBox = ({
 }) => {
     const [partnerIsOnline, setPartnerIsOnline] = useState({ online: false, partnerId: 0 });
     const history = useHistory();
-    const classes = chatStyles();
+    const classes = systemStyles();
+    const classesChat = chatStyles();
 
     useEffect(() => {
         let isMounted = true;
@@ -45,8 +47,8 @@ const ConversationBox = ({
         <ListItem
             className={
                 active === conversation.partner_id
-                    ? classes.conversationActiveList
-                    : classes.conversationList
+                    ? classesChat.conversationActiveList
+                    : classesChat.conversationList
             }
             button>
             <Link onClick={handleClick} component="button">
@@ -55,7 +57,9 @@ const ConversationBox = ({
                 </ListItemAvatar>
             </Link>
             <ListItemText
-                className={active === conversation.partner_id ? classes.active : classes.nonActive}
+                className={
+                    active === conversation.partner_id ? classes.primaryColor : classes.infoColor
+                }
                 onClick={(e) => handleChange(e, conversation.partner_id, conversation.sender_id)}
                 primary={
                     <span>

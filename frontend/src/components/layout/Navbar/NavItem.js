@@ -5,12 +5,14 @@ import { MessageOutlined, PeopleOutline, FavoriteBorder } from '@material-ui/ico
 
 import { getNotifications, updateNotifications } from '../../../actions/notifications';
 import { navStyles } from '../../../styles/navStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const NavItem = ({ handleNavigation, active, setActive }) => {
     const { isAuthenticated, user, socket } = useSelector((state) => state.auth);
     const notifications = useSelector((state) => state.notifications);
     const dispatch = useDispatch();
     const classes = navStyles();
+    const classesSystem = systemStyles();
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -79,7 +81,7 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
                             variant="button">
                             <Badge
                                 badgeContent={menu.amount}
-                                className={classes.pr}
+                                className={classesSystem.pr5}
                                 max={99}
                                 color={menu.color}>
                                 {menu.icon}

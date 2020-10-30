@@ -48,7 +48,7 @@ const UserCard = ({ card }) => {
                             </IconButton>
                         </Tooltip>
                         <IconButton className={classesGallery.textOver} disabled>
-                            {card.match.toFixed(0)}%
+                            {card.match}%
                         </IconButton>
                     </Box>
                     <Box className={classesGallery.cardActionBox}>

@@ -48,7 +48,7 @@ const getMatch = async (user, settings) => {
             (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) as age, users.fame_rating as fame, users.profile_pic_path,
             (ST_Distance(users.geolocation, $2)::integer / 1000) as distance, ${numberOfCommonTags}, ${connected},
             (${tagsCompValue} * ${settings.weight.tag} + ${cnHoroscopeCompValue} * ${settings.weight.cn} +
-            ${westHoroscopeCompValue} * ${settings.weight.west}) as match
+            ${westHoroscopeCompValue} * ${settings.weight.west})::integer as match
             ${settings.dateColumn}
         FROM public.users ${settings.join} WHERE users.user_id <> $1 and users.status = 2 ${settings.filter}
         ORDER BY ${settings.order} ${settings.limit}`,
@@ -77,7 +77,7 @@ const getCompatibility = async (authUser, otherUser, weight) => {
 
     const res = await db.query(
         `SELECT users.user_id, (${tagsCompValue} * ${weight.tag} +
-                ${cnHoroscopeCompValue} * ${weight.cn} + ${westHoroscopeCompValue} * ${weight.west}) as match
+                ${cnHoroscopeCompValue} * ${weight.cn} + ${westHoroscopeCompValue} * ${weight.west})::integer as match
         FROM public.users WHERE user_id = $2`,
         [authUser.user_id, otherUser.user_id]
     );

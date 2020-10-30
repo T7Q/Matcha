@@ -17,22 +17,25 @@ const Tag = () => {
     const { tagsError } = errors;
 
     useEffect(() => {
-        profileService.getTags().then((tags) => {
-            setRealTags(tags.map((item) => item.tag));
-        });
-        profileService.getUserTags().then((tags) => {
-            setFormData(tags.map((item) => item.tag_name));
-        });
+        let isMounted = true;
+        async function getTags() {
+            const res = await profileService.getTags();
+            if (isMounted && !res.error) {
+                setRealTags(res.map((item) => item.tag));
+            }
+        }
+        getTags();
+        async function getUserTags() {
+            const res = await profileService.getUserTags();
+            if (isMounted && !res.error) {
+                setFormData(res.map((item) => item.tag_name));
+            }
+        }
+        getUserTags();
+        return () => {
+            isMounted = false;
+        };
     }, []);
-    // let isMounted = true;
-    // async function getTags() {
-    //     const res = await axios.get('/profile/tags');
-    //     isMounted && setRealTags(res.data.map((item) => item.tag));
-    // }
-    // getTags();
-    // return () => {
-    //     isMounted = false;
-    // };
 
     const setData = (value) => {
         const error = validateField('tags', value);

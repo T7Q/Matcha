@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Badge, Typography, IconButton, Box, useMediaQuery } from '@material-ui/core';
+import { Badge, Typography, IconButton, Box } from '@material-ui/core';
 import { MenuItem, Menu } from '@material-ui/core';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
@@ -9,10 +9,9 @@ import { navStyles } from '../../../styles/navStyles';
 
 const ProfileMenu = ({ handleNavigation, active, setActive }) => {
     const notifications = useSelector((state) => state.notifications);
-    const { user, socket } = useSelector((state) => state.auth);
+    const { socket } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [profileSettings, setProfileSettings] = useState(null);
-    const isMobile = useMediaQuery('(max-width:600px)');
     const classes = navStyles();
 
     useEffect(() => {

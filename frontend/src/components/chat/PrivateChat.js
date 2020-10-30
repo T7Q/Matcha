@@ -10,13 +10,14 @@ import { getMessages } from '../../actions/chat';
 import { getProfile } from '../../actions/profile';
 import { chatStyles } from '../../styles/chatStyles';
 import Dropdown from '../profile/viewProfile/DropdownItem';
+import Spinner from '../layout/Spinner';
 
 const PrivateChat = ({ currentConversation, handleChange }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { user, socket } = useSelector((state) => state.auth);
     const { profile } = useSelector((state) => state.profile);
-    const { messages, conversations } = useSelector((state) => state.chat);
+    const { messages, conversations, loading } = useSelector((state) => state.chat);
     const classes = chatStyles();
     const [textMessage, setTextMessage] = useState('');
     const chat = currentConversation
@@ -77,6 +78,8 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
 
     if (currentConversation === 0 || !profile) {
         return <></>;
+    } else if (loading) {
+        return <Spinner />;
     }
 
     return (
@@ -84,8 +87,8 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
             position="relative"
             display="flex"
             flexDirection="column"
-            pl={0}
-            pr={0}
+            // pl={0}
+            // pr={0}
             minWidth="100%"
             className={classes.chat}>
             <Box display="flex" alignItems="center" className={classes.borderBottom}>

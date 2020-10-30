@@ -11,10 +11,9 @@ export const getConversations = () => async (dispatch) => {
 };
 
 export const getMessages = (chatId) => async (dispatch) => {
+    dispatch({ type: CLEAR_MESSAGES });
     try {
-        if (chatId === 0) {
-            dispatch({ type: CLEAR_MESSAGES });
-        } else {
+        if (chatId !== 0) {
             const res = await axios.get(`/chat/${chatId}`);
             dispatch({ type: GET_MESSAGES, payload: res.data });
         }

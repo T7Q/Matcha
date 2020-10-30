@@ -12,7 +12,6 @@ export const chatStyles = makeStyles((theme) => ({
     },
     chatGrid: {
         justifyContent: 'space-around',
-        alignItems: 'center',
     },
     leftSide: {
         minHeight: '60vh',
@@ -20,8 +19,10 @@ export const chatStyles = makeStyles((theme) => ({
         background: theme.palette.background.secondary,
     },
     rightSide: {
-        paddingLeft: 0,
-        paddingRight: 0,
+        padding: '0 !important',
+        [theme.breakpoints.down('sm')]: {
+            paddingTop: '16px !important',
+        },
     },
     titleChats: {
         width: '90%',
@@ -50,6 +51,9 @@ export const chatStyles = makeStyles((theme) => ({
         border: '1px solid #252839',
         borderRadius: '30px',
         background: theme.palette.background.secondary,
+    },
+    borderNone: {
+        border: 'none',
     },
     inputField: {
         width: '100%',

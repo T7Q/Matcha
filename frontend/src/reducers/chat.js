@@ -3,6 +3,7 @@ import { GET_CONVERSATIONS, GET_MESSAGES, CLEAR_MESSAGES } from '../actions/type
 const initialState = {
     conversations: [],
     messages: [],
+    loading: true,
 };
 
 export default function (state = initialState, action) {
@@ -13,16 +14,18 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 conversations: payload,
+                loading: false,
             };
         case GET_MESSAGES:
             return {
                 ...state,
                 messages: payload,
+                loading: false,
             };
         case CLEAR_MESSAGES:
             return {
                 ...state,
-                messages: [],
+                loading: true,
             };
         default:
             return state;

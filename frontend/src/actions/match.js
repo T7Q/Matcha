@@ -6,10 +6,8 @@ import store from '../store';
 // Get current user profile
 export const getRecommend = (route, filterIsOn) => async (dispatch) => {
     const page = route.split('/')[2];
-
     const data =
         filterIsOn > 0 ? (page === 'filter' ? store.getState().match.filter : { type: page }) : {};
-
     try {
         const result =
             filterIsOn > 0
@@ -26,7 +24,7 @@ export const getRecommend = (route, filterIsOn) => async (dispatch) => {
         });
     }
 };
-
+ 
 // Get more matches for gallery
 export const fetchMore = () => (dispatch) => {
     dispatch({

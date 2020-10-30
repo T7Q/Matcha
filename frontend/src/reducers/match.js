@@ -5,11 +5,11 @@ import {
     FILTER_RESET,
     FILTER_UPDATE,
     UPDATE_LIKES,
-    UPDATE_ERROR
-} from "../actions/types";
+    UPDATE_ERROR,
+} from '../actions/types';
 
 const filterBase = {
-    type: "",
+    type: '',
     min_age: 18,
     max_age: 120,
     min_distance: 0,
@@ -21,7 +21,7 @@ const filterBase = {
     order: [],
     believe_cn: true,
     believe_west: true,
-    sex_orientation: "",
+    sex_orientation: '',
 };
 
 const initialState = {
@@ -73,17 +73,17 @@ export default function (state = initialState, action) {
                 filter: payload,
                 loading: false,
             };
-            case UPDATE_LIKES:
-                return {
-                    ...state,
-                    loading: false,
-                };
-            case UPDATE_ERROR:
-                return {
-                    ...state,
-                    error: payload,
-                    loading: false,
-                };
+        case UPDATE_LIKES:
+            return {
+                ...state,
+                loading: false,
+            };
+        case UPDATE_ERROR:
+            return {
+                ...state,
+                error: payload,
+                loading: false,
+            };
         default:
             return state;
     }

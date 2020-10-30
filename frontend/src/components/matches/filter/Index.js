@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 
 import { Button, Collapse, Grid, IconButton, Box } from '@material-ui/core';
 import { HighlightOff, ExpandMore, SyncAlt } from '@material-ui/icons';
 
-import { updateFilter, resetFilter } from '../../../actions/match';
+import { resetFilter } from '../../../actions/match';
 import GetMatches from '../../common/matchGallery/GetMatches';
 import Sort from './Sort';
 import Row from './Row';
@@ -15,17 +15,11 @@ import { useStyles } from '../../../styles/custom';
 
 const Filter = ({ setting }) => {
     const dispatch = useDispatch();
-    const { filter } = useSelector((state) => state.match);
-
     const [filterIsOn, setFilter] = React.useState(1);
-
-    useEffect(() => {
-        dispatch(updateFilter(filter));
-    }, [dispatch, filter]);
 
     const handleClickReset = (e) => {
         dispatch(resetFilter());
-        setFilter(0);
+        setFilter(1);
     };
 
     const classesCustom = useStyles();
@@ -38,13 +32,7 @@ const Filter = ({ setting }) => {
 
     return (
         <>
-            <Grid
-                container
-                // spacing={2}
-                direction="row"
-                justify="space-between"
-                alignItems="flex-end"
-                pb={4}>
+            <Grid container direction="row" justify="space-between" alignItems="flex-end" pb={4}>
                 <Grid item xs={6} sm={3}>
                     <Box display="flex" justifyContent="flex-end">
                         <Button
@@ -105,14 +93,12 @@ const Filter = ({ setting }) => {
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
-                            
                             className={classesCustom.customButton}>
                             See results
                         </Button>
                         <Button
                             size="small"
                             variant="contained"
-                            // onClick={handleClickReset}
                             onClick={() => {
                                 handleClickReset();
                             }}

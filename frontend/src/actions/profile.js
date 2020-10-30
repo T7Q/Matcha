@@ -1,17 +1,6 @@
-import axios from 'axios';
+import { CREATE_PROFILE, GET_PROFILE, LOGOUT, UPDATE_BlOCKED, CLEAR_PROFILE } from './types';
+import { UPDATE_PROFILE, PROFILE_ERROR, UPDATE_LIKES, UPDATE_ERROR } from './types';
 import profileService from '../services/profileService';
-
-import {
-    CREATE_PROFILE,
-    GET_PROFILE,
-    UPDATE_PROFILE,
-    PROFILE_ERROR,
-    UPDATE_LIKES,
-    UPDATE_ERROR,
-    LOGOUT,
-    UPDATE_BlOCKED,
-    CLEAR_PROFILE,
-} from './types';
 import { setSnackbar } from './setsnackbar';
 import { loadUser } from './auth';
 
@@ -22,7 +11,7 @@ export const getProfile = (type, userId, otherProfile = false) => async (dispatc
     });
     // send request to corresponding router depending on wheather profile is My or Other user
     try {
-        if (otherProfile) await axios.get(`/profile/visit/${userId}`);
+        if (otherProfile) await profileService.visit(userId);
         const res =
             type === 'myProfile'
                 ? await profileService.getMyProfile()
@@ -63,31 +52,18 @@ const convertImages = (images, profile = 'base1') => {
 export const createProfile = (formData, images, history) => async (dispatch) => {
     try {
         const imagesToSubmit = convertImages(images);
-        const res = await axios.post('/profile/create', formData);
+        const res = await profileService.create(formData);
 
-        if (res.data.error) {
-            const errors = res.data.error;
+        if (res.error) {
+            const errors = res.error;
             dispatch(setSnackbar(true, 'error', 'Check all your data again'));
             return errors;
         } else {
-            dispatch({ type: CREATE_PROFILE, payload: res.data });
-            await axios.post('/profile/uploadphoto', imagesToSubmit);
+            dispatch({ type: CREATE_PROFILE, payload: res });
+            await dispatch(savePhotos(imagesToSubmit));
             dispatch(loadUser());
             history.push('/Profile');
         }
-    } catch (err) {
-        dispatch(setSnackbar(true, 'error', err));
-    }
-};
-
-export const uploadPhotos = (images, profile) => async (dispatch) => {
-    try {
-        const imagesToSubmit = convertImages(images, profile);
-        const result = await axios.post('/profile/uploadphoto', imagesToSubmit);
-        if (result.data.error) {
-            dispatch(setSnackbar(true, 'error', result.data.error));
-        }
-        dispatch(setSnackbar(true, 'success', result.data.msg));
     } catch (err) {
         dispatch(setSnackbar(true, 'error', err));
     }
@@ -192,35 +168,47 @@ export const deleteProfile = (history) => async (dispatch) => {
 };
 
 export const editProfile = ({ key, value }, update = false) => async (dispatch) => {
-    const res = await profileService.editProfile({ key, value });
+    try {
+        const res = await profileService.editProfile({ key, value });
 
-    if (res.error) {
-        return res;
-    } else if (update) {
-        dispatch({
-            type: UPDATE_PROFILE,
-            payload: { key, value },
-        });
+        if (res.error) {
+            return res;
+        } else if (update) {
+            dispatch({
+                type: UPDATE_PROFILE,
+                payload: { key, value },
+            });
+        }
+        dispatch(setSnackbar(true, 'success', res.msg));
+    } catch {
+        dispatch(setSnackbar(true, 'error', 'Try later'));
     }
-    dispatch(setSnackbar(true, 'success', res.msg));
 };
 
 export const editTags = (data) => async (dispatch) => {
-    const res = await profileService.editTags(data);
+    try {
+        const res = await profileService.editTags(data);
 
-    if (res.error) {
-        return res;
-    } else {
-        dispatch(setSnackbar(true, 'success', res.msg));
+        if (res.error) {
+            return res;
+        } else {
+            dispatch(setSnackbar(true, 'success', res.msg));
+        }
+    } catch {
+        dispatch(setSnackbar(true, 'error', 'Try later'));
     }
 };
 
 export const savePhotos = (data) => async (dispatch) => {
-    const res = await profileService.uploadPhotos(data);
+    try {
+        const res = await profileService.uploadPhotos(data);
 
-    if (res.error) {
-        dispatch(setSnackbar(true, 'error', 'Try again later'));
-    } else {
-        dispatch(setSnackbar(true, 'success', 'Successfully updated'));
+        if (res.error) {
+            dispatch(setSnackbar(true, 'error', 'Try again later'));
+        } else {
+            dispatch(setSnackbar(true, 'success', 'You profile was successfully updated'));
+        }
+    } catch {
+        dispatch(setSnackbar(true, 'error', 'Try later'));
     }
 };

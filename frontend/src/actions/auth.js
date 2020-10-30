@@ -1,39 +1,40 @@
-import axios from 'axios';
+import { LOGIN_SUCCESS, AUTH_SUCCESS, UPDATE_USER, AUTH_FAIL } from './types';
+import { REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT, LOAD_SOCKET } from './types';
 import authService from '../services/authService';
 import setAuthToken from '../utils/setAuthToken';
 import { setSnackbar } from './setsnackbar';
-import { LOGIN_SUCCESS, AUTH_SUCCESS, UPDATE_USER, AUTH_FAIL } from './types';
-import { REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT, LOAD_SOCKET } from './types';
 
 export const loadUser = () => async (dispatch) => {
     setAuthToken(localStorage.getItem('token'));
 
     try {
-        const res = await axios.get('/account/auth');
+        const res = await authService.auth();
 
-        if (res.data.error) {
+        if (res.error) {
             dispatch({ type: AUTH_FAIL });
         } else {
-            dispatch({ type: AUTH_SUCCESS, payload: res.data });
+            dispatch({ type: AUTH_SUCCESS, payload: res });
         }
     } catch (error) {
+        dispatch({ type: AUTH_FAIL });
         console.log(error);
     }
 };
 
 export const register = (formData, history) => async (dispatch) => {
     try {
-        const res = await axios.post('/account/register', formData);
+        const res = await authService.register(formData);
 
-        if (res.data.error) {
+        if (res.error) {
             dispatch({ type: REGISTER_FAIL });
-            return res.data.error;
+            return res.error;
         } else {
             dispatch({ type: REGISTER_SUCCESS, payload: 'here' });
             dispatch(setSnackbar(true, 'warning', 'Please, verify your account.'));
             setTimeout(() => history.push('/'), 1000);
         }
     } catch (error) {
+        dispatch({ type: REGISTER_FAIL });
         console.log(error);
     }
 };
@@ -50,13 +51,14 @@ export const login = (data) => async (dispatch) => {
             dispatch(loadUser());
         }
     } catch (error) {
+        dispatch({ type: AUTH_FAIL });
         console.log(error);
     }
 };
 
 export const logout = (history) => async (dispatch) => {
     try {
-        await axios.post('/account/logout');
+        await authService.logout();
     } catch (error) {
         console.log(error);
     }
@@ -86,5 +88,8 @@ export const googleLogin = (googleUser) => async (dispatch) => {
             dispatch({ type: LOGIN_SUCCESS, payload: res });
             dispatch(loadUser());
         }
-    } catch (error) {}
+    } catch (error) {
+        dispatch({ type: AUTH_FAIL });
+        console.log(error);
+    }
 };

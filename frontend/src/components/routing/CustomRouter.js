@@ -8,7 +8,6 @@ import Login from '../auth/Login';
 import ForgotPwd from '../auth/ForgotPwd';
 import UpdatePwd from '../auth/UpdatePwd';
 import Landing from '../layout/Landing';
-import NotFound from '../layout/NotFound';
 import Register from '../profile/CreateAccount';
 import ProfileView from '../profile/viewProfile/';
 import ProfileCreation from '../profile/createProfile/';
@@ -55,7 +54,7 @@ const CustomRouter = () => {
                     <Redirect exact from="/visits" to="/visits/allvisits" />
                     <PrivateRoute exact path="/visits/:page?" socket={socket} component={Visits} />
                     <PrivateRoute exact path="/profile/me/edit/:type?" component={EditProfile} />
-                    <Route component={NotFound} />
+                    <Route component={Landing} />
                 </Switch>
             </Box>
         </Grid>

@@ -20,6 +20,11 @@ const editProfile = async (data) => {
     return res.data;
 };
 
+const create = async (data) => {
+    const res = await axios.post('/profile/create', data);
+    return res.data;
+};
+
 const editTags = async (data) => {
     const res = await axios.post('/profile/editTags', data);
     return res.data;
@@ -68,8 +73,13 @@ const uploadPhotos = async (data) => {
     return res.data;
 };
 
+const visit = async (userId) => {
+    await axios.get(`/profile/visit/${userId}`);
+};
+
 export default {
     getMyProfile,
+    create,
     getUserProfile,
     deleteProfile,
     editProfile,
@@ -83,4 +93,5 @@ export default {
     getBlockedUsers,
     editTags,
     uploadPhotos,
+    visit,
 };

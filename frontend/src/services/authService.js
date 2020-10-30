@@ -25,4 +25,18 @@ const google = async (token) => {
     return res.data;
 };
 
-export default { forgetPwd, updatePwd, login, activate, google };
+const auth = async () => {
+    const res = await axios.get('/account/auth');
+    return res.data;
+};
+
+const register = async (data) => {
+    const res = await axios.post('/account/register', data);
+    return res.data;
+};
+
+const logout = async () => {
+    await axios.post('/account/logout');
+};
+
+export default { forgetPwd, updatePwd, login, activate, google, auth, register, logout };

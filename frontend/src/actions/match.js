@@ -1,6 +1,6 @@
+import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH } from './types';
+import { FILTER_UPDATE, FILTER_RESET, CLEAR_MATCH } from './types';
 import matchService from '../services/matchService';
-
-import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, FILTER_UPDATE, FILTER_RESET, CLEAR_MATCH } from './types';
 import store from '../store';
 
 // Get current user profile
@@ -10,7 +10,11 @@ export const getRecommend = (route, filterIsOn) => async (dispatch) => {
     });
     const page = route.split('/')[2];
     const data =
-        filterIsOn > 0 ? (page === 'filter' ? store.getState().match.filter : { type: page, order: [] }) : {};
+        filterIsOn > 0
+            ? page === 'filter'
+                ? store.getState().match.filter
+                : { type: page, order: [] }
+            : {};
     try {
         const result =
             filterIsOn > 0
@@ -27,7 +31,7 @@ export const getRecommend = (route, filterIsOn) => async (dispatch) => {
         });
     }
 };
- 
+
 // Get more matches for gallery
 export const fetchMore = () => (dispatch) => {
     dispatch({

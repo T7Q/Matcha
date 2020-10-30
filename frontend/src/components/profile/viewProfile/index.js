@@ -9,6 +9,7 @@ import Spinner from '../../layout/Spinner';
 import Header from './Header';
 import Description from './Description';
 import Highlights from './Highlights';
+import NotFound from '../../layout/NotFound';
 
 const ProfileView = () => {
     const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const ProfileView = () => {
     }, [type, otherUserId, socket, dispatch]);
 
     if (profile === null || loading) {
-        return loading ? <Spinner /> : <div>Page is not found</div>;
+        return loading ? <Spinner /> : <NotFound/>;
     }
 
     return (

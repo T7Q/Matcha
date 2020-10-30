@@ -4,7 +4,7 @@ import { FILTER_RESET, FILTER_UPDATE, UPDATE_LIKES, UPDATE_ERROR } from '../acti
 const filterBase = {
     type: '',
     min_age: 18,
-    max_age: 120,
+    max_age: 99,
     min_distance: 0,
     max_distance: 200000,
     min_fame: 0,

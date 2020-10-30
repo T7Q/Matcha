@@ -1,17 +1,14 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
+import { notFoundStyles } from '../../styles/notFoundStyles';
 
-const NotFound = () => {
+const notFound = () => {
+    const classNotFound = notFoundStyles();
     return (
-        <Box textAlign="center" pt="50%">
-            <Typography variant="h3">
-                <i className="fas fa-exclamation-triangle" /> Page Not Found
-            </Typography>
-            <Box p={3}>
-                <Typography>Sorry, this page does not exist</Typography>
-            </Box>
+        <Box textAlign="center" className={classNotFound.background}>
+            <Typography variant="h5" pt={20}>Oops! Page not found</Typography>
         </Box>
     );
 };
 
-export default NotFound;
+export default notFound;

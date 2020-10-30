@@ -56,9 +56,9 @@ const CustomSlider = ({ type }) => {
             handleChange: handleFameChange,
         },
         age: {
-            title: 'Age 18 - 120',
+            title: 'Age 18 - 99',
             defaultMin: 18,
-            defaultMax: 120,
+            defaultMax: 99,
             valueMin: filter.min_age,
             valueMax: filter.max_age,
             handleChange: handleAgeChange,

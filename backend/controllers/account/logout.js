@@ -1,5 +1,4 @@
 const accountModel = require('../../models/account');
-const profileModel = require('../../models/profile');
 
 module.exports = async (req, res) => {
     if (req.user) {

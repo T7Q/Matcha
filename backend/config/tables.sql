@@ -11,7 +11,6 @@ CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;
 
 
-
 CREATE TABLE IF NOT EXISTS "users"
 (
  "user_id"                  bigserial PRIMARY KEY NOT NULL,

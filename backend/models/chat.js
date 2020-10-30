@@ -52,8 +52,8 @@ const addMessage = async (chatId, senderId, content, receiverId) => {
 const getChatMessages = async (chatId, userId) => {
     const result = await db.query(
         `SELECT message_id AS id, message, time_sent, sender_id,
-            CASE WHEN sender_id = user_1 THEN user_2 ELSE user_1 END AS receiver_id,
-            CASE WHEN sender_id = $2 THEN true ELSE false END AS mine
+        CASE WHEN sender_id = user_1 THEN user_2 ELSE user_1 END AS receiver_id,
+        CASE WHEN sender_id = $2 THEN true ELSE false END AS mine
         FROM messages JOIN chats ON chats.chat_id = messages.chat_id
         WHERE chats.chat_id = $1 ORDER BY time_sent`,
         [chatId, userId]

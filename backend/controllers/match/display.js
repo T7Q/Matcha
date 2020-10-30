@@ -60,8 +60,7 @@ const likedMe = async (req, res) => {
         dateColumn: ' , likes.date_created as date',
         join: ' LEFT JOIN likes ON likes.from_user_id = users.user_id ',
         filter:
-            ' AND likes.to_user_id = $1\
-                    AND (SELECT count(blocked.to_user_id) FROM blocked\
+            ' AND likes.to_user_id = $1 AND (SELECT count(blocked.to_user_id) FROM blocked\
                     WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
         order: 'date desc, match desc, distance desc',
         limit: '',
@@ -88,11 +87,11 @@ const connected = async (req, res) => {
         join: '',
         filter:
             ' AND (SELECT count(likes.like_id) AS from_likes FROM likes\
-                        WHERE likes.from_user_id = users.user_id AND likes.to_user_id = $1) = 1\
-                        AND (SELECT count(likes.like_id) AS to_likes FROM likes\
-                        WHERE likes.from_user_id = $1 AND likes.to_user_id = users.user_id) = 1\
-                        AND (SELECT count(blocked.to_user_id) FROM blocked\
-                        WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
+                WHERE likes.from_user_id = users.user_id AND likes.to_user_id = $1) = 1\
+                AND (SELECT count(likes.like_id) AS to_likes FROM likes\
+                WHERE likes.from_user_id = $1 AND likes.to_user_id = users.user_id) = 1\
+                AND (SELECT count(blocked.to_user_id) FROM blocked\
+                WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
         order: 'date desc, match desc, distance desc',
         limit: '',
         values: [userDbData.user_id, userDbData.geolocation],

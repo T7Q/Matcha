@@ -45,10 +45,9 @@ module.exports = async (req, res) => {
         join: '',
         filter:
             ' AND (SELECT count(likes.like_id) AS to_likes FROM likes\
-                        WHERE likes.from_user_id = $1\
-                        AND likes.to_user_id = users.user_id) = 0\
+                WHERE likes.from_user_id = $1 AND likes.to_user_id = users.user_id) = 0\
                 AND (SELECT count(blocked.to_user_id) FROM blocked\
-                    WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
+                WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
         order: '',
         limit: '',
         dateColumn: ', users.created_at as date ',
@@ -57,7 +56,11 @@ module.exports = async (req, res) => {
 
     matchHelper.buildBase(req, settings);
     settings.order = matchHelper.buildOrder(req.body.order, settings.order);
-    settings.weight = matchHelper.setWeights(req.body.believe_cn, req.body.believe_west, userDbData.userHasTags);
+    settings.weight = matchHelper.setWeights(
+        req.body.believe_cn,
+        req.body.believe_west,
+        userDbData.userHasTags
+    );
     settings.filter += matchHelper.buildFilter(req, userDbData, values);
 
     // get matches from db

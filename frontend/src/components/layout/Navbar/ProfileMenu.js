@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Badge, Typography, IconButton, Box, Avatar, useMediaQuery } from '@material-ui/core';
+import { Badge, Typography, IconButton, Box, useMediaQuery } from '@material-ui/core';
 import { MenuItem, Menu } from '@material-ui/core';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
@@ -61,11 +61,7 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
                         badgeContent={notifications.visit}
                         max={99}
                         color="primary">
-                        {isMobile ? (
-                            <PersonOutlineIcon />
-                        ) : (
-                            <Avatar className={classes.avatar}>{user.username.charAt(0)}</Avatar>
-                        )}
+                        <PersonOutlineIcon />
                     </Badge>
                     Profile
                 </Typography>

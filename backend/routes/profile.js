@@ -47,11 +47,6 @@ router.get('/notifications/:type', middleware.authRequired, notifications.get);
 // @access  Private
 router.delete('/notifications/:type/:id', middleware.authRequired, notifications.remove);
 
-// @route   POST /profile
-// @desc    Show other user profile
-// @access  Private
-router.post('/', middleware.authRequired, show.userProfile); // tanya didn't find this route
-
 // @route   POST /profile/create
 // @desc    Add profile info
 // @access  Private

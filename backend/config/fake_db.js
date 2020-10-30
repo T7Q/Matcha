@@ -6,12 +6,12 @@ const { database } = require('./index');
 // there is also a demo user (user_id 1) created on setup_db stage
 
 // number of generated fake accounts
-const desiredFakeUsers = 10;
+const desiredFakeUsers = 50;
 
-// statement to insert 21 params to table 'users'
+// statement to insert 19 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
     let str = '';
-    let params = 22;
+    let params = 20;
     let j = 1;
     for (let k = 0; k < desiredFakeUsers; k++) {
         str = str.concat('(');
@@ -23,8 +23,8 @@ const prepareStmt = (desiredFakeUsers) => {
     }
 
     return `INSERT INTO users (first_name, last_name, username, email, password,
-        status, birth_date, gender, sex_preference, email_notification,
-        online, latitude, longitude, country, real_time_notification,
+        status, birth_date, gender, sex_preference,
+        online, latitude, longitude, country,
         fame_rating, bio, created_at, last_seen, profile_pic_path, fame_14_days)
         VALUES ${str}`;
 };
@@ -34,19 +34,17 @@ const createFakeUser = () => {
     return [
         faker.name.firstName(),
         faker.name.lastName(),
-        faker.internet.userName(),
+        faker.internet.userName().toLowerCase(),
         faker.internet.email(),
-        '$2b$10$FOHKA4htx6iIAYHSEbX1hOnKtwk7Bur7eWl354I/mqs4KCt9cZAGi',
+        '$2b$10$z9rS6JC9v6oWJBgl5lrcteKcho3ESt4V3xf.O2mxdjK1hxhxGLAlS',
         '2',
         faker.date.between('1960-01-01', '2002-01-01'),
         faker.random.arrayElement(['man', 'woman']),
         faker.random.arrayElement(['man', 'woman', 'both']),
-        false,
         faker.random.number(1),
         faker.address.latitude(),
         faker.address.longitude(),
         faker.address.country(),
-        false,
         faker.random.float({ min: 0, max: 5, precision: 0.1 }),
         faker.lorem.sentences(),
         faker.date.between('2018-01-01', Date()),
@@ -82,11 +80,6 @@ const shuffleTags = () => {
         .sort((a, b) => a.sort - b.sort)
         .map((a) => a.value);
 };
-
-// calculate number of fake likes, visits based on number of generated users
-let visits = parseInt(desiredFakeUsers * 0.3);
-let likes = parseInt(visits * 0.7); // tanya a eti nado
-let connected = parseInt(likes * 0.5); //tanya
 
 // generate random number between min and max
 const getRandomInt = (min, max) => {

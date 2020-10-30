@@ -58,14 +58,13 @@ const Matches = () => {
         dispatch(resetFilter());
     };
 
-    useEffect(() => { 
+    useEffect(() => {
         if (previousPath === '') {
             dispatch(resetFilter());
         } else if (previousPath === 'otherUser') {
             dispatch({ type: 'UPDATE_PATH', payload: '' });
         }
-    // }, [dispatch, previousPath]);
-    }, []);
+    }, []); // eslint-disable-line
 
     // window.onpopstate = e => {
     //     setBack(true);

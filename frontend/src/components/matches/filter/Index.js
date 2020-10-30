@@ -16,10 +16,12 @@ import { useStyles } from '../../../styles/custom';
 const Filter = ({ setting }) => {
     const dispatch = useDispatch();
     const [filterIsOn, setFilter] = React.useState(1);
+    const [reset, setReset] = React.useState(false);
 
     const handleClickReset = (e) => {
         dispatch(resetFilter());
         setFilter(1);
+        setReset(!reset);
     };
 
     const classesCustom = useStyles();
@@ -108,7 +110,7 @@ const Filter = ({ setting }) => {
                     </Grid>
                 </Grid>
             </Collapse>
-            <GetMatches route="/match/filter" filterIsOn={filterIsOn} />
+            <GetMatches reset={reset} route="/match/filter" filterIsOn={filterIsOn} />
         </>
     );
 };

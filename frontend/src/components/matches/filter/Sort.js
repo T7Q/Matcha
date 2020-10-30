@@ -5,6 +5,7 @@ import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { filterStyles } from '../../../styles/filterStyles';
 import { updateFilter } from '../../../actions/match';
+import { getValue } from '../../../utils/helpFunctions';
 
 const sort = [
     { label: 'Yongest First', db: 'age_asc' },
@@ -16,15 +17,6 @@ const sort = [
     { label: 'Most common interest', db: 'commonTag_desc' },
     { label: 'Least common interest', db: 'commonTag_asc' },
 ];
-
-const getValue2 = (input, array) => {
-    const initial = input ? array.find((n) => n.db === input) : '';
-    const result = {
-        label: input ? initial.label : '',
-        db: input ? input : '',
-    };
-    return result;
-};
 
 const Sort = ({ setFilter, filterIsOn }) => {
     const dispatch = useDispatch();
@@ -46,7 +38,7 @@ const Sort = ({ setFilter, filterIsOn }) => {
             onChange={handleSortChange}
             options={sort}
             getOptionLabel={(option) => option.label}
-            value={getValue2(filter.order[0], sort)}
+            value={getValue(filter.order[0], sort)}
             getOptionSelected={(option) => option}
             className={classesFilter.sort}
             renderInput={(params) => <TextField {...params} label="Sort" />}

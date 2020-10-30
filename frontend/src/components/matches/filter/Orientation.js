@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { updateFilter } from '../../../actions/match';
+import { getValue } from '../../../utils/helpFunctions';
 
 const orientation = [
     { label: 'men interested in man', db: 'gay' },
@@ -12,15 +13,6 @@ const orientation = [
     { label: 'women interested in woman and man', db: 'bi_woman' },
     { label: 'men interested in woman and man', db: 'bi_man' },
 ];
-
-const getValue = (input, array) => {
-    const initial = input ? array.find((n) => n.db === input) : '';
-    const result = {
-        label: input ? initial.label : '',
-        db: input ? input : '',
-    };
-    return result;
-};
 
 const Orientation = () => {
     const dispatch = useDispatch();

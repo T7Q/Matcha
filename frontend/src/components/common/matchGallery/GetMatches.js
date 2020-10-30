@@ -5,13 +5,13 @@ import Gallery from './Gallery';
 import Typography from '@material-ui/core/Typography';
 import Spinner from '../../layout/Spinner';
 
-const GetMatches = ({ route, filterIsOn }) => {
+const GetMatches = ({ route, filterIsOn, reset }) => {
     const dispatch = useDispatch();
     const { match, loading } = useSelector((state) => state.match);
 
     useEffect(() => {
         dispatch(getRecommend(route, filterIsOn));
-    }, [dispatch, route, filterIsOn]);
+    }, [dispatch, route, filterIsOn, reset]);
 
     const handleScroll = () => {
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 2) {

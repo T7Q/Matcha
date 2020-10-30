@@ -82,13 +82,8 @@ const getUserTags = async (user_id) => {
     return res;
 };
 
-// const getUserPhotos = async (user_id) => { // tanya vrode ne nuzna eta f
-//     const res = await db.query(
-//         `SELECT image_path
-//         FROM images
-//         WHERE user_id = $1`,
-//         [user_id]
-//     );
+// const getUserPhotos = async (user_id) => {
+//     const res = await db.query(`SELECT image_path FROM images WHERE user_id = $1`, [user_id]);
 //     return res;
 // };
 
@@ -227,7 +222,7 @@ module.exports = {
     getMessageNotifications,
     deleteMessageNotifications,
     deleteNotifications,
-    // getUserPhotos,
+    // getUserPhotos, tanya can i delete it
     getBlockedUsers,
     getBlockedValue,
     userExists,

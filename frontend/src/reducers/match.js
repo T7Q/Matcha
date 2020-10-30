@@ -1,15 +1,8 @@
-import {
-    GET_MATCH,
-    MATCH_ERROR,
-    FETCH_MORE_MATCH,
-    FILTER_RESET,
-    FILTER_UPDATE,
-    UPDATE_LIKES,
-    UPDATE_ERROR
-} from "../actions/types";
+import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH } from '../actions/types';
+import { FILTER_RESET, FILTER_UPDATE, UPDATE_LIKES, UPDATE_ERROR } from '../actions/types';
 
 const filterBase = {
-    type: "",
+    type: '',
     min_age: 18,
     max_age: 120,
     min_distance: 0,
@@ -21,7 +14,7 @@ const filterBase = {
     order: [],
     believe_cn: true,
     believe_west: true,
-    sex_orientation: "",
+    sex_orientation: '',
 };
 
 const initialState = {
@@ -36,22 +29,12 @@ const initialState = {
 
 export default function (state = initialState, action) {
     const { type, payload } = action;
-    // console.log("REDUCER");
-    // console.log("stateMATCH", state);
-    // console.log("action", action);
-    // console.log("action", state.match.payload);
     switch (type) {
         case GET_MATCH:
             return {
                 ...state,
                 iEnd: state.iStart + state.count,
                 match: payload,
-                loading: false,
-            };
-        case MATCH_ERROR:
-            return {
-                ...state,
-                error: payload,
                 loading: false,
             };
         case FETCH_MORE_MATCH:
@@ -73,17 +56,18 @@ export default function (state = initialState, action) {
                 filter: payload,
                 loading: false,
             };
-            case UPDATE_LIKES:
-                return {
-                    ...state,
-                    loading: false,
-                };
-            case UPDATE_ERROR:
-                return {
-                    ...state,
-                    error: payload,
-                    loading: false,
-                };
+        case UPDATE_LIKES:
+            return {
+                ...state,
+                loading: false,
+            };
+        case MATCH_ERROR:
+        case UPDATE_ERROR:
+            return {
+                ...state,
+                error: payload,
+                loading: false,
+            };
         default:
             return state;
     }

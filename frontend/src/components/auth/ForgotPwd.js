@@ -9,8 +9,8 @@ import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 
 const ForgetPwd = ({ history }) => {
-    const { user, isAuthenticated } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
     const [formData, setFormData] = useState({ email: '' });
     const [error, setError] = useState('');
     const { email } = formData;

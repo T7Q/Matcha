@@ -1,32 +1,20 @@
 import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import io from 'socket.io-client';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { Box } from '@material-ui/core';
-import Navbar from './components/layout/Navbar/';
-import Footer from './components/layout/Footer';
-// import CustomRouter from "./components/routing/CustomRouter";
+import { Box, CssBaseline } from '@material-ui/core';
+
 import setAuthToken from './utils/setAuthToken';
 import { loadUser, loadSocket } from './actions/auth';
-// Redux
-import { Provider } from 'react-redux';
 import store from './store';
-import { theme } from './styles/custom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import './App.css';
-// import Circle from "./components/layout/Circle";
+
+import Navbar from './components/layout/Navbar/';
+import Footer from './components/layout/Footer';
 import Background from './components/layout/Background';
-// import BackgroundImage from "./images/background3.jpg";
-
 import CustomizedSnackbars from './components/common/CustomizedSnackbars';
-
-// const style = {
-//     background: {
-//         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(${BackgroundImage})`,
-//         backgroundSize: "cover",
-//         backgroundRepeat: "no-repeat",
-//     },
-// };
+import { theme } from './styles/custom';
+import './App.css';
 
 const socket = io('http://localhost:5000');
 
@@ -50,12 +38,6 @@ const App = () => {
                         <Navbar />
                         <CustomizedSnackbars />
                         <Background />
-                        {/* <Box flexGrow={1}>
-                            <Grid style={{ minHeight: "80vh" }} container>
-                                <CustomRouter />
-                                <Circle />
-                            </Grid>
-                        </Box> */}
                         <Footer />
                     </Box>
                 </Router>

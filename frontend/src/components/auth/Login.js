@@ -12,8 +12,8 @@ import WizardForm from '../common/WizardForm';
 import { customStyles } from '../../styles/customStyles';
 
 const Login = ({ history }) => {
-    const { user, isAuthenticated } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
     const location = useLocation();
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });

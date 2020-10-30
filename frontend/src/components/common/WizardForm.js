@@ -56,15 +56,9 @@ const WizardForm = ({
     };
 
     return (
-        <Box
-            // width="auto"
-            // pt="100px"
-            pt={20}
-            mb={{ xs: '80px' }}
-            className={classesProf.editBox}>
+        <Box pt={20} mb={{ xs: '80px' }} className={classesProf.editBox}>
             <form onSubmit={formSubmit}>
                 <Box display="flex" alignItems="center" justifyContent="flex-start">
-                    {/* <Box style={{ position: 'absolute', alignSelf: 'start' }}> */}
                     <IconButton
                         style={{ position: 'absolute' }}
                         onClick={
@@ -74,19 +68,15 @@ const WizardForm = ({
                         }>
                         <ArrowBackIosIcon fontSize="small" />
                     </IconButton>
-                    {/* </Box> */}
-                    {/* {steps === 1 && ( */}
                     <Typography style={{ marginLeft: 'auto', marginRight: 'auto' }} variant="h6">
                         {header}
                     </Typography>
-                    {/* )} */}
                 </Box>
                 <Box display="flex" flexDirection="column" textAlign="center">
                     {steps === 1 ? (
                         <></>
                     ) : (
                         <Box display="flex" my={5} maxWidth="300px">
-                            {/* <Typography variant="h6">{header}</Typography> */}
                             <LinearProgress
                                 className={classes.progress}
                                 variant="determinate"

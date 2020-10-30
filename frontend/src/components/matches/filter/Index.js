@@ -23,11 +23,6 @@ const Filter = ({ setting }) => {
         dispatch(updateFilter(filter));
     }, [dispatch, filter]);
 
-    // const handleClickReset = () => () => {
-    //     console.log("handle click");
-    //     dispatch(resetFilter());
-    //     setFilter(0);
-    // };
     const handleClickReset = (e) => {
         dispatch(resetFilter());
         setFilter(0);
@@ -43,13 +38,7 @@ const Filter = ({ setting }) => {
 
     return (
         <>
-            <Grid
-                container
-                // spacing={2}
-                direction="row"
-                justify="space-between"
-                alignItems="flex-end"
-                pb={4}>
+            <Grid container direction="row" justify="space-between" alignItems="flex-end" pb={4}>
                 <Grid item xs={6} sm={3}>
                     <Box display="flex" justifyContent="flex-end">
                         <Button

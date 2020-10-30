@@ -57,7 +57,7 @@ const Matches = () => {
         setValue(newValue);
         dispatch(resetFilter());
     };
-    
+
     useEffect(() => {
         if (previousPath === '') {
             dispatch(resetFilter());
@@ -65,14 +65,6 @@ const Matches = () => {
             dispatch({ type: 'UPDATE_PATH', payload: '' });
         }
     }, [dispatch, previousPath]);
-
-    
-
-    // window.onpopstate = e => {
-    //     setBack(true);
-    //     console.log("back", e);
-    //     // console.log("previousPath", previousPath);
-    // }
 
     return (
         <Box>

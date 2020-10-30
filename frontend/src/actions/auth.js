@@ -1,17 +1,9 @@
 import axios from 'axios';
-import setAuthToken from '../utils/setAuthToken';
 import authService from '../services/authService';
+import setAuthToken from '../utils/setAuthToken';
 import { setSnackbar } from './setsnackbar';
-import {
-    LOGIN_SUCCESS,
-    AUTH_SUCCESS,
-    UPDATE_USER,
-    AUTH_FAIL,
-    REGISTER_FAIL,
-    REGISTER_SUCCESS,
-    LOGOUT,
-    LOAD_SOCKET,
-} from './types';
+import { LOGIN_SUCCESS, AUTH_SUCCESS, UPDATE_USER, AUTH_FAIL } from './types';
+import { REGISTER_FAIL, REGISTER_SUCCESS, LOGOUT, LOAD_SOCKET } from './types';
 
 export const loadUser = () => async (dispatch) => {
     setAuthToken(localStorage.getItem('token'));
@@ -30,16 +22,12 @@ export const loadUser = () => async (dispatch) => {
 };
 
 export const register = (formData, history) => async (dispatch) => {
-    const config = { headers: { 'Content-Type': 'application/json' } };
-    const body = JSON.stringify(formData);
-
     try {
-        const res = await axios.post('/account/register', body, config);
+        const res = await axios.post('/account/register', formData);
 
         if (res.data.error) {
-            const errors = res.data.error;
             dispatch({ type: REGISTER_FAIL });
-            return errors;
+            return res.data.error;
         } else {
             dispatch({ type: REGISTER_SUCCESS, payload: 'here' });
             dispatch(setSnackbar(true, 'warning', 'Please, verify your account.'));

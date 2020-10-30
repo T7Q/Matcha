@@ -1,14 +1,5 @@
-import {
-    REGISTER_SUCCESS,
-    REGISTER_FAIL,
-    UPDATE_USER,
-    LOGIN_SUCCESS,
-    AUTH_SUCCESS,
-    AUTH_FAIL,
-    LOGOUT,
-    LOAD_SOCKET,
-    UPDATE_PATH,
-} from '../actions/types';
+import { LOGOUT, UPDATE_USER, LOAD_SOCKET, UPDATE_PATH, AUTH_FAIL } from '../actions/types';
+import { REGISTER_SUCCESS, REGISTER_FAIL, LOGIN_SUCCESS, AUTH_SUCCESS } from '../actions/types';
 
 const initialState = {
     isAuthenticated: false,

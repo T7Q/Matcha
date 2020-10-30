@@ -116,7 +116,8 @@ const userTags = async (req, res) => {
 const visitOtherProfile = async (req, res) => {
     const userId = req.params.user_id;
     const authUserId = req.user.userId;
-    if (userId !== authUserId) {
+    const isExists = await profileModel.userExists(userId);
+    if (userId !== authUserId && isExists !== '0') {
         await profileModel.deleteRow('views', authUserId, userId);
         await profileModel.insertRow('views', authUserId, userId);
     }

@@ -35,7 +35,7 @@ const ProfileView = () => {
     }, [type, otherUserId, socket, dispatch]);
 
     if (profile === null || loading) {
-        return loading ? <Spinner /> : <NotFound/>;
+        return loading ? <Spinner /> : <NotFound />;
     }
 
     return (

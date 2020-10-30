@@ -11,30 +11,28 @@ const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) =>
     const classes = settingStyles();
 
     return (
-        <>
-            <ListItem
-                button
-                component={Link}
-                to={`/profile/${value.user_id}`}
-                className={classes.borderBottom}>
-                <ListItemAvatar>
-                    <Avatar
-                        alt={`Avatar n°${value.profile_pic_path + 1}`}
-                        src={`${value.profile_pic_path}`}
+        <ListItem
+            button
+            component={Link}
+            to={`/profile/${value.user_id}`}
+            className={classes.borderBottom}>
+            <ListItemAvatar>
+                <Avatar
+                    alt={`Avatar n°${value.profile_pic_path + 1}`}
+                    src={`${value.profile_pic_path}`}
+                />
+            </ListItemAvatar>
+            <ListItemText id={labelId} primary={`${value.first_name}, ${value.age}`} />
+            <ListItemSecondaryAction>
+                <IconButton onClick={handleBlock(index)} style={{ padding: 0 }}>
+                    <ToggleIcon
+                        on={blockedList[index].blocked}
+                        onIcon={<RemoveCircleOutline color="primary" />}
+                        offIcon={<CheckCircle />}
                     />
-                </ListItemAvatar>
-                <ListItemText id={labelId} primary={`${value.first_name}, ${value.age}`} />
-                <ListItemSecondaryAction>
-                    <IconButton onClick={handleBlock(index)} style={{ padding: 0 }}>
-                        <ToggleIcon
-                            on={blockedList[index].blocked}
-                            onIcon={<RemoveCircleOutline color="primary" />}
-                            offIcon={<CheckCircle />}
-                        />
-                    </IconButton>
-                </ListItemSecondaryAction>
-            </ListItem>
-        </>
+                </IconButton>
+            </ListItemSecondaryAction>
+        </ListItem>
     );
 };
 

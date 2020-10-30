@@ -14,7 +14,7 @@ const Circle = () => {
         !loading && (
             <Grid container className={classes.circle} item md={6} xs={12}>
                 <Box>
-                    <img className="circle" src={require('../../circle.png')} alt="circle" />
+                    <img className="circle" src={require('../../images/circle.png')} alt="circle" />
                 </Box>
             </Grid>
         )

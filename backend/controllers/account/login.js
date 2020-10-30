@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const { jwtSecret } = require('../../config');
 const accountModel = require('../../models/account');
 const accountHelper = require('../../models/accountHelper');

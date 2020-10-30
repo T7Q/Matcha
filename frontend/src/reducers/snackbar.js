@@ -1,9 +1,9 @@
-import { SET_SNACKBAR } from "../actions/types";
+import { SET_SNACKBAR } from '../actions/types';
 
 const initialState = {
     snackbarOpen: false,
-    snackbarType: "success",
-    snackbarMessage: "hello",
+    snackbarType: 'success',
+    snackbarMessage: 'hello',
 };
 
 export default function (state = initialState, action) {
@@ -16,7 +16,6 @@ export default function (state = initialState, action) {
                 snackbarOpen: payload.snackbarOpen,
                 snackbarType: payload.snackbarType,
                 snackbarMessage: payload.snackbarMessage,
-
             };
         default:
             return state;

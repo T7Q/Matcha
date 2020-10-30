@@ -66,12 +66,6 @@ const Matches = () => {
         }
     }, []); // eslint-disable-line
 
-    // window.onpopstate = e => {
-    //     setBack(true);
-    //     console.log("back", e);
-    //     // console.log("previousPath", previousPath);
-    // }
-
     return (
         <Box>
             <AppBar

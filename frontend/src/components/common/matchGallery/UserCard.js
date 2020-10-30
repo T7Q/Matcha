@@ -10,7 +10,7 @@ import LikeButton from './LikeButton';
 import { galleryStyles } from '../../../styles/galleryStyles';
 import { profileStyles } from '../../../styles/profileStyles';
 
-const numberWithCommas = x => {
+const numberWithCommas = (x) => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
@@ -44,18 +44,10 @@ const UserCard = ({ card }) => {
                     <Box className={classesGallery.cardActionBox}>
                         <Tooltip title="Your astro compatibility level" placement="top">
                             <IconButton className={classesGallery.bgIcon}>
-                                <Brightness1
-                                    // size="medium"
-                                    // fontSize="medium"
-                                    className={classesGallery.textOverIcon}
-                                />
+                                <Brightness1 className={classesGallery.textOverIcon} />
                             </IconButton>
                         </Tooltip>
-                        <IconButton
-                            className={classesGallery.textOver}
-                            disabled
-                            // size="medium"
-                        >
+                        <IconButton className={classesGallery.textOver} disabled>
                             {card.match.toFixed(0)}%
                         </IconButton>
                     </Box>

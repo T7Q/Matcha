@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 
 import { customStyles } from '../../styles/customStyles';
-import spinner from './spinner.gif';
+import spinner from '../../images/spinner.gif';
 
 export default () => {
     const classes = customStyles();

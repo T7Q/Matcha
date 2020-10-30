@@ -1,8 +1,7 @@
-import React from "react";
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Slider, Typography } from "@material-ui/core";
+import { Slider, Typography } from '@material-ui/core';
 import { updateFilter } from '../../../actions/match';
-
 
 function valuetext(value) {
     return `${value}`;
@@ -13,29 +12,35 @@ const CustomSlider = ({ type }) => {
     const { filter } = useSelector((state) => state.match);
 
     const handleDistanceChange = (event, newValue) => {
-        dispatch(updateFilter({
-            ...filter,
-            min_distance: newValue[0],
-            max_distance: newValue[1],
-        }));
+        dispatch(
+            updateFilter({
+                ...filter,
+                min_distance: newValue[0],
+                max_distance: newValue[1],
+            })
+        );
     };
     const handleFameChange = (event, newValue) => {
-        dispatch(updateFilter({
-            ...filter,
-            min_fame: newValue[0],
-            max_fame: newValue[1],
-        }));
+        dispatch(
+            updateFilter({
+                ...filter,
+                min_fame: newValue[0],
+                max_fame: newValue[1],
+            })
+        );
     };
     const handleAgeChange = (event, newValue) => {
-        dispatch(updateFilter({
-            ...filter,
-            min_age: newValue[0],
-            max_age: newValue[1],
-        }));
+        dispatch(
+            updateFilter({
+                ...filter,
+                min_age: newValue[0],
+                max_age: newValue[1],
+            })
+        );
     };
     const data = {
         distance: {
-            title: "Distance 0 - 20,000 km",
+            title: 'Distance 0 - 20,000 km',
             defaultMin: 0,
             defaultMax: 20000,
             valueMin: filter.min_distance,
@@ -43,7 +48,7 @@ const CustomSlider = ({ type }) => {
             handleChange: handleDistanceChange,
         },
         fame: {
-            title: "Fame 0 - 5",
+            title: 'Fame 0 - 5',
             defaultMin: 0,
             defaultMax: 5,
             valueMin: filter.min_fame,
@@ -51,7 +56,7 @@ const CustomSlider = ({ type }) => {
             handleChange: handleFameChange,
         },
         age: {
-            title: "Age 18 - 120",
+            title: 'Age 18 - 120',
             defaultMin: 18,
             defaultMax: 120,
             valueMin: filter.min_age,
@@ -61,12 +66,7 @@ const CustomSlider = ({ type }) => {
     };
     return (
         <>
-            <Typography
-                id="range-slider"
-                variant="body1"
-                color="textSecondary"
-                gutterBottom
-            >
+            <Typography id="range-slider" variant="body1" color="textSecondary" gutterBottom>
                 {data[type].title}
             </Typography>
             <Slider

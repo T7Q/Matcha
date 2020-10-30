@@ -1,7 +1,7 @@
-const profileModel = require('../../models/profile');
-const profileHelper = require('../../models/profileHelper');
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../../config');
+const profileModel = require('../../models/profile');
+const profileHelper = require('../../models/profileHelper');
 
 module.exports = async (req, res) => {
     const { gender, sex_preference, bio, birth_date, tags, country } = req.body;
@@ -25,9 +25,9 @@ module.exports = async (req, res) => {
 
     if (Object.keys(errors).length !== 0) return res.json({ error: errors });
 
-    // Build query to insert tags into database
     // Remove old tags if user has any
     const userTags = await profileModel.userHasTags(userId);
+
     if (userTags) {
         await profileModel.deleteRowOneCondition('user_tags', 'user_id', userId);
     }

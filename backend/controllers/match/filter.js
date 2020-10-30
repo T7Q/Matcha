@@ -46,10 +46,9 @@ module.exports = async (req, res) => {
         join: '',
         filter:
             ' AND (SELECT count(likes.like_id) AS to_likes FROM likes\
-                        WHERE likes.from_user_id = $1\
-                        AND likes.to_user_id = users.user_id) = 0\
+                WHERE likes.from_user_id = $1 AND likes.to_user_id = users.user_id) = 0\
                 AND (SELECT count(blocked.to_user_id) FROM blocked\
-                    WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
+                WHERE from_user_id = $1 AND to_user_id = users.user_id) = 0',
         order: '',
         limit: '',
         dateColumn: ', users.created_at as date ',

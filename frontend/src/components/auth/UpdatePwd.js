@@ -10,9 +10,9 @@ import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
 
 const UpdatePwd = ({ history }) => {
+    const dispatch = useDispatch();
     const { user, isAuthenticated } = useSelector((state) => state.auth);
     const location = useLocation();
-    const dispatch = useDispatch();
     const [formData, setFormData] = useState({ password: '', confirmPassword: '' });
     const [errors, setErrors] = useState({ passwordError: '', confirmPasswordError: '' });
     const searchParams = new URLSearchParams(location.search);

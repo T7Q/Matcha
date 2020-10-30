@@ -1,31 +1,30 @@
-const faker = require("faker");
-
-const { Pool } = require("pg");
-const { database } = require("./index");
+const faker = require('faker');
+const { Pool } = require('pg');
+const { database } = require('./index');
 
 // this file generates fake users and adds interactions with demo user
 // there is also a demo user (user_id 1) created on setup_db stage
 
 // number of generated fake accounts
-const desiredFakeUsers = 10;
+const desiredFakeUsers = 50;
 
-// statement to insert 21 params to table 'users'
+// statement to insert 19 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
-    let str = "";
-    let params = 22;
+    let str = '';
+    let params = 20;
     let j = 1;
     for (let k = 0; k < desiredFakeUsers; k++) {
-        str = str.concat("(");
+        str = str.concat('(');
         for (let i = 1; i < params; i++) {
             str = i === params - 1 ? str.concat(`$${j}`) : str.concat(`$${j},`);
             j++;
         }
-        str = k === desiredFakeUsers - 1 ? str.concat(")") : str.concat("),");
+        str = k === desiredFakeUsers - 1 ? str.concat(')') : str.concat('),');
     }
 
     return `INSERT INTO users (first_name, last_name, username, email, password,
-        status, birth_date, gender, sex_preference, email_notification,
-        online, latitude, longitude, country, real_time_notification,
+        status, birth_date, gender, sex_preference,
+        online, latitude, longitude, country,
         fame_rating, bio, created_at, last_seen, profile_pic_path, fame_14_days)
         VALUES ${str}`;
 };
@@ -35,23 +34,21 @@ const createFakeUser = () => {
     return [
         faker.name.firstName(),
         faker.name.lastName(),
-        faker.internet.userName(),
+        faker.internet.userName().toLowerCase(),
         faker.internet.email(),
-        "$2b$10$FOHKA4htx6iIAYHSEbX1hOnKtwk7Bur7eWl354I/mqs4KCt9cZAGi",
-        "2",
-        faker.date.between("1960-01-01", "2002-01-01"),
-        faker.random.arrayElement(["man", "woman"]),
-        faker.random.arrayElement(["man", "woman", "both"]),
-        false,
+        '$2b$10$z9rS6JC9v6oWJBgl5lrcteKcho3ESt4V3xf.O2mxdjK1hxhxGLAlS',
+        '2',
+        faker.date.between('1960-01-01', '2002-01-01'),
+        faker.random.arrayElement(['man', 'woman']),
+        faker.random.arrayElement(['man', 'woman', 'both']),
         faker.random.number(1),
         faker.address.latitude(),
         faker.address.longitude(),
         faker.address.country(),
-        false,
         faker.random.float({ min: 0, max: 5, precision: 0.1 }),
         faker.lorem.sentences(),
-        faker.date.between("2018-01-01", Date()),
-        faker.date.between("2018-01-01", Date()),
+        faker.date.between('2018-01-01', Date()),
+        faker.date.between('2018-01-01', Date()),
         faker.image.avatar(),
         faker.random.number(30),
     ];
@@ -84,11 +81,6 @@ const shuffleTags = () => {
         .map((a) => a.value);
 };
 
-// calculate number of fake likes, visits based on number of generated users
-let visits = parseInt(desiredFakeUsers * 0.3);
-let likes = parseInt(visits * 0.7);
-let connected = parseInt(likes * 0.5);
-
 // generate random number between min and max
 const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -96,18 +88,12 @@ const getRandomInt = (min, max) => {
 
 // generate statements to add fake users like, views to data
 const prepareDataStmt = (idMin, currentUsers) => {
-    let str = "";
-    let images = "";
-    let fakeLikes = "";
-    let fakeVisits = "";
+    let str = '';
+    let images = '';
+    let fakeLikes = '';
+    let fakeVisits = '';
 
-    const img = [
-        "/demo6.jpg",
-        "/demo7.jpg",
-        "/demo8.jpg",
-        "/demo9.jpg",
-        "/demo10.jpg",
-    ];
+    const img = ['/demo6.jpg', '/demo7.jpg', '/demo8.jpg', '/demo9.jpg', '/demo10.jpg'];
 
     // get array of current users in db
     currentUsers = currentUsers.map((element) => {
@@ -123,19 +109,16 @@ const prepareDataStmt = (idMin, currentUsers) => {
         let shuffled = shuffleTags();
         let tagsPerPerson = 10;
         for (let i = 0; i < tagsPerPerson; i++) {
-            str = str.concat("(" + `${k},` + `${shuffled[i]}` + "" + ")");
+            str = str.concat('(' + `${k},` + `${shuffled[i]}` + '' + ')');
             str =
                 desiredFakeUsers + idMin - 1 === k && i === tagsPerPerson - 1
                     ? str
-                    : str.concat(",");
+                    : str.concat(',');
         }
         // each user gets 5 (same) images for profile
         for (let i = 0; i < 5; i++) {
             images = images.concat(`(${k}, '${img[i]}')`);
-            images =
-                desiredFakeUsers + idMin - 1 === k && i === 4
-                    ? images
-                    : images.concat(",");
+            images = desiredFakeUsers + idMin - 1 === k && i === 4 ? images : images.concat(',');
         }
 
         const amountLikes = getRandomInt(1, usersTotal / 2);
@@ -154,17 +137,13 @@ const prepareDataStmt = (idMin, currentUsers) => {
         }
 
         // generate random likes for fake users
-        let userLikes = "";
+        let userLikes = '';
         for (let i = 0; i < users.length; i++) {
-            userLikes = userLikes.concat("(" + `${k},` + `${users[i]}` + ")");
-            userLikes =
-                i === users.length - 1 ? userLikes : userLikes.concat(",");
+            userLikes = userLikes.concat('(' + `${k},` + `${users[i]}` + ')');
+            userLikes = i === users.length - 1 ? userLikes : userLikes.concat(',');
         }
         fakeLikes = fakeLikes.concat(userLikes);
-        fakeLikes =
-            k === desiredFakeUsers + idMin - 1
-                ? fakeLikes
-                : fakeLikes.concat(",");
+        fakeLikes = k === desiredFakeUsers + idMin - 1 ? fakeLikes : fakeLikes.concat(',');
 
         // generate random views for fake users
         users = [];
@@ -178,52 +157,42 @@ const prepareDataStmt = (idMin, currentUsers) => {
                 users.push(randomUserId);
             }
         }
-        let userVisits = "";
+        let userVisits = '';
         for (let i = 0; i < users.length; i++) {
-            userVisits = userVisits.concat("(" + `${k},` + `${users[i]}` + ")");
-            userVisits =
-                i === users.length - 1 ? userVisits : userVisits.concat(",");
+            userVisits = userVisits.concat('(' + `${k},` + `${users[i]}` + ')');
+            userVisits = i === users.length - 1 ? userVisits : userVisits.concat(',');
         }
         fakeVisits = fakeVisits.concat(userVisits);
-        fakeVisits =
-            k === desiredFakeUsers + idMin - 1
-                ? fakeVisits
-                : fakeVisits.concat(",");
+        fakeVisits = k === desiredFakeUsers + idMin - 1 ? fakeVisits : fakeVisits.concat(',');
     }
-   
+
     const tagsQuery = `INSERT INTO user_tags (user_id, tag_id) VALUES ${str};`;
     const imgQuery = `INSERT INTO images(user_id, image_path) VALUES ${images};`;
 
     const fakeVisitsQuery =
-        fakeVisits !== ""
+        fakeVisits !== ''
             ? `INSERT INTO views (from_user_id, to_user_id) VALUES ${fakeVisits};`
-            : "";
+            : '';
     const fakeLikesQuery =
-        fakeLikes !== ""
-            ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${fakeLikes};`
-            : "";
-    // console.log(
-    //     tagsQuery + imgQuery + fakeLikesQuery + fakeVisitsQuery
-    // );
-    return (
-        tagsQuery + imgQuery + fakeLikesQuery + fakeVisitsQuery
-    );
+        fakeLikes !== '' ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${fakeLikes};` : '';
+
+    return tagsQuery + imgQuery + fakeLikesQuery + fakeVisitsQuery;
 };
 
 // connect to / disconnect from the database
 const pool = new Pool(database);
-pool.on("connect", () => {
+pool.on('connect', () => {
     console.log(`Connected to the database  ${database.database}`);
 });
-pool.on("remove", () => {
-    console.log("Connection to the database closed");
+pool.on('remove', () => {
+    console.log('Connection to the database closed');
 });
 
 // insert fake users to the database
 const insertFakeUsers = async () => {
     const fakeUsers = generateFakeUsers(desiredFakeUsers);
     const stmt = prepareStmt(desiredFakeUsers);
-    console.log("\x1b[34m" + "Generating fake users" + "\x1b[0m");
+    console.log('\x1b[34m' + 'Generating fake users' + '\x1b[0m');
     tagsArray(56);
     // calculate the id of first inserted user to add info
     let errorCount = false;
@@ -234,22 +203,22 @@ const insertFakeUsers = async () => {
             idMin += parseInt(res.rows[0].max);
         })
         .catch((err) => {
-            console.log("\x1b[31m" + err + "\x1b[0m");
+            console.log('\x1b[31m' + err + '\x1b[0m');
             errorCount = true;
         });
 
     // add fake users to the database
     await pool
         .query(stmt, [...fakeUsers])
-        .then((res) => {
+        .then(() => {
             console.log(
-                "\x1b[32m" +
+                '\x1b[32m' +
                     `Inserted ${desiredFakeUsers} fake accounts to the database` +
-                    "\x1b[0m"
+                    '\x1b[0m'
             );
         })
         .catch((err) => {
-            console.log("\x1b[31m" + err + "\x1b[0m");
+            console.log('\x1b[31m' + err + '\x1b[0m');
             errorCount = true;
         });
 
@@ -261,27 +230,22 @@ const insertFakeUsers = async () => {
             currentUsers = res.rows;
         })
         .catch((err) => {
-            console.log("\x1b[31m" + err + "\x1b[0m");
+            console.log('\x1b[31m' + err + '\x1b[0m');
             errorCount = true;
         });
 
     // prepare fake users data (likes, visits) statements
-    let tagsStmt = ""
-    if(!errorCount)
-        tagsStmt = prepareDataStmt(idMin, currentUsers);
+    let tagsStmt = '';
+    if (!errorCount) tagsStmt = prepareDataStmt(idMin, currentUsers);
 
     // insert data to the database
     await pool
         .query(tagsStmt)
-        .then((res) => {
-            console.log(
-                "\x1b[32m" +
-                    `Inserted fake users tags, likes, views` +
-                    "\x1b[0m"
-            );
+        .then(() => {
+            console.log('\x1b[32m' + `Inserted fake users tags, likes, views` + '\x1b[0m');
         })
         .catch((err) => {
-            console.log("\x1b[31m" + err + "\x1b[0m");
+            console.log('\x1b[31m' + err + '\x1b[0m');
         })
         .finally(() => {
             pool.end();

@@ -11,7 +11,6 @@ CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;
 
 
-
 CREATE TABLE IF NOT EXISTS "users"
 (
  "user_id"                  bigserial PRIMARY KEY NOT NULL,
@@ -30,11 +29,6 @@ CREATE TABLE IF NOT EXISTS "users"
  "bio"                      text NULL ,
  "fame_rating"              double precision DEFAULT 0 ,
  "fame_14_days"             bigint DEFAULT 0 ,
- "ip_address"               varchar(15) NULL ,
- "geo_localisation_allowed" boolean NULL DEFAULT FALSE ,
- "google_id"                varchar(255) NULL ,
- "fb_id"                    varchar(255) NULL ,
- "email_notification"       boolean NOT NULL DEFAULT TRUE ,
  "last_seen"                timestamp NULL ,
  "created_at"               timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
  "sex_preference"           sex_preference NULL ,
@@ -42,7 +36,6 @@ CREATE TABLE IF NOT EXISTS "users"
  "western_horo"             varchar(45) NULL ,
  "chinese_horo"             varchar(45) NULL ,
  "profile_pic_path"         varchar(255) NULL ,
- "real_time_notification"   boolean NOT NULL DEFAULT TRUE,
  "country"                  varchar(255) NULL ,
  "geolocation"              geography(Point,4326)
 );
@@ -121,8 +114,7 @@ CREATE TABLE IF NOT EXISTS "images"
 (
  "image_id"     bigserial NOT NULL PRIMARY KEY ,
  "user_id"      bigint NULL  REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
- "image_path"   varchar(255) NULL ,
- "date_created" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+ "image_path"   varchar(255) NULL
 );
 
 CREATE TABLE IF NOT EXISTS "likes"
@@ -166,23 +158,23 @@ CREATE INDEX IF NOT EXISTS "fkIdx_73" ON "messages"
  "chat_id"
 );
 
-CREATE TABLE IF NOT EXISTS "participants"
-(
- "participant_id" bigserial NOT NULL PRIMARY KEY ,
- "partner_id"     bigint NULL ,
- "time_joined"    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- "time_left"      timestamp NULL ,
- "chat_id"        bigint NOT NULL ,
- CONSTRAINT "FK_74" FOREIGN KEY ( "partner_id" ) REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
- CONSTRAINT "FK_75" FOREIGN KEY ( "chat_id" ) REFERENCES "chats" ("chat_id") ON DELETE CASCADE
-);
+-- CREATE TABLE IF NOT EXISTS "participants"
+-- (
+--  "participant_id" bigserial NOT NULL PRIMARY KEY ,
+--  "partner_id"     bigint NULL ,
+--  "time_joined"    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+--  "time_left"      timestamp NULL ,
+--  "chat_id"        bigint NOT NULL ,
+--  CONSTRAINT "FK_74" FOREIGN KEY ( "partner_id" ) REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
+--  CONSTRAINT "FK_75" FOREIGN KEY ( "chat_id" ) REFERENCES "chats" ("chat_id") ON DELETE CASCADE
+-- );
 
-CREATE INDEX IF NOT EXISTS "fkIdx_74" ON "participants"
-(
- "partner_id"
-);
+-- CREATE INDEX IF NOT EXISTS "fkIdx_74" ON "participants"
+-- (
+--  "partner_id"
+-- );
 
-CREATE INDEX IF NOT EXISTS "fkIdx_75" ON "participants"
-(
- "chat_id"
-);
+-- CREATE INDEX IF NOT EXISTS "fkIdx_75" ON "participants"
+-- (
+--  "chat_id"
+-- );

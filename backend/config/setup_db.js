@@ -1,7 +1,6 @@
 const { Pool } = require('pg');
 const fs = require('fs');
 const { database } = require('./index');
-const { constants } = require('buffer');
 // queries to create all tables
 const tables = fs.readFileSync('config/tables.sql', 'utf8');
 const data = fs.readFileSync('config/data.sql', 'utf8');
@@ -50,7 +49,7 @@ const setupDatabase = async () => {
 
     await poolMatcha
         .query(tables)
-        .then((res) => {
+        .then(() => {
             console.log('\x1b[32m' + 'Tables are created' + '\x1b[0m');
         })
         .catch((err) => {
@@ -58,7 +57,7 @@ const setupDatabase = async () => {
         });
     await poolMatcha
         .query(triggers)
-        .then((res) => {
+        .then(() => {
             console.log('\x1b[32m' + 'Triggers are created' + '\x1b[0m');
         })
         .catch((err) => {
@@ -66,7 +65,7 @@ const setupDatabase = async () => {
         });
     await poolMatcha
         .query(data)
-        .then((res) => {
+        .then(() => {
             console.log('\x1b[32m' + 'Tables are filled' + '\x1b[0m');
         })
         .catch((err) => {

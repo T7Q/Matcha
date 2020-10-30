@@ -1,22 +1,18 @@
 const validateOrder = (userSelectedOrder) => {
     if (!userSelectedOrder) return false;
+    const data = ['date', 'match', 'distance', 'age', 'fame', 'commonTag'];
     for (const element of userSelectedOrder) {
         let temp = element.split('_');
-        if (!['date', 'match', 'distance', 'age', 'fame', 'commonTag'].includes(temp[0]))
-            return true;
+        if (!data.includes(temp[0])) return true;
         if (!['asc', 'desc'].includes(temp[1])) return true;
     }
     return false;
 };
 
 const validateOrientation = (userSelectedOrientation) => {
+    const data = ['straight_woman', 'straight_man', 'gay', 'bi_man', 'bi_woman', 'lesbian'];
     if (!userSelectedOrientation) return false;
-    if (
-        !['straight_woman', 'straight_man', 'gay', 'bi_man', 'bi_woman', 'lesbian'].includes(
-            userSelectedOrientation
-        )
-    )
-        return true;
+    if (!data.includes(userSelectedOrientation)) return true;
     return false;
 };
 
@@ -95,44 +91,29 @@ const setSexPreference = (userSexOrientation, filterSexOrientation) => {
 const setAgePreference = (minAge, maxAge) => {
     minAge = minAge ? minAge : 18;
     maxAge = maxAge ? maxAge : 120;
-    return (
-        ' and ((EXTRACT(YEAR FROM AGE(now(), users.birth_date))) >= ' +
-        minAge +
-        ' and (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) <= ' +
-        maxAge +
-        ')'
-    );
+    return ` AND ((EXTRACT(YEAR FROM AGE(now(), users.birth_date))) >= ${minAge}
+            AND (EXTRACT(YEAR FROM AGE(now(), users.birth_date))) <= ${maxAge})`;
 };
 
 const setDistance = (minDistance, maxDistance) => {
     minDistance = minDistance ? minDistance : 0;
     maxDistance = maxDistance ? maxDistance : 100000;
-    return (
-        ' and ((ST_Distance(users.geolocation, $2)::integer / 1000) >= ' +
-        minDistance +
-        ' and (ST_Distance(users.geolocation, $2)::integer / 1000) <=  ' +
-        maxDistance +
-        ')'
-    );
+    return ` AND ((ST_Distance(users.geolocation, $2)::integer / 1000) >= ${minDistance}
+        AND (ST_Distance(users.geolocation, $2)::integer / 1000) <= ${maxDistance})`;
 };
 
 const setFame = (minFame, maxFame) => {
     minFame = minFame ? minFame : 0;
     maxFame = maxFame ? maxFame : 5;
-    return ' and (fame_rating >= ' + minFame + ' and fame_rating <=  ' + maxFame + ')';
+    return ` AND (fame_rating >= ${minFame} AND fame_rating <=  ${maxFame})`;
 };
 
 const setTags = (tags, index, values) => {
     if (tags.length === 0) return '';
     filter = '';
     for (const element of tags) {
-        filter +=
-            ' AND (SELECT count(id) FROM user_tags\
-                    LEFT JOIN tags ON user_tags.tag_id = tags.tag_id\
-                    WHERE user_tags.user_id = users.user_id AND\
-                        tags.tag_name = $' +
-            index.i +
-            ' ) = 1';
+        filter += ` AND (SELECT count(id) FROM user_tags LEFT JOIN tags ON user_tags.tag_id = tags.tag_id
+            WHERE user_tags.user_id = users.user_id AND tags.tag_name = $${index.i}) = 1`;
         values.push(element);
         index.i++;
     }

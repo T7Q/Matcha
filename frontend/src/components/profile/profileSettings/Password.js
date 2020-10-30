@@ -50,6 +50,16 @@ const Password = () => {
             } else {
                 setFormData({ oldPassword: '', password: '', confirmPassword: '' });
             }
+        } else {
+            setErrors({
+                passwordError: await validateField('password', password),
+                confirmPasswordError: await validateField(
+                    'confirmPassword',
+                    confirmPassword,
+                    password
+                ),
+                oldPasswordError: await validateField('oldPassword', oldPassword),
+            });
         }
     };
 

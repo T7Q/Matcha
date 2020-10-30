@@ -42,15 +42,10 @@ router.get('/me/tags', middleware.authRequired, show.userTags);
 // @access  Public
 router.get('/notifications/:type', middleware.authRequired, notifications.get);
 
-// @route   POST /profile/editnotification
+// @route   POST /profile/notifications/:type/:id
 // @desc    Edit notification settings: email, push
 // @access  Private
 router.delete('/notifications/:type/:id', middleware.authRequired, notifications.remove);
-
-// @route   POST /
-// @desc    Show other user profile
-// @access  Private
-router.post('/', middleware.authRequired, show.userProfile);
 
 // @route   POST /profile/create
 // @desc    Add profile info
@@ -92,7 +87,7 @@ router.post('/uploadphoto', middleware.authRequired, uploadPhoto);
 // @access  Private
 router.post('/connected/:user_id', middleware.authRequired, interaction.connected);
 
-// @route   GET /blockedUsers
+// @route   GET /profile/blockedUsers
 // @desc    Get list of blocked users
 // @access  Private
 router.get('/blockedUsers', middleware.authRequired, show.blockedUsers);

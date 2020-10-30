@@ -2,7 +2,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const accountModel = require('../../models/account');
-const helper = require('../../models/accountHelper');
 const { google, jwtSecret } = require('../../config');
 const { getLocation } = require('../../utils/location');
 const client = new OAuth2Client(google.id);

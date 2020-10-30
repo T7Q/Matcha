@@ -9,10 +9,10 @@ const Gallery = () => {
         <Grid container spacing={3} style={{ paddingTop: '50px' }}>
             {match.length > 0 &&
                 match
-                .filter((elem, i) => i >= 0 && i < iEnd)
-                .map((mat) => {
-                    return <UserCard key={mat.user_id} card={mat} />;
-                })}
+                    .filter((elem, i) => i >= 0 && i < iEnd)
+                    .map((mat) => {
+                        return <UserCard key={mat.user_id} card={mat} />;
+                    })}
         </Grid>
     );
 };

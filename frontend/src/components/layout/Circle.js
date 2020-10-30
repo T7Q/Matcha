@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, useMediaQuery, Box } from '@material-ui/core';
+
 import { customStyles } from '../../styles/customStyles';
 import circle from '../../images/circle.png';
 

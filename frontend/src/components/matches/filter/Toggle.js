@@ -13,6 +13,7 @@ const Toggle = ({ name, labelText }) => {
         dispatch(updateFilter({ ...filter, [event.target.name]: event.target.checked }));
     };
     const labelTextFinal = `${labelText} astrology`;
+
     return (
         <FormControlLabel
             control={

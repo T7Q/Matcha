@@ -46,10 +46,15 @@ function a11yProps(index) {
 const Matches = () => {
     const dispatch = useDispatch();
     const { previousPath } = useSelector((state) => state.auth);
-    const { page } = useParams();
+    let { page } = useParams();
     const history = useHistory();
     const route = '/match/' + page;
     const indexToTabName = ['recommend', 'search', 'online', 'new', 'popular', 'random', 'nearby'];
+
+    if (!indexToTabName.includes(page)) {
+        page = 'recommend';
+    }
+
     const [value, setValue] = React.useState(indexToTabName.indexOf(page));
 
     const handleChange = (event, newValue) => {

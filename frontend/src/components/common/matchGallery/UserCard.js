@@ -1,11 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { CardActions, CardContent, Box, Tooltip } from '@material-ui/core';
 import { CardMedia, CardActionArea, IconButton } from '@material-ui/core';
 import { Typography, Grid, Card } from '@material-ui/core';
-
 import { StarBorder, Brightness1 } from '@material-ui/icons';
 import Rating from '@material-ui/lab/Rating';
-import { Link } from 'react-router-dom';
+
 import LikeButton from './LikeButton';
 import { galleryStyles } from '../../../styles/galleryStyles';
 import { profileStyles } from '../../../styles/profileStyles';

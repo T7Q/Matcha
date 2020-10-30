@@ -24,6 +24,15 @@ const Tag = () => {
             setFormData(tags.map((item) => item.tag_name));
         });
     }, []);
+    // let isMounted = true;
+    // async function getTags() {
+    //     const res = await axios.get('/profile/tags');
+    //     isMounted && setRealTags(res.data.map((item) => item.tag));
+    // }
+    // getTags();
+    // return () => {
+    //     isMounted = false;
+    // };
 
     const setData = (value) => {
         const error = validateField('tags', value);

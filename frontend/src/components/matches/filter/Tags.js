@@ -12,11 +12,12 @@ const Tags = () => {
     const { filter } = useSelector((state) => state.match);
     const classesSetting = settingStyles();
     const [realTags, setRealTags] = useState([]);
+
     useEffect(() => {
         let isMounted = true;
         async function getTags() {
             const res = await axios.get('/profile/tags');
-            isMounted && setRealTags(res.data.map(item => item.tag));
+            isMounted && setRealTags(res.data.map((item) => item.tag));
         }
         getTags();
         return () => {
@@ -32,10 +33,12 @@ const Tags = () => {
                 selectedTags.push(value);
             });
         }
-        dispatch(updateFilter({
-            ...filter,
-            tags: selectedTags,
-        }));
+        dispatch(
+            updateFilter({
+                ...filter,
+                tags: selectedTags,
+            })
+        );
     };
     return (
         <Autocomplete

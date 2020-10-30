@@ -87,8 +87,6 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
             position="relative"
             display="flex"
             flexDirection="column"
-            // pl={0}
-            // pr={0}
             minWidth="100%"
             className={classes.chat}>
             <Box display="flex" alignItems="center" className={classes.borderBottom}>

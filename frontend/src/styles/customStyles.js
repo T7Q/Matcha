@@ -97,7 +97,7 @@ export const customStyles = makeStyles((theme) => ({
         // minHeight: '150px',
         color: theme.palette.text.primary,
         background: 'transparent',
-        border: '1px solid ' + theme.palette.primary.main, 
+        border: '1px solid ' + theme.palette.primary.main,
         minWidth: '400px',
         [theme.breakpoints.down('xs')]: {
             minWidth: '200px',
@@ -125,7 +125,7 @@ export const customStyles = makeStyles((theme) => ({
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
     },
-    spinner: { width: '200px', margin: 'auto', display: 'block', marginTop: "100px" },
+    spinner: { width: '200px', margin: 'auto', display: 'block', marginTop: '100px' },
     customIconButtonActive: {
         '& span': {
             color: theme.palette.primary.main,

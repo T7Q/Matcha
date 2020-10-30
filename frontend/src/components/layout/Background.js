@@ -2,9 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, Box } from '@material-ui/core';
 
-import { customStyles } from '../../styles/customStyles';
 import CustomRouter from '../routing/CustomRouter';
 import Circle from './Circle';
+import { customStyles } from '../../styles/customStyles';
 
 const Background = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);

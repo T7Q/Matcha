@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Grid } from '@material-ui/core';
 
 import Toggle from './Toggle';
@@ -21,19 +20,15 @@ const Row = ({ row }) => {
             { item: <CustomSlider type="fame" /> },
             { item: <CustomSlider type="age" /> },
         ],
-        [
-            { item: <Orientation /> },
-            { item: <Country /> },
-            { item: <Tags /> },
-        ],
-    ]
-    
+        [{ item: <Orientation /> }, { item: <Country /> }, { item: <Tags /> }],
+    ];
+
     return (
         <Grid item xs={12} container spacing={3} className={classesFilter.row}>
-            {rows[row -1].map((value, i) => {
+            {rows[row - 1].map((value, i) => {
                 return (
                     <Grid item xs={12} sm={4} md={3} key={`row ${row} ${i}`}>
-                        {value.item} 
+                        {value.item}
                     </Grid>
                 );
             })}

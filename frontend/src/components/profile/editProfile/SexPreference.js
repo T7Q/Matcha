@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Autocomplete } from '@material-ui/lab';
+import { TextField } from '@material-ui/core';
+
 import { validateField } from '../../../services/validator';
 import { editProfile } from '../../../actions/profile';
 
-import { Autocomplete } from '@material-ui/lab';
-import { TextField } from '@material-ui/core';
-import { customStyles } from '../../../styles/customStyles';
 import WizardForm from '../../common/WizardForm';
+import { customStyles } from '../../../styles/customStyles';
 
 const SexPreference = ({ genderProp, sexPreferenceProp }) => {
     const dispatch = useDispatch();

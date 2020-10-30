@@ -65,9 +65,6 @@ const Filter = ({ setting }) => {
                                 onClick={() => {
                                     handleClickReset();
                                 }}
-                                onClick={() => {
-                                    handleClickReset();
-                                }}
                                 size="small"
                                 style={{ padding: 0 }}>
                                 <HighlightOff style={{ color: 'white' }} />
@@ -113,7 +110,6 @@ const Filter = ({ setting }) => {
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
-                            
                             className={classesCustom.customButton}>
                             See results
                         </Button>

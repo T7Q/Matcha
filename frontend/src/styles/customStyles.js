@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import BackgroundImage from '../background3.jpg';
+import BackgroundImage from '../images/background3.jpg';
 
 export const customStyles = makeStyles((theme) => ({
     mainButton: {

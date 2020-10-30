@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import BackgroundImage from '../background2.jpg';
+import BackgroundImage from '../images/background2.jpg';
 
 export const chatStyles = makeStyles((theme) => ({
     header: {

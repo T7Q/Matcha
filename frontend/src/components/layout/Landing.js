@@ -56,7 +56,7 @@ const Landing = ({ history }) => {
                         <img
                             className={classes.img}
                             alt="google"
-                            src={require('../../google.png')}
+                            src={require('../../images/google.png')}
                         />
                         Log in with Google
                     </Button>

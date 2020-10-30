@@ -16,7 +16,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import './App.css';
 // import Circle from "./components/layout/Circle";
 import Background from './components/layout/Background';
-// import BackgroundImage from "./background3.jpg";
+// import BackgroundImage from "./images/background3.jpg";
 
 import CustomizedSnackbars from './components/common/CustomizedSnackbars';
 
@@ -42,7 +42,11 @@ const App = () => {
             <Provider store={store}>
                 <Router>
                     <CssBaseline />
-                    <Box display="flex" flexDirection="column" minHeight="100vh" position="relative">
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        minHeight="100vh"
+                        position="relative">
                         <Navbar />
                         <CustomizedSnackbars />
                         <Background />

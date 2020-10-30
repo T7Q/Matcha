@@ -214,3 +214,13 @@ export const editTags = (data) => async (dispatch) => {
         dispatch(setSnackbar(true, 'success', res.msg));
     }
 };
+
+export const savePhotos = (data) => async (dispatch) => {
+    const res = await profileService.uploadPhotos(data);
+
+    if (res.error) {
+        dispatch(setSnackbar(true, 'error', 'Try again later'));
+    } else {
+        dispatch(setSnackbar(true, 'success', 'Successfully updated'));
+    }
+};

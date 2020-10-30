@@ -63,6 +63,11 @@ const getUserTags = async () => {
     return res.data;
 };
 
+const uploadPhotos = async (data) => {
+    const res = await axios.post('/profile/uploadphoto', data);
+    return res.data;
+};
+
 export default {
     getMyProfile,
     getUserProfile,
@@ -77,4 +82,5 @@ export default {
     getUserTags,
     getBlockedUsers,
     editTags,
+    uploadPhotos,
 };

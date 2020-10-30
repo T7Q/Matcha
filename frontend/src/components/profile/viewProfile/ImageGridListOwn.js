@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { Button, Box } from '@material-ui/core';
 
-import { setSnackbar } from '../../../actions/setsnackbar';
 import { getProfile, savePhotos } from '../../../actions/profile';
 
 const ImageGridListOwn = ({ profile, handleClose }) => {

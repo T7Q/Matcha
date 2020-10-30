@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
+
+import { updateUser } from '../../../actions/auth';
 import { editProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
 import { customStyles } from '../../../styles/customStyles';
-import { updateUser } from '../../../actions/auth';
 
 const Email = ({ setSnackbar }) => {
     const dispatch = useDispatch();

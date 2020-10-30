@@ -9,7 +9,7 @@ import { editTags } from '../../../actions/profile';
 
 import WizardForm from '../../common/WizardForm';
 
-const Tag = ({ setSnackbar }) => {
+const Tag = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState([]);
     const [realTags, setRealTags] = useState([]);

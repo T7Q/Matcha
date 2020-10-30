@@ -24,12 +24,12 @@ const CustomRouter = () => {
 
     return (
         <Grid justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
-            <Route exact path="/" component={Landing} />
             <Box
                 pt={{ xs: '0px', sm: '64px' }}
                 mb={{ xs: '100px', sm: '0' }}
                 width={isAuthenticated && user.status !== 1 ? '100%' : 'auto'}>
                 <Switch>
+                    <Route exact path="/" component={Landing} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/forgetPwd" component={ForgotPwd} />

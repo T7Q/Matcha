@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { Box, Button, Typography } from '@material-ui/core';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+
 import { customStyles } from '../../../styles/customStyles';
 import { deleteProfile } from '../../../actions/profile';
 

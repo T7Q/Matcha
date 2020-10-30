@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ToggleIcon from 'material-ui-toggle-icon';
+
 import { ListItem, ListItemSecondaryAction } from '@material-ui/core';
 import { ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import { RemoveCircleOutline, CheckCircle } from '@material-ui/icons/';
+
 import { settingStyles } from '../../../styles/settingStyles';
 
 const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) => {

@@ -47,7 +47,7 @@ const Birthdate = ({ birthdateProp }) => {
                     format="yyyy/MM/dd"
                     value={birthDate}
                     onChange={handleDate}
-                    className={classes.input}
+                    className={classes.input2}
                     error={birth_dateError ? true : false}
                     helperText={birth_dateError}
                 />

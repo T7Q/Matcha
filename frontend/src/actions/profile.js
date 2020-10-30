@@ -10,12 +10,16 @@ import {
     UPDATE_ERROR,
     LOGOUT,
     UPDATE_BlOCKED,
+    CLEAR_PROFILE,
 } from './types';
 import { setSnackbar } from './setsnackbar';
 import { loadUser } from './auth';
 
 // Get user profile
 export const getProfile = (type, userId, otherProfile = false) => async (dispatch) => {
+    dispatch({
+        type: CLEAR_PROFILE,
+    });
     // send request to corresponding router depending on wheather profile is My or Other user
     try {
         if (otherProfile) await axios.get(`/profile/visit/${userId}`);

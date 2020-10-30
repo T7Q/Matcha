@@ -1,4 +1,4 @@
-import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH } from '../actions/types';
+import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, CLEAR_MATCH } from '../actions/types';
 import { FILTER_RESET, FILTER_UPDATE, UPDATE_LIKES, UPDATE_ERROR } from '../actions/types';
 
 const filterBase = {
@@ -67,6 +67,11 @@ export default function (state = initialState, action) {
                 ...state,
                 error: payload,
                 loading: false,
+            };
+        case CLEAR_MATCH:
+            return {
+                ...state,
+                loading: true,
             };
         default:
             return state;

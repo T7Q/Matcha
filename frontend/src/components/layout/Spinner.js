@@ -7,7 +7,7 @@ export default () => {
     const classes = customStyles();
 
     return (
-        <Fragment>
+        <Fragment >
             <img src={spinner} className={classes.spinner} alt="Loading..." />
         </Fragment>
     );

@@ -7,6 +7,7 @@ import { Box, Button, Typography, useMediaQuery } from '@material-ui/core';
 import { googleLogin } from '../../actions/auth';
 import { customStyles } from '../../styles/customStyles';
 import { setSnackbar } from '../../actions/setsnackbar';
+import google from '../../images/google.png';
 
 const Landing = ({ history }) => {
     const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const Landing = ({ history }) => {
                         <img
                             className={classes.img}
                             alt="google"
-                            src={require('../../images/google.png')}
+                            src={google}
                         />
                         Log in with Google
                     </Button>

@@ -72,7 +72,7 @@ const Password = () => {
                             variant="outlined"
                             name="oldPassword"
                             type="password"
-                            className={classes.input}
+                            className={classes.input2}
                             placeholder="old password"
                             value={oldPassword}
                             error={oldPasswordError ? true : false}
@@ -82,7 +82,7 @@ const Password = () => {
                     </Grid>
                     <Grid item>
                         <TextField
-                            className={classes.input}
+                            className={classes.input2}
                             variant="outlined"
                             type="password"
                             name="password"
@@ -95,7 +95,7 @@ const Password = () => {
                     </Grid>
                     <Grid item>
                         <TextField
-                            className={classes.input}
+                            className={classes.input2}
                             variant="outlined"
                             type="password"
                             name="confirmPassword"

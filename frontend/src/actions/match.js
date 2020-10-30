@@ -1,10 +1,13 @@
 import matchService from '../services/matchService';
 
-import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, FILTER_UPDATE, FILTER_RESET } from './types';
+import { GET_MATCH, MATCH_ERROR, FETCH_MORE_MATCH, FILTER_UPDATE, FILTER_RESET, CLEAR_MATCH } from './types';
 import store from '../store';
 
 // Get current user profile
 export const getRecommend = (route, filterIsOn) => async (dispatch) => {
+    dispatch({
+        type: CLEAR_MATCH,
+    });
     const page = route.split('/')[2];
     const data =
         filterIsOn > 0 ? (page === 'filter' ? store.getState().match.filter : { type: page, order: [] }) : {};

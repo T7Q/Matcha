@@ -24,7 +24,7 @@ const Input = ({ value, header, type, label, handleChange, placeholder, ...rest 
                         ? [type][0]
                         : 'text'
                 }
-                className={classes.input}
+                className={classes.input2}
                 placeholder={placeholder ? placeholder : [type][0]}
                 value={value}
                 onChange={handleChange}

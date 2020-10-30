@@ -52,7 +52,7 @@ const Country = ({ setSnackbar, countryProp }) => {
                         <TextField
                             autoFocus
                             {...params}
-                            className={classes.input}
+                            className={classes.input2}
                             error={countryError ? true : false}
                             helperText={countryError}
                             variant="outlined"

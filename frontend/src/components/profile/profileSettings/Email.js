@@ -54,7 +54,7 @@ const Email = ({ setSnackbar }) => {
                             variant="outlined"
                             name="email"
                             type="email"
-                            className={classes.input}
+                            className={classes.input2}
                             placeholder="new email"
                             value={email}
                             onChange={onChange}
@@ -64,7 +64,7 @@ const Email = ({ setSnackbar }) => {
                     </Grid>
                     <Grid item>
                         <TextField
-                            className={classes.input}
+                            className={classes.input2}
                             variant="outlined"
                             type="password"
                             name="password"

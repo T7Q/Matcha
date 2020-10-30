@@ -20,6 +20,7 @@ const UserCard = ({ card }) => {
 
     card.fame = parseFloat(card.fame);
     const linkToProfile = `/profile/${card.user_id}`;
+    const onMediaFallback = (event) => (event.target.src = '/Photo_1601037282389_683.png');
 
     return (
         <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -30,6 +31,7 @@ const UserCard = ({ card }) => {
                         component="img"
                         alt="profile pic"
                         image={card.profile_pic_path}
+                        onError={onMediaFallback}
                     />
                     <CardContent className={classesGallery.cardContent}>
                         <Typography variant="h6" className={classesGallery.title}>

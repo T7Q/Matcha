@@ -9,5 +9,8 @@ export const notFoundStyles = makeStyles((theme) => ({
                 rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(${MoonImage})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
+        display: 'flex',
+        justifyContent: 'center',
+        marginBottom: '-60px',
     },
 }));

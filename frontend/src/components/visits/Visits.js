@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { AppBar, Tabs, Tab, Typography, Box, Container } from '@material-ui/core';
-import GetMatches from '../common/matchGallery/GetMatches';
+
 import { updateNotifications } from '../../actions/notifications';
+import GetMatches from '../common/matchGallery/GetMatches';
 
 const Visits = ({ socket }) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const { page } = useParams();
+    let { page } = useParams();
 
     const indexToTabName = ['allvisits', 'myvisits'];
+
+    if (!indexToTabName.includes(page)) {
+        page = 'allvisits';
+    }
 
     const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
     const [newVisit, setNewVisit] = useState(false);

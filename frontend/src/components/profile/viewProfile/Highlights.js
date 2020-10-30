@@ -7,15 +7,15 @@ import { ListItemSecondaryAction } from '@material-ui/core';
 import { Timeline, AssignmentIndOutlined, VpnKeyOutlined } from '@material-ui/icons';
 import { ArrowForwardIos, BubbleChartOutlined, LocationOnOutlined } from '@material-ui/icons';
 
-import { profileStyles } from '../../../styles/profileStyles';
 import Status from './Status';
+import { profileStyles } from '../../../styles/profileStyles';
 
 const Highlights = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
     const classesProf = profileStyles();
 
     const date = new Date(profile.birth_date).toLocaleDateString();
-    
+
     const orientation =
         profile.sex_orientation === 'straight_man' || profile.sex_orientation === 'straight_woman'
             ? 'straight'

@@ -8,6 +8,7 @@ import Login from '../auth/Login';
 import ForgotPwd from '../auth/ForgotPwd';
 import UpdatePwd from '../auth/UpdatePwd';
 import Landing from '../layout/Landing';
+import NotFound from '../layout/NotFound';
 import Register from '../profile/CreateAccount';
 import ProfileView from '../profile/viewProfile/';
 import ProfileCreation from '../profile/createProfile/';
@@ -16,7 +17,6 @@ import EditProfile from '../profile/editProfile';
 import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 import Visits from '../visits/Visits';
-// import NotFound from '../layout/NotFound';
 import Chat from '../chat/';
 
 const CustomRouter = () => {
@@ -55,7 +55,7 @@ const CustomRouter = () => {
                     <Redirect exact from="/visits" to="/visits/allvisits" />
                     <PrivateRoute exact path="/visits/:page?" socket={socket} component={Visits} />
                     <PrivateRoute exact path="/profile/me/edit/:type?" component={EditProfile} />
-                    {/* <Route component={NotFound} /> */}
+                    <Route component={NotFound} />
                 </Switch>
             </Box>
         </Grid>

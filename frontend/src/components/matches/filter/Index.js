@@ -23,11 +23,6 @@ const Filter = ({ setting }) => {
         dispatch(updateFilter(filter));
     }, [dispatch, filter]);
 
-    // const handleClickReset = () => () => {
-    //     console.log("handle click");
-    //     dispatch(resetFilter());
-    //     setFilter(0);
-    // };
     const handleClickReset = (e) => {
         dispatch(resetFilter());
         setFilter(0);
@@ -62,9 +57,6 @@ const Filter = ({ setting }) => {
 
                         {filterIsOn > 1 && (
                             <IconButton
-                                onClick={() => {
-                                    handleClickReset();
-                                }}
                                 onClick={() => {
                                     handleClickReset();
                                 }}

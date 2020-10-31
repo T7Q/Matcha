@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FormGroup, Grid, Button } from '@material-ui/core';
+import { FormGroup, Grid } from '@material-ui/core';
 
 import { updateUser } from '../../../actions/auth';
 import { editProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
-import { btnStyles } from '../../../styles/btnStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 import Input from '../../common/Input';
+import Button from '../../common/Button';
 
 const Email = ({ setSnackbar }) => {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Email = ({ setSnackbar }) => {
 
     const { email, password } = formData;
     const { emailError, passwordError } = errors;
-    const classes = btnStyles();
+    const classes = systemStyles();
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,7 +51,7 @@ const Email = ({ setSnackbar }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className={classes.alignCenter}>
+        <form onSubmit={handleSubmit}>
             <FormGroup>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>
@@ -73,9 +74,7 @@ const Email = ({ setSnackbar }) => {
                         />
                     </Grid>
                 </Grid>
-                <Button type="submit" className={classes.mainButton}>
-                    Save
-                </Button>
+                <Button type="submit">Save</Button>
             </FormGroup>
         </form>
     );

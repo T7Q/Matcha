@@ -5,7 +5,6 @@ import { FormGroup, Grid } from '@material-ui/core';
 import { updateUser } from '../../../actions/auth';
 import { editProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
-import { systemStyles } from '../../../styles/systemStyles';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
 
@@ -24,7 +23,6 @@ const Email = ({ setSnackbar }) => {
 
     const { email, password } = formData;
     const { emailError, passwordError } = errors;
-    const classes = systemStyles();
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

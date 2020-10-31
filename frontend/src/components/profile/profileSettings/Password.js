@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { FormGroup, Grid, Button } from '@material-ui/core';
+import { FormGroup, Grid } from '@material-ui/core';
 
 import { editProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
-import { btnStyles } from '../../../styles/btnStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 import Input from '../../common/Input';
+import Button from '../../common/Button';
 
 const Password = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Password = () => {
 
     const { oldPassword, password, confirmPassword } = formData;
     const { oldPasswordError, passwordError, confirmPasswordError } = errors;
-    const classes = btnStyles();
+    const classes = systemStyles();
 
     const onChange = (e) => {
         const name = e.target.name;
@@ -101,9 +102,7 @@ const Password = () => {
                         />
                     </Grid>
                 </Grid>
-                <Button type="submit" className={classes.mainButton}>
-                    Save
-                </Button>
+                <Button type="submit">Save</Button>
             </FormGroup>
         </form>
     );

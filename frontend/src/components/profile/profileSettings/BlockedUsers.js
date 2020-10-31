@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { FormGroup, Button, Typography, List } from '@material-ui/core';
+import { FormGroup, Typography, List } from '@material-ui/core';
 
 import profileService from '../../../services/profileService';
 import { unblockUser } from '../../../actions/profile';
-import { btnStyles } from '../../../styles/btnStyles';
 import { componentStyles } from '../../../styles/componentStyles';
 import BlockedUserCard from './BlockedUserCard';
+import Button from '../../common/Button';
 
 const BlockedUsers = ({ setSnackbar }) => {
     const dispatch = useDispatch();
-    const classes = btnStyles();
     const classesSetting = componentStyles();
     const [blockedList, setBlockedUsers] = useState([]);
 
@@ -59,9 +58,7 @@ const BlockedUsers = ({ setSnackbar }) => {
                     );
                 })}
             </List>
-            <Button className={classes.mainButton} onClick={handleSave}>
-                Save
-            </Button>
+            <Button onClick={handleSave}>Save</Button>
         </FormGroup>
     );
 };

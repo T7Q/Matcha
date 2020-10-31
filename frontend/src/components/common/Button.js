@@ -3,14 +3,11 @@ import { Button } from '@material-ui/core';
 
 import { btnStyles } from '../../styles/btnStyles';
 
-const CustomButton = ({ ...props }) => {
+const CustomButton = ({ customClass, ...props }) => {
     const classes = btnStyles();
 
     return (
-        <Button
-            className={props.customClass ? classes[[customClass]] : classes.mainButton}
-            {...props}
-        />
+        <Button className={customClass ? classes[[customClass]] : classes.mainButton} {...props} />
     );
 };
 

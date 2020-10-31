@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FormGroup, Button, Box, useMediaQuery } from '@material-ui/core';
+import { FormGroup, Box, useMediaQuery } from '@material-ui/core';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
 import { updateUser } from '../../../actions/auth';
 import { editProfile } from '../../../actions/profile';
-import { btnStyles } from '../../../styles/btnStyles';
 import mapStyles from './mapStyles';
+import Button from '../../common/Button';
 
 const Geolocation = ({ setSnackbar }) => {
     const dispatch = useDispatch();
@@ -16,7 +16,6 @@ const Geolocation = ({ setSnackbar }) => {
         lat: user.latitude,
         lng: user.longitude,
     });
-    const classes = btnStyles();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -75,9 +74,7 @@ const Geolocation = ({ setSnackbar }) => {
                         <Marker position={{ lat: marker.lat, lng: marker.lng }} />
                     </GoogleMap>
                 </Box>
-                <Button type="submit" className={classes.mainButton}>
-                    Save
-                </Button>
+                <Button type="submit">Save</Button>
             </FormGroup>
         </form>
     );

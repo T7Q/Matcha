@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { Button, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 import { getProfile, savePhotos } from '../../../actions/profile';
+import Button from '../../common/Button';
 
 const ImageGridListOwn = ({ profile, handleClose }) => {
     const dispatch = useDispatch();
@@ -88,9 +89,7 @@ const ImageGridListOwn = ({ profile, handleClose }) => {
                     />
                 );
             })}
-            <Button variant="contained" color="primary" onClick={save}>
-                Save
-            </Button>
+            <Button onClick={save}>Save</Button>
         </Box>
     );
 };

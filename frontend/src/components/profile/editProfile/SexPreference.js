@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Autocomplete } from '@material-ui/lab';
+
 import { validateField } from '../../../services/validator';
 import { editProfile } from '../../../actions/profile';
 
-import { Autocomplete } from '@material-ui/lab';
-import { TextField } from '@material-ui/core';
-import { customStyles } from '../../../styles/customStyles';
 import WizardForm from '../../common/WizardForm';
+import Input from '../../common/Input';
 
 const SexPreference = ({ genderProp, sexPreferenceProp }) => {
     const dispatch = useDispatch();
@@ -18,7 +18,6 @@ const SexPreference = ({ genderProp, sexPreferenceProp }) => {
     const [errors, setErrors] = useState({ genderError: '', sexPreferenceError: '' });
     const { gender, sexPreference } = formData;
     const { genderError, sexPreferenceError } = errors;
-    const classes = customStyles();
 
     const setData = (value, type) => {
         const errorType = [type] + 'Error';
@@ -54,13 +53,11 @@ const SexPreference = ({ genderProp, sexPreferenceProp }) => {
                     getOptionSelected={(option) => option}
                     value={formData.gender}
                     renderInput={(params) => (
-                        <TextField
+                        <Input
                             autoFocus
                             {...params}
-                            className={classes.input2}
-                            error={genderError ? true : false}
+                            customClass="input2"
                             helperText={genderError}
-                            variant="outlined"
                             placeholder="gender"
                             label="I'm a ..."
                         />
@@ -73,13 +70,11 @@ const SexPreference = ({ genderProp, sexPreferenceProp }) => {
                     getOptionSelected={(option) => option}
                     value={formData.sexPreference}
                     renderInput={(params) => (
-                        <TextField
+                        <Input
                             autoFocus
                             {...params}
-                            className={classes.input2}
-                            error={sexPreferenceError ? true : false}
+                            customClass="input2"
                             helperText={sexPreferenceError}
-                            variant="outlined"
                             placeholder="gender"
                             label="I'm am looking for"
                         />

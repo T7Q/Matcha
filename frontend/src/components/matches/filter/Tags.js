@@ -3,20 +3,18 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import { settingStyles } from '../../../styles/settingStyles';
 import { updateFilter } from '../../../actions/match';
 
 const Tags = () => {
     const dispatch = useDispatch();
     const { filter } = useSelector((state) => state.match);
-    const classesSetting = settingStyles();
     const [realTags, setRealTags] = useState([]);
+
     useEffect(() => {
         let isMounted = true;
         async function getTags() {
             const res = await axios.get('/profile/tags');
-            isMounted && setRealTags(res.data.map(item => item.tag));
+            isMounted && setRealTags(res.data.map((item) => item.tag));
         }
         getTags();
         return () => {
@@ -32,10 +30,12 @@ const Tags = () => {
                 selectedTags.push(value);
             });
         }
-        dispatch(updateFilter({
-            ...filter,
-            tags: selectedTags,
-        }));
+        dispatch(
+            updateFilter({
+                ...filter,
+                tags: selectedTags,
+            })
+        );
     };
     return (
         <Autocomplete
@@ -47,12 +47,7 @@ const Tags = () => {
             getOptionLabel={(option) => option}
             value={filter['tags']}
             renderInput={(params) => (
-                <TextField
-                    className={classesSetting.tags}
-                    {...params}
-                    variant="standard"
-                    label="Passionate about ..."
-                />
+                <TextField {...params} variant="standard" label="Passionate about ..." />
             )}
         />
     );

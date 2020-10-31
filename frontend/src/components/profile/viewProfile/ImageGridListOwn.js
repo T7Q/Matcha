@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
-import axios from 'axios';
-import { Button, Box } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { setSnackbar } from '../../../actions/setsnackbar';
-import { getProfile } from '../../../actions/profile';
+import { Button, Box } from '@material-ui/core';
+
+import { getProfile, savePhotos } from '../../../actions/profile';
 
 const ImageGridListOwn = ({ profile, handleClose }) => {
     const dispatch = useDispatch();
@@ -68,18 +66,9 @@ const ImageGridListOwn = ({ profile, handleClose }) => {
     };
 
     const save = async () => {
-        try {
-            const res = await axios.post('/profile/uploadphoto', { key: 'photo', value: images });
-            if (res.data.error) {
-                dispatch(setSnackbar(true, 'error', 'Try again later'));
-            } else {
-                dispatch(setSnackbar(true, 'success', 'Successfully updated'));
-                handleClose();
-                dispatch(getProfile('myProfile', profile.user_id));
-            }
-        } catch (err) {
-            console.log(err);
-        }
+        await dispatch(savePhotos({ key: 'photo', value: images }));
+        handleClose();
+        dispatch(getProfile('myProfile', profile.user_id));
     };
 
     return (

@@ -2,8 +2,9 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
-import { customStyles } from '../../styles/customStyles';
-import { profileStyles } from '../../styles/profileStyles';
+import { btnStyles } from '../../styles/btnStyles';
+import { componentStyles } from '../../styles/componentStyles';
+import { systemStyles } from '../../styles/systemStyles';
 
 const WizardForm = ({
     header,
@@ -24,8 +25,9 @@ const WizardForm = ({
     if (!steps) {
         steps = 1;
     }
-    const classes = customStyles();
-    const classesProf = profileStyles();
+    const classes = btnStyles();
+    const classesSystem = systemStyles();
+    const classesProf = componentStyles();
 
     const next = () => {
         // If the current step is 1 or 2, then add one on "next" button click
@@ -60,7 +62,7 @@ const WizardForm = ({
             <form onSubmit={formSubmit}>
                 <Box display="flex" alignItems="center" justifyContent="flex-start">
                     <IconButton
-                        style={{ position: 'absolute' }}
+                        className={classesSystem.abs}
                         onClick={
                             step === 1 || steps === 1
                                 ? () => handleRedirect(link ? link : '/')
@@ -68,7 +70,7 @@ const WizardForm = ({
                         }>
                         <ArrowBackIosIcon fontSize="small" />
                     </IconButton>
-                    <Typography style={{ marginLeft: 'auto', marginRight: 'auto' }} variant="h6">
+                    <Typography className={classesSystem.marginAuto} variant="h6">
                         {header}
                     </Typography>
                 </Box>
@@ -78,7 +80,7 @@ const WizardForm = ({
                     ) : (
                         <Box display="flex" my={5} maxWidth="300px">
                             <LinearProgress
-                                className={classes.progress}
+                                className={classesProf.progress}
                                 variant="determinate"
                                 value={normalise(step)}
                             />
@@ -86,11 +88,7 @@ const WizardForm = ({
                     )}
                     {steps === 1 ? children : children[step - 1]}
                     {!hideButton && (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            className={classes.mainButton}>
+                        <Button type="submit" className={classes.mainButton}>
                             {step < steps ? 'Next' : 'Done'}
                         </Button>
                     )}

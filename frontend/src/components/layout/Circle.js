@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, useMediaQuery, Box } from '@material-ui/core';
-import { customStyles } from '../../styles/customStyles';
+
+import { componentStyles } from '../../styles/componentStyles';
 import circle from '../../images/circle.png';
 
 const Circle = () => {
     const { isAuthenticated, loading } = useSelector((state) => state.auth);
-    const classes = customStyles();
+    const classes = componentStyles();
     const isMobile = useMediaQuery('(max-width:960px)');
 
     return (

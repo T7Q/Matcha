@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+
 import { updateFilter } from '../../../actions/match';
 import { getValue } from '../../../utils/helpFunctions';
 

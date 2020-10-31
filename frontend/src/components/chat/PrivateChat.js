@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography, Link, Button, TextField, IconButton, Avatar } from '@material-ui/core';
+import { Box, Typography, Link, Button, IconButton, Avatar } from '@material-ui/core';
 import HighlightOffOutlined from '@material-ui/icons/HighlightOff';
 import { Send } from '@material-ui/icons';
 
 import chatService from '../../services/chatService';
 import { getMessages } from '../../actions/chat';
 import { getProfile } from '../../actions/profile';
+import { systemStyles } from '../../styles/systemStyles';
 import { chatStyles } from '../../styles/chatStyles';
 import Dropdown from '../profile/viewProfile/DropdownItem';
 import Spinner from '../layout/Spinner';
+import Input from '../common/Input';
 
 const PrivateChat = ({ currentConversation, handleChange }) => {
     const dispatch = useDispatch();
@@ -18,7 +20,8 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
     const { user, socket } = useSelector((state) => state.auth);
     const { profile } = useSelector((state) => state.profile);
     const { messages, conversations, loading } = useSelector((state) => state.chat);
-    const classes = chatStyles();
+    const classesChat = chatStyles();
+    const classes = systemStyles();
     const [textMessage, setTextMessage] = useState('');
     const chat = currentConversation
         ? conversations.filter((chat) => chat.partner_id === currentConversation)[0]
@@ -87,31 +90,27 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
             position="relative"
             display="flex"
             flexDirection="column"
-            // pl={0}
-            // pr={0}
             minWidth="100%"
-            className={classes.chat}>
+            className={classesChat.chat}>
             <Box display="flex" alignItems="center" className={classes.borderBottom}>
                 <Box flexGrow={1} textAlign="center" flexDirection="row">
                     <Link
                         onClick={() => goTo(`/profile/${partnerId}`)}
                         component="button"
                         underline="none"
-                        color="secondary">
+                        className={`${classes.dFlex} ${classes.p10} ${classes.alignItems}`}>
                         <Avatar
-                            className={classes.marginAuto}
+                            className={`${classes.mr10} ${classes.mLeft20}`}
                             alt="N"
                             src={profile.profile_pic_path}
                         />
-                        <Typography variant="body1" className={classes.active}>
-                            {profile.first_name}
-                        </Typography>
+                        <Typography className={classes.mainClr}>{profile.first_name}</Typography>
                     </Link>
                 </Box>
-                <Box className={classes.closeBlock}>
+                <Box className={classesChat.closeBlock}>
                     <Dropdown />
                     <Button onClick={(e) => handleChange(e, 0)}>
-                        <HighlightOffOutlined fontSize="small" className={classes.fill} />
+                        <HighlightOffOutlined fontSize="small" className={classes.fillPrimary} />
                     </Button>
                 </Box>
             </Box>
@@ -125,10 +124,13 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                         );
                         return (
                             <Box p={1} key={element.id} textAlign={element.mine ? 'right' : 'left'}>
-                                <Box className={element.mine ? classes.mine : classes.other}>
+                                <Box
+                                    className={element.mine ? classesChat.mine : classesChat.other}>
                                     <Typography>{element.message}</Typography>
                                 </Box>
-                                <Typography className={classes.date}>{date}</Typography>
+                                <Typography className={`${classes.fontSmall} ${classes.someColor}`}>
+                                    {date}
+                                </Typography>
                             </Box>
                         );
                     })}
@@ -137,17 +139,15 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                 <form onSubmit={postMessage}>
                     <Box display="flex" px={2} py={1}>
                         <Box width="90%">
-                            <TextField
+                            <Input
                                 autoComplete="off"
-                                variant="outlined"
-                                className={classes.inputField}
-                                type="text"
+                                customClass="chatInput"
                                 name="textMessage"
                                 value={textMessage}
                                 onChange={onChange}
                             />
                         </Box>
-                        <IconButton color="primary" type="submit" className={classes.marginLeft}>
+                        <IconButton color="primary" type="submit" className={classes.mLeft20}>
                             <Send />
                         </IconButton>
                     </Box>

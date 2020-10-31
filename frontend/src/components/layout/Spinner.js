@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 
-import { customStyles } from '../../styles/customStyles';
+import { componentStyles } from '../../styles/componentStyles';
 import spinner from '../../images/spinner.gif';
 
 export default () => {
-    const classes = customStyles();
+    const classes = componentStyles();
 
     return (
-        <Fragment >
+        <Fragment>
             <img src={spinner} className={classes.spinner} alt="Loading..." />
         </Fragment>
     );

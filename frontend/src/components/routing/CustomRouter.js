@@ -16,7 +16,6 @@ import EditProfile from '../profile/editProfile';
 import Matches from '../matches/Matches';
 import Likes from '../likes/Likes';
 import Visits from '../visits/Visits';
-// import NotFound from '../layout/NotFound';
 import Chat from '../chat/';
 
 const CustomRouter = () => {
@@ -24,12 +23,12 @@ const CustomRouter = () => {
 
     return (
         <Grid justify="center" container item md={!isAuthenticated ? 6 : 12} xs={12}>
-            <Route exact path="/" component={Landing} />
             <Box
                 pt={{ xs: '0px', sm: '64px' }}
                 mb={{ xs: '100px', sm: '0' }}
                 width={isAuthenticated && user.status !== 1 ? '100%' : 'auto'}>
                 <Switch>
+                    <Route exact path="/" component={Landing} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/forgetPwd" component={ForgotPwd} />
@@ -55,7 +54,7 @@ const CustomRouter = () => {
                     <Redirect exact from="/visits" to="/visits/allvisits" />
                     <PrivateRoute exact path="/visits/:page?" socket={socket} component={Visits} />
                     <PrivateRoute exact path="/profile/me/edit/:type?" component={EditProfile} />
-                    {/* <Route component={NotFound} /> */}
+                    <Route component={Landing} />
                 </Switch>
             </Box>
         </Grid>

@@ -4,15 +4,10 @@ export const filterStyles = makeStyles((theme) => ({
     toggle: {
         margin: 0,
         padding: 0,
-        // '&MuiTypography-root, &MuiFormControlLabel-label, &MuiTypography-body1': {
-        //     fontSize: "0.8rem",
-        //     color: "red",
-        // },
         color: theme.palette.text.secondary,
         fontSize: '50px',
     },
     filter: {
-        // fill: theme.palette.text.secondary,
         color: theme.palette.text.secondary,
         textTransform: 'capitalize',
         padding: 0,
@@ -25,9 +20,6 @@ export const filterStyles = makeStyles((theme) => ({
             },
         },
         fontSize: 'medium',
-    },
-    padding: {
-        padding: 0,
     },
     sort: {
         maxWidth: '160px',

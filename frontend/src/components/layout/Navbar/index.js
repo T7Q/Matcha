@@ -4,8 +4,9 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { ExitToAppOutlined } from '@material-ui/icons';
 import { Badge, AppBar, Toolbar, Typography, Box, IconButton } from '@material-ui/core';
 
-import { navStyles } from '../../../styles/navStyles';
 import { logout } from '../../../actions/auth';
+import { btnStyles } from '../../../styles/btnStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 import ProfileMenu from './ProfileMenu';
 import NavItem from './NavItem';
@@ -16,7 +17,8 @@ const Navbar = () => {
     const history = useHistory();
     const location = useLocation();
     const [active, setActive] = useState('Matches');
-    const classes = navStyles();
+    const classes = btnStyles();
+    const classesSystem = systemStyles();
 
     useEffect(() => {
         setActive(location.pathname.split('/')[1]);
@@ -27,11 +29,11 @@ const Navbar = () => {
     };
 
     return (
-        <AppBar color="secondary" className={isAuthenticated ? classes.appBar : ''}>
+        <AppBar color="secondary" className={isAuthenticated ? classesSystem.bottomXS : ''}>
             <Toolbar>
                 <Box justifyContent="flex-start" display="flex" flexGrow={2}>
                     <IconButton
-                        className={`${classes.iconButton} ${classes.hideMedium}`}
+                        className={`${classes.iconButton} ${classesSystem.hideMedium}`}
                         onClick={() => {
                             setActive('Matches');
                             handleNavigation('/');
@@ -60,7 +62,7 @@ const Navbar = () => {
                             onClick={() => dispatch(logout(history))}>
                             <Typography
                                 variant="button"
-                                className={classes.mobileText}
+                                className={classesSystem.mobileText}
                                 color="textSecondary">
                                 <Badge>
                                     <ExitToAppOutlined />

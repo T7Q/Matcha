@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Avatar, Link, Badge, Box } from '@material-ui/core';
 import { ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
 // import OnlineBadge from './OnlineBadge';
-import { chatStyles } from '../../styles/chatStyles';
+import { systemStyles } from '../../styles/systemStyles';
 
 const ConversationBox = ({
     unread,
@@ -16,7 +16,8 @@ const ConversationBox = ({
 }) => {
     const [partnerIsOnline, setPartnerIsOnline] = useState({ online: false, partnerId: 0 });
     const history = useHistory();
-    const classes = chatStyles();
+    const classes = systemStyles();
+    const { partner_id } = conversation;
 
     useEffect(() => {
         let isMounted = true;
@@ -30,11 +31,11 @@ const ConversationBox = ({
     }, [partnerIsOnline, socket]);
 
     const handleClick = () => {
-        history.push(`/profile/${conversation.partner_id}`);
+        history.push(`/profile/${partner_id}`);
     };
     /* <OnlineBadge
                                 lastSeen={
-                                    partnerIsOnline.partnerId === conversation.partner_id &&
+                                    partnerIsOnline.partnerId === partner_id &&
                                     partnerIsOnline.online
                                         ? 'online'
                                         : conversation.last_seen
@@ -43,11 +44,7 @@ const ConversationBox = ({
 
     return (
         <ListItem
-            className={
-                active === conversation.partner_id
-                    ? classes.conversationActiveList
-                    : classes.conversationList
-            }
+            className={`${classes.borderBottom} ${active === partner_id ? classes.bgSome : ''}`}
             button>
             <Link onClick={handleClick} component="button">
                 <ListItemAvatar>
@@ -55,8 +52,8 @@ const ConversationBox = ({
                 </ListItemAvatar>
             </Link>
             <ListItemText
-                className={active === conversation.partner_id ? classes.active : classes.nonActive}
-                onClick={(e) => handleChange(e, conversation.partner_id, conversation.sender_id)}
+                className={active === partner_id ? classes.mainClr : classes.infoColor}
+                onClick={(e) => handleChange(e, partner_id, conversation.sender_id)}
                 primary={
                     <span>
                         {conversation.partner_name} {conversation.partner_surname}

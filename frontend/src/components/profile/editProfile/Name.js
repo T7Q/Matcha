@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { validateField } from '../../../services/validator';
 import { editProfile } from '../../../actions/profile';
+
 import WizardForm from '../../common/WizardForm';
 import Input from '../../common/Input';
 
@@ -47,6 +48,8 @@ const Name = ({ firstName, lastName }) => {
             onSubmit={handleSubmit}>
             <>
                 <Input
+                    autoFocus
+                    customClass="input2"
                     name="firstname"
                     type="firstname"
                     value={firstname}
@@ -54,6 +57,7 @@ const Name = ({ firstName, lastName }) => {
                     helperText={firstnameError}
                 />
                 <Input
+                    customClass="input2"
                     name="lastname"
                     type="lastname"
                     value={lastname}

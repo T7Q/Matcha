@@ -55,6 +55,8 @@ const Username = () => {
             setFormData={setFormData}
             onSubmit={handleSubmit}>
             <Input
+                autoFocus
+                customClass="input2"
                 name="username"
                 type="username"
                 value={username}

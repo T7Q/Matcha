@@ -4,7 +4,7 @@ import { Badge, Avatar } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import Tooltip from '@material-ui/core/Tooltip';
-import { profileStyles } from '../../../styles/profileStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import UserAvatar from './UserAvatar';
 
 const StyledBadge = withStyles((theme) => ({
@@ -57,14 +57,14 @@ const StyledOfflineBadge = withStyles((theme) => ({
 }))(Badge);
 
 const OnlineBadge = ({ profile, handleClickOpen }) => {
-    const classesProf = profileStyles();
+    const classes = componentStyles();
     const date = new Date(profile.last_seen).toLocaleString();
 
     if (profile.online === 0)
         return (
             <Tooltip title={`last seen ${date}`}>
                 <StyledOfflineBadge
-                    className={classesProf.avatarImageStyle}
+                    className={classes.avatarImageStyle}
                     overlap="circle"
                     anchorOrigin={{
                         vertical: 'bottom',
@@ -78,7 +78,7 @@ const OnlineBadge = ({ profile, handleClickOpen }) => {
     else {
         return (
             <StyledBadge
-                className={profile.online === 1 ? classesProf.avatarImageStyle : ''}
+                className={profile.online === 1 ? classes.avatarImageStyle : ''}
                 overlap="circle"
                 anchorOrigin={{
                     vertical: 'bottom',
@@ -86,7 +86,7 @@ const OnlineBadge = ({ profile, handleClickOpen }) => {
                 }}
                 variant="dot">
                 <Avatar
-                    className={classesProf.avatarImageStyle}
+                    className={classes.avatarImageStyle}
                     onClick={handleClickOpen}
                     alt="user profile"
                     src={profile.profile_pic_path}

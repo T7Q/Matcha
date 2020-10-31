@@ -11,7 +11,8 @@ import Sort from './Sort';
 import Row from './Row';
 
 import { filterStyles } from '../../../styles/filterStyles';
-import { useStyles } from '../../../styles/custom';
+import { btnStyles } from '../../../styles/btnStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Filter = ({ setting }) => {
     const dispatch = useDispatch();
@@ -24,7 +25,8 @@ const Filter = ({ setting }) => {
         setReset(!reset);
     };
 
-    const classesCustom = useStyles();
+    const classes = systemStyles();
+    const classesCustom = btnStyles();
     const classesFilter = filterStyles();
     const [expanded, setExpanded] = React.useState(setting);
 
@@ -40,7 +42,7 @@ const Filter = ({ setting }) => {
                         <Button
                             variant="contained"
                             className={classesFilter.filter}
-                            startIcon={<SyncAlt style={{ marginRight: 0 }} />}
+                            startIcon={<SyncAlt className={classes.mr0} />}
                             disabled>
                             Filter&emsp;&emsp;
                         </Button>
@@ -51,8 +53,8 @@ const Filter = ({ setting }) => {
                                     handleClickReset();
                                 }}
                                 size="small"
-                                style={{ padding: 0 }}>
-                                <HighlightOff style={{ color: 'white' }} />
+                                className={classes.padding}>
+                                <HighlightOff />
                             </IconButton>
                         )}
                         <IconButton
@@ -62,7 +64,7 @@ const Filter = ({ setting }) => {
                             onClick={handleExpandClick}
                             aria-expanded={expanded}
                             style={{ padding: 0, margin: 0 }}>
-                            <ExpandMore style={{ color: 'white' }} />
+                            <ExpandMore />
                         </IconButton>
                         {/* <Divider
                             style={{
@@ -90,21 +92,17 @@ const Filter = ({ setting }) => {
                     <Row row={3} />
                     <Grid item xs={12} container spacing={3} className={classesFilter.row}>
                         <Button
-                            size="small"
-                            variant="contained"
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
-                            className={classesCustom.customButton}>
+                            className={classesCustom.mainButton}>
                             See results
                         </Button>
                         <Button
-                            size="small"
-                            variant="contained"
                             onClick={() => {
                                 handleClickReset();
                             }}
-                            className={classesCustom.customTransparentButton}>
+                            className={`${classesCustom.mainButton} ${classesCustom.secondButton}`}>
                             Reset
                         </Button>
                     </Grid>

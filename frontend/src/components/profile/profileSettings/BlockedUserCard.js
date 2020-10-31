@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ToggleIcon from 'material-ui-toggle-icon';
+
 import { ListItem, ListItemSecondaryAction } from '@material-ui/core';
 import { ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 import { IconButton } from '@material-ui/core';
 import { RemoveCircleOutline, CheckCircle } from '@material-ui/icons/';
-import { settingStyles } from '../../../styles/settingStyles';
+
+import { systemStyles } from '../../../styles/systemStyles';
 
 const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) => {
-    const classes = settingStyles();
+    const classes = systemStyles();
 
     return (
         <ListItem
@@ -24,7 +26,7 @@ const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) =>
             </ListItemAvatar>
             <ListItemText id={labelId} primary={`${value.first_name}, ${value.age}`} />
             <ListItemSecondaryAction>
-                <IconButton onClick={handleBlock(index)} style={{ padding: 0 }}>
+                <IconButton onClick={handleBlock(index)}>
                     <ToggleIcon
                         on={blockedList[index].blocked}
                         onIcon={<RemoveCircleOutline color="primary" />}

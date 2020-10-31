@@ -4,7 +4,7 @@ frontend/.env.local
 .DS_Store
 *package-lock.json
 backend/images/*
-!backend/images/Photo_1601037282389_683.png
+!backend/images/default.png
 !backend/images/demo1.jpg
 !backend/images/demo2.jpg
 !backend/images/demo3.jpg

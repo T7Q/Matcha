@@ -7,12 +7,6 @@ export const chatStyles = makeStyles((theme) => ({
         background: `url(${BackgroundImage}) no-repeat center center fixed`,
         backgroundSize: 'cover',
     },
-    headerText: {
-        color: theme.palette.info.main,
-    },
-    chatGrid: {
-        justifyContent: 'space-around',
-    },
     leftSide: {
         minHeight: '60vh',
         maxHeight: '60vh',
@@ -52,10 +46,7 @@ export const chatStyles = makeStyles((theme) => ({
         borderRadius: '30px',
         background: theme.palette.background.secondary,
     },
-    borderNone: {
-        border: 'none',
-    },
-    inputField: {
+    chatInput: {
         width: '100%',
         border: '1px solid ' + theme.palette.primary.main,
         borderRadius: '14px 14px 14px 14px',
@@ -74,35 +65,6 @@ export const chatStyles = makeStyles((theme) => ({
                 border: '1px solid ' + theme.palette.primary.main,
             },
         },
-    },
-    floatRight: {
-        float: 'right',
-    },
-    conversationActiveList: {
-        borderBottom: '1px solid #252839',
-        backgroundColor: '#10183c',
-    },
-    borderBottm: {
-        borderBottom: '1px solid #252839',
-    },
-    conversationList: {
-        borderBottom: '1px solid #252839',
-        backgroundColor: 'inherit',
-    },
-    active: {
-        color: theme.palette.primary.main,
-    },
-    nonActive: {
-        color: theme.palette.info.main,
-    },
-    marginAuto: {
-        margin: 'auto',
-    },
-    fill: {
-        fill: theme.palette.text.primary,
-    },
-    overflowY: {
-        overflowY: 'auto',
     },
     mine: {
         backgroundColor: '#0c1023',
@@ -124,15 +86,11 @@ export const chatStyles = makeStyles((theme) => ({
             margin: '8px 15px 8px 0',
         },
     },
-    marginLeft: {
-        marginLeft: '20px',
-    },
-    date: {
-        color: '#b5bad3',
-        fontSize: 'small',
-    },
     closeBlock: {
         position: 'absolute',
         left: '80%',
+    },
+    justifySpaceAround: {
+        justifyContent: 'space-around',
     },
 }));

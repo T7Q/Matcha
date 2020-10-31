@@ -99,7 +99,7 @@ const Chat = () => {
                     {conversations.length === 0 ? (
                         <Box textAlign="center">No conversations yet</Box>
                     ) : (
-                        <Grid container spacing={4} className={classesChat.chatGrid}>
+                        <Grid container spacing={4} className={classesChat.justifySpaceAround}>
                             <Grid
                                 container
                                 item

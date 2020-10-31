@@ -1,10 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { IconButton } from '@material-ui/core';
 import { FavoriteBorderRounded } from '@material-ui/icons';
 import { ChatBubbleOutlineRounded } from '@material-ui/icons';
 
-import { Link } from 'react-router-dom';
 import { addLike, removeLike } from '../../../actions/profile';
 import { setSnackbar } from '../../../actions/setsnackbar';
 import { galleryStyles } from '../../../styles/galleryStyles';
@@ -57,7 +57,7 @@ const LikeButton = ({ card }) => {
                     aria-label="chat"
                     component={Link}
                     to={`/messages/${card.user_id}`}>
-                    <ChatBubbleOutlineRounded className={classesGallery.fullChatBtn} />
+                    <ChatBubbleOutlineRounded className={classesGallery.emptyLikeBtn} />
                 </IconButton>
             ) : (
                 ''

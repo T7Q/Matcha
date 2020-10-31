@@ -1,13 +1,3 @@
-body {
-    /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(./background2.jpg);
-    background-size: cover;
-    background-repeat: no-repeat; */
-}
-
-.capital {
-    text-transform: capitalize;
-}
-
 .circle {
     border-radius: 50%;
     position: relative;
@@ -19,31 +9,15 @@ body {
 .circle:hover {
     animation-play-state: paused;
 }
-
-.link-decor {
-    text-decoration: none;
-}
-
+/*
 .MuiDropzoneArea-root {
     max-width: 300px;
     margin: 10px;
-}
+} */
 
 .MuiGrid-grid-xs-4 {
     flex-grow: 1 !important;
     max-width: 100% !important;
-}
-
-.MuiDropzoneArea-text {
-    margin-bottom: 0 !important;
-}
-
-.flex {
-    display: flex;
-}
-
-.relative {
-    position: relative;
 }
 
 @keyframes rotating {

@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import { Typography, TextField, Box } from '@material-ui/core';
 
-import { customStyles } from '../../styles/customStyles';
+import { componentStyles } from '../../styles/componentStyles';
 
-const Input = ({ value, header, type, label, handleChange, placeholder, ...rest }) => {
-    const classes = customStyles();
+const Input = ({ customClass, value, header, type, handleChange, placeholder, ...rest }) => {
+    const classes = componentStyles();
 
     return (
         <Fragment>
@@ -24,7 +24,7 @@ const Input = ({ value, header, type, label, handleChange, placeholder, ...rest 
                         ? [type][0]
                         : 'text'
                 }
-                className={classes.input2}
+                className={customClass ? classes[[customClass]] : classes.input}
                 placeholder={placeholder ? placeholder : [type][0]}
                 value={value}
                 onChange={handleChange}

@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import { Typography, Box, useMediaQuery, Button } from '@material-ui/core';
 import { Tooltip } from '@material-ui/core';
 
-import { footerStyles } from '../../styles/footerStyles';
+import { btnStyles } from '../../styles/btnStyles';
 
 const Footer = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);
     const isMobile = useMediaQuery('(max-width:600px)');
-    const classesFooter = footerStyles();
+    const classes = btnStyles();
 
     const authors = [
         {
@@ -37,8 +37,7 @@ const Footer = () => {
                                 <Button
                                     target="_blank"
                                     href={value.github}
-                                    className={classesFooter.footerBtn}
-                                    size="small">
+                                    className={classes.footerBtn}>
                                     {value.name}
                                 </Button>
                             </Tooltip>

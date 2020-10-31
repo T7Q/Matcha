@@ -9,7 +9,7 @@ import { setSnackbar } from '../../actions/setsnackbar';
 
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
-import { customStyles } from '../../styles/customStyles';
+import { btnStyles } from '../../styles/btnStyles';
 
 const Login = ({ history }) => {
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Login = ({ history }) => {
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
     const { username, password } = formData;
-    const classes = customStyles();
+    const classes = btnStyles();
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -98,17 +98,12 @@ const Login = ({ history }) => {
                     value={password}
                     helperText={errors.passwordError}
                 />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.mainButton}>
+                <Button type="submit" className={classes.mainButton}>
                     Next
                 </Button>
                 <Button
                     className={`${classes.mainButton} ${classes.linkButton}`}
-                    onClick={() => history.push('/forgetPwd')}
-                    color="secondary">
+                    onClick={() => history.push('/forgetPwd')}>
                     Forgot password?
                 </Button>
             </>

@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Typography from '@material-ui/core/Typography';
+
 import { getRecommend, fetchMore } from '../../../actions/match';
 import Gallery from './Gallery';
-import Typography from '@material-ui/core/Typography';
 import Spinner from '../../layout/Spinner';
 
 const GetMatches = ({ route, filterIsOn, reset }) => {

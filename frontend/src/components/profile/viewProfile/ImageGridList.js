@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { GridList, GridListTile } from '@material-ui/core';
-import { profileStyles } from '../../../styles/profileStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 
 const ImageGridList = () => {
-    const classes = profileStyles();
+    const classes = componentStyles();
     const { profile } = useSelector((state) => state.profile);
 
     if (profile['photos'].length === 0) {

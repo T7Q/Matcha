@@ -14,9 +14,7 @@ module.exports = async (req, res) => {
         'longitude'
     );
     result.userId = userId;
-
     const photos = await profileModel.userHasPhotos(userId);
     result.userHasPhotos = photos;
-
     return res.json(result);
 };

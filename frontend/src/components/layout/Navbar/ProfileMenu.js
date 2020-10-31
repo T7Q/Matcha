@@ -5,14 +5,18 @@ import { MenuItem, Menu } from '@material-ui/core';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
 import { getNotifications } from '../../../actions/notifications';
-import { navStyles } from '../../../styles/navStyles';
+import { componentStyles } from '../../../styles/componentStyles';
+import { btnStyles } from '../../../styles/btnStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const ProfileMenu = ({ handleNavigation, active, setActive }) => {
     const notifications = useSelector((state) => state.notifications);
     const { socket } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [profileSettings, setProfileSettings] = useState(null);
-    const classes = navStyles();
+    const classes = componentStyles();
+    const classesBtn = btnStyles();
+    const classesSystem = systemStyles();
 
     useEffect(() => {
         socket.on('UPDATE_NOTIFICATIONS', (type) => {
@@ -50,16 +54,15 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
             <IconButton
                 className={
                     active === 'profile' || active === 'settings' || active === 'visits'
-                        ? classes.iconButtonActive
-                        : classes.iconButton
+                        ? classesBtn.iconButtonActive
+                        : classesBtn.iconButton
                 }
                 onClick={(event) => setProfileSettings(event.currentTarget)}>
-                <Typography variant="button" className={classes.mobileText} color="textPrimary">
-                    <Badge
-                        className={classes.pr}
-                        badgeContent={notifications.visit}
-                        max={99}
-                        color="primary">
+                <Typography
+                    variant="button"
+                    className={classesSystem.mobileText}
+                    color="textPrimary">
+                    <Badge badgeContent={notifications.visit} max={99} color="primary">
                         <PersonOutlineIcon />
                     </Badge>
                     Profile

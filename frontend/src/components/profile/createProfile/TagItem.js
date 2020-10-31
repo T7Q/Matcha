@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, TextField } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import profileService from '../../../services/profileService';
+import Input from '../../common/Input';
 
 const TagItem = ({ error, setData, formData }) => {
     const [realTags, setRealTags] = useState([]);
@@ -26,11 +27,10 @@ const TagItem = ({ error, setData, formData }) => {
                 getOptionLabel={(option) => option}
                 value={formData.tags}
                 renderInput={(params) => (
-                    <TextField
+                    <Input
                         {...params}
-                        error={error ? true : false}
+                        customClass="input2"
                         helperText={error}
-                        variant="outlined"
                         placeholder="passions"
                     />
                 )}

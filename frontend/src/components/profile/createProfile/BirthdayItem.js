@@ -2,10 +2,10 @@ import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import LuxonUtils from '@date-io/luxon';
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 
 const BirthdayItem = ({ setFormData, formData, error }) => {
-    const classes = customStyles();
+    const classes = componentStyles();
 
     const handleDate = (date) => {
         setFormData({ ...formData, birth_date: date });

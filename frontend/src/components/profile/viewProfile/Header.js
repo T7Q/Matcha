@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 
 import { Typography, Box, Grid } from '@material-ui/core';
 
-import { profileStyles } from '../../../styles/profileStyles';
 import UserRating from './UserRating';
 import Buttons from './Buttons';
 import UserAvatar from './UserAvatar';
 import Dropdown from './DropdownItem';
 import OnlineBadge from './OnlineBadge';
 import CustomizedDialog from './CustomizedDialog';
+import { profileStyles } from '../../../styles/profileStyles';
 
 const Header = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);

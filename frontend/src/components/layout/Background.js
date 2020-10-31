@@ -4,11 +4,11 @@ import { Grid, Box } from '@material-ui/core';
 
 import CustomRouter from '../routing/CustomRouter';
 import Circle from './Circle';
-import { customStyles } from '../../styles/customStyles';
+import { componentStyles } from '../../styles/componentStyles';
 
 const Background = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);
-    const classes = customStyles();
+    const classes = componentStyles();
 
     return (
         <Box flexGrow={1} className={isAuthenticated ? '' : classes.background}>

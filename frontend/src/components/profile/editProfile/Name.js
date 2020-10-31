@@ -5,7 +5,7 @@ import { editProfile } from '../../../actions/profile';
 
 import WizardForm from '../../common/WizardForm';
 import Input from '../../common/Input';
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 
 const Name = ({ firstName, lastName }) => {
     const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Name = ({ firstName, lastName }) => {
         firstnameError: '',
         lastnameError: '',
     });
-    const classes = customStyles();
+    const classes = componentStyles();
 
     const { firstname, lastname } = formData;
     const { firstnameError, lastnameError } = errors;

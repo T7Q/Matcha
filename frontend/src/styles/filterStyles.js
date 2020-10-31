@@ -8,7 +8,6 @@ export const filterStyles = makeStyles((theme) => ({
         fontSize: '50px',
     },
     filter: {
-        // fill: theme.palette.text.secondary,
         color: theme.palette.text.secondary,
         textTransform: 'capitalize',
         padding: 0,

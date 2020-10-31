@@ -1,11 +1,11 @@
 import React from 'react';
 import { Box, Typography, FormHelperText, FormControl } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
 const CountryItem = ({ error, setData, formData }) => {
-    const classesCustom = customStyles();
+    const classesCustom = componentStyles();
     const classes = systemStyles();
 
     return (

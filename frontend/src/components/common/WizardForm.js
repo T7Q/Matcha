@@ -2,8 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
-import { customStyles } from '../../styles/customStyles';
-import { profileStyles } from '../../styles/profileStyles';
+import { btnStyles } from '../../styles/btnStyles';
+import { componentStyles } from '../../styles/componentStyles';
 
 const WizardForm = ({
     header,
@@ -24,8 +24,8 @@ const WizardForm = ({
     if (!steps) {
         steps = 1;
     }
-    const classes = customStyles();
-    const classesProf = profileStyles();
+    const classes = btnStyles();
+    const classesProf = componentStyles();
 
     const next = () => {
         // If the current step is 1 or 2, then add one on "next" button click
@@ -78,7 +78,7 @@ const WizardForm = ({
                     ) : (
                         <Box display="flex" my={5} maxWidth="300px">
                             <LinearProgress
-                                className={classes.progress}
+                                className={classesProf.progress}
                                 variant="determinate"
                                 value={normalise(step)}
                             />

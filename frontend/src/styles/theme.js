@@ -105,6 +105,7 @@ const theme = createMuiTheme({
         MuiDropzoneArea: {
             text: {
                 color: '#000',
+                marginBottom: '0',
             },
             icon: {
                 color: '#134261',

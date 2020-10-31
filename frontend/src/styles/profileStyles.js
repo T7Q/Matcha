@@ -31,36 +31,6 @@ export const profileStyles = makeStyles((theme) => ({
             color: theme.palette.text.primary,
         },
     },
-    avatarImageStyle: {
-        alignItems: 'center',
-        margin: 'auto',
-        width: '160px',
-        height: '160px',
-        display: 'flex',
-        marginBottom: '-20px',
-    },
-    listIconStyle: {
-        color: theme.palette.text.primary,
-        size: 'small',
-    },
-    editBox: {
-        minWidth: '300px',
-        [theme.breakpoints.down('sm')]: {
-            minWidth: '220px',
-        },
-    },
-    paper: {
-        background: theme.palette.background.secondary,
-        color: theme.palette.text.secondary,
-        marginBottom: '20px',
-    },
-    gridList: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
-    },
     closeButton: {
         position: 'absolute',
         right: theme.spacing(1),

@@ -9,7 +9,7 @@ import { setSnackbar } from '../../actions/setsnackbar';
 
 import Input from '../common/Input';
 import WizardForm from '../common/WizardForm';
-import { customStyles } from '../../styles/customStyles';
+import { btnStyles } from '../../styles/btnStyles';
 
 const Login = ({ history }) => {
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Login = ({ history }) => {
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [errors, setErrors] = useState({ usernameError: '', passwordError: '' });
     const { username, password } = formData;
-    const classes = customStyles();
+    const classes = btnStyles();
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });

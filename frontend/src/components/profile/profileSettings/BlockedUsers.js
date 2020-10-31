@@ -4,14 +4,14 @@ import { FormGroup, Button, Typography, List } from '@material-ui/core';
 
 import profileService from '../../../services/profileService';
 import { unblockUser } from '../../../actions/profile';
-import { customStyles } from '../../../styles/customStyles';
-import { settingStyles } from '../../../styles/settingStyles';
+import { btnStyles } from '../../../styles/btnStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import BlockedUserCard from './BlockedUserCard';
 
 const BlockedUsers = ({ setSnackbar }) => {
     const dispatch = useDispatch();
-    const classes = customStyles();
-    const classesSetting = settingStyles();
+    const classes = btnStyles();
+    const classesSetting = componentStyles();
     const [blockedList, setBlockedUsers] = useState([]);
 
     useEffect(() => {
@@ -59,10 +59,7 @@ const BlockedUsers = ({ setSnackbar }) => {
                     );
                 })}
             </List>
-            <Button
-                className={`${classes.mainButton} ${classes.p2}`}
-                size="small"
-                onClick={handleSave}>
+            <Button className={classes.mainButton} onClick={handleSave}>
                 Save
             </Button>
         </FormGroup>

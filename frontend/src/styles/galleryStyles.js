@@ -75,4 +75,7 @@ export const galleryStyles = makeStyles((theme) => ({
         padding: '5px',
         alignSelf: 'end',
     },
+    p5: {
+        padding: '5px',
+    },
 }));

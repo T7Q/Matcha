@@ -11,7 +11,7 @@ import Sort from './Sort';
 import Row from './Row';
 
 import { filterStyles } from '../../../styles/filterStyles';
-import { customStyles } from '../../../styles/customStyles';
+import { btnStyles } from '../../../styles/btnStyles';
 
 const Filter = ({ setting }) => {
     const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Filter = ({ setting }) => {
         setReset(!reset);
     };
 
-    const classesCustom = customStyles();
+    const classesCustom = btnStyles();
     const classesFilter = filterStyles();
     const [expanded, setExpanded] = React.useState(setting);
 

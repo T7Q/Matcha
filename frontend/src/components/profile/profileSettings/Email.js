@@ -5,8 +5,7 @@ import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
 import { updateUser } from '../../../actions/auth';
 import { editProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
-import { customStyles } from '../../../styles/customStyles';
-import { systemStyles } from '../../../styles/systemStyles';
+import { btnStyles } from '../../../styles/btnStyles';
 
 const Email = ({ setSnackbar }) => {
     const dispatch = useDispatch();
@@ -23,8 +22,7 @@ const Email = ({ setSnackbar }) => {
 
     const { email, password } = formData;
     const { emailError, passwordError } = errors;
-    const classes = customStyles();
-    const classesSystem = systemStyles();
+    const classes = btnStyles();
 
     const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -49,7 +47,7 @@ const Email = ({ setSnackbar }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className={classesSystem.alignCenter}>
+        <form onSubmit={handleSubmit} className={classes.alignCenter}>
             <FormGroup>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>

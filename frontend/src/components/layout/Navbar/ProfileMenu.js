@@ -5,7 +5,7 @@ import { MenuItem, Menu } from '@material-ui/core';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
 import { getNotifications } from '../../../actions/notifications';
-import { navStyles } from '../../../styles/navStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import { btnStyles } from '../../../styles/btnStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
@@ -14,7 +14,7 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
     const { socket } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [profileSettings, setProfileSettings] = useState(null);
-    const classes = navStyles();
+    const classes = componentStyles();
     const classesBtn = btnStyles();
     const classesSystem = systemStyles();
 

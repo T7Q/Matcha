@@ -7,6 +7,9 @@ export const systemStyles = makeStyles((theme) => ({
     mr10: {
         marginRight: '10px',
     },
+    mb20: {
+        marginBottom: '20px',
+    },
     marginAuto: {
         margin: 'auto',
     },
@@ -16,9 +19,6 @@ export const systemStyles = makeStyles((theme) => ({
     plb0: {
         paddingLeft: 0,
         paddingBottom: 0,
-    },
-    p5: {
-        padding: '5px',
     },
     pt10: {
         paddingTop: '10px',
@@ -41,6 +41,12 @@ export const systemStyles = makeStyles((theme) => ({
     bgMain: {
         backgroundColor: theme.palette.primary.main,
     },
+    bgSecondary: {
+        background: theme.palette.background.secondary,
+    },
+    bgSome: {
+        backgroundColor: '#10183c',
+    },
     alignCenter: {
         textAlign: 'center',
     },
@@ -49,9 +55,6 @@ export const systemStyles = makeStyles((theme) => ({
     },
     borderBottom: {
         borderBottom: '1px solid #252839',
-    },
-    justifySpaceAround: {
-        justifyContent: 'space-around',
     },
     floatRight: {
         float: 'right',
@@ -83,5 +86,9 @@ export const systemStyles = makeStyles((theme) => ({
             top: 'auto',
             bottom: 0,
         },
+    },
+    img: {
+        width: '40px',
+        padding: '0 5px',
     },
 }));

@@ -7,7 +7,7 @@ import { validateField } from '../../../services/validator';
 import { editProfile } from '../../../actions/profile';
 
 import WizardForm from '../../common/WizardForm';
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 
 const SexPreference = ({ genderProp, sexPreferenceProp }) => {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const SexPreference = ({ genderProp, sexPreferenceProp }) => {
     const [errors, setErrors] = useState({ genderError: '', sexPreferenceError: '' });
     const { gender, sexPreference } = formData;
     const { genderError, sexPreferenceError } = errors;
-    const classes = customStyles();
+    const classes = componentStyles();
 
     const setData = (value, type) => {
         const errorType = [type] + 'Error';

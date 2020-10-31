@@ -66,14 +66,6 @@ export const chatStyles = makeStyles((theme) => ({
             },
         },
     },
-    conversationActiveList: {
-        borderBottom: '1px solid #252839',
-        backgroundColor: '#10183c',
-    },
-    conversationList: {
-        borderBottom: '1px solid #252839',
-        backgroundColor: 'inherit',
-    },
     mine: {
         backgroundColor: '#0c1023',
         borderRadius: '14px 14px 0 14px',
@@ -97,5 +89,8 @@ export const chatStyles = makeStyles((theme) => ({
     closeBlock: {
         position: 'absolute',
         left: '80%',
+    },
+    justifySpaceAround: {
+        justifyContent: 'space-around',
     },
 }));

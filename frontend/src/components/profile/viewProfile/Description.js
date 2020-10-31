@@ -6,13 +6,11 @@ import { Typography, IconButton, Divider, Paper } from '@material-ui/core';
 import { List, ListItem, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
 import { ArrowForwardIos } from '@material-ui/icons';
 
-import { profileStyles } from '../../../styles/profileStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
 const Description = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
-    const classesProf = profileStyles();
-    const classes = systemStyles();
+    const clss = systemStyles();
     const userDescription = [
         {
             key: `desc1`,
@@ -34,7 +32,9 @@ const Description = ({ type }) => {
                 return (
                     <div key={'title' + index}>
                         <Divider light />
-                        <Paper className={classesProf.paper} elevation={4}>
+                        <Paper
+                            className={`${clss.mb20} ${clss.someColor} ${clss.bgSecondary}`}
+                            elevation={4}>
                             <ListItem>
                                 <Typography variant="h6" style={{ color: 'white' }}>
                                     {value.title}
@@ -45,7 +45,7 @@ const Description = ({ type }) => {
                                             edge="end"
                                             component={Link}
                                             to={value.link}
-                                            className={classes.someColor}>
+                                            className={clss.someColor}>
                                             <ArrowForwardIos fontSize="small" />
                                         </IconButton>
                                     ) : (

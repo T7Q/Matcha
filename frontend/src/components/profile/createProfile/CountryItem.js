@@ -2,10 +2,10 @@ import React from 'react';
 import { getCountries } from 'countries-cities';
 import { Box, Typography, TextField } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 
 const CountryItem = ({ error, setData, formData }) => {
-    const classes = customStyles();
+    const classes = componentStyles();
     const countries = getCountries();
 
     return (

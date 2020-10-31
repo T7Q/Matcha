@@ -5,7 +5,7 @@ import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
 import { updateUser } from '../../../actions/auth';
 import { editProfile } from '../../../actions/profile';
-import { customStyles } from '../../../styles/customStyles';
+import { btnStyles } from '../../../styles/btnStyles';
 import mapStyles from './mapStyles';
 
 const Geolocation = ({ setSnackbar }) => {
@@ -16,7 +16,7 @@ const Geolocation = ({ setSnackbar }) => {
         lat: user.latitude,
         lng: user.longitude,
     });
-    const classes = customStyles();
+    const classes = btnStyles();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -80,7 +80,7 @@ const Geolocation = ({ setSnackbar }) => {
                     size="small"
                     variant="contained"
                     color="primary"
-                    className={`${classes.mainButton} ${classes.p2}`}>
+                    className={classes.mainButton}>
                     Save
                 </Button>
             </FormGroup>

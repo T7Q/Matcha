@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { Box, TextareaAutosize, Typography, FormHelperText, FormControl } from '@material-ui/core';
 import { systemStyles } from '../../../styles/systemStyles';
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 
 const BioItem = ({ bio, setData, error }) => {
     const classes = systemStyles();
-    const classesCustom = customStyles();
+    const classesCustom = componentStyles();
 
     return (
         <Fragment>

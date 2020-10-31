@@ -6,7 +6,7 @@ import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers';
 import { validateField } from '../../../services/validator';
 import { editProfile } from '../../../actions/profile';
 
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import WizardForm from '../../common/WizardForm';
 
 const Birthdate = ({ birthdateProp }) => {
@@ -16,7 +16,7 @@ const Birthdate = ({ birthdateProp }) => {
 
     const { birthDate } = formData;
     const { birth_dateError } = errors;
-    const classes = customStyles();
+    const classes = componentStyles();
 
     const handleDate = (date) => {
         const error = validateField('birth_date', date);

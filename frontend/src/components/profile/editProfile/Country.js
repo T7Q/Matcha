@@ -7,7 +7,7 @@ import { TextField, Box } from '@material-ui/core';
 import { validateField } from '../../../services/validator';
 import { editProfile } from '../../../actions/profile';
 
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import WizardForm from '../../common/WizardForm';
 
 const Country = ({ setSnackbar, countryProp }) => {
@@ -18,7 +18,7 @@ const Country = ({ setSnackbar, countryProp }) => {
     const { country } = formData;
     const { countryError } = errors;
     const countries = getCountries();
-    const classes = customStyles();
+    const classes = componentStyles();
 
     const setData = (value) => {
         const error = validateField('country', value);

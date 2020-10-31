@@ -9,11 +9,11 @@ import GeolocationTab from './Geolocation';
 import BlockedUsersTab from './BlockedUsers';
 import DeleteAccountTab from './DeleteAccount';
 import { setSnackbar } from '../../../actions/setsnackbar';
-import { settingStyles } from '../../../styles/settingStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
 const Settings = ({ history }) => {
-    const classes = settingStyles();
+    const classes = componentStyles();
     const classesSystem = systemStyles();
     let { type } = useParams();
 

@@ -5,7 +5,7 @@ import { TextareaAutosize, FormControl, FormHelperText } from '@material-ui/core
 import { validateField } from '../../../services/validator';
 import { editProfile } from '../../../actions/profile';
 
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import WizardForm from '../../common/WizardForm';
 
 const Bio = ({ bioProp }) => {
@@ -15,7 +15,7 @@ const Bio = ({ bioProp }) => {
 
     const { bio } = formData;
     const { bioError } = errors;
-    const classes = customStyles();
+    const classes = componentStyles();
 
     const setData = (value) => {
         const error = validateField('bio', value);
@@ -46,7 +46,7 @@ const Bio = ({ bioProp }) => {
                     onChange={(e) => setData(e.target.value, 'bio')}
                     placeholder="For example, how would your best friend discribe you"
                 />
-                <FormControl className={classes.ml} error={bioError ? true : false}>
+                <FormControl error={bioError ? true : false}>
                     <FormHelperText>{bioError}</FormHelperText>
                 </FormControl>
             </>

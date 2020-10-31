@@ -1,12 +1,12 @@
 import React from 'react';
 import { Box, Typography, FormHelperText, FormControl } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
 const SexPreferenceItem = ({ error, setData, formData }) => {
     const classes = systemStyles();
-    const classesCustom = customStyles();
+    const classesCustom = componentStyles();
 
     return (
         <ToggleButtonGroup

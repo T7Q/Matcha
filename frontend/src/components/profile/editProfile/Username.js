@@ -6,7 +6,7 @@ import { editProfile } from '../../../actions/profile';
 import { updateUser } from '../../../actions/auth';
 import { setSnackbar } from '../../../actions/setsnackbar';
 
-import { customStyles } from '../../../styles/customStyles';
+import { componentStyles } from '../../../styles/componentStyles';
 import Input from '../../common/Input';
 import WizardForm from '../../common/WizardForm';
 
@@ -19,7 +19,7 @@ const Username = () => {
     const [errors, setErrors] = useState({
         usernameError: '',
     });
-    const classes = customStyles();
+    const classes = componentStyles();
 
     const { username } = formData;
     const { usernameError } = errors;

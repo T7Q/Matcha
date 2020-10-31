@@ -10,6 +10,7 @@ export const componentStyles = makeStyles((theme) => ({
     },
     tabs: {
         padding: 0,
+        [theme.breakpoints.down('xs')]: { minHeight: '53px' },
         '& .MuiTab-wrapper': { flexDirection: 'row', justifyContent: 'start' },
         '& .MuiTab-root': { padding: 0 },
     },

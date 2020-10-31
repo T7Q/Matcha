@@ -5,7 +5,6 @@ import { editProfile } from '../../../actions/profile';
 
 import WizardForm from '../../common/WizardForm';
 import Input from '../../common/Input';
-import { componentStyles } from '../../../styles/componentStyles';
 
 const Name = ({ firstName, lastName }) => {
     const dispatch = useDispatch();
@@ -17,7 +16,6 @@ const Name = ({ firstName, lastName }) => {
         firstnameError: '',
         lastnameError: '',
     });
-    const classes = componentStyles();
 
     const { firstname, lastname } = formData;
     const { firstnameError, lastnameError } = errors;
@@ -51,7 +49,7 @@ const Name = ({ firstName, lastName }) => {
             <>
                 <Input
                     autoFocus
-                    className={classes.input2}
+                    customClass="input2"
                     name="firstname"
                     type="firstname"
                     value={firstname}
@@ -59,7 +57,7 @@ const Name = ({ firstName, lastName }) => {
                     helperText={firstnameError}
                 />
                 <Input
-                    className={classes.input2}
+                    customClass="input2"
                     name="lastname"
                     type="lastname"
                     value={lastname}

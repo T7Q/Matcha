@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TextField, FormGroup, Grid, Button } from '@material-ui/core';
+import { FormGroup, Grid, Button } from '@material-ui/core';
 
 import { updateUser } from '../../../actions/auth';
 import { editProfile } from '../../../actions/profile';
 import { validateField } from '../../../services/validator';
 import { btnStyles } from '../../../styles/btnStyles';
+import Input from '../../common/Input';
 
 const Email = ({ setSnackbar }) => {
     const dispatch = useDispatch();
@@ -24,7 +25,9 @@ const Email = ({ setSnackbar }) => {
     const { emailError, passwordError } = errors;
     const classes = btnStyles();
 
-    const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+    const onChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -34,7 +37,7 @@ const Email = ({ setSnackbar }) => {
         } else if (!password) {
             setErrors({ ...errors, passwordError: 'required field' });
         } else if (user.email === email) {
-            setSnackbar(true, 'warning', 'No changes applied');
+            dispatch(setSnackbar(true, 'warning', 'No changes applied'));
         } else {
             const res = await dispatch(editProfile({ key: 'email', value: formData }));
             if (res && res.error) {
@@ -51,38 +54,26 @@ const Email = ({ setSnackbar }) => {
             <FormGroup>
                 <Grid container direction="column" spacing={1}>
                     <Grid item>
-                        <TextField
-                            variant="outlined"
-                            name="email"
+                        <Input
                             type="email"
-                            className={classes.input2}
+                            customClass="input2"
                             placeholder="new email"
                             value={email}
                             onChange={onChange}
-                            error={emailError ? true : false}
                             helperText={emailError}
                         />
                     </Grid>
                     <Grid item>
-                        <TextField
-                            className={classes.input2}
-                            variant="outlined"
+                        <Input
+                            customClass="input2"
                             type="password"
-                            name="password"
-                            placeholder="password"
                             value={password}
-                            error={passwordError ? true : false}
                             helperText={passwordError}
                             onChange={onChange}
                         />
                     </Grid>
                 </Grid>
-                <Button
-                    type="submit"
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    className={classes.mainButton}>
+                <Button type="submit" className={classes.mainButton}>
                     Save
                 </Button>
             </FormGroup>

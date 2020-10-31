@@ -42,7 +42,6 @@ const Landing = ({ history }) => {
             <Typography variant={isMobile ? 'h4' : 'h3'}>In The Stars</Typography>
             <Button
                 onClick={() => handleRedirect('/register')}
-                variant="contained"
                 className={`${classes.mainButton} ${classes.secondButton}`}>
                 Create Account
             </Button>

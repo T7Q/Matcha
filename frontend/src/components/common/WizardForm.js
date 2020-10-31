@@ -86,11 +86,7 @@ const WizardForm = ({
                     )}
                     {steps === 1 ? children : children[step - 1]}
                     {!hideButton && (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            type="submit"
-                            className={classes.mainButton}>
+                        <Button type="submit" className={classes.mainButton}>
                             {step < steps ? 'Next' : 'Done'}
                         </Button>
                     )}

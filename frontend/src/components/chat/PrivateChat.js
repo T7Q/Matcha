@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Typography, Link, Button, TextField, IconButton, Avatar } from '@material-ui/core';
+import { Box, Typography, Link, Button, IconButton, Avatar } from '@material-ui/core';
 import HighlightOffOutlined from '@material-ui/icons/HighlightOff';
 import { Send } from '@material-ui/icons';
 
@@ -12,6 +12,7 @@ import { systemStyles } from '../../styles/systemStyles';
 import { chatStyles } from '../../styles/chatStyles';
 import Dropdown from '../profile/viewProfile/DropdownItem';
 import Spinner from '../layout/Spinner';
+import Input from '../common/Input';
 
 const PrivateChat = ({ currentConversation, handleChange }) => {
     const dispatch = useDispatch();
@@ -140,11 +141,9 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                 <form onSubmit={postMessage}>
                     <Box display="flex" px={2} py={1}>
                         <Box width="90%">
-                            <TextField
+                            <Input
                                 autoComplete="off"
-                                variant="outlined"
-                                className={classesChat.inputField}
-                                type="text"
+                                customClass="chatInput"
                                 name="textMessage"
                                 value={textMessage}
                                 onChange={onChange}

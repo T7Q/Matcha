@@ -36,12 +36,7 @@ const DeleteAccount = () => {
                 <Typography variant="body1">
                     Your account will no longer appear to other people on Astro Matcha.
                 </Typography>
-                <Button
-                    type="submit"
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    className={classes.mainButton}>
+                <Button type="submit" className={classes.mainButton}>
                     Delete
                 </Button>
                 <Dialog open={open} onClose={handleClose}>

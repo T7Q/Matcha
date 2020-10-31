@@ -98,17 +98,12 @@ const Login = ({ history }) => {
                     value={password}
                     helperText={errors.passwordError}
                 />
-                <Button
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    className={classes.mainButton}>
+                <Button type="submit" className={classes.mainButton}>
                     Next
                 </Button>
                 <Button
                     className={`${classes.mainButton} ${classes.linkButton}`}
-                    onClick={() => history.push('/forgetPwd')}
-                    color="secondary">
+                    onClick={() => history.push('/forgetPwd')}>
                     Forgot password?
                 </Button>
             </>

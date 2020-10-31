@@ -90,8 +90,6 @@ const Filter = ({ setting }) => {
                     <Row row={3} />
                     <Grid item xs={12} container spacing={3} className={classesFilter.row}>
                         <Button
-                            size="small"
-                            variant="contained"
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
@@ -99,8 +97,6 @@ const Filter = ({ setting }) => {
                             See results
                         </Button>
                         <Button
-                            size="small"
-                            variant="contained"
                             onClick={() => {
                                 handleClickReset();
                             }}

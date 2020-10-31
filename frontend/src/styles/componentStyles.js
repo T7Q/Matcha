@@ -103,4 +103,24 @@ export const componentStyles = makeStyles((theme) => ({
         borderRadius: '30px !important',
         [theme.breakpoints.down('xs')]: { maxWidth: '200px' },
     },
+    chatInput: {
+        width: '100%',
+        border: '1px solid ' + theme.palette.primary.main,
+        borderRadius: '14px 14px 14px 14px',
+        '& .MuiOutlinedInput-root': {
+            '& :focus': {
+                borderRadius: '14px 14px 14px 14px',
+                background: theme.palette.background.default,
+                border: '1px solid ' + theme.palette.primary.main,
+            },
+        },
+        '& .MuiInputBase-root': {
+            borderRadius: '14px 14px 14px 14px',
+            '& :focus': {
+                borderRadius: '14px 14px 14px 14px',
+                background: 'yellow',
+                border: '1px solid ' + theme.palette.primary.main,
+            },
+        },
+    },
 }));

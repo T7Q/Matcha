@@ -67,16 +67,5 @@ export const btnStyles = makeStyles((theme) => ({
         '&:hover': { color: theme.palette.primary.main, backgroundColor: 'transparent' },
     },
     googleBtn: { border: 'none', backgroundColor: theme.palette.background.secondary },
-    input2: {
-        width: '95%',
-        margin: '10px',
-        alignItems: 'center',
-        '& label': { color: theme.palette.primary.light, fontSize: '16px' },
-        '& input': { textAlign: 'center' },
-        '& .MuiOutlinedInput-root': { borderRadius: '30px', width: '100%', fontSize: '16px' },
-        '& .MuiOutlinedInput-notchedOutline': {
-            border: '1px solid ' + theme.palette.primary.light,
-        },
-    },
     alignCenter: { textAlign: 'center' },
 }));

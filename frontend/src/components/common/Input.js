@@ -3,7 +3,7 @@ import { Typography, TextField, Box } from '@material-ui/core';
 
 import { componentStyles } from '../../styles/componentStyles';
 
-const Input = ({ value, header, type, label, handleChange, placeholder, ...rest }) => {
+const Input = ({ customClass, value, header, type, handleChange, placeholder, ...rest }) => {
     const classes = componentStyles();
 
     return (
@@ -24,7 +24,7 @@ const Input = ({ value, header, type, label, handleChange, placeholder, ...rest 
                         ? [type][0]
                         : 'text'
                 }
-                className={classes.input}
+                className={customClass ? classes[[customClass]] : classes.input}
                 placeholder={placeholder ? placeholder : [type][0]}
                 value={value}
                 onChange={handleChange}

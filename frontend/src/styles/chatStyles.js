@@ -46,7 +46,7 @@ export const chatStyles = makeStyles((theme) => ({
         borderRadius: '30px',
         background: theme.palette.background.secondary,
     },
-    inputField: {
+    chatInput: {
         width: '100%',
         border: '1px solid ' + theme.palette.primary.main,
         borderRadius: '14px 14px 14px 14px',

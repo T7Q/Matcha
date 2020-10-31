@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { TextField } from "@material-ui/core";
-import { getCountries } from "countries-cities";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import { TextField } from '@material-ui/core';
+import { getCountries } from 'countries-cities';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { updateFilter } from '../../../actions/match';
 
 const Country = () => {
@@ -11,14 +11,16 @@ const Country = () => {
 
     const countries = getCountries();
     const handleCountryChange = (event, newValue) => {
-        let value = "";
+        let value = '';
         if (newValue !== null) {
             value = newValue;
         }
-        dispatch(updateFilter({
-            ...filter, 
-            country: value,
-        }));
+        dispatch(
+            updateFilter({
+                ...filter,
+                country: value,
+            })
+        );
     };
     return (
         <Autocomplete
@@ -30,11 +32,7 @@ const Country = () => {
             getOptionLabel={(option) => option}
             value={filter['country']}
             renderInput={(params) => (
-                <TextField
-                    {...params}
-                    variant="standard"
-                    label="Living in ..."
-                />
+                <TextField {...params} variant="standard" label="Living in ..." />
             )}
         />
     );

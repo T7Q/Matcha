@@ -6,7 +6,6 @@ import { editProfile } from '../../../actions/profile';
 import { updateUser } from '../../../actions/auth';
 import { setSnackbar } from '../../../actions/setsnackbar';
 
-import { componentStyles } from '../../../styles/componentStyles';
 import Input from '../../common/Input';
 import WizardForm from '../../common/WizardForm';
 
@@ -19,7 +18,6 @@ const Username = () => {
     const [errors, setErrors] = useState({
         usernameError: '',
     });
-    const classes = componentStyles();
 
     const { username } = formData;
     const { usernameError } = errors;
@@ -58,7 +56,7 @@ const Username = () => {
             onSubmit={handleSubmit}>
             <Input
                 autoFocus
-                className={classes.input2}
+                customClass="input2"
                 name="username"
                 type="username"
                 value={username}

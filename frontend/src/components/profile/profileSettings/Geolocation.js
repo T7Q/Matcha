@@ -75,12 +75,7 @@ const Geolocation = ({ setSnackbar }) => {
                         <Marker position={{ lat: marker.lat, lng: marker.lng }} />
                     </GoogleMap>
                 </Box>
-                <Button
-                    type="submit"
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    className={classes.mainButton}>
+                <Button type="submit" className={classes.mainButton}>
                     Save
                 </Button>
             </FormGroup>

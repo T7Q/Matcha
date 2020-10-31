@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCountries } from 'countries-cities';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 import { validateField } from '../../../services/validator';
 import { editProfile } from '../../../actions/profile';
 
-import { componentStyles } from '../../../styles/componentStyles';
 import WizardForm from '../../common/WizardForm';
+import Input from '../../common/Input';
 
 const Country = ({ setSnackbar, countryProp }) => {
     const dispatch = useDispatch();
@@ -18,7 +18,6 @@ const Country = ({ setSnackbar, countryProp }) => {
     const { country } = formData;
     const { countryError } = errors;
     const countries = getCountries();
-    const classes = componentStyles();
 
     const setData = (value) => {
         const error = validateField('country', value);
@@ -49,13 +48,11 @@ const Country = ({ setSnackbar, countryProp }) => {
                     getOptionSelected={(option) => option}
                     value={country}
                     renderInput={(params) => (
-                        <TextField
+                        <Input
                             autoFocus
+                            customClass="input2"
                             {...params}
-                            className={classes.input2}
-                            error={countryError ? true : false}
                             helperText={countryError}
-                            variant="outlined"
                             placeholder="Country"
                         />
                     )}

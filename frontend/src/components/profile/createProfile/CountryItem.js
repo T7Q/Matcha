@@ -1,11 +1,10 @@
 import React from 'react';
 import { getCountries } from 'countries-cities';
-import { Box, Typography, TextField } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { componentStyles } from '../../../styles/componentStyles';
+import Input from '../../common/Input';
 
 const CountryItem = ({ error, setData, formData }) => {
-    const classes = componentStyles();
     const countries = getCountries();
 
     return (
@@ -20,15 +19,7 @@ const CountryItem = ({ error, setData, formData }) => {
                 getOptionSelected={(option) => option}
                 value={formData.country}
                 renderInput={(params) => (
-                    <TextField
-                        autoFocus
-                        {...params}
-                        className={classes.input}
-                        error={error ? true : false}
-                        helperText={error}
-                        variant="outlined"
-                        placeholder="Country"
-                    />
+                    <Input autoFocus {...params} helperText={error} placeholder="Country" />
                 )}
             />
         </Box>

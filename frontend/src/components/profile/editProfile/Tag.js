@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { TextField } from '@material-ui/core';
 
 import { validateField } from '../../../services/validator';
 import profileService from '../../../services/profileService';
 import { editTags } from '../../../actions/profile';
 
 import WizardForm from '../../common/WizardForm';
+import Input from '../../common/Input';
 
 const Tag = () => {
     const dispatch = useDispatch();
@@ -66,13 +66,7 @@ const Tag = () => {
                 getOptionLabel={(option) => option}
                 value={formData}
                 renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        error={tagsError ? true : false}
-                        helperText={tagsError}
-                        variant="outlined"
-                        placeholder="passions"
-                    />
+                    <Input {...params} helperText={tagsError} customClass="input2" />
                 )}
             />
         </WizardForm>

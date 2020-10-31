@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 
 import { addLike, removeLike } from '../../../actions/profile';
 import { setSnackbar } from '../../../actions/setsnackbar';
-import { profileStyles } from '../../../styles/profileStyles';
+import { btnStyles } from '../../../styles/btnStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
 const Buttons = ({ card }) => {
     const dispatch = useDispatch();
     const { match, auth, profile } = useSelector((state) => state);
-    const classesProf = profileStyles();
+    const classesBtn = btnStyles();
     const classes = systemStyles();
 
     const handleLike = () => {
@@ -53,7 +53,7 @@ const Buttons = ({ card }) => {
             <Button
                 onClick={handleLike}
                 variant="outlined"
-                className={classesProf.likeButton}
+                className={classesBtn.likeButton}
                 startIcon={<Favorite />}>
                 {card.connected > 0 && card.connected < 3 ? 'Unmatch' : 'Like'}
             </Button>
@@ -63,7 +63,7 @@ const Buttons = ({ card }) => {
                     variant="outlined"
                     component={Link}
                     to={`/messages/${profile.profile.user_id}`}
-                    className={classesProf.chatButton}
+                    className={classesBtn.chatButton}
                     startIcon={<Chat />}>
                     Chat
                 </Button>

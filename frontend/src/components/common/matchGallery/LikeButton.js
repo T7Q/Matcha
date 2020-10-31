@@ -57,7 +57,7 @@ const LikeButton = ({ card }) => {
                     aria-label="chat"
                     component={Link}
                     to={`/messages/${card.user_id}`}>
-                    <ChatBubbleOutlineRounded className={classesGallery.fullChatBtn} />
+                    <ChatBubbleOutlineRounded className={classesGallery.emptyLikeBtn} />
                 </IconButton>
             ) : (
                 ''

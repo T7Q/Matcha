@@ -4,15 +4,21 @@ import { useSelector } from 'react-redux';
 import { Typography, Divider, ListItem } from '@material-ui/core';
 import { Chat, Favorite } from '@material-ui/icons';
 
-import { profileStyles } from '../../../styles/profileStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Status = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
-    const classesProf = profileStyles();
+    const clss = systemStyles();
 
     const options = [
-        { text: 'You like them!', icon: <Favorite className={classesProf.connectionStyle} /> },
-        { text: 'You are connected!', icon: <Chat className={classesProf.connectionStyle} /> },
+        {
+            text: 'You like them!',
+            icon: <Favorite className={`${clss.mr10} ${clss.mainClr}`} />,
+        },
+        {
+            text: 'You are connected!',
+            icon: <Chat className={`${clss.mr10} ${clss.mainClr}`} />,
+        },
     ];
 
     const index = profile.connected === 1 ? 0 : profile.connected === 2 ? 1 : '';
@@ -29,7 +35,7 @@ const Status = ({ type }) => {
                         {options[index].icon}
                         <Typography style={{ display: 'flex' }}>{options[index].text}</Typography>
                     </ListItem>
-                    <Divider className={classesProf.divider} />
+                    <Divider className={clss.bgMain} />
                 </>
             ) : (
                 ''

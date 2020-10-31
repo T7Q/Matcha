@@ -4,14 +4,24 @@ export const systemStyles = makeStyles((theme) => ({
     mLeft20: {
         marginLeft: '20px',
     },
+    mr10: {
+        marginRight: '10px',
+    },
     marginAuto: {
         margin: 'auto',
     },
     padding: {
         padding: 0,
     },
+    plb0: {
+        paddingLeft: 0,
+        paddingBottom: 0,
+    },
     p5: {
         padding: '5px',
+    },
+    pt10: {
+        paddingTop: '10px',
     },
     pr5: {
         paddingRight: '5px',
@@ -19,11 +29,17 @@ export const systemStyles = makeStyles((theme) => ({
     infoColor: {
         color: theme.palette.info.main,
     },
-    primaryColor: {
+    mainClr: {
         color: theme.palette.primary.main,
     },
     someColor: {
         color: theme.palette.text.secondary,
+    },
+    whiteColor: {
+        color: theme.palette.text.primary,
+    },
+    bgMain: {
+        backgroundColor: theme.palette.primary.main,
     },
     alignCenter: {
         textAlign: 'center',
@@ -48,5 +64,24 @@ export const systemStyles = makeStyles((theme) => ({
     },
     fillInfo: {
         fill: theme.palette.info.main,
+    },
+    fontSmall: {
+        fontSize: 'small',
+    },
+    mobileText: {
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '10px',
+        },
+    },
+    hideMedium: {
+        [theme.breakpoints.down('sm')]: {
+            display: 'none',
+        },
+    },
+    bottomXS: {
+        [theme.breakpoints.down('xs')]: {
+            top: 'auto',
+            bottom: 0,
+        },
     },
 }));

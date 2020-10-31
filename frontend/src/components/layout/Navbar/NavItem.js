@@ -4,14 +4,14 @@ import { Badge, Typography, IconButton } from '@material-ui/core';
 import { MessageOutlined, PeopleOutline, FavoriteBorder } from '@material-ui/icons';
 
 import { getNotifications, updateNotifications } from '../../../actions/notifications';
-import { navStyles } from '../../../styles/navStyles';
+import { btnStyles } from '../../../styles/btnStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
 const NavItem = ({ handleNavigation, active, setActive }) => {
     const { isAuthenticated, user, socket } = useSelector((state) => state.auth);
     const notifications = useSelector((state) => state.notifications);
     const dispatch = useDispatch();
-    const classes = navStyles();
+    const classes = btnStyles();
     const classesSystem = systemStyles();
 
     useEffect(() => {
@@ -77,7 +77,7 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
                         onClick={() => handleClick(menu.pageUrl, menu.title)}>
                         <Typography
                             color="textSecondary"
-                            className={classes.mobileText}
+                            className={classesSystem.mobileText}
                             variant="button">
                             <Badge
                                 badgeContent={menu.amount}

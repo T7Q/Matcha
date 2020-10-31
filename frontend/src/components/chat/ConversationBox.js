@@ -57,9 +57,7 @@ const ConversationBox = ({
                 </ListItemAvatar>
             </Link>
             <ListItemText
-                className={
-                    active === conversation.partner_id ? classes.primaryColor : classes.infoColor
-                }
+                className={active === conversation.partner_id ? classes.mainClr : classes.infoColor}
                 onClick={(e) => handleChange(e, conversation.partner_id, conversation.sender_id)}
                 primary={
                     <span>

@@ -94,10 +94,6 @@ export const chatStyles = makeStyles((theme) => ({
             margin: '8px 15px 8px 0',
         },
     },
-    date: {
-        color: '#b5bad3',
-        fontSize: 'small',
-    },
     closeBlock: {
         position: 'absolute',
         left: '80%',

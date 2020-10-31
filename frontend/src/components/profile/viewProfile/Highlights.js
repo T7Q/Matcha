@@ -8,12 +8,10 @@ import { Timeline, AssignmentIndOutlined, VpnKeyOutlined } from '@material-ui/ic
 import { ArrowForwardIos, BubbleChartOutlined, LocationOnOutlined } from '@material-ui/icons';
 
 import Status from './Status';
-import { profileStyles } from '../../../styles/profileStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
 const Highlights = ({ type }) => {
     const { profile } = useSelector((state) => state.profile);
-    const classesProf = profileStyles();
     const classes = systemStyles();
     const date = new Date(profile.birth_date).toLocaleDateString();
 
@@ -58,10 +56,8 @@ const Highlights = ({ type }) => {
             {type === 'otherUser' && profile.blocked !== '1' && <Status type={type} />}
             {userData.map((value, index) => {
                 return (
-                    <ListItem key={'info' + index} className={classesProf.listItem}>
-                        <ListItemIcon className={classesProf.listIconStyle}>
-                            {value.icon}
-                        </ListItemIcon>
+                    <ListItem key={'info' + index} className={`${classes.plb0} ${classes.pt10}`}>
+                        <ListItemIcon className={classes.whiteColor}>{value.icon}</ListItemIcon>
                         <ListItemText
                             style={{ fontSize: '0.5em', margin: 0 }}
                             primary={value.text}

@@ -17,11 +17,6 @@ export const settingStyles = makeStyles((theme) => ({
             padding: 0,
         },
     },
-    notification: {
-        justifyContent: 'space-between',
-        marginLeft: 0,
-        marginRight: 0,
-    },
     list: {
         maxHeight: 350,
         overflow: 'auto',

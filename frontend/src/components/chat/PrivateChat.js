@@ -103,7 +103,7 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                             alt="N"
                             src={profile.profile_pic_path}
                         />
-                        <Typography variant="body1" className={classes.primaryColor}>
+                        <Typography variant="body1" className={classes.mainClr}>
                             {profile.first_name}
                         </Typography>
                     </Link>
@@ -129,7 +129,9 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                                     className={element.mine ? classesChat.mine : classesChat.other}>
                                     <Typography>{element.message}</Typography>
                                 </Box>
-                                <Typography className={classesChat.date}>{date}</Typography>
+                                <Typography className={`${classes.fontSmall} ${classes.someColor}`}>
+                                    {date}
+                                </Typography>
                             </Box>
                         );
                     })}

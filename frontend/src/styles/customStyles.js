@@ -120,26 +120,6 @@ export const customStyles = makeStyles((theme) => ({
         backgroundRepeat: 'no-repeat',
     },
     spinner: { width: '200px', margin: 'auto', display: 'block', marginTop: '100px' },
-    customIconButtonActive: {
-        '& span': {
-            color: theme.palette.primary.main,
-        },
-        borderRadius: '5px',
-        flex: '0 1 auto',
-        [theme.breakpoints.down('xs')]: {
-            padding: '15px 5px',
-        },
-    },
-    customIconButton: {
-        '&:hover span': {
-            color: theme.palette.primary.main,
-        },
-        borderRadius: '5px',
-        flex: '0 1 auto',
-        [theme.breakpoints.down('xs')]: {
-            padding: '15px 5px',
-        },
-    },
     radio: {
         maxWidth: '300px',
         borderRadius: '30px !important',

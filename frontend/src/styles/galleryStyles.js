@@ -65,12 +65,6 @@ export const galleryStyles = makeStyles((theme) => ({
             fill: theme.palette.text.primary,
         },
     },
-    fullChatBtn: {
-        fill: theme.palette.text.secondary,
-        '&:hover': {
-            fill: theme.palette.primary.main,
-        },
-    },
     emptyLikeBtn: {
         fill: theme.palette.text.secondary,
         '&:hover': {

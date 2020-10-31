@@ -39,49 +39,9 @@ export const profileStyles = makeStyles((theme) => ({
         display: 'flex',
         marginBottom: '-20px',
     },
-    buttonSize: {
-        marginRight: '10px',
-        size: 'large',
-        [theme.breakpoints.down('sm')]: {
-            size: 'small',
-        },
-    },
-    connectionStyle: {
-        marginRight: '10px',
-        color: theme.palette.primary.main,
-    },
-    blocked: {
-        marginRight: '10px',
-        color: theme.palette.info.main,
-    },
     listIconStyle: {
         color: theme.palette.text.primary,
         size: 'small',
-    },
-    listItem: {
-        paddingLeft: 0,
-        paddingTop: '10px',
-        paddingBottom: 0,
-    },
-    likeButton: {
-        color: theme.palette.text.primary,
-        borderColor: theme.palette.primary.main,
-        backgroundColor: theme.palette.secondary.main,
-        borderRadius: '30px',
-        '&:hover': {
-            backgroundColor: theme.palette.primary.main,
-        },
-    },
-    chatButton: {
-        color: theme.palette.secondary.main,
-        borderColor: theme.palette.primary.main,
-        backgroundColor: theme.palette.primary.main,
-        borderRadius: '30px',
-        '&:hover': {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.text.primary,
-        },
-        marginLeft: '10px',
     },
     editBox: {
         minWidth: '300px',
@@ -93,9 +53,6 @@ export const profileStyles = makeStyles((theme) => ({
         background: theme.palette.background.secondary,
         color: theme.palette.text.secondary,
         marginBottom: '20px',
-    },
-    divider: {
-        backgroundColor: theme.palette.primary.main,
     },
     gridList: {
         display: 'flex',

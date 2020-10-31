@@ -78,4 +78,7 @@ export const galleryStyles = makeStyles((theme) => ({
     p5: {
         padding: '5px',
     },
+    someColor: {
+        color: theme.palette.text.secondary,
+    },
 }));

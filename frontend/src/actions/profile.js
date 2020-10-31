@@ -6,9 +6,6 @@ import { loadUser } from './auth';
 
 // Get user profile
 export const getProfile = (type, userId, otherProfile = false) => async (dispatch) => {
-    dispatch({
-        type: CLEAR_PROFILE,
-    });
     // send request to corresponding router depending on wheather profile is My or Other user
     try {
         if (otherProfile) await profileService.visit(userId);
@@ -33,6 +30,12 @@ export const getProfile = (type, userId, otherProfile = false) => async (dispatc
     } catch (err) {
         dispatch({ type: PROFILE_ERROR, payload: { status: err } });
     }
+};
+
+export const clearProfile = () => async (dispatch) => {
+    dispatch({
+        type: CLEAR_PROFILE,
+    });
 };
 
 const convertImages = (images, profile = 'base1') => {

@@ -27,7 +27,7 @@ const initialState = {
     filter: filterBase,
 };
 
-export default function (state = initialState, action) {
+const match = (state = initialState, action) => {
     const { type, payload } = action;
     switch (type) {
         case GET_MATCH:
@@ -76,4 +76,6 @@ export default function (state = initialState, action) {
         default:
             return state;
     }
-}
+};
+
+export default match;

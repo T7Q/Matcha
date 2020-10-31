@@ -1,39 +1,34 @@
 import axios from 'axios';
 
-const postMessage = async (data) => {
+const chatService = {};
+
+chatService.postMessage = async (data) => {
     await axios.post('/chat/message', data);
 };
 
-const getChats = async () => {
+chatService.getChats = async () => {
     const res = await axios.get('/chat');
     return res.data;
 };
 
-const getMessages = async (chatId) => {
+chatService.getMessages = async (chatId) => {
     const res = await axios.get(`/chat/${chatId}`);
     return res.data;
 };
 
-const getNotifications = async () => {
+chatService.getNotifications = async () => {
     const res = await axios.get('/profile/notifications/all');
     return res.data;
 };
 
-const getMessageNotifications = async () => {
+chatService.getMessageNotifications = async () => {
     const res = await axios.get('/profile/notifications/messages');
     return res.data;
 };
 
-const updateNotifications = async (type, senderId) => {
+chatService.updateNotifications = async (type, senderId) => {
     const res = await axios.delete(`/profile/notifications/${type}/${senderId}`);
     return res.data;
 };
 
-export default {
-    postMessage,
-    getChats,
-    getMessages,
-    getNotifications,
-    getMessageNotifications,
-    updateNotifications,
-};
+export default chatService;

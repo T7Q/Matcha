@@ -86,6 +86,7 @@ const Login = ({ history }) => {
             hideButton={true}>
             <>
                 <Input
+                    autoFocus
                     header="Enter username and password"
                     type="username"
                     handleChange={onChange}

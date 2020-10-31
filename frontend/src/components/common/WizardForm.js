@@ -4,6 +4,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
 import { btnStyles } from '../../styles/btnStyles';
 import { componentStyles } from '../../styles/componentStyles';
+import { systemStyles } from '../../styles/systemStyles';
 
 const WizardForm = ({
     header,
@@ -25,6 +26,7 @@ const WizardForm = ({
         steps = 1;
     }
     const classes = btnStyles();
+    const classesSystem = systemStyles();
     const classesProf = componentStyles();
 
     const next = () => {
@@ -60,7 +62,7 @@ const WizardForm = ({
             <form onSubmit={formSubmit}>
                 <Box display="flex" alignItems="center" justifyContent="flex-start">
                     <IconButton
-                        style={{ position: 'absolute' }}
+                        className={classesSystem.abs}
                         onClick={
                             step === 1 || steps === 1
                                 ? () => handleRedirect(link ? link : '/')
@@ -68,7 +70,7 @@ const WizardForm = ({
                         }>
                         <ArrowBackIosIcon fontSize="small" />
                     </IconButton>
-                    <Typography style={{ marginLeft: 'auto', marginRight: 'auto' }} variant="h6">
+                    <Typography className={classesSystem.marginAuto} variant="h6">
                         {header}
                     </Typography>
                 </Box>

@@ -36,7 +36,7 @@ const Description = ({ type }) => {
                             className={`${clss.mb20} ${clss.someColor} ${clss.bgSecondary}`}
                             elevation={4}>
                             <ListItem>
-                                <Typography variant="h6" style={{ color: 'white' }}>
+                                <Typography variant="h6" className={clss.whiteColor}>
                                     {value.title}
                                 </Typography>
                                 <ListItemSecondaryAction>

@@ -59,7 +59,7 @@ const Highlights = ({ type }) => {
                     <ListItem key={'info' + index} className={`${classes.plb0} ${classes.pt10}`}>
                         <ListItemIcon className={classes.whiteColor}>{value.icon}</ListItemIcon>
                         <ListItemText
-                            style={{ fontSize: '0.5em', margin: 0 }}
+                            className={`${classes.m0} ${classes.font05}`}
                             primary={value.text}
                         />
                         <ListItemSecondaryAction>

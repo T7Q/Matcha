@@ -7,14 +7,23 @@ export const systemStyles = makeStyles((theme) => ({
     mr10: {
         marginRight: '10px',
     },
+    mr0: {
+        marginRight: '0px',
+    },
     mb20: {
         marginBottom: '20px',
     },
     marginAuto: {
         margin: 'auto',
     },
+    m0: {
+        margin: 0,
+    },
     padding: {
         padding: 0,
+    },
+    p10: {
+        padding: '10px',
     },
     plb0: {
         paddingLeft: 0,
@@ -23,8 +32,15 @@ export const systemStyles = makeStyles((theme) => ({
     pt10: {
         paddingTop: '10px',
     },
+    pt50: {
+        paddingTop: '50px',
+    },
     pr5: {
         paddingRight: '5px',
+    },
+    py20: {
+        paddingBottom: '20px',
+        paddingTop: '20px',
     },
     infoColor: {
         color: theme.palette.info.main,
@@ -50,14 +66,26 @@ export const systemStyles = makeStyles((theme) => ({
     alignCenter: {
         textAlign: 'center',
     },
+    alignItems: {
+        alignItems: 'center',
+    },
+    justifyContent: {
+        justifyContent: 'center',
+    },
     dNone: {
         display: 'none',
+    },
+    dFlex: {
+        display: 'flex',
     },
     borderBottom: {
         borderBottom: '1px solid #252839',
     },
     floatRight: {
         float: 'right',
+    },
+    abs: {
+        position: 'absolute',
     },
     overflowY: {
         overflowY: 'auto',
@@ -70,6 +98,9 @@ export const systemStyles = makeStyles((theme) => ({
     },
     fontSmall: {
         fontSize: 'small',
+    },
+    font05: {
+        fontSize: '0.5em',
     },
     mobileText: {
         [theme.breakpoints.down('xs')]: {

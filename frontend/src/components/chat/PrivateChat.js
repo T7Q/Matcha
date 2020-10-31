@@ -98,8 +98,7 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                         onClick={() => goTo(`/profile/${partnerId}`)}
                         component="button"
                         underline="none"
-                        style={{ display: 'flex', padding: '10px', alignItems: 'center' }}
-                        color="secondary">
+                        className={`${classes.dFlex} ${classes.p10} ${classes.alignItems}`}>
                         <Avatar
                             className={`${classes.mr10} ${classes.mLeft20}`}
                             alt="N"

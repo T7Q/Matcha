@@ -10,6 +10,7 @@ import { Help, QueryBuilder, WbIncandescent } from '@material-ui/icons';
 import GetMatches from '../common/matchGallery/GetMatches';
 import Filter from './filter/Index';
 import { resetFilter } from '../../actions/match';
+import { systemStyles } from '../../styles/systemStyles';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -50,6 +51,7 @@ const Matches = () => {
     const history = useHistory();
     const route = '/match/' + page;
     const indexToTabName = ['recommend', 'search', 'online', 'new', 'popular', 'random', 'nearby'];
+    const classes = systemStyles();
 
     if (!indexToTabName.includes(page)) {
         page = 'recommend';
@@ -73,10 +75,7 @@ const Matches = () => {
 
     return (
         <Box>
-            <AppBar
-                color="secondary"
-                position="static"
-                style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+            <AppBar color="secondary" className={classes.py20} position="static">
                 <Container>
                     <Tabs
                         value={value}

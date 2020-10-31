@@ -12,6 +12,7 @@ import Row from './Row';
 
 import { filterStyles } from '../../../styles/filterStyles';
 import { btnStyles } from '../../../styles/btnStyles';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const Filter = ({ setting }) => {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const Filter = ({ setting }) => {
         setReset(!reset);
     };
 
+    const classes = systemStyles();
     const classesCustom = btnStyles();
     const classesFilter = filterStyles();
     const [expanded, setExpanded] = React.useState(setting);
@@ -40,7 +42,7 @@ const Filter = ({ setting }) => {
                         <Button
                             variant="contained"
                             className={classesFilter.filter}
-                            startIcon={<SyncAlt style={{ marginRight: 0 }} />}
+                            startIcon={<SyncAlt className={classes.mr0} />}
                             disabled>
                             Filter&emsp;&emsp;
                         </Button>
@@ -51,8 +53,8 @@ const Filter = ({ setting }) => {
                                     handleClickReset();
                                 }}
                                 size="small"
-                                style={{ padding: 0 }}>
-                                <HighlightOff style={{ color: 'white' }} />
+                                className={classes.padding}>
+                                <HighlightOff />
                             </IconButton>
                         )}
                         <IconButton
@@ -62,7 +64,7 @@ const Filter = ({ setting }) => {
                             onClick={handleExpandClick}
                             aria-expanded={expanded}
                             style={{ padding: 0, margin: 0 }}>
-                            <ExpandMore style={{ color: 'white' }} />
+                            <ExpandMore />
                         </IconButton>
                         {/* <Divider
                             style={{

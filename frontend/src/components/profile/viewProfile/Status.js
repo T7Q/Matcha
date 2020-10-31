@@ -31,9 +31,9 @@ const Status = ({ type }) => {
         <>
             {profile.connected === 1 || profile.connected === 2 ? (
                 <>
-                    <ListItem style={{ justifyContent: 'center' }}>
+                    <ListItem className={clss.justifyContent}>
                         {options[index].icon}
-                        <Typography style={{ display: 'flex' }}>{options[index].text}</Typography>
+                        <Typography className={clss.dFlex}>{options[index].text}</Typography>
                     </ListItem>
                     <Divider className={clss.bgMain} />
                 </>

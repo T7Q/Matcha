@@ -26,7 +26,7 @@ const BlockedUserCard = ({ value, handleBlock, index, blockedList, labelId }) =>
             </ListItemAvatar>
             <ListItemText id={labelId} primary={`${value.first_name}, ${value.age}`} />
             <ListItemSecondaryAction>
-                <IconButton onClick={handleBlock(index)} style={{ padding: 0 }}>
+                <IconButton onClick={handleBlock(index)}>
                     <ToggleIcon
                         on={blockedList[index].blocked}
                         onIcon={<RemoveCircleOutline color="primary" />}

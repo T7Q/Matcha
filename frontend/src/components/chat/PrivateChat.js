@@ -98,15 +98,14 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                         onClick={() => goTo(`/profile/${partnerId}`)}
                         component="button"
                         underline="none"
+                        style={{ display: 'flex', padding: '10px', alignItems: 'center' }}
                         color="secondary">
                         <Avatar
-                            className={classes.marginAuto}
+                            className={`${classes.mr10} ${classes.mLeft20}`}
                             alt="N"
                             src={profile.profile_pic_path}
                         />
-                        <Typography variant="body1" className={classes.mainClr}>
-                            {profile.first_name}
-                        </Typography>
+                        <Typography className={classes.mainClr}>{profile.first_name}</Typography>
                     </Link>
                 </Box>
                 <Box className={classesChat.closeBlock}>

@@ -70,7 +70,7 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
     const postMessage = async (e) => {
         e.preventDefault();
         if (textMessage) {
-            chatService.postMessage({
+            await chatService.postMessage({
                 senderId: user.userId,
                 receiverId: partnerId,
                 content: textMessage,

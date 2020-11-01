@@ -12,6 +12,7 @@ export const filterStyles = makeStyles((theme) => ({
         textTransform: 'capitalize',
         padding: 0,
         '&.MuiButton-root, &.Mui-disabled': {
+            backgroundColor: '#0c1023',
             color: theme.palette.text.secondary,
             textTransform: 'capitalize',
             padding: 0,
@@ -39,7 +40,6 @@ export const filterStyles = makeStyles((theme) => ({
     },
     expand: {
         transform: 'rotate(0deg)',
-        marginLeft: 'auto',
         transition: theme.transitions.create('transform', {
             duration: theme.transitions.duration.shortest,
         }),

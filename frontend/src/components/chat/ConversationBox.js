@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import clsx from 'clsx';
 import { Link, Badge, Box } from '@material-ui/core';
 import { ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
 import OnlineBadge from './OnlineBadge';
@@ -48,10 +49,9 @@ const ConversationBox = ({
 
     return (
         <ListItem
-            style={{ minHeight: '80px' }}
-            className={`${classes.borderBottom} ${classes.pl0} ${
-                active === partner_id ? classes.bgSome : ''
-            }`}
+            className={clsx(classes.borderBottom, classes.minHeight80, classes.pl0, {
+                [classes.bgSome]: active === partner_id,
+            })}
             button>
             <Link onClick={handleClick} component="button">
                 <ListItemAvatar>
@@ -59,8 +59,10 @@ const ConversationBox = ({
                 </ListItemAvatar>
             </Link>
             <ListItemText
-                style={{ paddingLeft: '15px' }}
-                className={active === partner_id ? classes.mainClr : classes.infoColor}
+                className={clsx(classes.pl15, {
+                    [classes.mainClr]: active === partner_id,
+                    [classes.infoColor]: active !== partner_id,
+                })}
                 onClick={(e) => handleChange(e, partner_id, conversation.sender_id)}
                 primary={
                     <span>

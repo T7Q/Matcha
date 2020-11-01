@@ -130,4 +130,7 @@ export const componentStyles = makeStyles((theme) => ({
             marginTop: theme.spacing(2),
         },
     },
+    minHeight: {
+        minHeight: '80vh',
+    },
 }));

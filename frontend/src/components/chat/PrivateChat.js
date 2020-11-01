@@ -106,7 +106,9 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                             alt="N"
                             src={profile.profile_pic_path}
                         />
-                        <Typography className={classes.mainClr}>{profile.first_name}</Typography>
+                        <Typography className={`${classes.overWrap} ${classes.mainClr}`}>
+                            {profile.first_name}
+                        </Typography>
                     </Link>
                 </Box>
                 <Box className={classesChat.closeBlock}>

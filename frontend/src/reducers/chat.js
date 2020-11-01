@@ -25,7 +25,7 @@ const chat = (state = initialState, action) => {
         case CLEAR_MESSAGES:
             return {
                 ...state,
-                loading: true,
+                loading: false,
             };
         default:
             return state;

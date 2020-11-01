@@ -14,7 +14,7 @@ export const chatStyles = makeStyles((theme) => ({
     },
     rightSide: {
         padding: '0 !important',
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             paddingTop: '16px !important',
         },
     },
@@ -87,8 +87,11 @@ export const chatStyles = makeStyles((theme) => ({
         },
     },
     closeBlock: {
-        position: 'absolute',
+        display: 'flex',
         left: '80%',
+        '& :nth-child(2)': {
+            marginLeft: '-20px',
+        },
     },
     justifySpaceAround: {
         justifyContent: 'space-around',

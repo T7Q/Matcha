@@ -17,13 +17,16 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
     useEffect(() => {
         if (isAuthenticated) {
             socket.emit('LOGIN', user.userId);
+            // console.log('nav item use eff');
             dispatch(getNotifications());
             socket.on('READ_MESSAGES', async (senderId) => {
                 await dispatch(updateNotifications('message', senderId));
+                // console.log('nav item use eff in socket readmessages');
                 dispatch(getNotifications());
             });
             socket.on('UPDATE_NOTIFICATIONS', (type) => {
-                console.log('on update notifications in navbar', type);
+                // console.log('nav item use eff in socket update notification');
+                // console.log('on update notifications in navbar', type);
                 dispatch(getNotifications());
             });
             return () => {

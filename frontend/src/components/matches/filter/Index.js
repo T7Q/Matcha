@@ -58,20 +58,19 @@ const Filter = ({ setting }) => {
                             </IconButton>
                         )}
                         <IconButton
-                            className={clsx(classesFilter.expand, {
+                            className={clsx(classesFilter.expand, classes.padding, classes.m0, {
                                 [classesFilter.expandOpen]: expanded,
                             })}
                             onClick={handleExpandClick}
-                            aria-expanded={expanded}
-                            style={{ padding: 0, margin: 0 }}>
+                            aria-expanded={expanded}>
                             <ExpandMore />
                         </IconButton>
                         {/* <Divider
                             style={{
                                 // backgroundColor: "#10183c",
-                                backgroundColor: "red",
-                                width: "100px",
-                                position: "absolute",
+                                backgroundColor: 'red',
+                                width: '100px',
+                                position: 'absolute',
                             }}
                         /> */}
                     </Box>

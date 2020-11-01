@@ -1,42 +1,43 @@
 import axios from 'axios';
+const authService = {};
 
-const forgetPwd = async (email) => {
+authService.forgetPwd = async (email) => {
     const res = await axios.post('/account/pwdReset', { email });
     return res.data;
 };
 
-const updatePwd = async (data) => {
+authService.updatePwd = async (data) => {
     const res = await axios.post('/account/updatePwd', data);
     return res.data;
 };
 
-const login = async (data) => {
+authService.login = async (data) => {
     const res = await axios.post('/account/login', data);
     return res.data;
 };
 
-const activate = async (query) => {
+authService.activate = async (query) => {
     const res = await axios.get(`/account/activate${query}`);
     return res.data;
 };
 
-const google = async (token) => {
+authService.google = async (token) => {
     const res = await axios.post('/account/auth/google', { token });
     return res.data;
 };
 
-const auth = async () => {
+authService.auth = async () => {
     const res = await axios.get('/account/auth');
     return res.data;
 };
 
-const register = async (data) => {
+authService.register = async (data) => {
     const res = await axios.post('/account/register', data);
     return res.data;
 };
 
-const logout = async () => {
+authService.logout = async () => {
     await axios.post('/account/logout');
 };
 
-export default { forgetPwd, updatePwd, login, activate, google, auth, register, logout };
+export default authService;

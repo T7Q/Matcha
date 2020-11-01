@@ -45,6 +45,7 @@ const Likes = ({ socket }) => {
             setNewLikes(false);
             dispatch(updateNotifications('like'));
         }
+        // console.log('in likes use effect');
         dispatch(getNotifications());
         return () => {
             isMounted = false;

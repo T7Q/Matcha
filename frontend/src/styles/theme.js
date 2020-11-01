@@ -1,6 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const mainClr = {
+const primaryColor = {
     main: '#ca416e',
     light: '#ff749c',
     dark: '#950043',
@@ -23,7 +23,7 @@ const infoColor = {
 
 const theme = createMuiTheme({
     palette: {
-        primary: mainClr,
+        primary: primaryColor,
         secondary: secondaryColor,
         info: infoColor,
         text: {
@@ -62,12 +62,12 @@ const theme = createMuiTheme({
         MuiToggleButton: {
             root: {
                 '&$selected, &$selected:hover': {
-                    backgroundColor: mainClr.main + ' !important',
+                    backgroundColor: primaryColor.main + ' !important',
                 },
                 margin: '5px',
                 backgroundColor: 'white',
                 '&:hover': {
-                    backgroundColor: mainClr.light,
+                    backgroundColor: primaryColor.light,
                 },
                 '& .MuiToggleButton-label': {
                     color: 'black',
@@ -131,7 +131,7 @@ const theme = createMuiTheme({
         },
         MuiTooltip: {
             tooltip: {
-                backgroundColor: mainClr.main,
+                backgroundColor: primaryColor.main,
             },
         },
         MuiFormControlLabel: {

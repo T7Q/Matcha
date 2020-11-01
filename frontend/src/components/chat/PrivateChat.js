@@ -6,8 +6,8 @@ import HighlightOffOutlined from '@material-ui/icons/HighlightOff';
 import { Send } from '@material-ui/icons';
 
 import chatService from '../../services/chatService';
-import { getMessages } from '../../actions/chat';
-import { getProfile } from '../../actions/profile';
+import { clearMessages, getMessages } from '../../actions/chat';
+import { getProfile, clearProfile } from '../../actions/profile';
 import { systemStyles } from '../../styles/systemStyles';
 import { chatStyles } from '../../styles/chatStyles';
 import Dropdown from '../profile/viewProfile/DropdownItem';
@@ -33,11 +33,13 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
         if (messageRef.current) {
             messageRef.current.scrollTop = messageRef.current.scrollHeight;
         }
-    }, [messages]);
+    });
 
     useEffect(() => {
         let isMounted = true;
         if (partnerId !== 0) {
+            dispatch(clearMessages());
+            dispatch(clearProfile());
             dispatch(getMessages(chat.chat_id));
             dispatch(getProfile('otherUser', partnerId, false));
             socket.emit('JOIN_CHAT', chat.chat_id);
@@ -68,7 +70,7 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
     const postMessage = async (e) => {
         e.preventDefault();
         if (textMessage) {
-            chatService.postMessage({
+            await chatService.postMessage({
                 senderId: user.userId,
                 receiverId: partnerId,
                 content: textMessage,
@@ -104,7 +106,9 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                             alt="N"
                             src={profile.profile_pic_path}
                         />
-                        <Typography className={classes.mainClr}>{profile.first_name}</Typography>
+                        <Typography className={`${classes.overWrap} ${classes.mainClr}`}>
+                            {profile.first_name}
+                        </Typography>
                     </Link>
                 </Box>
                 <Box className={classesChat.closeBlock}>
@@ -114,7 +118,7 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                     </Button>
                 </Box>
             </Box>
-            <Box ref={messageRef} mb={10} maxHeight="40vh" className={classes.overflowY}>
+            <Box ref={messageRef} mb={10} maxHeight="45vh" className={classes.overflowY}>
                 {messages.length > 0 &&
                     messages.map((element) => {
                         const options = { month: 'short', day: 'numeric' };

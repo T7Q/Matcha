@@ -124,4 +124,13 @@ export const componentStyles = makeStyles((theme) => ({
             },
         },
     },
+    snackbar: {
+        width: '100%',
+        '& > * + *': {
+            marginTop: theme.spacing(2),
+        },
+    },
+    minHeight: {
+        minHeight: '80vh',
+    },
 }));

@@ -1,97 +1,82 @@
 import axios from 'axios';
 
-const getMyProfile = async () => {
+const profileService = {};
+
+profileService.getMyProfile = async () => {
     const res = await axios.get('/profile/me');
     return res;
 };
 
-const getUserProfile = async (userId) => {
+profileService.getUserProfile = async (userId) => {
     const res = await axios.get(`/profile/user/${userId}`);
     return res;
 };
 
-const deleteProfile = async () => {
+profileService.deleteProfile = async () => {
     const res = await axios.post('/profile/delete/', {});
     return res;
 };
 
-const editProfile = async (data) => {
+profileService.editProfile = async (data) => {
     const res = await axios.post('/profile/edit/', data);
     return res.data;
 };
 
-const create = async (data) => {
+profileService.create = async (data) => {
     const res = await axios.post('/profile/create', data);
     return res.data;
 };
 
-const editTags = async (data) => {
+profileService.editTags = async (data) => {
     const res = await axios.post('/profile/editTags', data);
     return res.data;
 };
 
-const checkConnection = async (toUserId) => {
+profileService.checkConnection = async (toUserId) => {
     const res = await axios.post(`/profile/connected/${toUserId}`, {});
     return res;
 };
 
-const addLike = async (toUserId) => {
+profileService.addLike = async (toUserId) => {
     await axios.post(`/profile/addinteraction/likes/${toUserId}`, {});
 };
 
-const removeLike = async (toUserId) => {
+profileService.removeLike = async (toUserId) => {
     await axios.post(`/profile/removeinteraction/likes/${toUserId}`, {});
 };
 
-const addInteraction = async (type, toUserId) => {
+profileService.addInteraction = async (type, toUserId) => {
     const res = await axios.post(`/profile/addinteraction/${type}/${toUserId}`, {});
     return res;
 };
 
-const unblockUser = async (userId) => {
+profileService.unblockUser = async (userId) => {
     const res = axios.post(`/profile/removeinteraction/blocked/${userId}`, {});
     return res;
 };
 
-const getTags = async () => {
+profileService.getTags = async () => {
     const res = await axios.get('/profile/tags');
     return res.data;
 };
 
-const getBlockedUsers = async () => {
+profileService.getBlockedUsers = async () => {
     const res = await axios.get('/profile/blockedUsers');
     return res.data;
 };
 
-const getUserTags = async () => {
+profileService.getUserTags = async () => {
     const res = await axios.get('/profile/me/tags');
     return res.data;
 };
 
-const uploadPhotos = async (data) => {
+profileService.uploadPhotos = async (data) => {
     const res = await axios.post('/profile/uploadphoto', data);
     return res.data;
 };
 
-const visit = async (userId) => {
+profileService.visit = async (userId) => {
     await axios.get(`/profile/visit/${userId}`);
 };
 
-export default {
-    getMyProfile,
-    create,
-    getUserProfile,
-    deleteProfile,
-    editProfile,
-    checkConnection,
-    addLike,
-    removeLike,
-    addInteraction,
-    unblockUser,
-    getTags,
-    getUserTags,
-    getBlockedUsers,
-    editTags,
-    uploadPhotos,
-    visit,
-};
+export default profileService;

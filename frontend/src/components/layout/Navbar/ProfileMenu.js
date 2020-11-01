@@ -20,6 +20,7 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
 
     useEffect(() => {
         socket.on('UPDATE_NOTIFICATIONS', (type) => {
+            // console.log('update not in use eff socket profile menu');
             dispatch(getNotifications());
         });
     }, [socket, dispatch]);

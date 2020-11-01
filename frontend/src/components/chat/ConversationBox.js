@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Avatar, Link, Badge, Box } from '@material-ui/core';
+import clsx from 'clsx';
+import { Link, Badge, Box } from '@material-ui/core';
 import { ListItem, ListItemText, ListItemAvatar } from '@material-ui/core';
-// import OnlineBadge from './OnlineBadge';
+import OnlineBadge from './OnlineBadge';
 import { systemStyles } from '../../styles/systemStyles';
 
 const ConversationBox = ({
@@ -33,26 +34,35 @@ const ConversationBox = ({
     const handleClick = () => {
         history.push(`/profile/${partner_id}`);
     };
-    /* <OnlineBadge
-                                lastSeen={
-                                    partnerIsOnline.partnerId === partner_id &&
-                                    partnerIsOnline.online
-                                        ? 'online'
-                                        : conversation.last_seen
-                                }
-                            /> */
+
+    const isOnline = (time) => {
+        const dateNow = new Date();
+        const lastSeen = new Date(time);
+        if (dateNow - lastSeen < 1000 * 60 * 3) {
+            return true;
+        }
+        if (partnerIsOnline.partnerId === partner_id && partnerIsOnline.online) {
+            return true;
+        }
+        return false;
+    };
 
     return (
         <ListItem
-            className={`${classes.borderBottom} ${active === partner_id ? classes.bgSome : ''}`}
+            className={clsx(classes.borderBottom, classes.minHeight80, classes.pl0, {
+                [classes.bgSome]: active === partner_id,
+            })}
             button>
             <Link onClick={handleClick} component="button">
                 <ListItemAvatar>
-                    <Avatar alt={conversation.partner_name} src={conversation.avatar} />
+                    <OnlineBadge online={isOnline(conversation.last_seen)} profile={conversation} />
                 </ListItemAvatar>
             </Link>
             <ListItemText
-                className={active === partner_id ? classes.mainClr : classes.infoColor}
+                className={clsx(classes.pl15, {
+                    [classes.mainClr]: active === partner_id,
+                    [classes.infoColor]: active !== partner_id,
+                })}
                 onClick={(e) => handleChange(e, partner_id, conversation.sender_id)}
                 primary={
                     <span>

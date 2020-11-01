@@ -1,18 +1,17 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Box, Tooltip } from '@material-ui/core';
+import { Box, Tooltip } from '@material-ui/core';
 import { Favorite, Chat, Block } from '@material-ui/icons';
 import { Link } from 'react-router-dom';
 
 import { addLike, removeLike } from '../../../actions/profile';
 import { setSnackbar } from '../../../actions/setsnackbar';
-import { btnStyles } from '../../../styles/btnStyles';
 import { systemStyles } from '../../../styles/systemStyles';
+import Button from '../../common/Button';
 
 const Buttons = ({ card }) => {
     const dispatch = useDispatch();
     const { match, auth, profile } = useSelector((state) => state);
-    const classesBtn = btnStyles();
     const classes = systemStyles();
 
     const handleLike = () => {
@@ -53,7 +52,7 @@ const Buttons = ({ card }) => {
             <Button
                 onClick={handleLike}
                 variant="outlined"
-                className={classesBtn.likeButton}
+                customClass="likeButton"
                 startIcon={<Favorite />}>
                 {card.connected > 0 && card.connected < 3 ? 'Unmatch' : 'Like'}
             </Button>
@@ -62,8 +61,8 @@ const Buttons = ({ card }) => {
                 <Button
                     variant="outlined"
                     component={Link}
+                    customClass="chatButton"
                     to={`/messages/${profile.profile.user_id}`}
-                    className={classesBtn.chatButton}
                     startIcon={<Chat />}>
                     Chat
                 </Button>

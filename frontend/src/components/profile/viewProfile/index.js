@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { Grid, Container, Box } from '@material-ui/core';
 
-import { getProfile } from '../../../actions/profile';
+import { getProfile, clearProfile } from '../../../actions/profile';
 import Spinner from '../../layout/Spinner';
 import Header from './Header';
 import Description from './Description';
@@ -27,6 +27,7 @@ const ProfileView = () => {
     const otherUserId = type === 'myProfile' ? user.userId : user_id;
 
     useEffect(() => {
+        dispatch(clearProfile());
         dispatch(getProfile(type, otherUserId, type !== 'myProfile'));
         if (type !== 'myProfile') {
             socket.emit('UPDATE_NOTIFICATIONS', otherUserId, 'visit');

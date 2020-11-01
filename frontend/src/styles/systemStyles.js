@@ -25,6 +25,12 @@ export const systemStyles = makeStyles((theme) => ({
     p10: {
         padding: '10px',
     },
+    pl0: {
+        paddingLeft: 0,
+    },
+    pl15: {
+        paddingLeft: '15px',
+    },
     plb0: {
         paddingLeft: 0,
         paddingBottom: 0,
@@ -121,5 +127,11 @@ export const systemStyles = makeStyles((theme) => ({
     img: {
         width: '40px',
         padding: '0 5px',
+    },
+    overWrap: {
+        overflowWrap: 'normal',
+    },
+    minHeight80: {
+        minHeight: '80px',
     },
 }));

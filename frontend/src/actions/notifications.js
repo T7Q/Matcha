@@ -1,14 +1,13 @@
-import { GET_NOTIFICATIONS, GET_MESSAGE_NOTIFICATIONS } from './types';
+import { AUTH_FAIL, GET_NOTIFICATIONS, GET_MESSAGE_NOTIFICATIONS } from './types';
 import { UPDATE_NOTIFICATIONS, UPDATE_MESSAGE_NOTIFICATIONS } from './types';
 import chatService from '../services/chatService';
-import { setSnackbar } from './setsnackbar';
 
 export const getNotifications = () => async (dispatch) => {
     setTimeout(async () => {
         try {
             const res = await chatService.getNotifications();
             if (res.error) {
-                dispatch(setSnackbar(true, 'error', res.error));
+                dispatch({ type: AUTH_FAIL });
             } else {
                 dispatch({ type: GET_NOTIFICATIONS, payload: res });
             }
@@ -22,7 +21,7 @@ export const getMessageNotifications = () => async (dispatch) => {
     try {
         const res = await chatService.getMessageNotifications();
         if (res.error) {
-            dispatch(setSnackbar(true, 'error', res.error));
+            dispatch({ type: AUTH_FAIL });
         } else {
             dispatch({ type: GET_MESSAGE_NOTIFICATIONS, payload: res });
         }
@@ -35,7 +34,7 @@ export const updateNotifications = (type, senderId = 0) => async (dispatch) => {
     try {
         const res = await chatService.updateNotifications(type, senderId);
         if (res.error) {
-            dispatch(setSnackbar(true, 'error', res.error));
+            dispatch({ type: AUTH_FAIL });
         } else if (type === 'message') {
             dispatch({
                 type: UPDATE_MESSAGE_NOTIFICATIONS,

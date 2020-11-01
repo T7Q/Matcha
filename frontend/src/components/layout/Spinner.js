@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { componentStyles } from '../../styles/componentStyles';
 import spinner from '../../images/spinner.gif';
 
-export default () => {
+const Spinner = () => {
     const classes = componentStyles();
 
     return (
@@ -12,3 +12,5 @@ export default () => {
         </Fragment>
     );
 };
+
+export default Spinner;

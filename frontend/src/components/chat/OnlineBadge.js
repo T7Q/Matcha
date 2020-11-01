@@ -2,14 +2,10 @@ import React from 'react';
 import { Badge, Avatar, Tooltip } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-import { componentStyles } from '../../../styles/componentStyles';
-import UserAvatar from './UserAvatar';
-
 const StyledBadge = withStyles((theme) => ({
     badge: {
         backgroundColor: '#44b700',
         color: '#44b700',
-        marginBottom: '-20px',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
         '&::after': {
             position: 'absolute',
@@ -39,7 +35,6 @@ const StyledOfflineBadge = withStyles((theme) => ({
     badge: {
         backgroundColor: 'black',
         color: 'black',
-        marginBottom: '-20px',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
         '&::after': {
             position: 'absolute',
@@ -54,41 +49,33 @@ const StyledOfflineBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-const OnlineBadge = ({ profile, handleClickOpen }) => {
-    const classes = componentStyles();
+const OnlineBadge = ({ online, profile }) => {
     const date = new Date(profile.last_seen).toLocaleString();
 
-    if (profile.online === 0)
+    if (!online)
         return (
             <Tooltip title={`last seen ${date}`}>
                 <StyledOfflineBadge
-                    className={classes.avatarImageStyle}
                     overlap="circle"
                     anchorOrigin={{
                         vertical: 'bottom',
                         horizontal: 'right',
                     }}
                     variant="dot">
-                    <UserAvatar handleClickOpen={handleClickOpen} />
+                    <Avatar alt={profile.partner_name} src={profile.avatar} p={10} />
                 </StyledOfflineBadge>
             </Tooltip>
         );
     else {
         return (
             <StyledBadge
-                className={profile.online === 1 ? classes.avatarImageStyle : ''}
                 overlap="circle"
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'right',
                 }}
                 variant="dot">
-                <Avatar
-                    className={classes.avatarImageStyle}
-                    onClick={handleClickOpen}
-                    alt="user profile"
-                    src={profile.profile_pic_path}
-                />
+                <Avatar alt={profile.partner_name} src={profile.avatar} p={10} />
             </StyledBadge>
         );
     }

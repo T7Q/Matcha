@@ -6,7 +6,7 @@ const initialState = {
     loading: true,
 };
 
-export default function (state = initialState, action) {
+const chat = (state = initialState, action) => {
     const { type, payload } = action;
 
     switch (type) {
@@ -25,9 +25,11 @@ export default function (state = initialState, action) {
         case CLEAR_MESSAGES:
             return {
                 ...state,
-                loading: true,
+                loading: false,
             };
         default:
             return state;
     }
-}
+};
+
+export default chat;

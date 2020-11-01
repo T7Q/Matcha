@@ -12,7 +12,7 @@ const Background = () => {
 
     return (
         <Box flexGrow={1} className={isAuthenticated ? '' : classes.background}>
-            <Grid style={{ minHeight: '80vh' }} container>
+            <Grid className={classes.minHeight} container>
                 <CustomRouter />
                 <Circle />
             </Grid>

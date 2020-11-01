@@ -1,10 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import { IconButton, Box, LinearProgress, Button, Typography } from '@material-ui/core';
-import { btnStyles } from '../../styles/btnStyles';
+import { IconButton, Box, LinearProgress, Typography } from '@material-ui/core';
 import { componentStyles } from '../../styles/componentStyles';
 import { systemStyles } from '../../styles/systemStyles';
+import Button from '../common/Button';
 
 const WizardForm = ({
     header,
@@ -25,7 +25,6 @@ const WizardForm = ({
     if (!steps) {
         steps = 1;
     }
-    const classes = btnStyles();
     const classesSystem = systemStyles();
     const classesProf = componentStyles();
 
@@ -87,11 +86,7 @@ const WizardForm = ({
                         </Box>
                     )}
                     {steps === 1 ? children : children[step - 1]}
-                    {!hideButton && (
-                        <Button type="submit" className={classes.mainButton}>
-                            {step < steps ? 'Next' : 'Done'}
-                        </Button>
-                    )}
+                    {!hideButton && <Button type="submit">{step < steps ? 'Next' : 'Done'}</Button>}
                 </Box>
             </form>
         </Box>

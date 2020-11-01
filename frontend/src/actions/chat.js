@@ -17,7 +17,6 @@ export const getConversations = () => async (dispatch) => {
 };
 
 export const getMessages = (chatId) => async (dispatch) => {
-    dispatch({ type: CLEAR_MESSAGES });
     try {
         if (chatId !== 0) {
             const res = await chatService.getMessages(chatId);
@@ -30,4 +29,8 @@ export const getMessages = (chatId) => async (dispatch) => {
     } catch (err) {
         console.log('some error in get messages action ', err);
     }
+};
+
+export const clearMessages = () => async (dispatch) => {
+    dispatch({ type: CLEAR_MESSAGES });
 };

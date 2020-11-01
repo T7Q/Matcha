@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Typography, Button } from '@material-ui/core';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
 
-import { btnStyles } from '../../../styles/btnStyles';
 import { deleteProfile } from '../../../actions/profile';
+import CustomButton from '../../common/Button';
 
 const DeleteAccount = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [open, setOpen] = useState(false);
-    const classes = btnStyles();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -36,9 +34,7 @@ const DeleteAccount = () => {
                 <Typography variant="body1">
                     Your account will no longer appear to other people on Astro Matcha.
                 </Typography>
-                <Button type="submit" className={classes.mainButton}>
-                    Delete
-                </Button>
+                <CustomButton type="submit">Delete</CustomButton>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle id="alert-dialog-title">
                         Are you sure you want to delete account?

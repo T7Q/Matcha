@@ -88,8 +88,5 @@ export const googleLogin = (googleUser) => async (dispatch) => {
             dispatch({ type: LOGIN_SUCCESS, payload: res });
             dispatch(loadUser());
         }
-    } catch (error) {
-        dispatch({ type: AUTH_FAIL });
-        console.log(error);
-    }
+    } catch (error) {}
 };

@@ -8,10 +8,11 @@ import { getMessageNotifications } from '../../actions/notifications';
 import { chatStyles } from '../../styles/chatStyles';
 import Conversations from './Conversations';
 import PrivateChat from './PrivateChat';
+import Spinner from '../layout/Spinner';
 
 const Chat = () => {
     const { auth, notifications, chat } = useSelector((state) => state);
-    const { conversations } = chat;
+    const { conversations, loading } = chat;
     const history = useHistory();
     const dispatch = useDispatch();
     const [currentConversation, setCurrentConversation] = useState(0);
@@ -48,6 +49,7 @@ const Chat = () => {
         dispatch(getMessageNotifications());
         auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
             if (isMounted && type === 'message') {
+                console.log('use ef 3 inside update notifications');
                 if (text) setLastMessage({ text: text, chatId: chatId });
                 dispatch(getMessageNotifications());
             }
@@ -60,6 +62,7 @@ const Chat = () => {
     }, [auth.socket, dispatch]);
 
     const handleChange = (event, newUserId, senderId) => {
+        console.log('change chat index');
         setCurrentConversation(newUserId);
         if (newUserId === 0) {
             history.push('/messages');
@@ -96,7 +99,9 @@ const Chat = () => {
             </Box>
             <Box flexGrow={1} display="flex" p={5}>
                 <Container>
-                    {conversations.length === 0 ? (
+                    {loading ? (
+                        <Spinner />
+                    ) : conversations.length === 0 ? (
                         <Box textAlign="center">No conversations yet</Box>
                     ) : (
                         <Grid container spacing={4} className={classesChat.justifySpaceAround}>

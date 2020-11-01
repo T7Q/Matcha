@@ -25,6 +25,9 @@ export const systemStyles = makeStyles((theme) => ({
     p10: {
         padding: '10px',
     },
+    pl0: {
+        paddingLeft: 0,
+    },
     plb0: {
         paddingLeft: 0,
         paddingBottom: 0,

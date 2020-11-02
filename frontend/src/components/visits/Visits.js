@@ -5,16 +5,18 @@ import { AppBar, Tabs, Tab, Typography, Box, Container } from '@material-ui/core
 
 import { updateNotifications } from '../../actions/notifications';
 import GetMatches from '../common/matchGallery/GetMatches';
+import { systemStyles } from '../../styles/systemStyles';
 
 const Visits = ({ socket }) => {
+    const classesSystem = systemStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     let { page } = useParams();
 
-    const indexToTabName = ['allvisits', 'myvisits'];
+    const indexToTabName = ['allvisits', 'myvisits', 'hidden'];
 
     if (!indexToTabName.includes(page)) {
-        page = 'allvisits';
+        page = 'hidden';
     }
 
     const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
@@ -57,6 +59,7 @@ const Visits = ({ socket }) => {
                         textColor="primary">
                         <Tab label="All visits" />
                         <Tab label="My visits" />
+                        <Tab className={classesSystem.dNone} label="hidden" />
                     </Tabs>
                 </Container>
             </AppBar>
@@ -69,6 +72,11 @@ const Visits = ({ socket }) => {
                 {selectedTab === 1 && (
                     <Box p={3}>
                         <GetMatches route="/match/visitedByMe" filterIsOn={0} />
+                    </Box>
+                )}
+                {selectedTab === 2 && (
+                    <Box pt={5} alignItems="center" justifyContent="center">
+                        <Typography variant="body2">Page not found</Typography>
                     </Box>
                 )}
             </Container>

@@ -5,17 +5,19 @@ import { AppBar, Tabs, Tab, Typography, Box, Container, Badge } from '@material-
 
 import { getNotifications, updateNotifications } from '../../actions/notifications';
 import GetMatches from '../common/matchGallery/GetMatches';
+import { systemStyles } from '../../styles/systemStyles';
 
 const Likes = ({ socket }) => {
+    const classesSystem = systemStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     let { page } = useParams();
     const notifications = useSelector((state) => state.notifications);
 
-    const indexToTabName = ['likesyou', 'connected', 'temp'];
+    const indexToTabName = ['likesyou', 'connected', 'hidden'];
 
     if (!indexToTabName.includes(page)) {
-        page = 'likesyou';
+        page = 'hidden';
     }
 
     const [selectedTab, setValue] = useState(indexToTabName.indexOf(page));
@@ -114,6 +116,9 @@ const Likes = ({ socket }) => {
                                 </Box>
                             }
                         />
+                        <Tab 
+                        className={classesSystem.dNone} 
+                        label="hidden" />
                     </Tabs>
                 </Container>
             </AppBar>
@@ -129,6 +134,9 @@ const Likes = ({ socket }) => {
                         <GetMatches route="/match/connected" filterIsOn={0} />
                     </Box>
                 )}
+                {selectedTab === 2 && <Box pt={5} alignItems="center" justifyContent="center">
+                    <Typography variant="body2">Page not found</Typography>
+                </Box>}
             </Container>
         </div>
     );

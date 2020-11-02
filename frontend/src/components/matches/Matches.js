@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { AppBar, Tabs, Tab, Container, Box } from '@material-ui/core';
+import { AppBar, Tabs, Tab, Container, Box, Typography } from '@material-ui/core';
 import { Search, Whatshot, Favorite, PersonPin } from '@material-ui/icons';
 import { Help, QueryBuilder, WbIncandescent } from '@material-ui/icons';
 
@@ -50,11 +50,11 @@ const Matches = () => {
     let { page } = useParams();
     const history = useHistory();
     const route = '/match/' + page;
-    const indexToTabName = ['recommend', 'search', 'online', 'new', 'popular', 'random', 'nearby'];
+    const indexToTabName = ['recommend', 'search', 'online', 'new', 'popular', 'random', 'nearby', 'hidden'];
     const classes = systemStyles();
 
     if (!indexToTabName.includes(page)) {
-        page = 'recommend';
+        page = 'hidden';
     }
 
     const [value, setValue] = React.useState(indexToTabName.indexOf(page));
@@ -92,6 +92,7 @@ const Matches = () => {
                         <Tab label="Popular" icon={<Whatshot />} {...a11yProps(4)} />
                         <Tab label="Random" icon={<Help />} {...a11yProps(5)} />
                         <Tab label="Nearby" icon={<PersonPin />} {...a11yProps(6)} />
+                        <Tab className={classes.dNone} label="hidden" />
                     </Tabs>
                 </Container>
             </AppBar>
@@ -106,6 +107,11 @@ const Matches = () => {
                     <TabPanel value={value} index={value}>
                         <GetMatches route={route} filterIsOn={1} />
                     </TabPanel>
+                )}
+                {value === 7 && (
+                    <Box pt={10} alignItems="center" justifyContent="center">
+                        <Typography variant="body2">Page not found</Typography>
+                    </Box>
                 )}
             </Container>
         </Box>

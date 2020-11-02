@@ -44,7 +44,7 @@ export const login = (data) => async (dispatch) => {
         const res = await authService.login(data);
 
         if (res.error) {
-            dispatch({ type: AUTH_FAIL });
+            dispatch(setSnackbar(true, 'error', res.error));
             return res;
         } else {
             dispatch({ type: LOGIN_SUCCESS, payload: res });
@@ -82,7 +82,7 @@ export const googleLogin = (googleUser) => async (dispatch) => {
         const res = await authService.google(googleUser.getAuthResponse().id_token);
 
         if (res.error) {
-            dispatch({ type: AUTH_FAIL });
+            dispatch(setSnackbar(true, 'error', res.error));
             return res;
         } else {
             dispatch({ type: LOGIN_SUCCESS, payload: res });

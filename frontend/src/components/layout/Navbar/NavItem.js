@@ -15,7 +15,7 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
     const classesSystem = systemStyles();
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (isAuthenticated && user.status === 2) {
             socket.emit('LOGIN', user.userId);
             // console.log('nav item use eff');
             dispatch(getNotifications());
@@ -34,7 +34,7 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
                 socket.emit('LOGOUT', user.userId);
             };
         }
-    }, [isAuthenticated, socket, user.userId, dispatch]);
+    }, [isAuthenticated, socket, user.userId, dispatch, user.status]);
 
     const menuItems = [
         {

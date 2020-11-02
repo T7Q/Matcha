@@ -45,5 +45,6 @@ module.exports = async (req, res) => {
 
         i++;
     }
-    return res.json({ msg: result });
+    const photos = await profileModel.userHasPhotos(userId);
+    return res.json({ userHasPhotos: photos });
 };

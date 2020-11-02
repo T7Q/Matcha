@@ -1,8 +1,9 @@
 import { CREATE_PROFILE, GET_PROFILE, LOGOUT, UPDATE_BlOCKED, CLEAR_PROFILE } from './types';
-import { UPDATE_PROFILE, PROFILE_ERROR, UPDATE_LIKES, UPDATE_ERROR } from './types';
+import { UPDATE_PROFILE, PROFILE_ERROR, UPDATE_LIKES, UPDATE_ERROR, UPDATE_USER } from './types';
 import profileService from '../services/profileService';
 import { setSnackbar } from './setsnackbar';
 import { loadUser } from './auth';
+import store from '../store';
 
 // Get user profile
 export const getProfile = (type, userId, otherProfile = false) => async (dispatch) => {
@@ -209,7 +210,13 @@ export const savePhotos = (data) => async (dispatch) => {
         if (res.error) {
             dispatch(setSnackbar(true, 'error', 'Try again later'));
         } else {
-            dispatch(setSnackbar(true, 'success', 'You profile was successfully updated'));
+            const user = store.getState().auth.user;
+            user.userHasPhotos = res.userHasPhotos;
+            dispatch({
+                type: UPDATE_USER,
+                payload: user,
+            });
+            dispatch(setSnackbar(true, 'success', 'You photos was successfully updated'));
         }
     } catch {
         dispatch(setSnackbar(true, 'error', 'Try later'));

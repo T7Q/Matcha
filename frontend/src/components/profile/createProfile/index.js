@@ -53,7 +53,7 @@ const ProfileCreation = () => {
 
     const isMobile = useMediaQuery('(max-width:600px)');
     const {
-        birthdateError,
+        birth_dateError,
         countryError,
         genderError,
         sex_preferenceError,
@@ -104,7 +104,7 @@ const ProfileCreation = () => {
                 <Typography variant={isMobile ? 'h5' : 'h4'}>to meet new people</Typography>
             </Box>
             <BirthdayItem
-                error={birthdateError}
+                error={birth_dateError}
                 name="birth_date"
                 setFormData={setFormData}
                 formData={formData}

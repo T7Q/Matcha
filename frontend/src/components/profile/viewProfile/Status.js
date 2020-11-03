@@ -24,7 +24,7 @@ const Status = ({ status }) => {
         },
     ];
 
-    if (status < 0 || status > 3) {
+    if (status < 1 || status > 2) {
         return '';
     }
 

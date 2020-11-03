@@ -28,12 +28,6 @@ const ProfileView = () => {
     const otherUserId = type === 'myProfile' ? user.userId : user_id;
 
     useEffect(() => {
-        if (profile && profile.connected) {
-            updateStatus(profile.connected);
-        }
-    }, [profile]);
-
-    useEffect(() => {
         dispatch(clearProfile());
         dispatch(getProfile(type, otherUserId, type !== 'myProfile'));
         if (type !== 'myProfile') {
@@ -41,6 +35,13 @@ const ProfileView = () => {
         }
         dispatch({ type: 'UPDATE_PATH', payload: type });
     }, [type, otherUserId, socket, dispatch]);
+
+    useEffect(() => {
+        updateStatus(0);
+        if (profile && profile.connected) {
+            updateStatus(profile.connected);
+        }
+    }, [profile]);
 
     if (profile === null || loading) {
         return loading ? <Spinner /> : <NotFound />;

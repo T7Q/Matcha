@@ -30,7 +30,7 @@ const Edit = () => {
             <Box mb="-100px">
                 <Header profile={profile} type="myProfile" />
             </Box>
-            <Grid container justify="center">
+            <Grid container justify="center" style={{ paddingTop: '100px' }}>
                 <Grid container item xs={12} sm={6} justify="center">
                     {(() => {
                         switch (type) {

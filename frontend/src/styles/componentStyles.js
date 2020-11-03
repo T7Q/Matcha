@@ -68,9 +68,9 @@ export const componentStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     input: {
-        width: '95%',
         margin: '5px',
         maxWidth: '300px',
+        minWidth: '300px',
         '& label': { color: theme.palette.secondary.main, fontSize: '20px' },
         '& input': { textAlign: 'center' },
         '& .MuiOutlinedInput-root': {
@@ -82,10 +82,11 @@ export const componentStyles = makeStyles((theme) => ({
             fontSize: '20px',
             borderWidth: 2,
         },
+        [theme.breakpoints.down('xs')]: { maxWidth: '250px', minWidth: '250px' },
     },
     input2: {
-        width: '95%',
         maxWidth: '300px',
+        minWidth: '300px',
         margin: '10px',
         alignItems: 'center',
         '& label': { color: theme.palette.primary.light, fontSize: '16px' },
@@ -94,6 +95,7 @@ export const componentStyles = makeStyles((theme) => ({
         '& .MuiOutlinedInput-notchedOutline': {
             border: '1px solid ' + theme.palette.primary.light,
         },
+        [theme.breakpoints.down('xs')]: { maxWidth: '250px', minWidth: '250px' },
     },
     bioInput: {
         color: theme.palette.text.primary,
@@ -103,9 +105,10 @@ export const componentStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: { minWidth: '200px' },
     },
     radio: {
+        margin: '10px 0',
         maxWidth: '300px',
         borderRadius: '30px !important',
-        [theme.breakpoints.down('xs')]: { maxWidth: '200px' },
+        [theme.breakpoints.down('xs')]: { maxWidth: '250px', minWidth: '250px' },
     },
     chatInput: {
         width: '100%',
@@ -135,5 +138,11 @@ export const componentStyles = makeStyles((theme) => ({
     },
     minHeight: {
         minHeight: '80vh',
+    },
+    sizeBox: {
+        maxWidth: '400px',
+        minWidth: '400px',
+        margin: 'auto',
+        [theme.breakpoints.down('xs')]: { maxWidth: '250px', minWidth: '250px' },
     },
 }));

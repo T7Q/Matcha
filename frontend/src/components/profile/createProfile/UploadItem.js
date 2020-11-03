@@ -1,8 +1,10 @@
 import React from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
+import { componentStyles } from '../../../styles/componentStyles';
 
 const ImageItem = ({ images, setImages }) => {
+    const classes = componentStyles();
     const onFileToBase64 = (file, base) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -23,7 +25,12 @@ const ImageItem = ({ images, setImages }) => {
             <Box pb={2}>
                 <Typography variant="h5">Add photos of you</Typography>
             </Box>
-            <Box display="flex" flexWrap="wrap" justifyContent="center">
+            <Box
+                alignItems="center"
+                className={classes.sizeBox}
+                display="flex"
+                flexWrap="wrap"
+                justifyContent="center">
                 <DropzoneArea
                     textColor="secondary"
                     acceptedFiles={['image/*']}

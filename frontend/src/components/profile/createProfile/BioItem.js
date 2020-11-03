@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Box, TextareaAutosize, Typography, FormHelperText, FormControl } from '@material-ui/core';
 import { systemStyles } from '../../../styles/systemStyles';
 import { componentStyles } from '../../../styles/componentStyles';
@@ -8,7 +8,7 @@ const BioItem = ({ bio, setData, error }) => {
     const classesCustom = componentStyles();
 
     return (
-        <Fragment>
+        <Box display="flex" flexDirection="column">
             <Box pb={2}>
                 <Typography variant="h5">Introduce yourself</Typography>
             </Box>
@@ -23,7 +23,7 @@ const BioItem = ({ bio, setData, error }) => {
             <FormControl className={classes.mLeft20} error={error ? true : false}>
                 <FormHelperText>{error}</FormHelperText>
             </FormControl>
-        </Fragment>
+        </Box>
     );
 };
 

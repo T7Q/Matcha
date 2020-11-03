@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Box, Typography, Button } from '@material-ui/core';
+import { Box, Typography, Button, IconButton } from '@material-ui/core';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { deleteProfile } from '../../../actions/profile';
 import CustomButton from '../../common/Button';
+import { btnStyles } from '../../../styles/btnStyles';
+import { profileStyles } from '../../../styles/profileStyles';
 
 const DeleteAccount = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const [open, setOpen] = useState(false);
+    const classes = btnStyles();
+    const classesProf = profileStyles();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -37,15 +42,27 @@ const DeleteAccount = () => {
                 <CustomButton type="submit">Delete</CustomButton>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle id="alert-dialog-title">
-                        Are you sure you want to delete account?
+                        {open && (
+                            <IconButton
+                                aria-label="close"
+                                className={classesProf.closeButton}
+                                onClick={handleClose}>
+                                <CloseIcon />
+                            </IconButton>
+                        )}
                     </DialogTitle>
-                    <DialogContent>You can't undo this action</DialogContent>
+                    <DialogContent>
+                        <Typography variant="h6">
+                            Are you sure you want to delete account?
+                        </Typography>
+                        <Typography variant="body1">You can't undo this action</Typography>
+                    </DialogContent>
                     <DialogActions>
-                        <Button onClick={deleteAccount} variant="contained">
+                        <Button
+                            style={{ margin: 'auto' }}
+                            className={`${classes.mainButton} ${classes.secondButton}`}
+                            onClick={deleteAccount}>
                             Delete
-                        </Button>
-                        <Button onClick={handleClose} variant="contained" color="primary" autoFocus>
-                            Cancel
                         </Button>
                     </DialogActions>
                 </Dialog>

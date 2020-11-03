@@ -41,8 +41,11 @@ const Header = ({ type, updateStatus }) => {
                     )}
                 </Grid>
                 <Grid item xs={12} sm={4} md={3}>
-                    <Typography variant="h4" className={classesProf.name}>
-                        {profile.first_name}
+                    <Typography
+                        style={{ overflowWrap: 'break-word' }}
+                        variant="h4"
+                        className={classesProf.name}>
+                        {profile.first_name.charAt(0).toUpperCase() + profile.first_name.slice(1)}
                     </Typography>
                     {type === 'otherUser' && (
                         <Typography variant="body1" className={classesProf.description}>

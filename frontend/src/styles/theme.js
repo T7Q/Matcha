@@ -103,6 +103,9 @@ const theme = createMuiTheme({
             },
         },
         MuiDropzoneArea: {
+            root: {
+                marginTop: '10px',
+            },
             text: {
                 color: '#000',
                 marginBottom: '0',

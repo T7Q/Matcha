@@ -57,7 +57,7 @@ const WizardForm = ({
     };
 
     return (
-        <Box pt={20} mb={{ xs: '80px' }} className={classesProf.editBox}>
+        <Box pt={{ xs: 7, sm: 20 }} mb={{ xs: '80px' }} className={classesProf.editBox}>
             <form onSubmit={formSubmit}>
                 <Box display="flex" alignItems="center" justifyContent="flex-start">
                     <IconButton
@@ -75,9 +75,9 @@ const WizardForm = ({
                 </Box>
                 <Box display="flex" flexDirection="column" textAlign="center">
                     {steps === 1 ? (
-                        <></>
+                        <Box pb={5}></Box>
                     ) : (
-                        <Box width="300px" m="auto" my={5}>
+                        <Box width="250px" m="auto" my={5}>
                             <LinearProgress
                                 className={classesProf.progress}
                                 variant="determinate"
@@ -85,8 +85,16 @@ const WizardForm = ({
                             />
                         </Box>
                     )}
-                    {steps === 1 ? children : children[step - 1]}
-                    {!hideButton && <Button type="submit">{step < steps ? 'Next' : 'Done'}</Button>}
+                    <Box display="flex" flexDirection="column" alignItems="center">
+                        {steps === 1 ? children : children[step - 1]}
+                    </Box>
+                    <Box>
+                        {!hideButton && (
+                            <Button customClass="mainButton2" type="submit">
+                                {step < steps ? 'Next' : 'Done'}
+                            </Button>
+                        )}
+                    </Box>
                 </Box>
             </form>
         </Box>

@@ -14,7 +14,7 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
-export const UPDATE_BlOCKED = 'UPDATE_BlOCKED';
+export const UPDATE_BLOCKED = 'UPDATE_BLOCKED';
 // Chat
 export const GET_CONVERSATIONS = 'GET_CONVERSATIONS';
 export const GET_MESSAGES = 'GET_MESSAGES';

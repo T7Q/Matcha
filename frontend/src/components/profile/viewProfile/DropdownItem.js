@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
@@ -7,8 +8,9 @@ import { addInteraction, unblockUser } from '../../../actions/profile';
 import { componentStyles } from '../../../styles/componentStyles';
 import { systemStyles } from '../../../styles/systemStyles';
 
-const Dropdown = () => {
+const Dropdown = ({ chat, close }) => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { profile } = useSelector((state) => state.profile);
     const classes = componentStyles();
     const classesSystem = systemStyles();
@@ -30,7 +32,11 @@ const Dropdown = () => {
     };
 
     const handleClickInteraction = (type) => () => {
-        dispatch(addInteraction(type, userId));
+        if (chat) {
+            close(0);
+            history.push('/messages');
+        }
+        dispatch(addInteraction(type, userId, chat));
     };
 
     const menu = [

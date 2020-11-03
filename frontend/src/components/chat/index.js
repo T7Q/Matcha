@@ -26,11 +26,11 @@ const Chat = () => {
     let { userId } = useParams();
 
     useEffect(() => {
-        // console.log('use ef 1');
-        setActive(currentConversation);
+        // console.log('use ef 1', currentConversation);
         if (userId !== 0 && conversations.some((el) => el.partner_id === userId)) {
             setCurrentConversation(userId);
         }
+        setActive(currentConversation);
     }, [userId, conversations, currentConversation]);
 
     useEffect(() => {
@@ -62,7 +62,6 @@ const Chat = () => {
     }, [auth.socket, dispatch]);
 
     const handleChange = (event, newUserId, senderId) => {
-        console.log('change chat index');
         setCurrentConversation(newUserId);
         if (newUserId === 0) {
             history.push('/messages');
@@ -142,6 +141,7 @@ const Chat = () => {
                                     handleChange={handleChange}
                                     notifications={notifications}
                                     currentConversation={currentConversation}
+                                    setCurrentConversation={setCurrentConversation}
                                 />
                             </Grid>
                         </Grid>

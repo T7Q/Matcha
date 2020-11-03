@@ -1,7 +1,8 @@
-import { CREATE_PROFILE, GET_PROFILE, LOGOUT, UPDATE_BlOCKED, CLEAR_PROFILE } from './types';
+import { CREATE_PROFILE, GET_PROFILE, LOGOUT, UPDATE_BLOCKED, CLEAR_PROFILE } from './types';
 import { UPDATE_PROFILE, PROFILE_ERROR, UPDATE_LIKES, UPDATE_ERROR, UPDATE_USER } from './types';
 import profileService from '../services/profileService';
 import { setSnackbar } from './setsnackbar';
+import { getConversations } from './chat';
 import { loadUser } from './auth';
 import store from '../store';
 
@@ -117,11 +118,15 @@ export const removeLike = (location, toUserId, match, profile) => async (dispatc
 };
 
 // Add like, update connection level
-export const addInteraction = (type, toUserId) => async (dispatch) => {
+export const addInteraction = (type, toUserId, chat = false) => async (dispatch) => {
     try {
         const result = await profileService.addInteraction(type, toUserId);
         if (type === 'blocked') {
-            dispatch({ type: UPDATE_BlOCKED, payload: '1' });
+            if (chat) {
+                dispatch(getConversations());
+            } else {
+                dispatch({ type: UPDATE_BLOCKED, payload: '1' });
+            }
         } else {
             dispatch(setSnackbar(true, 'success', result.data.msg));
         }
@@ -133,7 +138,7 @@ export const addInteraction = (type, toUserId) => async (dispatch) => {
 };
 
 // Add like, update connection level
-export const unblockUser = (location, unblockList) => async (dispatch) => {
+export const unblockUser = (location, unblockList) => async (dispatch, getState) => {
     try {
         for (const e of unblockList) {
             await profileService.unblockUser(e.user_id);
@@ -141,9 +146,10 @@ export const unblockUser = (location, unblockList) => async (dispatch) => {
         if (location === 'settings') {
             dispatch(setSnackbar(true, 'success', 'Successfully updated'));
         } else if (location === 'profile') {
+            const res = await profileService.getUserProfile(getState().profile.profile.user_id);
             dispatch({
-                type: UPDATE_BlOCKED,
-                payload: '0',
+                type: GET_PROFILE,
+                payload: res.data,
             });
         }
     } catch (err) {

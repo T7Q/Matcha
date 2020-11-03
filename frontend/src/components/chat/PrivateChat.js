@@ -14,7 +14,7 @@ import Dropdown from '../profile/viewProfile/DropdownItem';
 import Spinner from '../layout/Spinner';
 import Input from '../common/Input';
 
-const PrivateChat = ({ currentConversation, handleChange }) => {
+const PrivateChat = ({ currentConversation, handleChange, setCurrentConversation }) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { user, socket } = useSelector((state) => state.auth);
@@ -112,7 +112,7 @@ const PrivateChat = ({ currentConversation, handleChange }) => {
                     </Link>
                 </Box>
                 <Box className={classesChat.closeBlock}>
-                    <Dropdown />
+                    <Dropdown chat close={setCurrentConversation} />
                     <Button onClick={(e) => handleChange(e, 0)}>
                         <HighlightOffOutlined fontSize="small" className={classes.fillPrimary} />
                     </Button>

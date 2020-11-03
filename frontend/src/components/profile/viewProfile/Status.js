@@ -18,10 +18,6 @@ const Status = ({ status }) => {
             text: 'You are connected!',
             icon: <Chat className={`${clss.mr10} ${clss.mainClr}`} />,
         },
-        {
-            text: 'You like them!',
-            icon: <Favorite className={`${clss.mr10} ${clss.mainClr}`} />,
-        },
     ];
 
     if (status < 1 || status > 2) {

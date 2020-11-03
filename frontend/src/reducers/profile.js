@@ -3,7 +3,7 @@ import {
     GET_PROFILE,
     PROFILE_ERROR,
     UPDATE_PROFILE,
-    UPDATE_BlOCKED,
+    UPDATE_BLOCKED,
     CLEAR_PROFILE,
 } from '../actions/types';
 
@@ -44,7 +44,7 @@ const profile = (state = initialState, action) => {
                 error: payload,
                 loading: false,
             };
-        case UPDATE_BlOCKED:
+        case UPDATE_BLOCKED:
             const profile = state.profile;
             profile.blocked = payload;
             return {

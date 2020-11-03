@@ -10,7 +10,7 @@ import { ArrowForwardIos, BubbleChartOutlined, LocationOnOutlined } from '@mater
 import Status from './Status';
 import { systemStyles } from '../../../styles/systemStyles';
 
-const Highlights = ({ type }) => {
+const Highlights = ({ type, status }) => {
     const { profile } = useSelector((state) => state.profile);
     const classes = systemStyles();
     const date = new Date(profile.birth_date).toLocaleDateString();
@@ -53,7 +53,7 @@ const Highlights = ({ type }) => {
     ];
     return (
         <List key="desc2">
-            {type === 'otherUser' && profile.blocked !== '1' && <Status type={type} />}
+            {type === 'otherUser' && profile.blocked !== '1' && <Status status={status} />}
             {userData.map((value, index) => {
                 return (
                     <ListItem key={'info' + index} className={`${classes.plb0} ${classes.pt10}`}>

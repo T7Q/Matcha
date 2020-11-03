@@ -11,7 +11,7 @@ import OnlineBadge from './OnlineBadge';
 import CustomizedDialog from './CustomizedDialog';
 import { profileStyles } from '../../../styles/profileStyles';
 
-const Header = ({ type }) => {
+const Header = ({ type, updateStatus }) => {
     const { profile } = useSelector((state) => state.profile);
 
     const [open, setOpen] = useState(false);
@@ -56,7 +56,7 @@ const Header = ({ type }) => {
                 </Grid>
                 {type === 'otherUser' && (
                     <Grid item xs={12} sm={4} md={6}>
-                        <Buttons card={profile} />
+                        <Buttons updateStatus={updateStatus} card={profile} />
                     </Grid>
                 )}
             </Grid>

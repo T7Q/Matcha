@@ -105,9 +105,9 @@ const prepareDataStmt = (idMin, currentUsers) => {
 
     // fake data is added to each user
     for (let k = idMin; k < desiredFakeUsers + idMin; k++) {
-        // each user gets 10 random tags
+        // each user gets 6 random tags
         let shuffled = shuffleTags();
-        let tagsPerPerson = 10;
+        let tagsPerPerson = 5;
         for (let i = 0; i < tagsPerPerson; i++) {
             str = str.concat('(' + `${k},` + `${shuffled[i]}` + '' + ')');
             str =
@@ -115,14 +115,14 @@ const prepareDataStmt = (idMin, currentUsers) => {
                     ? str
                     : str.concat(',');
         }
-        // each user gets 5 (same) images for profile
-        for (let i = 0; i < 5; i++) {
+        // each user gets 2 (same) images for profile
+        for (let i = 0; i < 2; i++) {
             images = images.concat(`(${k}, '${img[i]}')`);
-            images = desiredFakeUsers + idMin - 1 === k && i === 4 ? images : images.concat(',');
+            images = desiredFakeUsers + idMin - 1 === k && i === 1 ? images : images.concat(',');
         }
 
-        const amountLikes = getRandomInt(1, usersTotal / 2);
-        const amountVisits = getRandomInt(1, usersTotal / 2);
+        const amountLikes = getRandomInt(1, usersTotal / 4);
+        const amountVisits = getRandomInt(1, usersTotal / 4);
 
         let users = [];
         for (let i = 0; i < amountLikes; i++) {

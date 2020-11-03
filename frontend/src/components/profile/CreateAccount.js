@@ -55,6 +55,23 @@ const Register = () => {
                 setErrors({ ...errors, ...error });
                 return true;
             }
+        } else if (name !== 'passwords') {
+            const errorType = [name] + 'Error';
+            const error = await validateField(name, props.value, password);
+            if (error) {
+                setErrors({ ...errors, [errorType]: error });
+                return true;
+            }
+        } else {
+            setErrors({
+                ...errors,
+                passwordError: await validateField('password', password),
+                confirmPasswordError: await validateField(
+                    'confirmPassword',
+                    confirmPassword,
+                    password
+                ),
+            });
         }
         return false;
     };
@@ -139,7 +156,7 @@ const Register = () => {
                     <Input
                         type="confirmPassword"
                         value={confirmPassword}
-                        label="confirm password!"
+                        placeholder="confirm password!"
                         handleChange={onChange}
                         helperText={confirmPasswordError}
                     />

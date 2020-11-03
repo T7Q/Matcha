@@ -68,7 +68,9 @@ export const componentStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     input: {
+        width: '95%',
         margin: '5px',
+        maxWidth: '300px',
         '& label': { color: theme.palette.secondary.main, fontSize: '20px' },
         '& input': { textAlign: 'center' },
         '& .MuiOutlinedInput-root': {
@@ -83,6 +85,7 @@ export const componentStyles = makeStyles((theme) => ({
     },
     input2: {
         width: '95%',
+        maxWidth: '300px',
         margin: '10px',
         alignItems: 'center',
         '& label': { color: theme.palette.primary.light, fontSize: '16px' },

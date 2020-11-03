@@ -12,7 +12,8 @@ const getAge = (date) => {
 };
 
 export const validateAtBackend = async (name, value) => {
-    if (!value) return 'required field';
+    const errorType = [name] + 'Error';
+    if (!value) return { [errorType]: 'required field' };
     let res = await axios.post('/account/validateData', {
         key: [name][0],
         value: value,
@@ -25,7 +26,7 @@ export const validateAtBackend = async (name, value) => {
 
 export const validateField = (name, value, password = '') => {
     let regexp;
-    if (!value) return 'required field';
+    if (!value) return 'Required field';
 
     switch (name) {
         case 'tags':
@@ -76,7 +77,7 @@ export const validateField = (name, value, password = '') => {
             return '';
         case 'bio':
             if (value.length > 200) {
-                return 'should be less than 200 characters';
+                return 'Should be less than 200 characters';
             }
             return '';
         default:

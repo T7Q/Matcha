@@ -65,7 +65,7 @@ export const createProfile = (formData, images, history) => async (dispatch) => 
             return errors;
         } else {
             dispatch({ type: CREATE_PROFILE, payload: res });
-            await dispatch(savePhotos(imagesToSubmit));
+            await dispatch(savePhotos(imagesToSubmit, false));
             dispatch(loadUser());
             history.push('/Profile');
         }
@@ -209,7 +209,7 @@ export const editTags = (data) => async (dispatch) => {
     }
 };
 
-export const savePhotos = (data) => async (dispatch) => {
+export const savePhotos = (data, sn = true) => async (dispatch) => {
     try {
         const res = await profileService.uploadPhotos(data);
 
@@ -222,7 +222,7 @@ export const savePhotos = (data) => async (dispatch) => {
                 type: UPDATE_USER,
                 payload: user,
             });
-            dispatch(setSnackbar(true, 'success', 'You photos was successfully updated'));
+            sn && dispatch(setSnackbar(true, 'success', 'You photos was successfully updated'));
         }
     } catch {
         dispatch(setSnackbar(true, 'error', 'Try later'));

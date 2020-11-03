@@ -5,7 +5,7 @@ const validateEmail = async (email) => {
     let errors = {};
 
     if (!email) {
-        errors['emailError'] = 'Email could not be empty';
+        errors['emailError'] = 'Required field';
     } else if (await findUserInfo('email', email, 'user_id')) {
         errors['emailError'] = 'User with this email already exists';
     } else if (email.length > 63) {
@@ -23,7 +23,7 @@ const validateUsername = async (username) => {
     let errors = {};
 
     if (!username) {
-        errors['usernameError'] = 'Username could not be empty';
+        errors['usernameError'] = 'Required field';
     } else if (await findUserInfo('username', username, 'user_id')) {
         errors['usernameError'] = 'This username has already been taken';
     } else if (username.length >= 30) {
@@ -41,7 +41,7 @@ const validateName = (name) => {
     let errors = {};
 
     if (!name) {
-        errors['firstnameError'] = 'Name could not be empty';
+        errors['firstnameError'] = 'Required field';
     } else if (name.length >= 30) {
         errors['firstnameError'] = 'Name is too long';
     } else {
@@ -57,7 +57,7 @@ const validatePassword = (password, confirmPassword) => {
     let errors = {};
 
     if (!password) {
-        errors['passwordError'] = 'Please enter a password';
+        errors['passwordError'] = 'Required field';
     } else if (password.length < 6) {
         errors['passwordError'] = 'Password must be at least 6 characters';
     } else {
@@ -70,7 +70,7 @@ const validatePassword = (password, confirmPassword) => {
     }
 
     if (!confirmPassword) {
-        errors['confirmPasswordError'] = 'Please confirm a password';
+        errors['confirmPasswordError'] = 'Required field';
     } else if (password !== confirmPassword) {
         errors['confirmPasswordError'] = 'Passwords do not match';
     }

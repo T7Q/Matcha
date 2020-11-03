@@ -37,7 +37,7 @@ const googleLogin = async (req, res) => {
 
 const len = (word) => {
     if (!word) return null;
-    return word.length > 30 ? word.substring(0, 30) : word;
+    return word.length > 30 ? word.substring(0, 30).toLowerCase() : word.toLowerCase();
 };
 
 const registerGoogle = async (info, req, res) => {

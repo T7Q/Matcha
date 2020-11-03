@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import BackgroundImage from '../images/background2.jpg';
+import BackgroundImage from '../images/background3.jpg';
 import MoonImage from '../images/moon1.jpg';
 
 export const componentStyles = makeStyles((theme) => ({
@@ -55,7 +55,7 @@ export const componentStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
     editBox: { minWidth: '300px', [theme.breakpoints.down('sm')]: { minWidth: '220px' } },
-    progress: { width: '75%', margin: '15px', padding: '5px' },
+    progress: { width: '75%', margin: 'auto', padding: '5px' },
     background: {
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(${BackgroundImage})`,
         backgroundSize: 'cover',

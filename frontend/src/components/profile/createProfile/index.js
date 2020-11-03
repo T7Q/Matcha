@@ -100,8 +100,8 @@ const ProfileCreation = () => {
             formData={formData}
             onSubmit={onSubmit}>
             <Box>
-                <Typography variant={isMobile ? 'h5' : 'h4'}>Set up your profile</Typography>
-                <Typography variant={isMobile ? 'h5' : 'h4'}>to meet new people</Typography>
+                <Typography variant={isMobile ? 'h6' : 'h5'}>Set up your profile</Typography>
+                <Typography variant={isMobile ? 'h6' : 'h5'}>to meet new people</Typography>
             </Box>
             <BirthdayItem
                 error={birth_dateError}

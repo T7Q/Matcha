@@ -99,7 +99,7 @@ const Login = ({ history }) => {
                     value={password}
                     helperText={errors.passwordError}
                 />
-                <Button type="submit" className={classes.mainButton}>
+                <Button type="submit" className={classes.mainButton2}>
                     Next
                 </Button>
                 <Button

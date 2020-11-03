@@ -77,7 +77,7 @@ const WizardForm = ({
                     {steps === 1 ? (
                         <></>
                     ) : (
-                        <Box display="flex" my={5} maxWidth="300px">
+                        <Box width="300px" m="auto" my={5}>
                             <LinearProgress
                                 className={classesProf.progress}
                                 variant="determinate"

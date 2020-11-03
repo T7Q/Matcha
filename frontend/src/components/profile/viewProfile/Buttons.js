@@ -15,7 +15,7 @@ const Buttons = ({ card, updateStatus }) => {
     const classes = systemStyles();
 
     const handleLike = () => {
-        if (auth.user.userHasPhotos > 0) {
+        if (auth.user.userHasPhotos) {
             let toUserId = card.user_id;
             if (card.connected === 0 || card.connected === 3) {
                 if (card.connected === 3) {
@@ -34,9 +34,7 @@ const Buttons = ({ card, updateStatus }) => {
                 dispatch(removeLike('profile', toUserId, match.match, profile.profile));
             }
         } else {
-            dispatch(
-                setSnackbar(true, 'error', 'Add at least 1 photo to enable like functionality')
-            );
+            dispatch(setSnackbar(true, 'error', 'Add profile photo to enable like functionality'));
         }
     };
 

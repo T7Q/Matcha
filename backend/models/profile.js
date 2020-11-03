@@ -124,8 +124,8 @@ const getMessageNotifications = async (userId) => {
 };
 
 const userHasPhotos = async (user_id) => {
-    const res = await db.query(`SELECT count(image_id) FROM images WHERE user_id=$1`, [user_id]);
-    return res.rows[0].count;
+    const res = await db.query(`SELECT profile_pic_path FROM users WHERE user_id=$1`, [user_id]);
+    return res.rows[0].profile_pic_path;
 };
 
 const otherUserLikesYou = async (fromUserId, toUserId) => {

@@ -28,7 +28,7 @@ const UserCard = ({ card }) => {
                         className={classes.cardMedia}
                         component="img"
                         alt="profile pic"
-                        image={card.profile_pic_path}
+                        image={card.profile_pic_path ? card.profile_pic_path : '/default.png'}
                         onError={onMediaFallback}
                     />
                     <CardContent className={classes.cardContent}>

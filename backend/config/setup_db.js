@@ -10,6 +10,7 @@ const config = {
     user: database.user,
     database: 'postgres',
     password: database.password,
+    port: database.port,
 };
 
 const pool = new Pool(config);

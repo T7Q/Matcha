@@ -3,12 +3,12 @@
     "version": "1.0.0",
     "description": "dating web application",
     "scripts": {
+        "start": "concurrently \"cd backend && npm start\" \" cd frontend && npm start\" ",
         "init": "npm install && cd backend && npm install && cd ../frontend && npm install",
         "dev": "concurrently \"cd backend && npm run dev\" \" cd frontend && npm start\" ",
         "setup_db": "cd backend && npm run setup_db && npm run fake_db ",
         "drop_db": "cd backend && npm run drop_db",
-        "fake_db": "cd backend && npm run fake_db",
-        "client": "npm start --prefix frontend"
+        "fake_db": "cd backend && npm run fake_db"
     },
     "keywords": [],
     "author": "",

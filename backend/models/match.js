@@ -27,7 +27,7 @@ const getCompatibilityValue = (signUser1, signUser2, table) => {
 };
 
 const getConnectionValue = (userId1, userId2) => {
-    userId1 = userId1 === '' ? 'users.user_id' : userId1;
+    userId1 = 'users.user_id';
     let query = `(CASE WHEN ((SELECT count(likes.like_id) AS from_likes FROM likes WHERE likes.from_user_id = ${userId1}
         AND likes.to_user_id = ${userId2}) = 1 AND (SELECT count(likes.like_id) AS to_likes FROM likes
         WHERE likes.from_user_id = ${userId2} AND likes.to_user_id = ${userId1}) = 1) THEN 2

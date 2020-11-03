@@ -81,4 +81,7 @@ export const galleryStyles = makeStyles((theme) => ({
     someColor: {
         color: theme.palette.text.secondary,
     },
+    fillPrimary: {
+        fill: theme.palette.text.secondary,
+    }
 }));

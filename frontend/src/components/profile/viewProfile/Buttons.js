@@ -9,7 +9,7 @@ import { setSnackbar } from '../../../actions/setsnackbar';
 import { systemStyles } from '../../../styles/systemStyles';
 import Button from '../../common/Button';
 
-const Buttons = ({ card }) => {
+const Buttons = ({ card, updateStatus }) => {
     const dispatch = useDispatch();
     const { match, auth, profile } = useSelector((state) => state);
     const classes = systemStyles();
@@ -19,8 +19,10 @@ const Buttons = ({ card }) => {
             let toUserId = card.user_id;
             if (card.connected === 0 || card.connected === 3) {
                 if (card.connected === 3) {
+                    updateStatus(2);
                     auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'match');
                 } else {
+                    updateStatus(1);
                     auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'like');
                 }
                 dispatch(addLike('profile', toUserId, match.match, profile.profile));
@@ -28,6 +30,7 @@ const Buttons = ({ card }) => {
                 if (card.connected === 2) {
                     auth.socket.emit('UPDATE_NOTIFICATIONS', toUserId, 'unlike');
                 }
+                updateStatus(0);
                 dispatch(removeLike('profile', toUserId, match.match, profile.profile));
             }
         } else {

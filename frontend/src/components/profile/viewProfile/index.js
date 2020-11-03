@@ -17,6 +17,7 @@ const ProfileView = () => {
     const { profile, loading } = useSelector((state) => state.profile);
     const { user, socket } = useSelector((state) => state.auth);
     const { user_id } = useParams();
+    const [status, updateStatus] = React.useState(0);
 
     // get the type the profile (my or other user) based on url param
     let type =
@@ -25,6 +26,12 @@ const ProfileView = () => {
             : 'otherUser';
     // map other user id from url param
     const otherUserId = type === 'myProfile' ? user.userId : user_id;
+
+    useEffect(() => {
+        if (profile && profile.connected) {
+            updateStatus(profile.connected);
+        }
+    }, [profile]);
 
     useEffect(() => {
         dispatch(clearProfile());
@@ -41,7 +48,7 @@ const ProfileView = () => {
 
     return (
         <>
-            <Header type={type} />
+            <Header updateStatus={updateStatus} type={type} />
             <Box pt={8}>
                 <Container>
                     <Grid container justify="center" spacing={6}>
@@ -49,7 +56,7 @@ const ProfileView = () => {
                             <Description type={type} />
                         </Grid>
                         <Grid container item xs={10} sm={4} justify="center">
-                            <Highlights type={type} />
+                            <Highlights status={status} type={type} />
                         </Grid>
                     </Grid>
                 </Container>

@@ -4,7 +4,6 @@ import profileService from '../services/profileService';
 import { setSnackbar } from './setsnackbar';
 import { getConversations } from './chat';
 import { loadUser } from './auth';
-import store from '../store';
 
 // Get user profile
 export const getProfile = (type, userId, otherProfile = false) => async (dispatch) => {
@@ -209,14 +208,14 @@ export const editTags = (data) => async (dispatch) => {
     }
 };
 
-export const savePhotos = (data, sn = true) => async (dispatch) => {
+export const savePhotos = (data, sn = true) => async (dispatch, getState) => {
     try {
         const res = await profileService.uploadPhotos(data);
 
         if (res.error) {
             dispatch(setSnackbar(true, 'error', 'Try again later'));
         } else {
-            const user = store.getState().auth.user;
+            const user = getState().auth.user;
             user.userHasPhotos = res.userHasPhotos;
             dispatch({
                 type: UPDATE_USER,

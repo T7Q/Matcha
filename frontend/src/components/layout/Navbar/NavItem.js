@@ -17,16 +17,12 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
     useEffect(() => {
         if (isAuthenticated && user.status === 2) {
             socket.emit('LOGIN', user.userId);
-            // console.log('nav item use eff');
             dispatch(getNotifications());
             socket.on('READ_MESSAGES', async (senderId) => {
                 await dispatch(updateNotifications('message', senderId));
-                // console.log('nav item use eff in socket readmessages');
                 dispatch(getNotifications());
             });
             socket.on('UPDATE_NOTIFICATIONS', (type) => {
-                // console.log('nav item use eff in socket update notification');
-                // console.log('on update notifications in navbar', type);
                 dispatch(getNotifications());
             });
             return () => {
@@ -77,16 +73,19 @@ const NavItem = ({ handleNavigation, active, setActive }) => {
                     <IconButton
                         key={menu.title}
                         className={menu.active ? classes.iconButtonActive : classes.iconButton}
-                        onClick={() => handleClick(menu.pageUrl, menu.title)}>
+                        onClick={() => handleClick(menu.pageUrl, menu.title)}
+                    >
                         <Typography
                             color="textSecondary"
                             className={classesSystem.mobileText}
-                            variant="button">
+                            variant="button"
+                        >
                             <Badge
                                 badgeContent={menu.amount}
                                 className={classesSystem.pr5}
                                 max={99}
-                                color={menu.color}>
+                                color={menu.color}
+                            >
                                 {menu.icon}
                             </Badge>{' '}
                             {menu.title}

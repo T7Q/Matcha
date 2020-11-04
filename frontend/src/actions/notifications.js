@@ -11,9 +11,7 @@ export const getNotifications = () => async (dispatch) => {
             } else {
                 dispatch({ type: GET_NOTIFICATIONS, payload: res });
             }
-        } catch (err) {
-            console.log('some error in get notifications action ', err);
-        }
+        } catch (err) {}
     }, 500);
 };
 
@@ -25,9 +23,7 @@ export const getMessageNotifications = () => async (dispatch) => {
         } else {
             dispatch({ type: GET_MESSAGE_NOTIFICATIONS, payload: res });
         }
-    } catch (err) {
-        console.log(err);
-    }
+    } catch (err) {}
 };
 
 export const updateNotifications = (type, senderId = 0) => async (dispatch) => {
@@ -44,7 +40,5 @@ export const updateNotifications = (type, senderId = 0) => async (dispatch) => {
         } else {
             dispatch({ type: UPDATE_NOTIFICATIONS, payload: { [type]: 0 } });
         }
-    } catch (err) {
-        console.log('some error in get messages action ', err);
-    }
+    } catch (err) {}
 };

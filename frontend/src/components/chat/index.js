@@ -26,7 +26,6 @@ const Chat = () => {
     let { userId } = useParams();
 
     useEffect(() => {
-        // console.log('use ef 1', currentConversation);
         if (userId !== 0 && conversations.some((el) => el.partner_id === userId)) {
             setCurrentConversation(userId);
         }
@@ -34,22 +33,18 @@ const Chat = () => {
     }, [userId, conversations, currentConversation]);
 
     useEffect(() => {
-        // console.log('use ef 2');
-        // let isMounted = true;
         auth.socket.on('TYPING_NOTIFICATION', (chatId, typing) => {
             setPartnerTyping({ typing: typing, chatId: chatId });
         });
     }, [userId, conversations, auth.socket]);
 
     useEffect(() => {
-        // console.log('use ef 3');
         let isMounted = true;
 
         dispatch(getConversations());
         dispatch(getMessageNotifications());
         auth.socket.on('UPDATE_NOTIFICATIONS', (type, chatId, text) => {
             if (isMounted && type === 'message') {
-                console.log('use ef 3 inside update notifications');
                 if (text) setLastMessage({ text: text, chatId: chatId });
                 dispatch(getMessageNotifications());
             }
@@ -81,7 +76,8 @@ const Chat = () => {
                 justifyContent="center"
                 pl={8}
                 boxShadow={6}
-                className={classesChat.header}>
+                className={classesChat.header}
+            >
                 <Container>
                     <Grid
                         container
@@ -91,7 +87,8 @@ const Chat = () => {
                         justify="space-around"
                         direction="column"
                         alignItems="flex-start"
-                        spacing={1}>
+                        spacing={1}
+                    >
                         <Typography variant="h5">Messages</Typography>
                     </Grid>
                 </Container>
@@ -113,7 +110,8 @@ const Chat = () => {
                                 justify="space-around"
                                 alignItems="center"
                                 spacing={1}
-                                className={classesChat.leftSide}>
+                                className={classesChat.leftSide}
+                            >
                                 <Typography className={classesChat.titleChats} variant="h6">
                                     Recent conversations
                                 </Typography>
@@ -136,7 +134,8 @@ const Chat = () => {
                                 alignItems="center"
                                 sm={6}
                                 xs={12}
-                                className={classesChat.rightSide}>
+                                className={classesChat.rightSide}
+                            >
                                 <PrivateChat
                                     handleChange={handleChange}
                                     notifications={notifications}

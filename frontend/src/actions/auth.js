@@ -17,7 +17,6 @@ export const loadUser = () => async (dispatch) => {
         }
     } catch (error) {
         dispatch({ type: AUTH_FAIL });
-        console.log(error);
     }
 };
 
@@ -35,7 +34,6 @@ export const register = (formData, history) => async (dispatch) => {
         }
     } catch (error) {
         dispatch({ type: REGISTER_FAIL });
-        console.log(error);
     }
 };
 
@@ -52,16 +50,13 @@ export const login = (data) => async (dispatch) => {
         }
     } catch (error) {
         dispatch({ type: AUTH_FAIL });
-        console.log(error);
     }
 };
 
 export const logout = (history) => async (dispatch) => {
     try {
         await authService.logout();
-    } catch (error) {
-        console.log(error);
-    }
+    } catch (error) {}
     dispatch({ type: LOGOUT });
     history.push('/');
 };

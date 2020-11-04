@@ -11,9 +11,7 @@ export const getConversations = () => async (dispatch) => {
         } else {
             dispatch({ type: GET_CONVERSATIONS, payload: res });
         }
-    } catch (err) {
-        console.log('some error in get converstaion action ', err);
-    }
+    } catch (err) {}
 };
 
 export const getMessages = (chatId) => async (dispatch) => {
@@ -26,9 +24,7 @@ export const getMessages = (chatId) => async (dispatch) => {
                 dispatch({ type: GET_MESSAGES, payload: res });
             }
         }
-    } catch (err) {
-        console.log('some error in get messages action ', err);
-    }
+    } catch (err) {}
 };
 
 export const clearMessages = () => async (dispatch) => {

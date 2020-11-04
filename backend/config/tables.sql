@@ -157,24 +157,3 @@ CREATE INDEX IF NOT EXISTS "fkIdx_73" ON "messages"
 (
  "chat_id"
 );
-
--- CREATE TABLE IF NOT EXISTS "participants"
--- (
---  "participant_id" bigserial NOT NULL PRIMARY KEY ,
---  "partner_id"     bigint NULL ,
---  "time_joined"    timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
---  "time_left"      timestamp NULL ,
---  "chat_id"        bigint NOT NULL ,
---  CONSTRAINT "FK_74" FOREIGN KEY ( "partner_id" ) REFERENCES "users" ( "user_id" ) ON DELETE CASCADE,
---  CONSTRAINT "FK_75" FOREIGN KEY ( "chat_id" ) REFERENCES "chats" ("chat_id") ON DELETE CASCADE
--- );
-
--- CREATE INDEX IF NOT EXISTS "fkIdx_74" ON "participants"
--- (
---  "partner_id"
--- );
-
--- CREATE INDEX IF NOT EXISTS "fkIdx_75" ON "participants"
--- (
---  "chat_id"
--- );

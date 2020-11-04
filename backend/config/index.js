@@ -28,4 +28,4 @@ config.google = {
 
 config.ipstack = process.env.IPSTACK;
 
-config.developmentUrl = process.env.DEV_URL;
+config.developmentUrl = process.env.DEV_URL || 'localhost:3000';

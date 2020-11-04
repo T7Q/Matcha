@@ -47,7 +47,6 @@ const Likes = ({ socket }) => {
             setNewLikes(false);
             dispatch(updateNotifications('like'));
         }
-        // console.log('in likes use effect');
         dispatch(getNotifications());
         return () => {
             isMounted = false;
@@ -90,7 +89,8 @@ const Likes = ({ socket }) => {
                         value={selectedTab}
                         onChange={handleChange}
                         indicatorColor="primary"
-                        textColor="primary">
+                        textColor="primary"
+                    >
                         <Tab
                             label={
                                 <Badge badgeContent={notifications.like} color="primary">
@@ -103,12 +103,14 @@ const Likes = ({ socket }) => {
                                 <Box>
                                     <Badge
                                         badgeContent={amount(notifications.match)}
-                                        color="primary">
+                                        color="primary"
+                                    >
                                         Connected
                                     </Badge>{' '}
                                     <Badge
                                         badgeContent={-amount(notifications.unlike)}
-                                        color="error">
+                                        color="error"
+                                    >
                                         {!notifications.match && (
                                             <Box color="transparent">------</Box>
                                         )}
@@ -116,9 +118,7 @@ const Likes = ({ socket }) => {
                                 </Box>
                             }
                         />
-                        <Tab 
-                        className={classesSystem.dNone} 
-                        label="hidden" />
+                        <Tab className={classesSystem.dNone} label="hidden" />
                     </Tabs>
                 </Container>
             </AppBar>
@@ -134,9 +134,11 @@ const Likes = ({ socket }) => {
                         <GetMatches route="/match/connected" filterIsOn={0} />
                     </Box>
                 )}
-                {selectedTab === 2 && <Box pt={5} alignItems="center" justifyContent="center">
-                    <Typography variant="body2">Page not found</Typography>
-                </Box>}
+                {selectedTab === 2 && (
+                    <Box pt={5} alignItems="center" justifyContent="center">
+                        <Typography variant="body2">Page not found</Typography>
+                    </Box>
+                )}
             </Container>
         </div>
     );

@@ -52,7 +52,8 @@ const ConversationBox = ({
             className={clsx(classes.borderBottom, classes.minHeight80, classes.pl0, {
                 [classes.bgSome]: active === partner_id,
             })}
-            button>
+            button
+        >
             <Link onClick={handleClick} component="button">
                 <ListItemAvatar>
                     <OnlineBadge online={isOnline(conversation.last_seen)} profile={conversation} />
@@ -76,7 +77,8 @@ const ConversationBox = ({
                             component="span"
                             display="block"
                             textOverflow="ellipsis"
-                            overflow="hidden">
+                            overflow="hidden"
+                        >
                             {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id
                                 ? 'is typing...'
                                 : lastMessage.chatId === conversation.chat_id

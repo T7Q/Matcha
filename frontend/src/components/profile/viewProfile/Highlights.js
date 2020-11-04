@@ -27,7 +27,9 @@ const Highlights = ({ type, status }) => {
     const userData = [
         {
             icon: <AssignmentIndOutlined />,
-            text: `${profile.first_name} ${profile.last_name}`,
+            text: `${profile.first_name.charAt(0).toUpperCase() + profile.first_name.slice(1)} ${
+                profile.last_name.charAt(0).toUpperCase() + profile.last_name.slice(1)
+            }`,
             link: '/profile/me/edit/name',
         },
         {

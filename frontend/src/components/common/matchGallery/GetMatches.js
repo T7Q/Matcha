@@ -5,10 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import { getRecommend, fetchMore } from '../../../actions/match';
 import Gallery from './Gallery';
 import Spinner from '../../layout/Spinner';
+import { systemStyles } from '../../../styles/systemStyles';
 
 const GetMatches = ({ route, filterIsOn, reset }) => {
     const dispatch = useDispatch();
     const { match, loading } = useSelector((state) => state.match);
+    const classes = systemStyles();
 
     useEffect(() => {
         dispatch(getRecommend(route, filterIsOn));
@@ -24,7 +26,7 @@ const GetMatches = ({ route, filterIsOn, reset }) => {
     return loading ? (
         <Spinner />
     ) : match.length === 0 ? (
-        <Typography mt={4} pt={4} variant="h6">
+        <Typography className={`${classes.alignCenter} ${classes.pt10}`} variant="h6">
             No matches found.
         </Typography>
     ) : (

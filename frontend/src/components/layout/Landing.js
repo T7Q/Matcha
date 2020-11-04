@@ -8,6 +8,7 @@ import { googleLogin } from '../../actions/auth';
 import { btnStyles } from '../../styles/btnStyles';
 import { systemStyles } from '../../styles/systemStyles';
 import { setSnackbar } from '../../actions/setsnackbar';
+import Spinner from './Spinner';
 import google from '../../images/google.png';
 
 const Landing = ({ history }) => {
@@ -33,7 +34,7 @@ const Landing = ({ history }) => {
     };
 
     return loading ? (
-        <>Loading</>
+        <Spinner />
     ) : (
         <Box pt="200px" display="flex" flexDirection="column" textAlign="center">
             <Typography variant={isMobile ? 'h5' : 'h4'} className={classesSystem.infoColor}>

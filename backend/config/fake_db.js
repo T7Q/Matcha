@@ -6,7 +6,7 @@ const { database } = require('./index');
 // there is also a demo user (user_id 1) created on setup_db stage
 
 // number of generated fake accounts
-const desiredFakeUsers = 50;
+const desiredFakeUsers = 10;
 
 // statement to insert 19 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
@@ -123,8 +123,8 @@ const prepareDataStmt = (idMin, currentUsers) => {
 
         const amountLikes = getRandomInt(1, usersTotal / 4);
         const amountVisits = getRandomInt(1, usersTotal / 4);
-
         let users = [];
+
         for (let i = 0; i < amountLikes; i++) {
             const randomUserId = getRandomInt(1, usersTotal);
             if (
@@ -138,12 +138,14 @@ const prepareDataStmt = (idMin, currentUsers) => {
 
         // generate random likes for fake users
         let userLikes = '';
-        for (let i = 0; i < users.length; i++) {
-            userLikes = userLikes.concat('(' + `${k},` + `${users[i]}` + ')');
-            userLikes = i === users.length - 1 ? userLikes : userLikes.concat(',');
+        if (users.length > 0) {
+            for (let i = 0; i < users.length; i++) {
+                userLikes = userLikes.concat('(' + `${k},` + `${users[i]}` + ')');
+                userLikes = i === users.length - 1 ? userLikes : userLikes.concat(',');
+            }
+            fakeLikes = fakeLikes.concat(userLikes);
+            fakeLikes = k === desiredFakeUsers + idMin - 1 ? fakeLikes : fakeLikes.concat(',');
         }
-        fakeLikes = fakeLikes.concat(userLikes);
-        fakeLikes = k === desiredFakeUsers + idMin - 1 ? fakeLikes : fakeLikes.concat(',');
 
         // generate random views for fake users
         users = [];
@@ -158,26 +160,34 @@ const prepareDataStmt = (idMin, currentUsers) => {
             }
         }
         let userVisits = '';
-        for (let i = 0; i < users.length; i++) {
-            userVisits = userVisits.concat('(' + `${k},` + `${users[i]}` + ')');
-            userVisits = i === users.length - 1 ? userVisits : userVisits.concat(',');
+        if (users.length > 0) {
+            for (let i = 0; i < users.length; i++) {
+                userVisits = userVisits.concat('(' + `${k},` + `${users[i]}` + ')');
+                userVisits = i === users.length - 1 ? userVisits : userVisits.concat(',');
+            }
+            fakeVisits = fakeVisits.concat(userVisits);
+            fakeVisits = k === desiredFakeUsers + idMin - 1 ? fakeVisits : fakeVisits.concat(',');
         }
-        fakeVisits = fakeVisits.concat(userVisits);
-        fakeVisits = k === desiredFakeUsers + idMin - 1 ? fakeVisits : fakeVisits.concat(',');
     }
+    
 
     const tagsQuery = `INSERT INTO user_tags (user_id, tag_id) VALUES ${str};`;
     const imgQuery = `INSERT INTO images(user_id, image_path) VALUES ${images};`;
 
-    const fakeVisitsQuery =
+    let fakeVisitsQuery =
         fakeVisits !== ''
             ? `INSERT INTO views (from_user_id, to_user_id) VALUES ${fakeVisits};`
             : '';
-    const fakeLikesQuery =
+    let fakeLikesQuery =
         fakeLikes !== '' ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${fakeLikes};` : '';
+
+    // remove extra ',', that appears if there are no visits or likes from last user(s)
+    fakeVisitsQuery = fakeVisitsQuery.replace(",;", ";");
+    fakeLikesQuery = fakeLikesQuery.replace(",;", ";");
 
     return tagsQuery + imgQuery + fakeLikesQuery + fakeVisitsQuery;
 };
+
 
 // connect to / disconnect from the database
 const pool = new Pool(database);
@@ -196,16 +206,6 @@ const insertFakeUsers = async () => {
     tagsArray(56);
     // calculate the id of first inserted user to add info
     let errorCount = false;
-    let idMin = 1;
-    await pool
-        .query(`SELECT max(user_id) from users`)
-        .then((res) => {
-            idMin += parseInt(res.rows[0].max);
-        })
-        .catch((err) => {
-            console.log('\x1b[31m' + err + '\x1b[0m');
-            errorCount = true;
-        });
 
     // add fake users to the database
     await pool
@@ -234,6 +234,18 @@ const insertFakeUsers = async () => {
             errorCount = true;
         });
 
+    // calculate first id of inserted fake users
+    let idMin = 1;
+    await pool
+        .query(`SELECT max(user_id) from users`)
+        .then((res) => {
+            idMin = parseInt(res.rows[0].max) - desiredFakeUsers + 1;
+        })
+        .catch((err) => {
+            console.log('\x1b[31m' + err + '\x1b[0m');
+            errorCount = true;
+        });
+        
     // prepare fake users data (likes, visits) statements
     let tagsStmt = '';
     if (!errorCount) tagsStmt = prepareDataStmt(idMin, currentUsers);

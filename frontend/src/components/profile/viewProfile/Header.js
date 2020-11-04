@@ -13,6 +13,7 @@ import { profileStyles } from '../../../styles/profileStyles';
 
 const Header = ({ type, updateStatus }) => {
     const { profile } = useSelector((state) => state.profile);
+    const { filter, match } = useSelector((state) => state.match);
 
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
@@ -22,7 +23,15 @@ const Header = ({ type, updateStatus }) => {
 
     let description = '';
     if (type === 'otherUser') {
-        description = `${profile.age} * ${profile.country} * ${profile.compatibility}% match`;
+        let compatibility = profile.compatibility;
+
+        if (filter.believe_cn === false || filter.believe_west === false) {
+            const userInfo = match.find((n) => n.user_id === profile.user_id);
+            if (userInfo) {
+                compatibility = userInfo.match;
+            }
+        }
+        description = `${profile.age} * ${profile.country} * ${compatibility}% match`;
     }
 
     return (

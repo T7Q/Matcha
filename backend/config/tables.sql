@@ -1,3 +1,5 @@
+ALTER DATABASE matcha SET timezone TO 'Europe/Helsinki';
+
 DO $$ BEGIN
     CREATE TYPE gender AS ENUM ('man', 'woman');
     CREATE TYPE notification_type AS ENUM ('message', 'like', 'unlike', 'visit');

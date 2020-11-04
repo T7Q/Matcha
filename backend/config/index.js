@@ -5,6 +5,7 @@ config.database = {
     user: process.env.DB_USER || 'postgres',
     database: process.env.DB_NAME || 'matcha',
     password: process.env.DB_PWD || '',
+    host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 5432,
 };
 

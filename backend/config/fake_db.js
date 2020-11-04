@@ -169,7 +169,6 @@ const prepareDataStmt = (idMin, currentUsers) => {
             fakeVisits = k === desiredFakeUsers + idMin - 1 ? fakeVisits : fakeVisits.concat(',');
         }
     }
-    
 
     const tagsQuery = `INSERT INTO user_tags (user_id, tag_id) VALUES ${str};`;
     const imgQuery = `INSERT INTO images(user_id, image_path) VALUES ${images};`;
@@ -182,12 +181,11 @@ const prepareDataStmt = (idMin, currentUsers) => {
         fakeLikes !== '' ? `INSERT INTO likes (from_user_id, to_user_id) VALUES ${fakeLikes};` : '';
 
     // remove extra ',', that appears if there are no visits or likes from last user(s)
-    fakeVisitsQuery = fakeVisitsQuery.replace(",;", ";");
-    fakeLikesQuery = fakeLikesQuery.replace(",;", ";");
+    fakeVisitsQuery = fakeVisitsQuery.replace(',;', ';');
+    fakeLikesQuery = fakeLikesQuery.replace(',;', ';');
 
     return tagsQuery + imgQuery + fakeLikesQuery + fakeVisitsQuery;
 };
-
 
 // connect to / disconnect from the database
 const pool = new Pool(database);
@@ -245,7 +243,7 @@ const insertFakeUsers = async () => {
             console.log('\x1b[31m' + err + '\x1b[0m');
             errorCount = true;
         });
-        
+
     // prepare fake users data (likes, visits) statements
     let tagsStmt = '';
     if (!errorCount) tagsStmt = prepareDataStmt(idMin, currentUsers);

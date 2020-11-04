@@ -57,13 +57,11 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
                         ? classesBtn.iconButtonActive
                         : classesBtn.iconButton
                 }
-                onClick={(event) => setProfileSettings(event.currentTarget)}
-            >
+                onClick={(event) => setProfileSettings(event.currentTarget)}>
                 <Typography
                     variant="button"
                     className={classesSystem.mobileText}
-                    color="textPrimary"
-                >
+                    color="textSecondary">
                     <Badge badgeContent={notifications.visit} max={99} color="primary">
                         <PersonOutlineIcon />
                     </Badge>
@@ -85,14 +83,12 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
                 elevation={0}
                 anchorEl={profileSettings}
                 open={Boolean(profileSettings)}
-                onClose={() => setProfileSettings(null)}
-            >
+                onClose={() => setProfileSettings(null)}>
                 {profileMenu.map((menuItem) => (
                     <MenuItem
                         className={classes.menuItem}
                         key={menuItem.title}
-                        onClick={() => clickMenu(menuItem)}
-                    >
+                        onClick={() => clickMenu(menuItem)}>
                         {menuItem.title}
                         <Box
                             ml={2}
@@ -100,8 +96,7 @@ const ProfileMenu = ({ handleNavigation, active, setActive }) => {
                             width="20px"
                             height="20px"
                             textAlign="center"
-                            bgcolor={menuItem.color}
-                        >
+                            bgcolor={menuItem.color}>
                             {menuItem.notification}
                         </Box>
                     </MenuItem>

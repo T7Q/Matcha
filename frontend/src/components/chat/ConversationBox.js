@@ -77,6 +77,7 @@ const ConversationBox = ({
                             component="span"
                             display="block"
                             textOverflow="ellipsis"
+                            whiteSpace="noWrap"
                             overflow="hidden"
                         >
                             {partnerTyping.typing && partnerTyping.chatId === conversation.chat_id

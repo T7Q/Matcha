@@ -2,7 +2,7 @@
 *.env
 frontend/.env.local
 .DS_Store
-*package-lock.json
+# *package-lock.json
 backend/images/*
 !backend/images/default.png
 !backend/images/demo1.jpg

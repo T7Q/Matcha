@@ -37,11 +37,6 @@ const theme = createMuiTheme({
     },
     typography: {
         fontFamily: 'El Messiri, sans-serif',
-        // h2: {
-        //     color: '#219bf1',
-        //     fontWeight: 400,
-        //     paddingBottom: '.5rem',
-        // },
     },
     overrides: {
         MuiCssBaseline: {
@@ -84,8 +79,6 @@ const theme = createMuiTheme({
         },
         MuiTab: {
             wrapper: {
-                // flexDirection: 'row',
-                // justifyContent: 'start',
                 textTransform: 'capitalize',
                 fontSize: 'medium',
             },
@@ -148,29 +141,11 @@ const theme = createMuiTheme({
                 color: 'green',
             },
             root: {
-                // background: '#12172d',
                 color: 'white',
                 width: '100%',
                 '& .MuiListItem': {
                     border: '1px solid yellow',
                 },
-                // '&::-webkit-scrollbar': {
-                //     width: '0.4em',
-                // },
-                // '&::-webkit-scrollbar-track': {
-                //     boxShadow: 'inset 0 0 6px #12172d',
-                //     webkitBoxShadow: 'inset 0 0 6px #12172d',
-                // },
-                // '&::-webkit-scrollbar-thumb': {
-                //     backgroundColor: '#252839',
-                //     outline: '1px solid #252839',
-                // },
-            },
-        },
-        MuiListItem: {
-            root: {
-                // borderTop: '1px solid #252839',
-                // borderBottom: '1px solid #252839',
             },
         },
     },

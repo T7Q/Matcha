@@ -9,11 +9,6 @@
 .circle:hover {
     animation-play-state: paused;
 }
-/*
-.MuiDropzoneArea-root {
-    max-width: 300px;
-    margin: 10px;
-} */
 
 .MuiGrid-grid-xs-4 {
     flex-grow: 1 !important;

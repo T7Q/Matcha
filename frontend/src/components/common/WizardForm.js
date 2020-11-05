@@ -38,7 +38,6 @@ const WizardForm = ({
         // If the current step is 2 or 3, then subtract one on "previous" button click
         step = step <= 1 ? 1 : step - 1;
         setFormData({ ...formData, currentStep: step });
-        // validate(children[step - 1].props.name, children[step - 1].props.value);
     };
 
     const handleRedirect = (newRoute) => {
@@ -66,7 +65,8 @@ const WizardForm = ({
                             step === 1 || steps === 1
                                 ? () => handleRedirect(link ? link : '/')
                                 : prev
-                        }>
+                        }
+                    >
                         <ArrowBackIosIcon fontSize="small" />
                     </IconButton>
                     <Typography className={classesSystem.marginAuto} variant="h6">

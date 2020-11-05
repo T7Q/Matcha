@@ -82,11 +82,6 @@ const getUserTags = async (user_id) => {
     return res;
 };
 
-// const getUserPhotos = async (user_id) => {
-//     const res = await db.query(`SELECT image_path FROM images WHERE user_id = $1`, [user_id]);
-//     return res;
-// };
-
 const getTags = async (req, res) => {
     const result = await db.query(`SELECT tags.tag_name AS tag FROM tags`);
     return res.json(result.rows);
@@ -222,7 +217,6 @@ module.exports = {
     getMessageNotifications,
     deleteMessageNotifications,
     deleteNotifications,
-    // getUserPhotos, tanya can i delete it
     getBlockedUsers,
     getBlockedValue,
     userExists,

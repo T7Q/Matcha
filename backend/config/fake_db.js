@@ -6,7 +6,7 @@ const { database } = require('./index');
 // there is also a demo user (user_id 1) created on setup_db stage
 
 // number of generated fake accounts
-const desiredFakeUsers = 10;
+const desiredFakeUsers = 500;
 
 // statement to insert 19 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {

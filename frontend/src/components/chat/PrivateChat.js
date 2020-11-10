@@ -8,6 +8,7 @@ import { Send } from '@material-ui/icons';
 import chatService from '../../services/chatService';
 import { clearMessages, getMessages } from '../../actions/chat';
 import { getProfile, clearProfile } from '../../actions/profile';
+import { setSnackbar } from '../../actions/setsnackbar';
 import { systemStyles } from '../../styles/systemStyles';
 import { chatStyles } from '../../styles/chatStyles';
 import Dropdown from '../profile/viewProfile/DropdownItem';
@@ -70,11 +71,14 @@ const PrivateChat = ({ currentConversation, handleChange, setCurrentConversation
     const postMessage = async (e) => {
         e.preventDefault();
         if (textMessage) {
-            await chatService.postMessage({
+            const res = await chatService.postMessage({
                 senderId: user.userId,
                 receiverId: partnerId,
                 content: textMessage,
             });
+            if (res && res.error) {
+                dispatch(setSnackbar(true, 'error', res.error));
+            }
             socket.emit('SEND_MESSAGE', chat.chat_id, partnerId, textMessage);
             socket.emit('TYPING_NOTIFICATION', chat.chat_id, false, partnerId);
             setTextMessage('');

@@ -22,7 +22,7 @@ const isChatExists = async (chatId) => {
 
 const searchChat = async (senderId, receiverId) => {
     let result = await db.query(
-        `SELECT chat_id FROM chats
+        `SELECT chat_id, active FROM chats
         WHERE (user_1 = $2 AND user_2 = $1) OR (user_1 = $1 AND user_2 = $2)`,
         [senderId, receiverId]
     );

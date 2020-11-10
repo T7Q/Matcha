@@ -26,16 +26,22 @@ const addMessage = async (req, res) => {
         return res.json({ error: 'not full information' });
     }
 
+    let existedChat;
+
     if (!chatId || !(await chatModel.isChatExists(chatId))) {
-        const searchChat = await chatModel.searchChat(senderId, receiverId);
-        if (!searchChat) {
+        existedChat = await chatModel.searchChat(senderId, receiverId);
+        if (!existedChat) {
             chatId = await chatModel.createChat(senderId, receiverId);
         } else {
-            chatId = searchChat.chat_id;
+            chatId = existedChat.chat_id;
         }
     }
 
-    await chatModel.addMessage(chatId, senderId, content, receiverId);
+    if (existedChat && existedChat.active) {
+        await chatModel.addMessage(chatId, senderId, content, receiverId);
+    } else {
+        return res.json({ error: 'You are not connected' });
+    }
 
     return res.json({ msg: 'message sent' });
 };

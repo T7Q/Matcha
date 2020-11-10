@@ -16,13 +16,16 @@ import CustomizedSnackbars from './components/common/CustomizedSnackbars';
 import theme from './styles/theme';
 import './App.css';
 
-const socket = io('http://localhost:5000');
-
 const App = () => {
     useEffect(() => {
+        const socket = io('http://localhost:5000');
         setAuthToken(localStorage.getItem('token'));
         store.dispatch(loadUser());
         store.dispatch(loadSocket(socket));
+
+        return () => {
+            socket.close();
+        };
     }, []);
 
     return (

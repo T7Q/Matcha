@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Badge, Avatar, Tooltip } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
@@ -49,10 +49,24 @@ const StyledOfflineBadge = withStyles((theme) => ({
     },
 }))(Badge);
 
-const OnlineBadge = ({ online, profile }) => {
+const OnlineBadge = ({ profile, socket }) => {
+    const [partnerIsOnline, setPartnerIsOnline] = useState(profile.online === 1 ? true : false);
     const date = new Date(profile.last_seen).toLocaleString();
 
-    if (!online)
+    useEffect(() => {
+        let isMounted = true;
+        socket.on('ONLINE', (userId, online) => {
+            if (isMounted && userId === profile.partner_id) {
+                setPartnerIsOnline(online);
+            }
+        });
+
+        return () => {
+            isMounted = false;
+        };
+    }, [partnerIsOnline, socket, profile.partner_id]);
+
+    if (!partnerIsOnline)
         return (
             <Tooltip title={`last seen ${date}`}>
                 <StyledOfflineBadge

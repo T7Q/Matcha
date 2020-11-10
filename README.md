@@ -10,7 +10,8 @@ This is a team project, a part of the web branch at [Hive Helsinki](https://www.
     -   [Work breakdown](#work-breakdown)
     -   [Database structure](#database-structure)
     -   [Website wireframe](#website-wireframe)
--   [App Preview](#app-preview)
+-   [App Live Preview](#app-live-preview)
+-   [App snapshots](#app-snapshots)
 -   [Run locally](#run-locally)
 
 ## Authors
@@ -51,8 +52,8 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 ## Functionality
 
 -   **User features:**
-    -   Registration and login (Oauth), and password reset through email link.
-    -   User data management, incl. edit profile data, change password and notification preferences.
+    -   Step-by-step registration, login (Oauth), and password reset through email link.
+    -   User data management, incl. edit profile data, change password and geolocation.
     -   View own and other user profiles.
     -   View profile visit history, list of connected and blocked profiles.
 -   **Matching features:**
@@ -66,9 +67,12 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 ## Planning
 
-### Work milestones and breakdown
+### Work breakdown
+**Tatiana** planned work breakdown, her focus was on developing matching algorithm, user profile creation and interactions (likes, visits, blocked). Tatiana was the driving force behind UX/UI design of the app.
 
-TBC
+**Diana** focus was on user features (inc. account creation, authentication, profile data management), real-time chat and notifications. Diana was the driving force behind the app architecture.
+
+[Detailed work plan](https://github.com/T7Q/Matcha/blob/assets/work_breakdown.pdf) with breakdown and phasing.
 
 ### Database structure
 
@@ -76,14 +80,14 @@ TBC
 
 ### Website wireframe
 
-See full mobile and desktop versions.
+See full [mobile](https://github.com/T7Q/Matcha/blob/assets/wireframe_mobile.pdf) and [desktop](https://github.com/T7Q/Matcha/blob/assets/wireframe_desktop.pdf) versions.
 ![Gallery draft](../assets/wireframe.png?raw=true)
 
 ## App live preview
 
 Live preview on HEROKU
 
-You can create your own profile or use a ready made: **username** `Love` **password** `Astro1ove`
+You can create your own profile or use demo profile: **username** `love` **password** `1234Aa`
 
 ## App snapshots
 
@@ -99,15 +103,15 @@ TBC
 -   Sign up and get credentials from:
     -   [Google](https://developers.google.com/adwords/api/docs/guides/authentication)
     -   [Google map API](https://developers.google.com/maps/documentation/javascript/get-api-key)
-    -   [Geoip-lite configuration key](https://www.maxmind.com/en/geolite2/signup) and run:
+    -   [Geoip-lite key](https://www.maxmind.com/en/geolite2/signup) and run:
         `cd backend/node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY`
--   Create a file **.env** in `backend/config` folder and update with your credentials
+-   Create a file **.env** in `backend` folder and update with your credentials
 
     ```
     # database configuration
-    DB_USER=dmukaliy
+    DB_USER=your_db_user_name
     DB_NAME=matcha
-    DB_PWD=123456
+    DB_PWD=your_db_user_password
     DB_HOST=*.*.*.*
     DB_PORT=5432
 
@@ -118,7 +122,7 @@ TBC
     JWT_SECRET=your_secret
 
     # mail configuration
-    EMAIL=your_system_email
+    EMAIL=your_email
     EMAIL_PWD=your_password
 
     # google credentials
@@ -131,7 +135,13 @@ TBC
 
     DEV_URL=localhost:3000
     ```
+-   Create a file **.env.local** in `frontend` folder and update with your credentials
 
+    ```
+    REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_api
+    REACT_APP_GOOGLE_CLIENT_ID=your_google_id
+   
+    ```
 -   Run command `npm run init` in the root folder to install all dependencies in the backend and frontend.
 -   Run command `npm run dev` to start a server and open `localhost:3000` in your preferred browser in development mode
 -   Run command `npm start` to start a server and open `localhost:3000` in your preferred browser in production mode

@@ -69,7 +69,7 @@ const setSexPreference = (userSexOrientation, filterSexOrientation) => {
                 orientation = "'lesbian', 'bi_woman', 'bi_man', 'straight_man'";
                 break;
             case 'bi_man':
-                orientation = "'gay', 'bi_woman', 'bi_man', 'staight_woman'";
+                orientation = "'gay', 'bi_woman', 'bi_man', 'straight_woman'";
                 break;
             case 'straight_woman':
                 orientation = "'straight_man', 'bi_man'";

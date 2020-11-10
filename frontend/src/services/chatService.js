@@ -3,7 +3,8 @@ import axios from 'axios';
 const chatService = {};
 
 chatService.postMessage = async (data) => {
-    await axios.post('/chat/message', data);
+    const res = await axios.post('/chat/message', data);
+    return res.data;
 };
 
 chatService.getChats = async () => {

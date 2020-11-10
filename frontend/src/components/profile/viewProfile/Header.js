@@ -14,6 +14,7 @@ import { profileStyles } from '../../../styles/profileStyles';
 const Header = ({ type, updateStatus }) => {
     const { profile } = useSelector((state) => state.profile);
     const { filter, match } = useSelector((state) => state.match);
+    const { socket } = useSelector((state) => state.auth);
 
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
@@ -44,7 +45,11 @@ const Header = ({ type, updateStatus }) => {
             <Grid container alignItems="flex-end">
                 <Grid item xs={12} sm={4} md={3}>
                     {type === 'otherUser' ? (
-                        <OnlineBadge profile={profile} handleClickOpen={handleClickOpen} />
+                        <OnlineBadge
+                            socket={socket}
+                            profile={profile}
+                            handleClickOpen={handleClickOpen}
+                        />
                     ) : (
                         <UserAvatar handleClickOpen={handleClickOpen} />
                     )}

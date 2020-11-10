@@ -1,5 +1,7 @@
 module.exports = (server) => {
-    const io = require('socket.io')(server);
+    const io = require('socket.io')(server, {
+        pingTimeout: 60000,
+    });
 
     io.on('connection', (socket) => {
         socket.on('SEND_MESSAGE', (chatId, partnerId, text) => {

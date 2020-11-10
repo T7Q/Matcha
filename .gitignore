@@ -1,9 +1,9 @@
 *node_modules/
 *.env
-frontend/.env.local
+frontend/*.env.local
 .DS_Store
-# *package-lock.json
 backend/images/*
+backend/build
 !backend/images/default.png
 !backend/images/demo1.jpg
 !backend/images/demo2.jpg
@@ -15,5 +15,4 @@ backend/images/*
 !backend/images/demo8.jpg
 !backend/images/demo9.jpg
 !backend/images/demo10.jpg
-frontend/*.env.local
 

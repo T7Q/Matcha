@@ -1,4 +1,4 @@
-const { email, developmentUrl } = require('../config');
+const { email, url } = require('../config');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
@@ -9,8 +9,13 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-const activateAccountEmail = (recipient, userId, username, token) => {
-    const link = `${developmentUrl}/account/activate?user=${userId}&token=${token}`;
+const getRootUrl = (req) => {
+    if (url) return url;
+    return req.protocol + '://' + req.get('host');
+};
+
+const activateAccountEmail = (recipient, userId, username, token, req) => {
+    const link = `${getRootUrl(req)}/account/activate?user=${userId}&token=${token}`;
     const subject = 'Matcha: account activation';
     const content = `
         <div style="font-size:14px; background: #12172d; padding-top: 20px; padding-bottom: 20px;">
@@ -27,12 +32,14 @@ const activateAccountEmail = (recipient, userId, username, token) => {
 };
 
 const pwdResetEmail = (recipient, userId, username, token, req) => {
-    const link = `${developmentUrl}/updatePwd?user=${userId}&token=${token}`;
+    const link = `${getRootUrl(req)}/updatePwd?user=${userId}&token=${token}`;
     const subject = 'Matcha: reset password';
     const content = `
         <div style="font-size:14px; background: #12172d; padding-top: 20px; padding-bottom: 20px;">
             <h3 style="color: #219bf1; font-family:sans-serif; text-align: center;">
-                Hi, ${username.charAt(0).toUpperCase() + username.slice(1)}! You have submitted a password change request
+                Hi, ${
+                    username.charAt(0).toUpperCase() + username.slice(1)
+                }! You have submitted a password change request
             </h3>
             <p style="color:white; text-align: center; padding-top: 5px;">
                 If it was you, to change your Astro Match password click the link below.

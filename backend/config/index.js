@@ -28,4 +28,4 @@ config.google = {
 
 config.geoip = process.env.GEOIP;
 
-config.developmentUrl = process.env.DEV_URL || 'localhost:3000';
+config.url = process.env.NODE_ENV === 'prod' ? '' : process.env.MATCHA_URL;

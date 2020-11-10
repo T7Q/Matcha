@@ -33,6 +33,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "postbuild": "rm -rf ../backend/build && mv build ../backend/",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

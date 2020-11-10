@@ -32,5 +32,7 @@ module.exports = async (req, res) => {
 
     const result = await accountModel.register(req.body);
 
-    return res.json(mail.activateAccountEmail(email, result.user_id, username, req.body.token));
+    return res.json(
+        mail.activateAccountEmail(email, result.user_id, username, req.body.token, req)
+    );
 };

@@ -2,6 +2,7 @@ const config = require('./config');
 const express = require('express');
 require('express-async-errors');
 const cors = require('cors');
+const path = require('path');
 const http = require('http');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
@@ -25,18 +26,23 @@ const limiter = new rateLimit({
  * Setup
  * ------------------------------------------------------------------------ */
 
+// use static files
+app.use(express.static('images'));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(cors());
 // Accept the incoming JSON body in requests
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 // Secure HTTP headers
-app.use(helmet());
+app.use(
+    helmet({
+        contentSecurityPolicy: false,
+    })
+);
 //  Apply rate limit to all requests
 app.use(limiter);
 // JWT setup
 app.use(middleware.authentication);
-// use static images
-app.use(express.static('images'));
 
 /* ------------------------------------------------------------------------
  * Routes
@@ -46,6 +52,10 @@ app.use('/account', require('./routes/account'));
 app.use('/profile', require('./routes/profile'));
 app.use('/chat', require('./routes/chat'));
 app.use('/match', require('./routes/match'));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/build/index.html'));
+});
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

@@ -4,8 +4,10 @@
     "description": "dating website api",
     "main": "server.js",
     "scripts": {
+        "init": "npm install && npm run geoip",
         "start": "NODE_ENV=prod node server.js",
         "dev": "NODE_ENV=dev nodemon server.js",
+        "geoip": "cd node_modules/geoip-lite && npm run-script updatedb license_key=$(cat ../.env | grep GEOIP | cut -c7-)",
         "setup_db": "node config/setup_db.js",
         "drop_db": "node config/drop_db.js",
         "fake_db": "node config/fake_db.js"

@@ -3,10 +3,12 @@
     "version": "1.0.0",
     "description": "dating web application",
     "scripts": {
+        "init": "npm run load && npm run geoip",
+        "load": "npm install && cd backend && npm install && cd ../frontend && npm install",
+        "geoip": "cd backend/node_modules/geoip-lite && npm run-script updatedb license_key=$(cat ../../.env | grep GEOIP | cut -c7-)",
         "start": "concurrently \"cd backend && npm start\" \" cd frontend && npm start\" ",
-        "init": "npm install && cd backend && npm install && cd ../frontend && npm install",
         "dev": "concurrently \"cd backend && npm run dev\" \" cd frontend && npm start\" ",
-        "setup_db": "cd backend && npm run setup_db",
+        "setup_db": "cd backend && npm run setup_db && npm run fake_db",
         "drop_db": "cd backend && npm run drop_db",
         "fake_db": "cd backend && npm run fake_db"
     },

@@ -26,6 +26,6 @@ config.google = {
     secret: process.env.GOOGLE_CLIENT_SECRET,
 };
 
-config.ipstack = process.env.IPSTACK;
+config.geoip = process.env.GEOIP;
 
 config.developmentUrl = process.env.DEV_URL || 'localhost:3000';

@@ -7,7 +7,7 @@ export const getRecommend = (route, filterIsOn) => async (dispatch, getState) =>
     dispatch({
         type: CLEAR_MATCH,
     });
-    const page = route.split('/')[2];
+    const page = route.split('/')[3];
     const data =
         filterIsOn > 0
             ? page === 'filter'

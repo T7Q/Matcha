@@ -3,10 +3,13 @@
     "version": "1.0.0",
     "description": "dating web application",
     "scripts": {
+        "init": "npm run load && npm run geoip",
+        "load": "npm install && cd backend && npm install && cd ../frontend && npm install",
+        "geoip": "cd backend && npm run geoip",
         "start": "concurrently \"cd backend && npm start\" \" cd frontend && npm start\" ",
-        "init": "npm install && cd backend && npm install && cd ../frontend && npm install",
         "dev": "concurrently \"cd backend && npm run dev\" \" cd frontend && npm start\" ",
-        "setup_db": "cd backend && npm run setup_db",
+        "prod": "cd frontend && npm run build && cd ../backend && npm start",
+        "setup_db": "cd backend && npm run setup_db && npm run fake_db",
         "drop_db": "cd backend && npm run drop_db",
         "fake_db": "cd backend && npm run fake_db"
     },

@@ -89,8 +89,7 @@ const Likes = ({ socket }) => {
                         value={selectedTab}
                         onChange={handleChange}
                         indicatorColor="primary"
-                        textColor="primary"
-                    >
+                        textColor="primary">
                         <Tab
                             label={
                                 <Badge badgeContent={notifications.like} color="primary">
@@ -103,14 +102,12 @@ const Likes = ({ socket }) => {
                                 <Box>
                                     <Badge
                                         badgeContent={amount(notifications.match)}
-                                        color="primary"
-                                    >
+                                        color="primary">
                                         Connected
                                     </Badge>{' '}
                                     <Badge
                                         badgeContent={-amount(notifications.unlike)}
-                                        color="error"
-                                    >
+                                        color="error">
                                         {!notifications.match && (
                                             <Box color="transparent">------</Box>
                                         )}
@@ -126,12 +123,12 @@ const Likes = ({ socket }) => {
             <Container>
                 {selectedTab === 0 && (
                     <Box p={3}>
-                        <GetMatches route="/match/likedme" filterIsOn={0} />
+                        <GetMatches route="/api/match/likedme" filterIsOn={0} />
                     </Box>
                 )}
                 {selectedTab === 1 && (
                     <Box p={3}>
-                        <GetMatches route="/match/connected" filterIsOn={0} />
+                        <GetMatches route="/api/match/connected" filterIsOn={0} />
                     </Box>
                 )}
                 {selectedTab === 2 && (

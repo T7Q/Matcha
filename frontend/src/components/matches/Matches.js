@@ -49,8 +49,17 @@ const Matches = () => {
     const { previousPath } = useSelector((state) => state.auth);
     let { page } = useParams();
     const history = useHistory();
-    const route = '/match/' + page;
-    const indexToTabName = ['recommend', 'search', 'online', 'new', 'popular', 'random', 'nearby', 'hidden'];
+    const route = '/api/match/' + page;
+    const indexToTabName = [
+        'recommend',
+        'search',
+        'online',
+        'new',
+        'popular',
+        'random',
+        'nearby',
+        'hidden',
+    ];
     const classes = systemStyles();
 
     if (!indexToTabName.includes(page)) {

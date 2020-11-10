@@ -43,8 +43,7 @@ const Filter = ({ setting }) => {
                             variant="contained"
                             className={classesFilter.filter}
                             startIcon={<SyncAlt className={classes.mr0} />}
-                            disabled
-                        >
+                            disabled>
                             Filter&emsp;&emsp;
                         </Button>
 
@@ -54,8 +53,7 @@ const Filter = ({ setting }) => {
                                     handleClickReset();
                                 }}
                                 size="small"
-                                className={classes.padding}
-                            >
+                                className={classes.padding}>
                                 <HighlightOff />
                             </IconButton>
                         )}
@@ -64,8 +62,7 @@ const Filter = ({ setting }) => {
                                 [classesFilter.expandOpen]: expanded,
                             })}
                             onClick={handleExpandClick}
-                            aria-expanded={expanded}
-                        >
+                            aria-expanded={expanded}>
                             <ExpandMore />
                         </IconButton>
                     </Box>
@@ -89,22 +86,20 @@ const Filter = ({ setting }) => {
                             onClick={(e) => {
                                 setFilter(filterIsOn + 1);
                             }}
-                            className={classesCustom.mainButton}
-                        >
+                            className={classesCustom.mainButton}>
                             See results
                         </Button>
                         <Button
                             onClick={() => {
                                 handleClickReset();
                             }}
-                            className={`${classesCustom.mainButton} ${classesCustom.secondButton}`}
-                        >
+                            className={`${classesCustom.mainButton} ${classesCustom.secondButton}`}>
                             Reset
                         </Button>
                     </Grid>
                 </Grid>
             </Collapse>
-            <GetMatches reset={reset} route="/match/filter" filterIsOn={filterIsOn} />
+            <GetMatches reset={reset} route="/api/match/filter" filterIsOn={filterIsOn} />
         </>
     );
 };

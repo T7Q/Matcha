@@ -14,7 +14,7 @@ const getAge = (date) => {
 export const validateAtBackend = async (name, value) => {
     const errorType = [name] + 'Error';
     if (!value) return { [errorType]: 'required field' };
-    let res = await axios.post('/account/validateData', {
+    let res = await axios.post('/api/account/validateData', {
         key: [name][0],
         value: value,
     });

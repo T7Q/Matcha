@@ -48,10 +48,10 @@ app.use(middleware.authentication);
  * Routes
  * ------------------------------------------------------------------------ */
 
-app.use('/account', require('./routes/account'));
-app.use('/profile', require('./routes/profile'));
-app.use('/chat', require('./routes/chat'));
-app.use('/match', require('./routes/match'));
+app.use('/api/account', require('./routes/account'));
+app.use('/api/profile', require('./routes/profile'));
+app.use('/api/chat', require('./routes/chat'));
+app.use('/api/match', require('./routes/match'));
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/build/index.html'));

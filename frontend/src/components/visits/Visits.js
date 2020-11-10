@@ -66,12 +66,12 @@ const Visits = ({ socket }) => {
             <Container>
                 {selectedTab === 0 && (
                     <Box p={3}>
-                        <GetMatches route="/match/visitedMe" filterIsOn={0} />
+                        <GetMatches route="/api/match/visitedMe" filterIsOn={0} />
                     </Box>
                 )}
                 {selectedTab === 1 && (
                     <Box p={3}>
-                        <GetMatches route="/match/visitedByMe" filterIsOn={0} />
+                        <GetMatches route="/api/match/visitedByMe" filterIsOn={0} />
                     </Box>
                 )}
                 {selectedTab === 2 && (

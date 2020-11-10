@@ -13,7 +13,7 @@ const Tags = () => {
     useEffect(() => {
         let isMounted = true;
         async function getTags() {
-            const res = await axios.get('/profile/tags');
+            const res = await axios.get('/api/profile/tags');
             isMounted && setRealTags(res.data.map((item) => item.tag));
         }
         getTags();

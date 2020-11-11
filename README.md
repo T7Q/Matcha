@@ -11,7 +11,6 @@ This is a team project, a part of the web branch at [Hive Helsinki](https://www.
     -   [Database structure](#database-structure)
     -   [Website wireframe](#website-wireframe)
 -   [App Live Preview](#app-live-preview)
--   [App snapshots](#app-snapshots)
 -   [Run locally](#run-locally)
 
 ## Authors
@@ -68,6 +67,7 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 ## Planning
 
 ### Work breakdown
+
 **Tatiana** planned work breakdown, her focus was on developing matching algorithm, user profile creation and interactions (likes, visits, blocked). Tatiana was the driving force behind UX/UI design of the app.
 
 **Diana** focus was on user features (inc. account creation, authentication, profile data management), real-time chat and notifications. Diana was the driving force behind the app architecture.
@@ -85,13 +85,9 @@ See full [mobile](https://github.com/T7Q/Matcha/blob/assets/wireframe_mobile.pdf
 
 ## App live preview
 
-Live preview on HEROKU
+Live preview on [HEROKU](https://astromatcha.herokuapp.com/)
 
 You can create your own profile or use demo profile: **username** `love` **password** `1234Aa`
-
-## App snapshots
-
-TBC
 
 ## Run locally
 
@@ -101,10 +97,9 @@ TBC
 -   Make sure you can send email from terminal
 -   Install nodejs and npm `brew install nodejs npm` or `apt install nodejs`
 -   Sign up and get credentials from:
-    -   [Google](https://developers.google.com/adwords/api/docs/guides/authentication)
-    -   [Google map API](https://developers.google.com/maps/documentation/javascript/get-api-key)
-    -   [Geoip-lite key](https://www.maxmind.com/en/geolite2/signup) and run:
-        `cd backend/node_modules/geoip-lite && npm run-script updatedb license_key=YOUR_LICENSE_KEY`
+    -   your_google_id and your_google_secret from [Google](https://developers.google.com/adwords/api/docs/guides/authentication)
+    -   your_google_maps_api from [Google map API](https://developers.google.com/maps/documentation/javascript/get-api-key)
+    -   your_geoip_lite_key from [Geoip-lite](https://www.maxmind.com/en/geolite2/signup)
 -   Create a file **.env** in `backend` folder and update with your credentials
 
     ```
@@ -117,6 +112,7 @@ TBC
 
     # server configuration
     PORT=5000
+    IP=localhost
 
     # JWT secret
     JWT_SECRET=your_secret
@@ -125,23 +121,27 @@ TBC
     EMAIL=your_email
     EMAIL_PWD=your_password
 
-    # google credentials
+    # google credentials for google signin
     GOOGLE_CLIENT_ID=your_google_id
     GOOGLE_CLIENT_SECRET=your_google_secret
 
     # geoip
-    GEOIP_LITE_KEY=your_geoip_lite_key
-    IPSTACK=your_ipstack_key
+    GEOIP=your_geoip_lite_key
 
-    DEV_URL=localhost:3000
+    # development mode url
+    MATCHA_URL=http://localhost:3000
     ```
+
 -   Create a file **.env.local** in `frontend` folder and update with your credentials
 
     ```
     REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_api
     REACT_APP_GOOGLE_CLIENT_ID=your_google_id
-   
+
     ```
--   Run command `npm run init` in the root folder to install all dependencies in the backend and frontend.
--   Run command `npm run dev` to start a server and open `localhost:3000` in your preferred browser in development mode
--   Run command `npm start` to start a server and open `localhost:3000` in your preferred browser in production mode
+
+-   Run command `npm run init` in the root folder to install all dependencies in the backend and frontend and set up geoip-lite.
+-   Run command `npm run prod` to start a server and open `localhost:5000` in your preferred browser in production mode.
+-   To run in development mode:
+    -   Change line 21 in **frontend/src/App.js** from `const socket = io()` to `const socket = io('http://localhost:3000')`.
+    -   Run command `npm run dev` to start a server and open `localhost:3000` in your preferred browser in development mode.

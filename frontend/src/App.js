@@ -18,7 +18,7 @@ import './App.css';
 
 const App = () => {
     useEffect(() => {
-        const socket = io('http://localhost:5000');
+        const socket = io();
         setAuthToken(localStorage.getItem('token'));
         store.dispatch(loadUser());
         store.dispatch(loadSocket(socket));

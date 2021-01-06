@@ -22,13 +22,12 @@ const ForgetPwd = ({ history }) => {
             setError('required field');
             return;
         }
-        const res = await authService.forgetPwd(email);
-
-        if (res.error) {
-            setError(res.error);
-        } else {
+        try {
+            const res = await authService.forgetPwd(email);
             dispatch(setSnackbar(true, 'success', 'Check your email'));
             setTimeout(() => history.push('/'), 1000);
+        } catch (err) {
+            setError(err.response.data);
         }
     };
 

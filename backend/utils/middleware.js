@@ -75,7 +75,13 @@ const unknownEndpoint = (req, res) => {
 };
 
 const errorHandler = (error, req, res, next) => {
-    res.json({ error: 'something went wrong' });
+    if (error.name === 'JsonWebTokenError') {
+        return res.status(401).json({
+            error: error.message,
+        });
+    }
+
+    next(error);
 };
 
 module.exports = {

@@ -26,6 +26,7 @@ export const register = (formData, history) => async (dispatch) => {
 
         if (res.error) {
             dispatch({ type: REGISTER_FAIL });
+            dispatch(setSnackbar(true, 'error', 'Please, check your fields.'));
             return res.error;
         } else {
             dispatch({ type: REGISTER_SUCCESS, payload: 'here' });
@@ -41,14 +42,10 @@ export const login = (data) => async (dispatch) => {
     try {
         const res = await authService.login(data);
 
-        if (res.error) {
-            dispatch(setSnackbar(true, 'error', res.error));
-            return res;
-        } else {
-            dispatch({ type: LOGIN_SUCCESS, payload: res });
-            dispatch(loadUser());
-        }
+        dispatch({ type: LOGIN_SUCCESS, payload: res });
+        dispatch(loadUser());
     } catch (error) {
+        dispatch(setSnackbar(true, 'error', error.response.data));
         dispatch({ type: AUTH_FAIL });
     }
 };

@@ -1,3 +1,4 @@
+const { JsonWebTokenError } = require('jsonwebtoken');
 const accountModel = require('../../models/account');
 
 module.exports = async (req, res) => {
@@ -6,7 +7,7 @@ module.exports = async (req, res) => {
     let userInfo = await accountModel.findUserInfo('user_id', user, 'token', 'status');
 
     if (!userInfo || userInfo.status != 0 || token !== userInfo.token) {
-        return res.json({ error: 'Token is not valid' });
+        throw new JsonWebTokenError('Token is not valid');
     }
     await accountModel.updateAccount(user, { status: 1, token: null });
 

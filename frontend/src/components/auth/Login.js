@@ -27,14 +27,16 @@ const Login = ({ history }) => {
 
     useEffect(() => {
         if (location.pathname === '/account/activate') {
-            authService.activate(location.search).then((res) => {
-                if (res.error) {
-                    dispatch(setSnackbar(true, 'error', res.error));
-                } else {
+            authService
+                .activate(location.search)
+                .then((res) => {
                     dispatch(setSnackbar(true, 'success', res.msg));
-                }
-                history.push('/login');
-            });
+                    history.push('/login');
+                })
+                .catch((err) => {
+                    dispatch(setSnackbar(true, 'error', err.response.data));
+                    history.push('/login');
+                });
         }
     }, [location, history, dispatch]);
 

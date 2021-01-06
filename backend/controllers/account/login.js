@@ -8,16 +8,16 @@ module.exports = async (req, res) => {
     let { username, password } = req.body;
 
     if (!username || !password) {
-        return res.json({ error: 'Fields can not be empty' });
+        return res.status(400).json('Fields can not be empty');
     } else if (!(await accountHelper.checkPassword(null, password, username.toLowerCase()))) {
-        return res.json({ error: 'Invalid credentials' });
+        return res.status(400).json('Invalid credentials');
     }
 
     const user = await accountModel.findUserInfo('username', username.toLowerCase());
 
     // check if account activated
     if (user.status === 0) {
-        return res.json({ error: 'Your account is not activated yet. Please, check your email.' });
+        return res.status(426).json('Your account is not activated yet. Please, check your email.');
     }
 
     const data = await getLocation(req);

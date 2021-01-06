@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormGroup, Grid } from '@material-ui/core';
 
 import { editProfile } from '../../../actions/profile';
@@ -7,8 +7,10 @@ import { validateField } from '../../../services/validator';
 import { systemStyles } from '../../../styles/systemStyles';
 import Input from '../../common/Input';
 import Button from '../../common/Button';
+import { setSnackbar } from '../../../actions/setsnackbar';
 
 const Password = () => {
+    const { user } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         oldPassword: '',
@@ -45,7 +47,9 @@ const Password = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (validate()) {
+        if (user.username === 'love') {
+            dispatch(setSnackbar(true, 'warning', 'Changing demo user password is now allowed. Please create your own account.'));
+        } else if (validate()) {
             const res = await dispatch(editProfile({ key: 'password', value: formData }));
             if (res && res.error) {
                 setErrors({ ...res.error });

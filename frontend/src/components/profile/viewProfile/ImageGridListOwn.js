@@ -5,6 +5,7 @@ import { Box } from '@material-ui/core';
 
 import { getProfile, savePhotos } from '../../../actions/profile';
 import Button from '../../common/Button';
+import { setSnackbar } from '../../../actions/setsnackbar';
 
 const ImageGridListOwn = ({ profile, handleClose }) => {
     const dispatch = useDispatch();
@@ -67,9 +68,13 @@ const ImageGridListOwn = ({ profile, handleClose }) => {
     };
 
     const save = async () => {
-        await dispatch(savePhotos({ key: 'photo', value: images }));
-        handleClose();
-        dispatch(getProfile('myProfile', profile.user_id));
+        if (profile.username === 'love') {
+            dispatch(setSnackbar(true, 'warning', 'Changing/deleting demo user photos is now allowed. Please create your own account.'));
+        } else {
+            await dispatch(savePhotos({ key: 'photo', value: images }));
+            handleClose();
+            dispatch(getProfile('myProfile', profile.user_id));
+        }
     };
 
     return (

@@ -32,6 +32,8 @@ const Username = () => {
     const handleSubmit = async () => {
         if (username === user.username) {
             dispatch(setSnackbar(true, 'warning', 'No changes applied'));
+        } else if (user.username === 'love') {
+            dispatch(setSnackbar(true, 'warning', 'Changing demo user email is not allowed. Please create your own account.'));
         } else {
             const error = await validateAtBackend('username', username);
             if (error === '') {

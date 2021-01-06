@@ -5,14 +5,5 @@ frontend/*.env.local
 backend/images/*
 backend/build
 !backend/images/default.png
-!backend/images/demo1.jpg
-!backend/images/demo2.jpg
-!backend/images/demo3.jpg
-!backend/images/demo4.jpg
-!backend/images/demo5.jpg
-!backend/images/demo6.jpg
-!backend/images/demo7.jpg
-!backend/images/demo8.jpg
-!backend/images/demo9.jpg
-!backend/images/demo10.jpg
+!backend/images/demo*.jpg
 

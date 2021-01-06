@@ -22,6 +22,7 @@ const ForgetPwd = ({ history }) => {
             setError('required field');
             return;
         }
+
         const res = await authService.forgetPwd(email);
 
         if (res.error) {

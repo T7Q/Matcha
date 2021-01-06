@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Box, Typography, Button, IconButton } from '@material-ui/core';
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@material-ui/core';
@@ -9,6 +9,7 @@ import { deleteProfile } from '../../../actions/profile';
 import CustomButton from '../../common/Button';
 import { btnStyles } from '../../../styles/btnStyles';
 import { profileStyles } from '../../../styles/profileStyles';
+import { setSnackbar } from '../../../actions/setsnackbar';
 
 const DeleteAccount = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const DeleteAccount = () => {
     const [open, setOpen] = useState(false);
     const classes = btnStyles();
     const classesProf = profileStyles();
+    const { user } = useSelector((state) => state.auth);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,7 +29,11 @@ const DeleteAccount = () => {
     };
 
     const deleteAccount = () => {
-        dispatch(deleteProfile(history));
+        if (user.username === 'love') {
+            dispatch(setSnackbar(true, 'warning', 'Deleting demo user is now allowed. Please create your own account.'));
+        }  else {
+            dispatch(deleteProfile(history));
+        }
     };
 
     return (

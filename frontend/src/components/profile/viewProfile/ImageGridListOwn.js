@@ -69,7 +69,7 @@ const ImageGridListOwn = ({ profile, handleClose }) => {
 
     const save = async () => {
         if (profile.username === 'love') {
-            dispatch(setSnackbar(true, 'warning', 'Changing/deleting demo user photos is now allowed. Please create your own account.'));
+            dispatch(setSnackbar(true, 'warning', 'Changing/deleting demo user photos is not allowed. Please create your own account.'));
         } else {
             await dispatch(savePhotos({ key: 'photo', value: images }));
             handleClose();

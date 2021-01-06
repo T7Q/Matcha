@@ -48,7 +48,7 @@ const Password = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (user.username === 'love') {
-            dispatch(setSnackbar(true, 'warning', 'Changing demo user password is now allowed. Please create your own account.'));
+            dispatch(setSnackbar(true, 'warning', 'Changing demo user password is not allowed. Please create your own account.'));
         } else if (validate()) {
             const res = await dispatch(editProfile({ key: 'password', value: formData }));
             if (res && res.error) {

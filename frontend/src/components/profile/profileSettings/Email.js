@@ -38,7 +38,7 @@ const Email = ({ setSnackbar }) => {
         } else if (user.email === email) {
             dispatch(setSnackbar(true, 'warning', 'No changes applied'));
         } else if (user.username === 'love') {
-            dispatch(setSnackbar(true, 'warning', 'Changing demo user email is now allowed. Please create your own account.'));
+            dispatch(setSnackbar(true, 'warning', 'Changing demo user email is not allowed. Please create your own account.'));
         } else {
             const res = await dispatch(editProfile({ key: 'email', value: formData }));
             if (res && res.error) {

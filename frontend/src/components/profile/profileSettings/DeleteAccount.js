@@ -30,7 +30,7 @@ const DeleteAccount = () => {
 
     const deleteAccount = () => {
         if (user.username === 'love') {
-            dispatch(setSnackbar(true, 'warning', 'Deleting demo user is now allowed. Please create your own account.'));
+            dispatch(setSnackbar(true, 'warning', 'Deleting demo user is not allowed. Please create your own account.'));
         }  else {
             dispatch(deleteProfile(history));
         }

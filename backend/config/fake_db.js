@@ -6,7 +6,7 @@ const { database } = require('./index');
 // there is also a demo user (user_id 1) created on setup_db stage
 
 // number of generated fake accounts
-const desiredFakeUsers = 500;
+const desiredFakeUsers = 100;
 
 // statement to insert 19 params to table 'users'
 const prepareStmt = (desiredFakeUsers) => {
@@ -49,7 +49,7 @@ const createFakeUser = () => {
         faker.lorem.sentences(),
         faker.date.between('2018-01-01', Date()),
         faker.date.between('2018-01-01', Date()),
-        faker.image.avatar(),
+        faker.random.arrayElement(['/demo11.jpg', '/demo12.jpg','/demo13.jpg','/demo14.jpg','/demo15.jpg','/demo16.jpg','/demo17.jpg','/demo18.jpg','/demo19.jpg','/demo20.jpg','/demo21.jpg','/demo22.jpg','/demo23.jpg','/demo24.jpg','/demo25.jpg','/demo26.jpg','/demo27.jpg','/demo28.jpg']),
         faker.random.number(30),
     ];
 };

@@ -23,7 +23,7 @@ const ForgetPwd = ({ history }) => {
             return;
         }
         try {
-            const res = await authService.forgetPwd(email);
+            await authService.forgetPwd(email);
             dispatch(setSnackbar(true, 'success', 'Check your email'));
             setTimeout(() => history.push('/'), 1000);
         } catch (err) {

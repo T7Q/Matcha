@@ -108,8 +108,6 @@ See full [mobile](https://github.com/T7Q/Matcha/blob/assets/wireframe_mobile.pdf
 
 ##### Mobile version
 
-<img src="https://github.com/T7Q/Matcha/blob/assets/mobile_1.gif" width="320"/>
-
 ![](https://github.com/T7Q/Matcha/blob/assets/mobile_1.gif)
 ![](https://github.com/T7Q/Matcha/blob/assets/mobile_2.gif)
 

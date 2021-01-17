@@ -102,7 +102,7 @@ See full [mobile](https://github.com/T7Q/Matcha/blob/assets/wireframe_mobile.pdf
 
 ![](https://github.com/T7Q/Matcha/blob/assets/search.gif)
 
-##### Chate / Notifications
+##### Chat / Notifications
 
 ![](https://github.com/T7Q/Matcha/blob/assets/interaction.gif)
 

@@ -2,16 +2,16 @@
 
 This is a team project, a part of the web branch at [Hive Helsinki](https://www.hive.fi/) coding school.
 
--   [Task](#task)
--   [Authors](#authors)
--   [Tech stack](#tech-stack)
--   [Functionality](#functionality)
--   [Planning](#planning)
-    -   [Work breakdown](#work-breakdown)
-    -   [Database structure](#database-structure)
-    -   [Website wireframe](#website-wireframe)
--   [App Live Preview](#app-live-preview)
--   [Run locally](#run-locally)
+- [Task](#task)
+- [Authors](#authors)
+- [Tech stack](#tech-stack)
+- [Functionality](#functionality)
+- [Planning](#planning)
+  - [Work breakdown](#work-breakdown)
+  - [Database structure](#database-structure)
+  - [Website wireframe](#website-wireframe)
+- [App Live Preview](#app-live-preview)
+- [Run locally](#run-locally)
 
 ## Authors
 
@@ -25,14 +25,14 @@ The aim of this project is to build a **Tinder-like web app**, where the users c
 
 **Project constraints:**
 
--   Clientside: HTML, CSS, Javascript
--   Relational or graph-oriented database
--   Micro-frameworks and UI libraries are allowed
--   No ORM, validators, or User Account Manager
--   No errors, warnings or notice on both server- and client- sides
--   No security breaches (e.g. no SQL, HTML injections, plain passwords in the database)
--   Compatible at least with Firefox (>=41) and Chrome (>= 46)
--   Responsive design
+- Clientside: HTML, CSS, Javascript
+- Relational or graph-oriented database
+- Micro-frameworks and UI libraries are allowed
+- No ORM, validators, or User Account Manager
+- No errors, warnings or notice on both server- and client- sides
+- No security breaches (e.g. no SQL, HTML injections, plain passwords in the database)
+- Compatible at least with Firefox (>=41) and Chrome (>= 46)
+- Responsive design
 
 ## Stack
 
@@ -40,29 +40,29 @@ This is the first project in Hive Helsinki web branch when we were allowed to ch
 
 Our team decided to use this opportunity to learn **PERN stack**. This was the first time for both of us to use PostgreSQL, React, Redux, and also JWT, Material UI and Socket.io. We also used this project to learn more about Node.js projects structures (including folder structure, configuring env variables and MVC pattern).
 
--   **PostgreSQL**
--   **Express**
--   **React, Redux**
--   **Node**
--   JWT
--   Material UI
--   Socket.io
+- **PostgreSQL**
+- **Express**
+- **React, Redux**
+- **Node**
+- JWT
+- Material UI
+- Socket.io
 
 ## Functionality
 
--   **User features:**
-    -   Step-by-step registration, login (Oauth), and password reset through email link.
-    -   User data management, incl. edit profile data, change password and geolocation.
-    -   View own and other user profiles.
-    -   View profile visit history, list of connected and blocked profiles.
--   **Matching features:**
-    -   Multiple infinite scroll galleries with a list of suggestions that match his/her profile (recommended, online, popular, nearby).
-    -   Matching Alogrimth using scoring weights based on Chinese and Western horoscope compatibility, common tags, fame rating, location, age and gender.
-    -   Advanced range sliders to sort and filter users by horoscope believe, common tags, location, fame rating and age.
--   **Chat features:**
-    -   FB messenger-like real-time chat for connected users.
--   **Notifications features:**
-    -   Real-time push notifications when the user receives a like/unlike, message from another user or user's profile is checked.
+- **User features:**
+  - Step-by-step registration, login (Oauth), and password reset through email link.
+  - User data management, incl. edit profile data, change password and geolocation.
+  - View own and other user profiles.
+  - View profile visit history, list of connected and blocked profiles.
+- **Matching features:**
+  - Multiple infinite scroll galleries with a list of suggestions that match his/her profile (recommended, online, popular, nearby).
+  - Matching Alogrimth using scoring weights based on Chinese and Western horoscope compatibility, common tags, fame rating, location, age and gender.
+  - Advanced range sliders to sort and filter users by horoscope believe, common tags, location, fame rating and age.
+- **Chat features:**
+  - FB messenger-like real-time chat for connected users.
+- **Notifications features:**
+  - Real-time push notifications when the user receives a like/unlike, message from another user or user's profile is checked.
 
 ## Planning
 
@@ -78,6 +78,27 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 ![Database planning](../assets/db.png?raw=true)
 
+### How to name???
+
+Registration
+![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/registration.gif)
+
+Fill account info
+![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/fill_account.gif)
+
+Browsing
+![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/browsing.gif)
+
+Search
+![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/search.gif)
+
+Interaction
+![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/interaction.gif)
+
+Mobile
+![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/mobile_1.gif)
+![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/mobile_2.gif)
+
 ### Website wireframe
 
 See full [mobile](https://github.com/T7Q/Matcha/blob/assets/wireframe_mobile.pdf) and [desktop](https://github.com/T7Q/Matcha/blob/assets/wireframe_desktop.pdf) versions.
@@ -91,57 +112,57 @@ You can create your own profile or use demo profile: **username** `love` **passw
 
 ## Run locally
 
--   **Git clone** repo
--   Install [PostgreSQL](https://www.postgresql.org/) and its [PostGIS](https://postgis.net/) extension
-    `brew install postgresql postgis` or `apt install postgresql postgis`
--   Make sure you can send email from terminal
--   Install nodejs and npm `brew install nodejs npm` or `apt install nodejs`
--   Sign up and get credentials from:
-    -   your_google_id and your_google_secret from [Google](https://developers.google.com/adwords/api/docs/guides/authentication)
-    -   your_google_maps_api from [Google map API](https://developers.google.com/maps/documentation/javascript/get-api-key)
-    -   your_geoip_lite_key from [Geoip-lite](https://www.maxmind.com/en/geolite2/signup)
--   Create a file **.env** in `backend` folder and update with your credentials
+- **Git clone** repo
+- Install [PostgreSQL](https://www.postgresql.org/) and its [PostGIS](https://postgis.net/) extension
+  `brew install postgresql postgis` or `apt install postgresql postgis`
+- Make sure you can send email from terminal
+- Install nodejs and npm `brew install nodejs npm` or `apt install nodejs`
+- Sign up and get credentials from:
+  - your_google_id and your_google_secret from [Google](https://developers.google.com/adwords/api/docs/guides/authentication)
+  - your_google_maps_api from [Google map API](https://developers.google.com/maps/documentation/javascript/get-api-key)
+  - your_geoip_lite_key from [Geoip-lite](https://www.maxmind.com/en/geolite2/signup)
+- Create a file **.env** in `backend` folder and update with your credentials
 
-    ```
-    # database configuration
-    DB_USER=your_db_user_name
-    DB_NAME=matcha
-    DB_PWD=your_db_user_password
-    DB_HOST=*.*.*.*
-    DB_PORT=5432
+  ```
+  # database configuration
+  DB_USER=your_db_user_name
+  DB_NAME=matcha
+  DB_PWD=your_db_user_password
+  DB_HOST=*.*.*.*
+  DB_PORT=5432
 
-    # server configuration
-    PORT=5000
-    IP=localhost
+  # server configuration
+  PORT=5000
+  IP=localhost
 
-    # JWT secret
-    JWT_SECRET=your_secret
+  # JWT secret
+  JWT_SECRET=your_secret
 
-    # mail configuration
-    EMAIL=your_email
-    EMAIL_PWD=your_password
+  # mail configuration
+  EMAIL=your_email
+  EMAIL_PWD=your_password
 
-    # google credentials for google signin
-    GOOGLE_CLIENT_ID=your_google_id
-    GOOGLE_CLIENT_SECRET=your_google_secret
+  # google credentials for google signin
+  GOOGLE_CLIENT_ID=your_google_id
+  GOOGLE_CLIENT_SECRET=your_google_secret
 
-    # geoip
-    GEOIP=your_geoip_lite_key
+  # geoip
+  GEOIP=your_geoip_lite_key
 
-    # development mode url
-    MATCHA_URL=http://localhost:3000
-    ```
+  # development mode url
+  MATCHA_URL=http://localhost:3000
+  ```
 
--   Create a file **.env.local** in `frontend` folder and update with your credentials
+- Create a file **.env.local** in `frontend` folder and update with your credentials
 
-    ```
-    REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_api
-    REACT_APP_GOOGLE_CLIENT_ID=your_google_id
+  ```
+  REACT_APP_GOOGLE_MAPS_API_KEY=your_google_maps_api
+  REACT_APP_GOOGLE_CLIENT_ID=your_google_id
 
-    ```
+  ```
 
--   Run command `npm run init` in the root folder to install all dependencies in the backend and frontend and set up geoip-lite.
--   Run command `npm run prod` to start a server and open `localhost:5000` in your preferred browser in production mode.
--   To run in development mode:
-    -   Change line 21 in **frontend/src/App.js** from `const socket = io()` to `const socket = io('http://localhost:3000')`.
-    -   Run command `npm run dev` to start a server and open `localhost:3000` in your preferred browser in development mode.
+- Run command `npm run init` in the root folder to install all dependencies in the backend and frontend and set up geoip-lite.
+- Run command `npm run prod` to start a server and open `localhost:5000` in your preferred browser in production mode.
+- To run in development mode:
+  - Change line 21 in **frontend/src/App.js** from `const socket = io()` to `const socket = io('http://localhost:3000')`.
+  - Run command `npm run dev` to start a server and open `localhost:3000` in your preferred browser in development mode.

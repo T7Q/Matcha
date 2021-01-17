@@ -81,23 +81,23 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 ### How to name???
 
 Registration
-![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/registration.gif)
+![](https://github.com/T7Q/Matcha/blob/assets/registration.gif)
 
 Fill account info
-![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/fill_account.gif)
+![](https://github.com/T7Q/Matcha/blob/assets/fill_account.gif)
 
 Browsing
-![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/browsing.gif)
+![](https://github.com/T7Q/Matcha/blob/assets/browsing.gif)
 
 Search
-![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/search.gif)
+![](https://github.com/T7Q/Matcha/blob/assets/search.gif)
 
 Interaction
-![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/interaction.gif)
+![](https://github.com/T7Q/Matcha/blob/assets/interaction.gif)
 
 Mobile
-![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/mobile_1.gif)
-![](https://github.com/DianaMukaliyeva/heroku_matcha/blob/assets/mobile_2.gif)
+![](https://github.com/T7Q/Matcha/blob/assets/mobile_1.gif)
+![](https://github.com/T7Q/Matcha/blob/assets/mobile_2.gif)
 
 ### Website wireframe
 

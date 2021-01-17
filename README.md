@@ -74,28 +74,42 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 [Detailed work plan](https://github.com/T7Q/Matcha/blob/assets/work_breakdown.pdf) with breakdown and phasing.
 
+#### Time Tatiana
+
+![](https://github.com/T7Q/Matcha/blob/assets/timetracking_diana_mukaliyeva.pdf)
+
+#### Time Diana
+
+![](https://github.com/T7Q/Matcha/blob/assets/timetracking_tatiana_kuumola.pdf)
+
 ### Database structure
 
 ![Database planning](../assets/db.png?raw=true)
 
 ### How to name???
 
-Registration
+##### Registration
+
 ![](https://github.com/T7Q/Matcha/blob/assets/registration.gif)
 
-Fill account info
+##### Fill account info
+
 ![](https://github.com/T7Q/Matcha/blob/assets/fill_account.gif)
 
-Browsing
+##### Browsing
+
 ![](https://github.com/T7Q/Matcha/blob/assets/browsing.gif)
 
-Search
+##### Search
+
 ![](https://github.com/T7Q/Matcha/blob/assets/search.gif)
 
-Interaction
+##### Interaction
+
 ![](https://github.com/T7Q/Matcha/blob/assets/interaction.gif)
 
-Mobile
+##### Mobile
+
 ![](https://github.com/T7Q/Matcha/blob/assets/mobile_1.gif)
 ![](https://github.com/T7Q/Matcha/blob/assets/mobile_2.gif)
 

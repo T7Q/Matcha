@@ -76,11 +76,11 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 #### Time Tatiana
 
-![](https://github.com/T7Q/Matcha/blob/assets/timetracking_diana_mukaliyeva.pdf)
+[Tatiana's timetracking](https://github.com/T7Q/Matcha/blob/assets/timetracking_diana_mukaliyeva.pdf)
 
 #### Time Diana
 
-![](https://github.com/T7Q/Matcha/blob/assets/timetracking_tatiana_kuumola.pdf)
+[Diana's timetracking](https://github.com/T7Q/Matcha/blob/assets/timetracking_tatiana_kuumola.pdf)
 
 ### Database structure
 
@@ -110,6 +110,7 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 ##### Mobile
 
+<img src="https://github.com/T7Q/Matcha/blob/assets/mobile_1.gif" width="48">
 ![](https://github.com/T7Q/Matcha/blob/assets/mobile_1.gif)
 ![](https://github.com/T7Q/Matcha/blob/assets/mobile_2.gif)
 

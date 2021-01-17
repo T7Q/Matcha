@@ -7,10 +7,11 @@ This is a team project, a part of the web branch at [Hive Helsinki](https://www.
 - [Tech stack](#tech-stack)
 - [Functionality](#functionality)
 - [Planning](#planning)
-  - [Work breakdown](#work-breakdown)
+  - [Work breakdown (time tracking)](#work-breakdown)
   - [Database structure](#database-structure)
   - [Website wireframe](#website-wireframe)
-- [App Live Preview](#app-live-preview)
+- [**Live preview on HEROKU** (**demo username** `love` **password** `1234Aa`)](https://astromatcha.herokuapp.com/)
+- [App Video Preview](#app-live-preview)
 - [Run locally](#run-locally)
 
 ## Authors
@@ -66,37 +67,34 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 ## Planning
 
-### Work breakdown
+### Work breakdown (time tracking)
 
-**Tatiana** planned work breakdown, her focus was on developing matching algorithm, user profile creation and interactions (likes, visits, blocked). Tatiana was the driving force behind UX/UI design of the app.
+**Tatiana** planned work breakdown, her focus was on developing matching algorithm, user profile creation and interactions (likes, visits, blocked). Tatiana was the driving force behind UX/UI design of the app. [Tatiana's timetracking](https://github.com/T7Q/Matcha/blob/assets/timetracking_tatiana_kuumola.pdf)
 
-**Diana** focus was on user features (inc. account creation, authentication, profile data management), real-time chat and notifications. Diana was the driving force behind the app architecture.
+**Diana** focus was on user features (inc. account creation, authentication, profile data management), real-time chat and notifications. Diana was the driving force behind the app architecture. [Diana's timetracking](https://github.com/T7Q/Matcha/blob/assets/timetracking_diana_mukaliyeva.pdf)
 
 [Detailed work plan](https://github.com/T7Q/Matcha/blob/assets/work_breakdown.pdf) with breakdown and phasing.
-
-#### Time Tatiana
-
-[Tatiana's timetracking](https://github.com/T7Q/Matcha/blob/assets/timetracking_diana_mukaliyeva.pdf)
-
-#### Time Diana
-
-[Diana's timetracking](https://github.com/T7Q/Matcha/blob/assets/timetracking_tatiana_kuumola.pdf)
 
 ### Database structure
 
 ![Database planning](../assets/db.png?raw=true)
 
-### How to name???
+### Website wireframe
 
-##### Registration
+See full [mobile](https://github.com/T7Q/Matcha/blob/assets/wireframe_mobile.pdf) and [desktop](https://github.com/T7Q/Matcha/blob/assets/wireframe_desktop.pdf) versions.
+![Gallery draft](../assets/wireframe.png?raw=true)
+
+### App video preview
+
+##### Step-by-step registration
 
 ![](https://github.com/T7Q/Matcha/blob/assets/registration.gif)
 
-##### Fill account info
+##### Step-by-step account creation
 
 ![](https://github.com/T7Q/Matcha/blob/assets/fill_account.gif)
 
-##### Browsing
+##### Browsing AstroMatcha
 
 ![](https://github.com/T7Q/Matcha/blob/assets/browsing.gif)
 
@@ -104,27 +102,16 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 ![](https://github.com/T7Q/Matcha/blob/assets/search.gif)
 
-##### Interaction
+##### Chate / Notifications
 
 ![](https://github.com/T7Q/Matcha/blob/assets/interaction.gif)
 
-##### Mobile
+##### Mobile version
 
 <img src="https://github.com/T7Q/Matcha/blob/assets/mobile_1.gif" width="320"/>
 
 ![](https://github.com/T7Q/Matcha/blob/assets/mobile_1.gif)
 ![](https://github.com/T7Q/Matcha/blob/assets/mobile_2.gif)
-
-### Website wireframe
-
-See full [mobile](https://github.com/T7Q/Matcha/blob/assets/wireframe_mobile.pdf) and [desktop](https://github.com/T7Q/Matcha/blob/assets/wireframe_desktop.pdf) versions.
-![Gallery draft](../assets/wireframe.png?raw=true)
-
-## App live preview
-
-Live preview on [HEROKU](https://astromatcha.herokuapp.com/)
-
-You can create your own profile or use demo profile: **username** `love` **password** `1234Aa`
 
 ## Run locally
 

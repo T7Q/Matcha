@@ -7,7 +7,7 @@ This is a team project, a part of the web branch at [Hive Helsinki](https://www.
 - [Tech stack](#tech-stack)
 - [Functionality](#functionality)
 - [Planning](#planning)
-  - [Work breakdown (time tracking)](#work-breakdown)
+  - [Work breakdown including time tracking](#work-breakdown-including-time-tracking)
   - [Database structure](#database-structure)
   - [Website wireframe](#website-wireframe)
 - [**Live preview on HEROKU** (**demo username** `love` **password** `1234Aa`)](https://astromatcha.herokuapp.com/)
@@ -67,7 +67,7 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 ## Planning
 
-### Work breakdown (time tracking)
+### Work breakdown including time tracking
 
 **Tatiana** planned work breakdown, her focus was on developing matching algorithm, user profile creation and interactions (likes, visits, blocked). Tatiana was the driving force behind UX/UI design of the app. [Tatiana's timetracking](https://github.com/T7Q/Matcha/blob/assets/timetracking_tatiana_kuumola.pdf)
 

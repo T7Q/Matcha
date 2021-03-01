@@ -79,7 +79,7 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 
 ### Architecture
 
-![architecture](../assets/architecture.png?raw=true)
+![architecture](../assets/architecture.jpg?raw=true)
 
 ### Database structure
 

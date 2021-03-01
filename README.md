@@ -8,6 +8,7 @@ This is a team project, a part of the web branch at [Hive Helsinki](https://www.
 - [Functionality](#functionality)
 - [Planning](#planning)
   - [Work breakdown including time tracking](#work-breakdown-including-time-tracking)
+  - [Architecture](#architecture)
   - [Database structure](#database-structure)
   - [Website wireframe](#website-wireframe)
 - [**Live preview on HEROKU** (**demo username** `love` **password** `1234Aa`)](https://astromatcha.herokuapp.com/)
@@ -74,6 +75,11 @@ Our team decided to use this opportunity to learn **PERN stack**. This was the f
 **Diana** focus was on user features (inc. account creation, authentication, profile data management), real-time chat and notifications. Diana was the driving force behind the app architecture. [Diana's timetracking](https://github.com/T7Q/Matcha/blob/assets/timetracking_diana_mukaliyeva.pdf)
 
 [Detailed work plan](https://github.com/T7Q/Matcha/blob/assets/work_breakdown.pdf) with breakdown and phasing.
+
+
+### Architecture
+
+![architecture](../assets/architecture.png?raw=true)
 
 ### Database structure
 
